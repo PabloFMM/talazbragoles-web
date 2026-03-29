@@ -1,0 +1,10 @@
+---
+interface Props {
+  message?: string;
+}
+const { message = "Pendiente de documentar" } = Astro.props;
+---
+<div class="rounded-2xl border border-black/15 bg-white/40 px-5 py-4">
+  <div class="text-xs uppercase tracking-[0.3em] text-black/60">Pendiente de documentar</div>
+  <p class="mt-2 text-black/70 text-sm leading-relaxed">{message}</p>
+</div>

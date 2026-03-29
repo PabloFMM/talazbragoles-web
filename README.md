@@ -1,43 +1,59 @@
-# Astro Starter Kit: Minimal
+# Talazbragoles Web
 
-```sh
-npm create astro@latest -- --template minimal
+Archivo web dedicado a preservar la memoria de las **Talazbrágoles**, unas jornadas de rol y simulación celebradas en la zona de Las Rozas / Majadahonda (Madrid, España).
+
+> «Que lo unido por la fantasía no sea roto por la realidad.»
+
+## Filosofía
+
+**Rigor documental**: solo se publica lo que tiene fuente verificable. Lo que no tiene fuente se marca explícitamente como "pendiente de documentar". Esta regla está codificada en los esquemas de datos del proyecto.
+
+## Stack
+
+- [Astro 6](https://astro.build) — generación estática (SSG), sin JS en cliente
+- [Tailwind CSS 4](https://tailwindcss.com) — estilos vía plugin Vite
+- [Astro Content Layer](https://docs.astro.build/en/guides/content-collections/) — colecciones de contenido con validación Zod
+- [Vercel](https://vercel.com) — despliegue automático desde `main`
+
+## Arrancar en local
+
+```bash
+npm install
+npm run dev      # http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Estructura de contenido
 
-## 🚀 Project Structure
+Todo el contenido vive en `src/content/` como archivos JSON o Markdown:
 
-Inside of your Astro project, you'll see the following folders and files:
+| Directorio | Tipo | Descripción |
+|------------|------|-------------|
+| `sources/` | JSON | Fuentes y bibliografía |
+| `editions/` | JSON | Ediciones de las jornadas |
+| `people/` | Markdown | Personas relevantes |
+| `systems/` | Markdown | Sistemas de rol |
+| `timeline/` | JSON | Eventos cronológicos |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Para añadir contenido, crea un archivo en el directorio correspondiente. El sitio se regenera en el siguiente build. Consulta [CLAUDE.md](./CLAUDE.md) para ver los esquemas completos y ejemplos.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Comandos
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Comando | Acción |
+|---------|--------|
+| `npm run dev` | Servidor local en `localhost:4321` |
+| `npm run build` | Build estático en `/dist` |
+| `npm run preview` | Preview del build antes de desplegar |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Despliegue
 
-## 🧞 Commands
+Push a `main` → Vercel despliega automáticamente.
 
-All commands are run from the root of the project, from a terminal:
+## Contribuir
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Si tienes material sobre las Talazbrágoles (programas, carteles, fotos, recortes de prensa), puedes:
 
-## 👀 Want to learn more?
+1. Añadir la fuente en `src/content/sources/` siguiendo el esquema del proyecto
+2. Actualizar o crear la edición correspondiente en `src/content/editions/`
+3. Abrir un Pull Request
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+La norma es estricta: cada dato necesita su `sourceId`. Si el dato no tiene fuente, el campo va vacío o el `status` queda como `"pendiente"`.

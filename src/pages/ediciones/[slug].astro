@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import SourceCard from "../../components/sources/SourceCard.astro";
+import PendingBanner from "../../components/ui/PendingBanner.astro";
+import { mainNav } from "../../lib/nav";
+
+export async function getStaticPaths() {
+  const editions = await getCollection("editions");
+  return editions.map((e) => ({
+    params: { slug: e.id },
+    props: { edition: e },
+  }));
+}
+
+const { edition } = Astro.props;
+const { year, title, status, venue, organizer, description, activities, sourceIds } = edition.data;
+
+// Cargar fuentes relacionadas
+const allSources = await getCollection("sources");
+const linkedSources = allSources.filter((s) => sourceIds.includes(s.id));
+
+const yearLabel = year === "desconocida" ? "Año desconocido" : String(year);
+---
+
+<Layout
+  title={`${title} · TALAZBRÁGOLES`}
+  description={description ?? `Ficha de la edición ${yearLabel} de las Talazbrágoles.`}
+  canonicalPath={`/ediciones/${edition.id}`}
+  nav={mainNav}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
+    <nav class="text-xs uppercase tracking-[0.26em] text-black/60 mb-8">
+      <a href="/" class="hover:text-black">Inicio</a>
+      <span class="mx-2">›</span>
+      <a href="/ediciones" class="hover:text-black">Ediciones</a>
+      <span class="mx-2">›</span>
+      <span class="text-black">{yearLabel}</span>
+    </nav>
+
+    <header>
+      <div class="text-xs uppercase tracking-[0.3em] text-black/60">{yearLabel}</div>
+      <h1 class="mt-2 text-[clamp(1.8rem,5vw,3.5rem)] font-black tracking-[0.14em] uppercase text-black">
+        {title}
+      </h1>
+      <div class="mt-4 flex flex-wrap gap-3 text-xs uppercase tracking-[0.26em]">
+        <span class:list={[
+          "px-3 py-1 rounded-full border",
+          status === "documentada" && "border-black/30 bg-black text-white",
+          status === "parcial"     && "border-black/20 bg-white/70 text-black/80",
+          status === "pendiente"   && "border-black/10 text-black/50",
+        ]}>
+          {status}
+        </span>
+        {venue?.city && <span class="border border-black/15 px-3 py-1 rounded-full">{venue.city}</span>}
+      </div>
+    </header>
+
+    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="rounded-3xl border border-black/15 bg-white/55 p-6">
+        <div class="text-xs uppercase tracking-[0.3em] text-black/70">Sede</div>
+        <p class="mt-2 text-black/80">
+          {venue?.name ?? venue?.city ?? <span class="text-black/40">Pendiente</span>}
+          {venue?.address && <span class="block text-sm text-black/60 mt-1">{venue.address}</span>}
+        </p>
+      </div>
+      <div class="rounded-3xl border border-black/15 bg-white/55 p-6">
+        <div class="text-xs uppercase tracking-[0.3em] text-black/70">Organizador</div>
+        <p class="mt-2 text-black/80">
+          {organizer ?? <span class="text-black/40">Pendiente</span>}
+        </p>
+      </div>
+    </div>
+
+    {description && (
+      <div class="mt-6 rounded-3xl border border-black/15 bg-white/55 p-6">
+        <p class="text-black/80 leading-relaxed">{description}</p>
+      </div>
+    )}
+
+    {activities.length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-xl font-black tracking-[0.16em] uppercase text-black mb-4">Actividades</h2>
+        <ul class="space-y-3">
+          {activities.map((a) => (
+            <li class="rounded-2xl border border-black/12 bg-white/60 p-5">
+              <div class="font-bold text-black">{a.name}</div>
+              <div class="text-xs uppercase tracking-[0.24em] text-black/60 mt-1">{a.type}</div>
+              {a.description && <p class="mt-2 text-black/80 text-sm">{a.description}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {status === "pendiente" && (
+      <div class="mt-10">
+        <PendingBanner message="Esta edición consta en las fuentes pero aún no tenemos datos verificados de fecha, sede u organizador. Si tienes material, compártelo." />
+      </div>
+    )}
+
+    {linkedSources.length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-xl font-black tracking-[0.16em] uppercase text-black mb-4">Fuentes</h2>
+        <ul class="space-y-4">
+          {linkedSources.map((s) => (
+            <SourceCard
+              title={s.data.title}
+              url={s.data.url}
+              asserts={s.data.asserts}
+              caveat={s.data.caveat}
+              broken={s.data.broken}
+              tags={s.data.tags}
+            />
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <div class="mt-14 pt-8 border-t border-black/10">
+      <a href="/ediciones" class="text-sm uppercase tracking-[0.26em] text-black/70 hover:text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]">
+        ← Volver a ediciones
+      </a>
+    </div>
+  </div>
+</Layout>

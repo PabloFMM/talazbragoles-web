@@ -8,8 +8,7 @@
  */
 
 import "../styles/global.css";
-
-type NavItem = { label: string; href: string };
+import { mainNav, type NavItem } from "../lib/nav";
 
 interface Props {
   title?: string;
@@ -22,14 +21,7 @@ const {
   title = "TALAZBRÁGOLES",
   description = "Web oficial del legado de las Talazbrágoles: un archivo vivo de recuerdos, fuentes y documentación rolera.",
   canonicalPath = "/",
-  nav = [
-    { label: "Inicio", href: "/#top" },
-    { label: "Historia", href: "/#historia" },
-    { label: "Ediciones", href: "/#ediciones" },
-    { label: "Recuerdos en la Red", href: "/#red" },
-    { label: "Fuentes", href: "/fuentes" },
-    { label: "El Legado", href: "/#legado" },
-  ],
+  nav = mainNav,
 } = Astro.props;
 
 const siteUrl = Astro.site ? new URL(Astro.site) : new URL("https://talazbragoles-web.vercel.app");

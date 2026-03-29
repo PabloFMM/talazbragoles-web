@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  asserts: string;
+  caveat?: string;
+  broken?: boolean;
+}
+const { title, url, asserts, caveat, broken } = Astro.props;
+---
+<div class="text-black/60 text-sm leading-relaxed">
+  Fuente:{" "}
+  {broken ? (
+    <span class="line-through opacity-60">{title}</span>
+    <span class="ml-1 text-black/40">(enlace caído)</span>
+  ) : (
+    <a
+      class="text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {title}
+    </a>
+  )}
+  {caveat && <span class="ml-1 opacity-70">— {caveat}</span>}
+</div>

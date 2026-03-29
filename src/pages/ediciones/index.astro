@@ -1,0 +1,48 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import EditionCard from "../../components/editions/EditionCard.astro";
+import { mainNav } from "../../lib/nav";
+import { getAllEditions } from "../../lib/collections";
+
+const editions = await getAllEditions();
+const documented = editions.filter((e) => e.data.status === "documentada");
+const partial    = editions.filter((e) => e.data.status === "parcial");
+const pending    = editions.filter((e) => e.data.status === "pendiente");
+---
+
+<Layout
+  title="Ediciones · TALAZBRÁGOLES"
+  description="Archivo de todas las ediciones de las Talazbrágoles: fechas, sedes, organizadores y fuentes."
+  canonicalPath="/ediciones"
+  nav={mainNav}
+>
+  <div id="top" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
+    <header class="text-center max-w-3xl mx-auto">
+      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.22em] text-black uppercase">
+        EDICIONES
+      </h1>
+      <p class="mt-6 text-base sm:text-xl text-black/80 leading-relaxed">
+        Cada edición de las Talazbrágoles que hemos podido documentar —o que sabemos que existió
+        aunque falten los datos. Solo publicamos lo que tiene fuente.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3 justify-center text-xs uppercase tracking-[0.26em]">
+        <span class="border border-black/30 bg-black/10 px-3 py-1 rounded-full">{documented.length} documentadas</span>
+        <span class="border border-black/20 bg-white/70 px-3 py-1 rounded-full">{partial.length} parciales</span>
+        <span class="border border-black/10 text-black/50 px-3 py-1 rounded-full">{pending.length} pendientes</span>
+      </div>
+    </header>
+
+    {editions.length === 0 ? (
+      <div class="mt-16 rounded-3xl border border-black/15 bg-white/45 p-10 text-center">
+        <div class="text-xs uppercase tracking-[0.3em] text-black/60">Pendiente de documentar</div>
+        <p class="mt-3 text-black/80">
+          Aún no hay ediciones registradas con datos suficientes. Si tienes material, <a href="/fuentes" class="underline underline-offset-4 hover:decoration-[color:var(--accent)]">compártelo</a>.
+        </p>
+      </div>
+    ) : (
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {editions.map((e) => <EditionCard edition={e} />)}
+      </div>
+    )}
+  </div>
+</Layout>

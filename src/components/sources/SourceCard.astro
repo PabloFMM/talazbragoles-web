@@ -1,0 +1,44 @@
+---
+import Badge from "../ui/Badge.astro";
+
+interface Props {
+  title: string;
+  url: string;
+  asserts: string;
+  caveat?: string;
+  broken?: boolean;
+  tags?: string[];
+}
+const { title, url, asserts, caveat, broken = false, tags = [] } = Astro.props;
+---
+<li class="rounded-2xl border border-black/12 bg-white/60 p-5 sm:p-6">
+  <div class="flex flex-col gap-3">
+    <div class="text-lg sm:text-xl font-black text-black leading-snug">
+      {title}
+    </div>
+    {broken ? (
+      <span class="text-black/40 line-through break-all text-sm">{url}</span>
+    ) : (
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        class="text-black underline underline-offset-4 break-all hover:decoration-[color:var(--accent)]"
+      >
+        {url}
+      </a>
+    )}
+    <div class="mt-2">
+      <div class="text-xs uppercase tracking-[0.3em] text-black/70">Qué afirma</div>
+      <p class="mt-2 text-black/80 leading-relaxed">{asserts}</p>
+      {caveat && (
+        <p class="mt-2 text-black/60 text-sm leading-relaxed">{caveat}</p>
+      )}
+    </div>
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 pt-2">
+        {tags.map((t) => <Badge label={t} />)}
+      </div>
+    )}
+  </div>
+</li>

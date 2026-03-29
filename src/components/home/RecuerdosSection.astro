@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  sources: CollectionEntry<"sources">[];
+}
+const { sources } = Astro.props;
+
+const featured = sources.slice(0, 2);
+---
+<section id="red" class="py-16 sm:py-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-8">
+    <div class="text-center max-w-3xl mx-auto">
+      <h2 class="text-3xl sm:text-5xl text-black mb-4 sm:mb-6 uppercase tracking-[0.14em] font-black">Recuerdos en la Red</h2>
+      <p class="text-sm sm:text-base uppercase tracking-[0.3em] text-black/70">¿Qué encontrarás aquí?</p>
+      <p class="mt-4 text-base sm:text-xl text-black/80 leading-relaxed">
+        Hilos, artículos y migas de pan: lugares donde la gente dejó <span class="font-semibold">una frase</span> que hoy vale oro.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+      {featured.map((s) => (
+        <article class="rounded-3xl border border-black/15 bg-white/55 p-8">
+          <div class="text-xs uppercase tracking-[0.3em] text-black/70">{s.data.type}</div>
+          <h3 class="mt-3 text-xl sm:text-2xl font-black tracking-[0.16em] text-black uppercase">
+            {s.data.title}
+          </h3>
+          <p class="mt-4 text-black/80 leading-relaxed">{s.data.asserts}</p>
+          {s.data.caveat && (
+            <p class="mt-2 text-black/60 text-sm">{s.data.caveat}</p>
+          )}
+          <a
+            class="mt-6 inline-flex text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
+            href={s.data.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Abrir fuente →
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 rounded-3xl border border-black/15 bg-white/45 p-6 sm:p-8 text-center">
+      <div class="text-xs uppercase tracking-[0.3em] text-black/70">Pendiente de documentar</div>
+      <p class="mt-3 text-black/80 leading-relaxed">
+        Vídeos, fotos, blogs, Instagram, PDFs de revistas… lo que sea.
+        Si lo encuentras, lo añadimos a <a class="text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]" href="/fuentes">/fuentes</a>
+        con una nota clara de qué afirma.
+      </p>
+    </div>
+  </div>
+</section>
