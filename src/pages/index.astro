@@ -1,17 +1,111 @@
 ---
+import "../styles/global.css";
 
+const title = "TALAZBRÁGOLES";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} - El legado</title>
+  </head>
+  <body class="bg-[#0a1f18] text-white overflow-x-hidden font-sans">
+
+    <!-- BARRA NAVEGACIÓN estilo cartel 90s -->
+    <nav class="bg-[#0a1f18] border-b border-amber-400/30 py-5 sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 flex justify-between items-center gap-4">
+        <a href="#" class="text-xl sm:text-3xl font-black tracking-[0.12em] text-amber-300 whitespace-nowrap">
+          TALAZBRÁGOLES
+        </a>
+
+        <!-- Desktop -->
+        <div class="hidden md:flex gap-8 text-sm uppercase font-medium tracking-widest">
+          <a href="#" class="hover:text-amber-400 transition-colors">Inicio</a>
+          <a href="#historia" class="hover:text-amber-400 transition-colors">Historia</a>
+          <a href="#ediciones" class="hover:text-amber-400 transition-colors">Ediciones</a>
+          <a href="#galeria" class="hover:text-amber-400 transition-colors">Galería</a>
+          <a href="#legado" class="hover:text-amber-400 transition-colors">El Legado</a>
+        </div>
+
+        <!-- Mobile (sin JS) -->
+        <details class="md:hidden relative">
+          <summary
+            class="list-none cursor-pointer select-none rounded-2xl border border-amber-400/40 bg-[#0a1f18]/80 px-4 py-2 text-xs uppercase tracking-[0.2em] text-amber-200"
+          >
+            Menú
+          </summary>
+          <div
+            class="absolute right-0 mt-3 w-56 rounded-2xl border border-amber-400/40 bg-[#0a1f18]/95 p-3 shadow-[0_18px_50px_rgba(0,0,0,0.55)]"
+          >
+            <div class="flex flex-col gap-2 text-sm uppercase tracking-widest">
+              <a href="#" class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors">Inicio</a>
+              <a href="#historia" class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors">Historia</a>
+              <a href="#ediciones" class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors">Ediciones</a>
+              <a href="#galeria" class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors">Galería</a>
+              <a href="#legado" class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors">El Legado</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </nav>
+
+    <!-- HERO - ESTÉTICA CARTEL ANTIGUO -->
+    <div class="min-h-screen flex items-center justify-center relative py-16 sm:py-0">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a3329_0%,#0a1f18_75%)]"></div>
+      
+      <!-- Línea decorativa superior como en los flyers viejos -->
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent"></div>
+
+      <div class="max-w-6xl mx-auto text-center px-4 sm:px-8 relative z-10">
+        <h1 class="text-[clamp(3.2rem,10vw,9rem)] font-black tracking-[0.18em] sm:tracking-[0.25em] leading-none text-amber-300 drop-shadow-[0_20px_30px_rgba(251,191,36,0.7)] break-words">
+          TALAZBRÁGOLES
+        </h1>
+        
+        <div class="mt-4 sm:mt-3 text-amber-400 text-[clamp(1.05rem,3.6vw,2.25rem)] font-bold tracking-[0.22em] sm:tracking-[0.3em]">
+          JORNADAS DE ROL Y SIMULACIÓN
+        </div>
+        
+        <p class="mt-10 sm:mt-14 text-[clamp(1.5rem,5.2vw,3.75rem)] font-light text-amber-100 leading-tight max-w-4xl mx-auto drop-shadow-md">
+          «Que lo unido por la fantasía<br>no sea roto por la realidad.»
+        </p>
+        
+        <!-- Banner años estilo viejo -->
+        <div class="mt-12 sm:mt-16 inline-flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 bg-[#0a1f18]/80 border border-amber-400/40 px-6 sm:px-10 py-4 rounded-3xl">
+          <div class="flex items-center gap-4 sm:gap-6">
+            <span class="text-2xl sm:text-4xl font-bold text-amber-300">1993</span>
+            <span class="text-amber-400 text-2xl sm:text-3xl">—</span>
+            <span class="text-2xl sm:text-4xl font-bold text-amber-300">2003</span>
+          </div>
+          <div class="sm:ml-6 text-xs sm:text-sm uppercase tracking-[0.2em] text-gray-300 text-center">
+            Las Rozas • Las Matas • Majadahonda
+          </div>
+        </div>
+        
+        <!-- Botón estilo entrada al evento -->
+        <a href="#historia" 
+           class="mt-12 sm:mt-20 inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-16 py-5 sm:py-7 bg-amber-400 hover:bg-amber-300 text-[#0a1f18] font-black text-xl sm:text-3xl rounded-3xl shadow-[0_10px_0_#b38b2e] sm:shadow-[0_12px_0_#b38b2e] hover:shadow-[0_7px_0_#b38b2e] sm:hover:shadow-[0_8px_0_#b38b2e] active:translate-y-1 transition-all">
+          ENTRAR AL LEGADO
+          <span class="text-3xl sm:text-4xl leading-none">→</span>
+        </a>
+      </div>
+
+      <p class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-[0.65rem] sm:text-xs text-gray-400 tracking-[0.18em] sm:tracking-widest font-medium text-center px-6">
+        ORGANIZADO POR LA CONCEJALÍA DE JUVENTUD • LAS ROZAS (MADRID)
+      </p>
+    </div>
+
+    <!-- Sección Historia (placeholder) -->
+    <section id="historia" class="py-16 sm:py-28 bg-[#0a1f18]">
+      <div class="max-w-4xl mx-auto px-4 sm:px-8 text-center">
+        <h2 class="text-3xl sm:text-5xl text-amber-400 mb-6 sm:mb-8">La historia</h2>
+        <p class="text-base sm:text-xl text-gray-300">
+          Muy pronto aquí podrás leer toda la historia real de las Talazbragoles...
+        </p>
+      </div>
+    </section>
+
+  </body>
 </html>
