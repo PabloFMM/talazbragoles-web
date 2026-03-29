@@ -75,6 +75,42 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
       :root { --nav-offset: 96px; }
       section[id] { scroll-margin-top: var(--nav-offset); }
 
+      /*
+        Estilo "fanzine / periódico" (B/N) con textura.
+        - Nada de dorados: tinta, papel, fotocopia y un toque de "glitch" en sombras.
+      */
+      :root {
+        --paper: #f4f0e6;
+        --paper-2: #efe9db;
+        --ink: #0f0f10;
+        --ink-2: rgba(15, 15, 16, 0.72);
+        --line: rgba(15, 15, 16, 0.18);
+        --line-2: rgba(15, 15, 16, 0.10);
+        --accent: #00f5d4; /* cyberpunk muy sutil (solo estados interactivos) */
+      }
+
+      body {
+        background: radial-gradient(1200px 800px at 20% 10%, var(--paper-2), var(--paper)),
+          repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 6px);
+        color: var(--ink);
+      }
+
+      /* Capa de ruido: SVG inline muy ligero (no bloquea interacción). */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.18;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+        background-size: 240px 240px;
+      }
+
+      /* Todo el contenido debe ir por encima del ruido. */
+      body > * { position: relative; z-index: 1; }
+
       /* Scroll suave solo si el usuario no pide reducir movimiento. */
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto !important; }
@@ -86,7 +122,7 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
     </style>
   </head>
 
-  <body class="bg-[#0a1f18] text-white overflow-x-hidden font-sans">
+  <body class="overflow-x-hidden font-sans selection:bg-black selection:text-white">
     <a
       href="#contenido"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:rounded-2xl focus:border focus:border-amber-400/40 focus:bg-[#0a1f18] focus:px-4 focus:py-3 focus:text-amber-200"
@@ -95,16 +131,19 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
     </a>
 
     <!-- NAVBAR: estilo cartel 90s, sticky y accesible -->
-    <nav class="bg-[#0a1f18] border-b border-amber-400/30 py-5 sticky top-0 z-50">
+    <nav class="bg-[color:var(--paper)]/85 backdrop-blur border-b border-[color:var(--line)] py-4 sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 sm:px-8 flex justify-between items-center gap-4">
-        <a href="/#top" class="text-xl sm:text-3xl font-black tracking-[0.12em] text-amber-300 whitespace-nowrap">
+        <a href="/#top" class="text-lg sm:text-2xl font-black tracking-[0.18em] uppercase text-[color:var(--ink)] whitespace-nowrap">
           TALAZBRÁGOLES
         </a>
 
         <!-- Desktop -->
-        <div class="hidden md:flex gap-8 text-sm uppercase font-medium tracking-widest">
+        <div class="hidden md:flex gap-7 text-xs uppercase font-semibold tracking-[0.22em]">
           {nav.map((item) => (
-            <a href={item.href} class="hover:text-amber-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18] rounded">
+            <a
+              href={item.href}
+              class="text-[color:var(--ink)]/90 hover:text-[color:var(--ink)] underline-offset-8 hover:underline decoration-[color:var(--line)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)] rounded"
+            >
               {item.label}
             </a>
           ))}
@@ -113,19 +152,19 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
         <!-- Mobile (sin JS): <details>/<summary> accesible -->
         <details class="md:hidden relative">
           <summary
-            class="list-none cursor-pointer select-none rounded-2xl border border-amber-400/40 bg-[#0a1f18]/80 px-4 py-2 text-xs uppercase tracking-[0.2em] text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18]"
+            class="list-none cursor-pointer select-none rounded-xl border border-[color:var(--line)] bg-white/55 px-4 py-2 text-[0.7rem] uppercase tracking-[0.24em] text-[color:var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
             aria-label="Abrir menú"
           >
             Menú
           </summary>
           <div
-            class="absolute right-0 mt-3 w-64 rounded-2xl border border-amber-400/40 bg-[#0a1f18]/95 p-3 shadow-[0_18px_50px_rgba(0,0,0,0.55)]"
+            class="absolute right-0 mt-3 w-72 rounded-2xl border border-[color:var(--line)] bg-[color:var(--paper)] p-3 shadow-[0_18px_55px_rgba(0,0,0,0.25)]"
           >
-            <div class="flex flex-col gap-2 text-sm uppercase tracking-widest">
+            <div class="flex flex-col gap-1 text-xs uppercase tracking-[0.22em]">
               {nav.map((item) => (
                 <a
                   href={item.href}
-                  class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18]"
+                  class="rounded-xl px-3 py-2 text-[color:var(--ink)]/90 hover:text-[color:var(--ink)] hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
                 >
                   {item.label}
                 </a>
@@ -141,12 +180,12 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
     </main>
 
     <!-- PIE: cálido, con rigor -->
-    <footer class="border-t border-amber-400/20 bg-[#081a14]">
+    <footer class="border-t border-[color:var(--line)] bg-[color:var(--paper)]">
       <div class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>
-            <div class="text-sm uppercase tracking-[0.25em] text-gray-300">Archivo vivo</div>
-            <p class="mt-3 text-gray-300 leading-relaxed max-w-2xl">
+            <div class="text-xs uppercase tracking-[0.28em] text-[color:var(--ink)]/80">Archivo vivo</div>
+            <p class="mt-3 text-[color:var(--ink)]/80 leading-relaxed max-w-2xl">
               Esto es memoria, pero también método: si no hay fuente, lo decimos. Si falta un dato, lo pedimos.
               Si tienes material (programas, carteles, fotos, recortes), aquí lo cuidamos.
             </p>
@@ -155,11 +194,11 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
           <div class="flex flex-col gap-3">
             <a
               href="/fuentes"
-              class="inline-flex items-center justify-center rounded-2xl border border-amber-400/30 bg-[#0a1f18]/60 px-5 py-3 text-xs uppercase tracking-[0.2em] text-amber-200 hover:bg-amber-400/10 hover:text-amber-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#081a14]"
+              class="inline-flex items-center justify-center rounded-xl border border-[color:var(--line)] bg-white/60 px-5 py-3 text-[0.7rem] uppercase tracking-[0.24em] text-[color:var(--ink)] hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
             >
               Ver fuentes
             </a>
-            <div class="text-xs text-gray-400 tracking-widest">
+            <div class="text-xs text-[color:var(--ink)]/60 tracking-widest">
               Hecho con dados y nostalgia.
             </div>
           </div>

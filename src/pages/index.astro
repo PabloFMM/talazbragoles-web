@@ -20,71 +20,94 @@ const description =
   <div id="top" class="relative">
     <!-- HERO - estética cartel antiguo -->
     <header class="min-h-[calc(100vh-96px)] flex items-center justify-center relative py-16 sm:py-0">
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a3329_0%,#0a1f18_75%)]"></div>
+      <!-- Papel/impresión: sombras duras + líneas como fotocopia -->
+      <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04),transparent_55%),radial-gradient(900px_600px_at_30%_15%,rgba(0,0,0,0.06),transparent_60%)]"></div>
 
       <!-- Línea decorativa superior como en los flyers viejos -->
-      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent"></div>
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/40 to-transparent"></div>
+
+      <!-- Ilustraciones: pines como "sellos" en silueta -->
+      <img
+        src="/pins/talazbragoles-pins-1.png"
+        alt=""
+        aria-hidden="true"
+        class="hidden sm:block absolute -left-24 top-24 w-[520px] rotate-[-6deg] opacity-[0.12] grayscale contrast-[2.6] brightness-[0.35] mix-blend-multiply blur-[0.2px]"
+        loading="lazy"
+      />
+      <img
+        src="/pins/talazbragoles-pins-2.png"
+        alt=""
+        aria-hidden="true"
+        class="hidden sm:block absolute -right-24 bottom-10 w-[520px] rotate-[5deg] opacity-[0.12] grayscale contrast-[2.6] brightness-[0.35] mix-blend-multiply blur-[0.2px]"
+        loading="lazy"
+      />
 
       <div class="max-w-6xl mx-auto text-center px-4 sm:px-8 relative z-10">
-        <h1 class="text-[clamp(3.2rem,10vw,9rem)] font-black tracking-[0.18em] sm:tracking-[0.25em] leading-none text-amber-300 drop-shadow-[0_20px_30px_rgba(251,191,36,0.7)] break-words">
+        <div class="inline-flex flex-col items-center gap-5">
+          <div class="text-[0.7rem] sm:text-xs uppercase tracking-[0.32em] text-black/70 border border-black/20 bg-white/60 px-4 py-2 rounded-full">
+            Fanzine–Archivo · Edición viva
+          </div>
+        </div>
+
+        <h1 class="mt-7 text-[clamp(3.1rem,10vw,8rem)] font-black tracking-[0.22em] uppercase leading-[0.95] text-black drop-shadow-[0_1px_0_rgba(0,0,0,0.25)] break-words">
           TALAZBRÁGOLES
         </h1>
 
-        <div class="mt-4 sm:mt-3 text-amber-400 text-[clamp(1.05rem,3.6vw,2.25rem)] font-bold tracking-[0.22em] sm:tracking-[0.3em]">
+        <div class="mt-4 text-black/80 text-[clamp(1rem,3.4vw,2.05rem)] font-bold tracking-[0.28em] uppercase">
           JORNADAS DE ROL Y SIMULACIÓN
         </div>
 
-        <p class="mt-10 sm:mt-14 text-[clamp(1.5rem,5.2vw,3.75rem)] font-light text-amber-100 leading-tight max-w-4xl mx-auto drop-shadow-md">
+        <p class="mt-10 sm:mt-14 text-[clamp(1.25rem,4.6vw,3.2rem)] font-light text-black/85 leading-tight max-w-4xl mx-auto">
           «Que lo unido por la fantasía<br />no sea roto por la realidad.»
         </p>
 
         <!-- Rigor: no ponemos años/sedes concretas aquí sin fuente verificable. -->
-        <div class="mt-12 sm:mt-16 inline-flex flex-col sm:flex-row items-center justify-center gap-3 rounded-3xl border border-amber-400/25 bg-[#0a1f18]/70 px-7 py-5">
-          <div class="text-xs uppercase tracking-[0.25em] text-gray-300">¿Qué encontrarás aquí?</div>
-          <div class="text-gray-300 text-sm sm:text-base">
-            Un <span class="text-amber-200">archivo vivo</span>: recuerdos, fuentes y una línea temporal que solo crece cuando hay documentación.
+        <div class="mt-12 sm:mt-16 inline-flex flex-col sm:flex-row items-center justify-center gap-3 rounded-3xl border border-black/20 bg-white/55 px-7 py-5">
+          <div class="text-xs uppercase tracking-[0.3em] text-black/70">¿Qué encontrarás aquí?</div>
+          <div class="text-black/80 text-sm sm:text-base">
+            Un <span class="font-semibold">archivo vivo</span>: recuerdos, fuentes y una línea temporal que solo crece cuando hay documentación.
           </div>
         </div>
 
         <a
           href="#historia"
-          class="mt-12 sm:mt-20 inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-16 py-5 sm:py-7 bg-amber-400 hover:bg-amber-300 text-[#0a1f18] font-black text-xl sm:text-3xl rounded-3xl shadow-[0_10px_0_#b38b2e] sm:shadow-[0_12px_0_#b38b2e] hover:shadow-[0_7px_0_#b38b2e] sm:hover:shadow-[0_8px_0_#b38b2e] active:translate-y-1 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-200/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18]"
+          class="mt-12 sm:mt-20 inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-14 py-5 sm:py-6 bg-black text-white font-black text-lg sm:text-2xl rounded-2xl shadow-[0_10px_0_rgba(0,0,0,0.18)] hover:shadow-[0_6px_0_rgba(0,0,0,0.16)] active:translate-y-1 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
         >
-          ENTRAR AL LEGADO
+          ABRIR EL DOSSIER
           <span class="text-3xl sm:text-4xl leading-none" aria-hidden="true">→</span>
         </a>
       </div>
 
-      <p class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-[0.65rem] sm:text-xs text-gray-400 tracking-[0.18em] sm:tracking-widest font-medium text-center px-6">
-        Hecho para recordar… y para documentar.
+      <p class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-[0.65rem] sm:text-xs text-black/60 tracking-[0.26em] font-semibold text-center px-6 uppercase">
+        Hecho para recordar · Hecho para documentar
       </p>
     </header>
 
     <!-- HISTORIA -->
-    <section id="historia" class="py-16 sm:py-28 bg-[#0a1f18]">
+    <section id="historia" class="py-16 sm:py-28">
       <div class="max-w-6xl mx-auto px-4 sm:px-8">
         <div class="text-center max-w-3xl mx-auto">
-          <h2 class="text-3xl sm:text-5xl text-amber-400 mb-4 sm:mb-6">Historia</h2>
-          <p class="text-sm sm:text-base uppercase tracking-[0.25em] text-gray-300">
+          <h2 class="text-3xl sm:text-5xl text-black mb-4 sm:mb-6 uppercase tracking-[0.14em] font-black">Historia</h2>
+          <p class="text-sm sm:text-base uppercase tracking-[0.3em] text-black/70">
             ¿Qué encontrarás aquí?
           </p>
-          <p class="mt-4 text-base sm:text-xl text-gray-300 leading-relaxed">
-            Un relato con <span class="text-amber-200">corazón</span>, pero con una regla: lo que se afirme como hecho tendrá fuente.
+          <p class="mt-4 text-base sm:text-xl text-black/80 leading-relaxed">
+            Un relato con <span class="font-semibold">corazón</span>, pero con una regla: lo que se afirme como hecho tendrá fuente.
             Y donde falte, lo diremos alto y claro.
           </p>
         </div>
 
         <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="rounded-3xl border border-amber-400/25 bg-[#0a1f18]/60 p-8 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
-            <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Lo verificable (por ahora)</div>
-            <p class="mt-4 text-gray-300 leading-relaxed">
+          <div class="rounded-3xl border border-black/15 bg-white/55 p-8 shadow-[0_18px_60px_rgba(0,0,0,0.08)]">
+            <div class="text-xs uppercase tracking-[0.3em] text-black/70">Lo verificable (por ahora)</div>
+            <p class="mt-4 text-black/80 leading-relaxed">
               Existe un testimonio público de un participante que afirma haber realizado{" "}
-              <span class="text-amber-200">partidas de demostración</span> en la Talazbrágoles y en la Casa de la Juventud de Majadahonda.
+              <span class="font-semibold">partidas de demostración</span> en la Talazbrágoles y en la Casa de la Juventud de Majadahonda.
             </p>
-            <p class="mt-4 text-gray-400 text-sm leading-relaxed">
+            <p class="mt-4 text-black/60 text-sm leading-relaxed">
               Fuente:{" "}
               <a
-                class="text-amber-300 hover:text-amber-200 underline underline-offset-4"
+                class="text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
                 href="https://www.comunidadumbria.com/comunidad/foros/tema/25754"
                 target="_blank"
                 rel="noreferrer"
@@ -94,15 +117,15 @@ const description =
             </p>
           </div>
 
-          <div class="rounded-3xl border border-amber-400/25 bg-[#081a14] p-8">
-            <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Pendiente de documentar</div>
-            <p class="mt-4 text-gray-300 leading-relaxed">
+          <div class="rounded-3xl border border-black/15 bg-white/40 p-8">
+            <div class="text-xs uppercase tracking-[0.3em] text-black/70">Pendiente de documentar</div>
+            <p class="mt-4 text-black/80 leading-relaxed">
               Fechas exactas por edición, sedes concretas, organizadores, programas, carteles, actividades, invitados…
-              todo eso merece estar aquí, pero <span class="text-amber-200">solo lo publicaremos con pruebas</span>.
+              todo eso merece estar aquí, pero <span class="font-semibold">solo lo publicaremos con pruebas</span>.
             </p>
-            <div class="mt-6 rounded-2xl border border-amber-400/20 bg-[#0a1f18]/60 p-5">
-              <div class="text-xs uppercase tracking-[0.25em] text-gray-400">¿Tienes material?</div>
-              <p class="mt-2 text-gray-300">
+            <div class="mt-6 rounded-2xl border border-black/15 bg-white/60 p-5">
+              <div class="text-xs uppercase tracking-[0.3em] text-black/60">¿Tienes material?</div>
+              <p class="mt-2 text-black/80">
                 Envíanos escaneos/fotos: programas, credenciales, carteles, recortes o cualquier rastro.
                 Esta web está construida para cuidarlos.
               </p>
@@ -113,25 +136,25 @@ const description =
     </section>
 
     <!-- EDICIONES / LÍNEA TEMPORAL -->
-    <section id="ediciones" class="py-16 sm:py-28 bg-[#081a14] border-y border-amber-400/15">
+    <section id="ediciones" class="py-16 sm:py-28 border-y border-black/10">
       <div class="max-w-6xl mx-auto px-4 sm:px-8">
         <div class="text-center max-w-3xl mx-auto">
-          <h2 class="text-3xl sm:text-5xl text-amber-400 mb-4 sm:mb-6">Ediciones</h2>
-          <p class="text-sm sm:text-base uppercase tracking-[0.25em] text-gray-300">
+          <h2 class="text-3xl sm:text-5xl text-black mb-4 sm:mb-6 uppercase tracking-[0.14em] font-black">Ediciones</h2>
+          <p class="text-sm sm:text-base uppercase tracking-[0.3em] text-black/70">
             ¿Qué encontrarás aquí?
           </p>
-          <p class="mt-4 text-base sm:text-xl text-gray-300 leading-relaxed">
-            Una <span class="text-amber-200">línea temporal</span> clara (año → sede → organizador → fuente).
+          <p class="mt-4 text-base sm:text-xl text-black/80 leading-relaxed">
+            Una <span class="font-semibold">línea temporal</span> clara (año → sede → organizador → fuente).
             Cuando no haya dato verificable, lo verás marcado como pendiente.
           </p>
         </div>
 
-        <div class="mt-12 rounded-3xl border border-amber-400/25 bg-[#0a1f18]/60 overflow-hidden">
-          <div class="px-6 sm:px-8 py-6 border-b border-amber-400/15 flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center sm:justify-between">
-            <div class="text-xl font-black tracking-[0.12em] text-amber-300 uppercase">Línea temporal</div>
+        <div class="mt-12 rounded-3xl border border-black/15 bg-white/55 overflow-hidden">
+          <div class="px-6 sm:px-8 py-6 border-b border-black/10 flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center sm:justify-between">
+            <div class="text-xl font-black tracking-[0.16em] text-black uppercase">Línea temporal</div>
             <a
               href="/fuentes"
-              class="text-sm uppercase tracking-[0.22em] text-amber-200 hover:text-amber-300 underline underline-offset-4"
+              class="text-sm uppercase tracking-[0.26em] text-black/80 hover:text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
             >
               Ver todas las fuentes →
             </a>
@@ -140,22 +163,22 @@ const description =
           <div class="p-6 sm:p-8">
             <div class="overflow-x-auto">
               <table class="w-full min-w-[760px] text-left">
-                <thead class="text-xs uppercase tracking-[0.22em] text-gray-300">
-                  <tr class="border-b border-amber-400/15">
+                <thead class="text-xs uppercase tracking-[0.26em] text-black/70">
+                  <tr class="border-b border-black/10">
                     <th class="py-4 pr-6">Año</th>
                     <th class="py-4 pr-6">Sede</th>
                     <th class="py-4 pr-6">Organizador</th>
                     <th class="py-4">Programa / cartel / fuente</th>
                   </tr>
                 </thead>
-                <tbody class="text-gray-300">
-                  <tr class="border-b border-amber-400/10">
-                    <td class="py-5 pr-6 font-bold text-amber-200">Pendiente</td>
+                <tbody class="text-black/80">
+                  <tr class="border-b border-black/10">
+                    <td class="py-5 pr-6 font-bold">Pendiente</td>
                     <td class="py-5 pr-6">Majadahonda (mencionada)</td>
                     <td class="py-5 pr-6">Pendiente</td>
                     <td class="py-5">
                       <a
-                        class="text-amber-300 hover:text-amber-200 underline underline-offset-4"
+                        class="text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
                         href="https://www.comunidadumbria.com/comunidad/foros/tema/25754"
                         target="_blank"
                         rel="noreferrer"
@@ -165,10 +188,10 @@ const description =
                     </td>
                   </tr>
                   <tr>
-                    <td class="py-5 pr-6 font-bold text-amber-200">Pendiente</td>
+                    <td class="py-5 pr-6 font-bold">Pendiente</td>
                     <td class="py-5 pr-6">Pendiente</td>
                     <td class="py-5 pr-6">Pendiente</td>
-                    <td class="py-5 text-gray-400">
+                    <td class="py-5 text-black/55">
                       ¿Tienes programa/cartel? En cuanto haya material verificable, esta fila se convierte en edición.
                     </td>
                   </tr>
@@ -181,30 +204,30 @@ const description =
     </section>
 
     <!-- RECUERDOS EN LA RED -->
-    <section id="red" class="py-16 sm:py-28 bg-[#0a1f18]">
+    <section id="red" class="py-16 sm:py-28">
       <div class="max-w-6xl mx-auto px-4 sm:px-8">
         <div class="text-center max-w-3xl mx-auto">
-          <h2 class="text-3xl sm:text-5xl text-amber-400 mb-4 sm:mb-6">Recuerdos en la Red</h2>
-          <p class="text-sm sm:text-base uppercase tracking-[0.25em] text-gray-300">
+          <h2 class="text-3xl sm:text-5xl text-black mb-4 sm:mb-6 uppercase tracking-[0.14em] font-black">Recuerdos en la Red</h2>
+          <p class="text-sm sm:text-base uppercase tracking-[0.3em] text-black/70">
             ¿Qué encontrarás aquí?
           </p>
-          <p class="mt-4 text-base sm:text-xl text-gray-300 leading-relaxed">
-            Hilos, artículos y migas de pan: lugares donde la gente dejó <span class="text-amber-200">una frase</span> que hoy vale oro.
+          <p class="mt-4 text-base sm:text-xl text-black/80 leading-relaxed">
+            Hilos, artículos y migas de pan: lugares donde la gente dejó <span class="font-semibold">una frase</span> que hoy vale oro.
           </p>
         </div>
 
         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <article class="rounded-3xl border border-amber-400/25 bg-[#081a14] p-8">
-            <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Fuente directa</div>
-            <h3 class="mt-3 text-xl sm:text-2xl font-black tracking-[0.12em] text-amber-300 uppercase">
+          <article class="rounded-3xl border border-black/15 bg-white/55 p-8">
+            <div class="text-xs uppercase tracking-[0.3em] text-black/70">Fuente directa</div>
+            <h3 class="mt-3 text-xl sm:text-2xl font-black tracking-[0.16em] text-black uppercase">
               Un testimonio (2012)
             </h3>
-            <p class="mt-4 text-gray-300 leading-relaxed">
+            <p class="mt-4 text-black/80 leading-relaxed">
               “Hice partidas de demostración en la Talazbrágoles y en la casa de la juventud.”
               Es una frase pequeña… y es exactamente el tipo de prueba mínima que merece estar archivada.
             </p>
             <a
-              class="mt-6 inline-flex text-amber-300 hover:text-amber-200 underline underline-offset-4"
+              class="mt-6 inline-flex text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
               href="https://www.comunidadumbria.com/comunidad/foros/tema/25754"
               target="_blank"
               rel="noreferrer"
@@ -213,17 +236,17 @@ const description =
             </a>
           </article>
 
-          <article class="rounded-3xl border border-amber-400/25 bg-[#081a14] p-8">
-            <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Contexto</div>
-            <h3 class="mt-3 text-xl sm:text-2xl font-black tracking-[0.12em] text-amber-300 uppercase">
+          <article class="rounded-3xl border border-black/15 bg-white/55 p-8">
+            <div class="text-xs uppercase tracking-[0.3em] text-black/70">Contexto</div>
+            <h3 class="mt-3 text-xl sm:text-2xl font-black tracking-[0.16em] text-black uppercase">
               Rol y actividades en la zona (2001)
             </h3>
-            <p class="mt-4 text-gray-300 leading-relaxed">
+            <p class="mt-4 text-black/80 leading-relaxed">
               Un artículo que sitúa actividades de rol/simulación en municipios cercanos.
               Ojo: no prueba datos de Talazbrágoles por sí mismo, pero da contexto de época.
             </p>
             <a
-              class="mt-6 inline-flex text-amber-300 hover:text-amber-200 underline underline-offset-4"
+              class="mt-6 inline-flex text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]"
               href="https://elpais.com/diario/2001/01/13/madrid/979388674_850215.html"
               target="_blank"
               rel="noreferrer"
@@ -233,11 +256,11 @@ const description =
           </article>
         </div>
 
-        <div class="mt-10 rounded-3xl border border-amber-400/20 bg-[#0a1f18]/60 p-6 sm:p-8 text-center">
-          <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Pendiente de documentar</div>
-          <p class="mt-3 text-gray-300 leading-relaxed">
+        <div class="mt-10 rounded-3xl border border-black/15 bg-white/45 p-6 sm:p-8 text-center">
+          <div class="text-xs uppercase tracking-[0.3em] text-black/70">Pendiente de documentar</div>
+          <p class="mt-3 text-black/80 leading-relaxed">
             Vídeos, fotos, blogs, Instagram, PDFs de revistas… lo que sea.
-            Si lo encuentras, lo añadimos a <a class="text-amber-300 hover:text-amber-200 underline underline-offset-4" href="/fuentes">/fuentes</a>
+            Si lo encuentras, lo añadimos a <a class="text-black underline underline-offset-4 hover:decoration-[color:var(--accent)]" href="/fuentes">/fuentes</a>
             con una nota clara de qué afirma.
           </p>
         </div>
@@ -245,45 +268,45 @@ const description =
     </section>
 
     <!-- EL LEGADO -->
-    <section id="legado" class="py-16 sm:py-28 bg-[#081a14] border-t border-amber-400/15">
+    <section id="legado" class="py-16 sm:py-28 border-t border-black/10">
       <div class="max-w-6xl mx-auto px-4 sm:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 class="text-3xl sm:text-5xl text-amber-400 mb-4 sm:mb-6 text-center lg:text-left">El Legado</h2>
-            <p class="text-sm sm:text-base uppercase tracking-[0.25em] text-gray-300 text-center lg:text-left">
+            <h2 class="text-3xl sm:text-5xl text-black mb-4 sm:mb-6 text-center lg:text-left uppercase tracking-[0.14em] font-black">El Legado</h2>
+            <p class="text-sm sm:text-base uppercase tracking-[0.3em] text-black/70 text-center lg:text-left">
               ¿Qué encontrarás aquí?
             </p>
-            <p class="mt-4 text-base sm:text-xl text-gray-300 leading-relaxed">
+            <p class="mt-4 text-base sm:text-xl text-black/80 leading-relaxed">
               Un manifiesto rolero: por qué estas jornadas importaron, por qué importan, y cómo transformamos nostalgia en archivo.
             </p>
-            <p class="mt-6 text-gray-300 leading-relaxed">
+            <p class="mt-6 text-black/80 leading-relaxed">
               La fantasía no era evasión: era comunidad. Y la comunidad, cuando se documenta, se vuelve legado.
             </p>
           </div>
 
-          <div class="rounded-3xl border border-amber-400/25 bg-[#0a1f18]/70 p-8 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
-            <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Manifiesto</div>
-            <div class="mt-3 text-2xl sm:text-3xl font-black tracking-[0.12em] text-amber-300 uppercase">
+          <div class="rounded-3xl border border-black/15 bg-white/55 p-8 shadow-[0_18px_60px_rgba(0,0,0,0.08)]">
+            <div class="text-xs uppercase tracking-[0.3em] text-black/70">Manifiesto</div>
+            <div class="mt-3 text-2xl sm:text-3xl font-black tracking-[0.16em] text-black uppercase">
               La mesa es un portal
             </div>
-            <ul class="mt-6 space-y-4 text-gray-300 leading-relaxed">
+            <ul class="mt-6 space-y-4 text-black/80 leading-relaxed">
               <li class="flex gap-3">
-                <span class="text-amber-400" aria-hidden="true">✦</span>
+                <span class="text-black/70" aria-hidden="true">✦</span>
                 <span>Documentar no enfría el recuerdo: lo protege.</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-amber-400" aria-hidden="true">✦</span>
+                <span class="text-black/70" aria-hidden="true">✦</span>
                 <span>Una fuente no mata la magia: la hace compartible.</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-amber-400" aria-hidden="true">✦</span>
+                <span class="text-black/70" aria-hidden="true">✦</span>
                 <span>La nostalgia es gasolina; el archivo, el mapa.</span>
               </li>
             </ul>
 
-            <div class="mt-8 rounded-2xl border border-amber-400/20 bg-[#081a14] p-5">
-              <div class="text-xs uppercase tracking-[0.25em] text-gray-400">Siguiente paso</div>
-              <p class="mt-2 text-gray-300">
+            <div class="mt-8 rounded-2xl border border-black/15 bg-white/60 p-5">
+              <div class="text-xs uppercase tracking-[0.3em] text-black/60">Siguiente paso</div>
+              <p class="mt-2 text-black/80">
                 Completar la línea temporal con carteles, programas y fechas. Y que cada edición tenga su propia ficha.
               </p>
             </div>
