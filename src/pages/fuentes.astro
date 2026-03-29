@@ -1,0 +1,123 @@
+---
+/**
+ * Página de fuentes.
+ * Objetivo: transparencia total. Cada enlace incluye una nota "qué afirma".
+ * Regla: si una fuente no se puede abrir (404, login, etc.), se indica.
+ */
+
+import Layout from "../layouts/Layout.astro";
+
+type Source = {
+  title: string;
+  url: string;
+  asserts: string;
+  caveat?: string;
+  tags?: string[];
+};
+
+const title = "Fuentes";
+const description =
+  "Listado de fuentes y enlaces: qué afirma cada una, qué falta y qué necesita documentación.";
+
+const sources: Source[] = [
+  {
+    title: "Comunidad Umbría — “Roleros por Majadahonda, Las Rozas de Madrid” (hilo, 2012)",
+    url: "https://www.comunidadumbria.com/comunidad/foros/tema/25754",
+    asserts:
+      "Un participante afirma haber hecho partidas de demostración en la Talazbrágoles y en la Casa de la Juventud de Majadahonda.",
+    tags: ["menciona Talazbrágoles", "testimonio", "Majadahonda"],
+  },
+  {
+    title: "EL PAÍS — “Juegos de rol, en 'Sanse' y Las Rozas” (2001-01-13)",
+    url: "https://elpais.com/diario/2001/01/13/madrid/979388674_850215.html",
+    asserts:
+      "Contexto local: actividades relacionadas con rol/simulación y cultura rolera en municipios de la zona.",
+    caveat: "Parte del contenido puede requerir suscripción (muro de pago).",
+    tags: ["contexto", "Las Rozas", "prensa"],
+  },
+];
+
+const pending = [
+  "Programas oficiales o folletos escaneados (con fecha, sede y organizador).",
+  "Carteles/flyers de cada edición.",
+  "Recortes de prensa local que mencionen explícitamente Talazbrágoles.",
+  "Fotos fechadas (o con contexto verificable) de las jornadas.",
+  "Vídeos y publicaciones en redes que puedan citarse con URL estable.",
+];
+---
+
+<Layout title={`${title} · TALAZBRÁGOLES`} description={description} canonicalPath="/fuentes">
+  <div id="top" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
+    <header class="text-center max-w-3xl mx-auto">
+      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.16em] text-amber-300">
+        FUENTES
+      </h1>
+      <p class="mt-6 text-base sm:text-xl text-gray-300 leading-relaxed">
+        Aquí está el corazón documental del proyecto: enlaces reales y una nota simple para cada uno:
+        <span class="text-amber-200"> qué afirma</span>. Transparencia total, sin humo.
+      </p>
+    </header>
+
+    <section class="mt-12 sm:mt-16">
+      <div class="rounded-3xl border border-amber-400/20 bg-[#081a14] p-6 sm:p-10">
+        <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Listado (verificable)</div>
+        <p class="mt-3 text-gray-300 leading-relaxed">
+          Si un enlace cae, lo señalamos. Si un dato es ambiguo, lo marcamos. Si aparece una fuente mejor, la priorizamos.
+        </p>
+
+        <ul class="mt-8 space-y-6">
+          {sources.map((s) => (
+            <li class="rounded-2xl border border-amber-400/15 bg-[#0a1f18]/60 p-5 sm:p-6">
+              <div class="flex flex-col gap-3">
+                <div class="text-lg sm:text-xl font-black text-amber-200 leading-snug">
+                  {s.title}
+                </div>
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="text-amber-300 hover:text-amber-200 underline underline-offset-4 break-all"
+                >
+                  {s.url}
+                </a>
+                <div class="mt-2">
+                  <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Qué afirma</div>
+                  <p class="mt-2 text-gray-300 leading-relaxed">{s.asserts}</p>
+                  {s.caveat ? <p class="mt-2 text-gray-400 text-sm leading-relaxed">{s.caveat}</p> : null}
+                </div>
+                {s.tags?.length ? (
+                  <div class="flex flex-wrap gap-2 pt-2">
+                    {s.tags.map((t) => (
+                      <span class="text-[0.7rem] uppercase tracking-[0.22em] text-amber-200/90 border border-amber-400/20 bg-[#081a14] px-3 py-1 rounded-full">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="mt-10 sm:mt-14">
+      <div class="rounded-3xl border border-amber-400/20 bg-[#0a1f18]/60 p-6 sm:p-10">
+        <div class="text-xs uppercase tracking-[0.25em] text-gray-300">Pendiente de documentar</div>
+        <p class="mt-3 text-gray-300 leading-relaxed">
+          Este es el “botín” que buscamos para convertir memoria en archivo. Si tienes algo, aunque sea una foto borrosa,
+          puede ser la pieza que faltaba.
+        </p>
+        <ul class="mt-6 space-y-3 text-gray-300">
+          {pending.map((p) => (
+            <li class="flex gap-3">
+              <span class="text-amber-400" aria-hidden="true">✦</span>
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </div>
+</Layout>
+

@@ -1,0 +1,171 @@
+---
+/**
+ * Layout compartido para toda la web.
+ * Objetivo: consistencia visual + SEO + accesibilidad + navegación.
+ *
+ * Nota de rigor:
+ * - Esta web intenta ser un archivo. Cuando algo no es verificable, se marca como "Pendiente de documentar".
+ */
+
+import "../styles/global.css";
+
+type NavItem = { label: string; href: string };
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  nav?: NavItem[];
+}
+
+const {
+  title = "TALAZBRÁGOLES",
+  description = "Web oficial del legado de las Talazbrágoles: un archivo vivo de recuerdos, fuentes y documentación rolera.",
+  canonicalPath = "/",
+  nav = [
+    { label: "Inicio", href: "/#top" },
+    { label: "Historia", href: "/#historia" },
+    { label: "Ediciones", href: "/#ediciones" },
+    { label: "Recuerdos en la Red", href: "/#red" },
+    { label: "Fuentes", href: "/fuentes" },
+    { label: "El Legado", href: "/#legado" },
+  ],
+} = Astro.props;
+
+const siteUrl = Astro.site ? new URL(Astro.site) : new URL("https://talazbragoles-web.vercel.app");
+const canonical = new URL(canonicalPath, siteUrl).toString();
+
+const ogTitle = title.includes("TALAZBRÁGOLES") ? title : `${title} · TALAZBRÁGOLES`;
+const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen real en /public/og.png
+---
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{ogTitle}</title>
+    <link rel="canonical" href={canonical} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="Talazbrágoles,Talazbragoles,jornadas,rol,simulación,Las Rozas,Majadahonda,Las Matas,archivo,nostalgia,90s" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!--
+      SEO extra (pendiente):
+      - sitemap.xml y robots.txt se suelen servir como rutas estáticas (src/pages/sitemap.xml.ts y public/robots.txt).
+      - En este encargo solo devolvemos 3 archivos, pero el Layout ya está listo para ello.
+    -->
+
+    <style is:global>
+      /* Anclas: evitar que la navbar tape títulos al hacer scroll. */
+      :root { --nav-offset: 96px; }
+      section[id] { scroll-margin-top: var(--nav-offset); }
+
+      /* Scroll suave solo si el usuario no pide reducir movimiento. */
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto !important; }
+        * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      }
+
+      /* Mejoras de accesibilidad: resumen (details) sin marcador por defecto. */
+      summary::-webkit-details-marker { display: none; }
+    </style>
+  </head>
+
+  <body class="bg-[#0a1f18] text-white overflow-x-hidden font-sans">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:rounded-2xl focus:border focus:border-amber-400/40 focus:bg-[#0a1f18] focus:px-4 focus:py-3 focus:text-amber-200"
+    >
+      Saltar al contenido
+    </a>
+
+    <!-- NAVBAR: estilo cartel 90s, sticky y accesible -->
+    <nav class="bg-[#0a1f18] border-b border-amber-400/30 py-5 sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 flex justify-between items-center gap-4">
+        <a href="/#top" class="text-xl sm:text-3xl font-black tracking-[0.12em] text-amber-300 whitespace-nowrap">
+          TALAZBRÁGOLES
+        </a>
+
+        <!-- Desktop -->
+        <div class="hidden md:flex gap-8 text-sm uppercase font-medium tracking-widest">
+          {nav.map((item) => (
+            <a href={item.href} class="hover:text-amber-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18] rounded">
+              {item.label}
+            </a>
+          ))}
+        </div>
+
+        <!-- Mobile (sin JS): <details>/<summary> accesible -->
+        <details class="md:hidden relative">
+          <summary
+            class="list-none cursor-pointer select-none rounded-2xl border border-amber-400/40 bg-[#0a1f18]/80 px-4 py-2 text-xs uppercase tracking-[0.2em] text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18]"
+            aria-label="Abrir menú"
+          >
+            Menú
+          </summary>
+          <div
+            class="absolute right-0 mt-3 w-64 rounded-2xl border border-amber-400/40 bg-[#0a1f18]/95 p-3 shadow-[0_18px_50px_rgba(0,0,0,0.55)]"
+          >
+            <div class="flex flex-col gap-2 text-sm uppercase tracking-widest">
+              {nav.map((item) => (
+                <a
+                  href={item.href}
+                  class="rounded-xl px-3 py-2 hover:bg-amber-400/10 hover:text-amber-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1f18]"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </details>
+      </div>
+    </nav>
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <!-- PIE: cálido, con rigor -->
+    <footer class="border-t border-amber-400/20 bg-[#081a14]">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div>
+            <div class="text-sm uppercase tracking-[0.25em] text-gray-300">Archivo vivo</div>
+            <p class="mt-3 text-gray-300 leading-relaxed max-w-2xl">
+              Esto es memoria, pero también método: si no hay fuente, lo decimos. Si falta un dato, lo pedimos.
+              Si tienes material (programas, carteles, fotos, recortes), aquí lo cuidamos.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <a
+              href="/fuentes"
+              class="inline-flex items-center justify-center rounded-2xl border border-amber-400/30 bg-[#0a1f18]/60 px-5 py-3 text-xs uppercase tracking-[0.2em] text-amber-200 hover:bg-amber-400/10 hover:text-amber-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#081a14]"
+            >
+              Ver fuentes
+            </a>
+            <div class="text-xs text-gray-400 tracking-widest">
+              Hecho con dados y nostalgia.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
