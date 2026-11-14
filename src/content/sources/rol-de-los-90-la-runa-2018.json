@@ -1,0 +1,13 @@
+{
+  "title": "Rol de los 90 — \"La Runa: el primer (y único) periódico rolero\" (2018-06-10)",
+  "url": "https://roldelos90.blogspot.com/2018/06/la-runa-el-primer-y-unico-periodico.html",
+  "asserts": "Reseña del periódico La Runa (Las Rozas; nº 1 de abril de 1996 y nº 2 de mayo). Según la reseña, La Runa publicó la crónica de la 5ª edición de las jornadas Talazbrágoles, celebradas en Las Rozas (Madrid) el 13 y 14 de abril: entrada y actividades gratuitas, 130 mesas para partidas de rol, campeonatos de Magic y SATM, una partida de Doom en red, charlas y mesas redondas; asistencia en torno a 700 personas.",
+  "caveat": "Fuente secundaria: es una reseña del periódico, no el periódico. El año 1996 se deduce de la fecha de los números de La Runa; la reseña no lo escribe junto a los días. Los escaneos originales ya no se pueden descargar (comprobado el 2026-11-13).",
+  "type": "otro",
+  "date": "2018-06-10",
+  "accessDate": "2026-11-13",
+  "broken": false,
+  "tags": ["menciona Talazbrágoles", "La Runa", "Las Rozas", "fuente secundaria"],
+  "relatedEditions": ["talazbragoles-1996-quinta"],
+  "relatedPeople": []
+}
