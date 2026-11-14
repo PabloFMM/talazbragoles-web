@@ -17,6 +17,7 @@ export const homeNav: NavItem[] = [
   { label: "Historia",        href: "/#historia"  },
   { label: "Ediciones",       href: "/#ediciones" },
   { label: "Recuerdos",       href: "/#red"       },
+  { label: "MMO",             href: "/mmo"        },
   { label: "Fuentes",         href: "/fuentes"    },
   { label: "El Legado",       href: "/#legado"    },
 ];
