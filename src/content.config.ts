@@ -157,4 +157,20 @@ const timeline = defineCollection({
   }),
 });
 
-export const collections = { sources, editions, people, systems, timeline };
+// ─── 6. guides — guías de juego (sección MMO) ─────────────────────────
+// Redactadas a partir de páginas públicas; cada dato cita su fuente en el texto.
+// Origen y reglas: docs/guias/_REGLAS.md del proyecto.
+
+const guides = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/guides" }),
+  schema: z.object({
+    profesion: z.string(),
+    slug: z.string(),
+    tipo: z.string(),
+    // YAML lee «2026-11-14» como fecha: se normaliza a texto AAAA-MM-DD.
+    comprobado: z.union([z.string(), z.date()]).transform((v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v)),
+    juego: z.string().default("wow-forever"),
+  }),
+});
+
+export const collections = { sources, editions, people, systems, timeline, guides };

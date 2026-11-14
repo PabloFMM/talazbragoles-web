@@ -1,0 +1,38 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import MmoStyles from "../../../../components/mmo/MmoStyles.astro";
+import { mainNav } from "../../../../lib/nav";
+import { getAllGuides } from "../../../../lib/collections";
+
+const guides = await getAllGuides();
+---
+
+<Layout
+  title="Guías de profesiones · WoW Forever · TALAZBRÁGOLES"
+  description="Guías de las profesiones de World of Warcraft: Forever para la hermandad La Barbarie. Cada dato con su fuente."
+  canonicalPath="/mmo/wow-forever/guias"
+  nav={mainNav}
+>
+  <MmoStyles />
+  <div class="mmo max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+    <ul class="mmo-nav" aria-label="Navegación de la sección">
+      <li><a class="mmo-btn" href="/mmo/wow-forever">← La Barbarie</a></li>
+      <li><a class="mmo-btn" href="/mmo/wow-forever/asesor/">Abrir el asesor</a></li>
+    </ul>
+
+    <h1>Guías de profesiones · WoW Forever</h1>
+    <p>Una guía por profesión. Están redactadas a partir de páginas públicas, no de pruebas en el juego.</p>
+    <p>Cada dato dice de qué sitio sale. Lo que las fuentes no aclaran está marcado como duda o pendiente.</p>
+
+    <ul class="mmo-lista">
+      {guides.map((g) => (
+        <li>
+          <a href={`/mmo/wow-forever/guias/${g.id}`}>
+            <strong>{g.data.profesion}</strong>
+            {g.data.tipo} · comprobado {g.data.comprobado}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>

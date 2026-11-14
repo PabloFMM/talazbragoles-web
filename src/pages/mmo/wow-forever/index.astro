@@ -1,0 +1,74 @@
+---
+/**
+ * La Barbarie · WoW Forever. Página estática de entrada.
+ * Los datos salen de docs/asesoria.md del proyecto (dato · fuente · fecha).
+ */
+import Layout from "../../../layouts/Layout.astro";
+import MmoStyles from "../../../components/mmo/MmoStyles.astro";
+import { mainNav } from "../../../lib/nav";
+import { getAllGuides } from "../../../lib/collections";
+
+const guides = await getAllGuides();
+---
+
+<Layout
+  title="La Barbarie · WoW Forever · TALAZBRÁGOLES"
+  description="Asesoría de la hermandad La Barbarie en World of Warcraft: Forever: guías de profesiones y asesor de comercio, con fuentes."
+  canonicalPath="/mmo/wow-forever"
+  nav={mainNav}
+>
+  <MmoStyles />
+  <div class="mmo max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+    <ul class="mmo-nav" aria-label="Navegación de la sección">
+      <li><a class="mmo-btn" href="/mmo">← MMO</a></li>
+    </ul>
+
+    <h1>La Barbarie · World of Warcraft: Forever</h1>
+    <p>Hermandad de la Horda, cuatro jugadores. Esta sección es su asesoría: qué hacer, qué comprar y cómo subir las profesiones.</p>
+
+    <div class="mmo-card">
+      <h2>El asesor</h2>
+      <p>Herramienta para cada jugador: qué hago hoy, mi personaje, profesiones, almacén, oro, comercio en la subasta y diario.</p>
+      <p>Tus datos se guardan solo en tu navegador. Haz copia desde «Diario».</p>
+      <ul class="mmo-nav">
+        <li><a class="mmo-btn fuerte" href="/mmo/wow-forever/asesor/">Abrir el asesor</a></li>
+      </ul>
+    </div>
+
+    <div class="mmo-card">
+      <h2>Guías de profesiones</h2>
+      <p>Cómo empezar, rangos, ruta para subir y novedades. Redactadas desde páginas públicas, no probadas en el juego.</p>
+      <ul class="mmo-lista">
+        {guides.map((g) => (
+          <li><a href={`/mmo/wow-forever/guias/${g.id}`}><strong>{g.data.profesion}</strong>{g.data.tipo}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="mmo-card">
+      <h2>Bandas del 9 de diciembre de 2026</h2>
+      <p>Banda: grupo grande de jugadores contra jefes. Abren tres y las tres piden nivel 60.</p>
+      <table>
+        <thead><tr><th>Banda</th><th>Jugadores</th><th>Jefes</th></tr></thead>
+        <tbody>
+          <tr><td>Barrow Deeps</td><td>10</td><td>8</td></tr>
+          <tr><td>Hyjal Summit</td><td>20</td><td>13</td></tr>
+          <tr><td>Guarida de Onyxia</td><td>40</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <p>Onyxia pide el Drakefire Amulet, que se consigue con una cadena de misiones.</p>
+      <p class="mmo-fuente">Fuentes: Blizzard, Method, RankedBoost, allthings.how · comprobado el 2026-11-13.</p>
+    </div>
+
+    <div class="mmo-card">
+      <h2>Miembros</h2>
+      <ul>
+        <li><strong>Fissel Kasteaya</strong>: chamán orco, rama Mejora. Minería e Ingeniería.</li>
+        <li><strong>Woldrik Wulf</strong>: pícaro trol, rama Combate. Profesiones: <span class="mmo-tag">pendiente</span></li>
+        <li><strong>Mortem Freeman</strong>: datos <span class="mmo-tag">pendiente</span></li>
+        <li><strong>Towerbrünnen</strong>: apellido y datos <span class="mmo-tag">pendiente</span></li>
+      </ul>
+      <p class="mmo-fuente">Datos dados por los jugadores · 2026-11-13.</p>
+    </div>
+  </div>
+</Layout>

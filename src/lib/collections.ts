@@ -37,3 +37,9 @@ export async function getAllTimeline() {
   const all = await getCollection("timeline");
   return all.sort((a, b) => a.data.date.localeCompare(b.data.date));
 }
+
+/** Guías de la sección MMO, por orden alfabético de profesión. */
+export async function getAllGuides() {
+  const all = await getCollection("guides");
+  return all.sort((a, b) => a.data.profesion.localeCompare(b.data.profesion, "es"));
+}

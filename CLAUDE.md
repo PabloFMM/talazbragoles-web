@@ -23,7 +23,7 @@ Filosofía central: **rigor documental**. Solo se publica lo que tiene fuente ve
 | TypeScript | strict | Tipado completo |
 | Vercel | — | Despliegue (push a `main` = deploy automático) |
 
-**No hay JS en cliente.** Todo es HTML estático generado en build. No hay backend, base de datos ni API.
+**No hay JS en cliente**, con una única excepción documentada: `public/mmo/wow-forever/asesor/index.html` (el asesor de La Barbarie, ver «Sección MMO»). Todo lo demás es HTML estático generado en build. No hay backend, base de datos ni API.
 
 ---
 
@@ -94,6 +94,10 @@ Archivos Markdown en `src/content/systems/`. El cuerpo es la descripción del si
 
 Campos frontmatter: `name`, `publisher`, `year`, `genre[]`, `editions[]`, `playedAtEditionIds[]`, `draft`.
 
+### `guides` — Guías de juego (sección MMO)
+
+Archivos Markdown en `src/content/guides/`. Frontmatter: `profesion`, `slug`, `tipo`, `comprobado`. Cada dato cita su fuente dentro del texto; las contradicciones entre fuentes se anotan, no se resuelven. Reglas de redacción: `proyecto/docs/guias/_REGLAS.md`.
+
 ### `timeline` — Cronología
 
 Archivos JSON en `src/content/timeline/`.
@@ -158,10 +162,27 @@ Texto biográfico en Markdown.
 
 ---
 
+## Sección MMO
+
+| Ruta | Qué es | Origen |
+|------|--------|--------|
+| `/mmo` | Portada de MMO | `src/pages/mmo/index.astro` |
+| `/mmo/wow-forever` | La Barbarie (hermandad de WoW Forever) | `src/pages/mmo/wow-forever/index.astro` |
+| `/mmo/wow-forever/guias` y `/guias/<slug>` | Guías de profesiones | colección `guides` |
+| `/mmo/wow-forever/asesor/` | Asesor interactivo (JS + `localStorage`) | `public/…/asesor/index.html`, GENERADO |
+
+- El asesor NO se edita a mano: se genera con `proyecto/tools/build-asesor.py` desde `proyecto/web/index.html`.
+- La clave de `localStorage` es `wowf-chaman-v1`. No cambiarla ni borrar campos del estado: los jugadores perderían sus datos.
+- Reglas de lectura de la sección (público de más de 50 años): texto ≥ 16 px, botones ≥ 48 px, contraste ≥ 7:1, sin animaciones. Estilos en `src/components/mmo/MmoStyles.astro`.
+- El menú de escritorio aparece desde 1280 px (`xl`): con 7 entradas no cabe antes.
+- `proyecto/`: documentación, herramientas, pruebas y datos de trabajo. No se publica (está fuera de `public/`). Empezar por `proyecto/docs/ESTRUCTURA.md`.
+
+---
+
 ## Reglas de diseño (no romper)
 
 - **Paleta**: solo B/N + papel (`--paper: #f4f0e6`, `--ink: #0f0f10`). El acento cian (`--accent: #00f5d4`) solo para estados interactivos (focus, hover de subrayados).
-- **Sin JS en cliente**: no añadir `<script>` ni frameworks de UI.
+- **Sin JS en cliente**: no añadir `<script>` ni frameworks de UI (única excepción: el asesor, ver «Sección MMO»).
 - **Sin dorados ni gradientes de color**: estética fanzine/fotocopia.
 - **Accesibilidad**: mantener `aria-hidden` en decorativos, `focus-visible:ring`, `prefers-reduced-motion`.
 - **Tailwind v4**: no existe `tailwind.config.*`. Los tokens CSS están en el `<style is:global>` de `Layout.astro`.

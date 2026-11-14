@@ -7,6 +7,7 @@ export const mainNav: NavItem[] = [
   { label: "Cronología", href: "/cronologia" },
   { label: "Sistemas",   href: "/sistemas"   },
   { label: "Personas",   href: "/personas"   },
+  { label: "MMO",        href: "/mmo"        },
   { label: "Fuentes",    href: "/fuentes"    },
 ];
 

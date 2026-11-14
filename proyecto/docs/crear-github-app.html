@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crear la GitHub App de Hermes</title>
+<style>
+body{font-size:18px;line-height:1.5;color:#0f0f10;background:#f4f0e6;max-width:40rem;padding:1rem}
+button{font-size:18px;min-height:48px;padding:.5rem 1.25rem;background:#0f0f10;color:#f4f0e6;border:0;cursor:pointer}
+button:focus-visible{outline:3px solid #0f0f10;outline-offset:3px}
+code{font-size:16px}
+</style>
+</head>
+<body>
+<h1>Crear la GitHub App de Hermes</h1>
+<ol>
+<li>Inicia sesión en GitHub con la cuenta <strong>PabloFMM</strong> en este navegador.</li>
+<li>Pulsa el botón. GitHub te pedirá confirmar el nombre de la app: pulsa <strong>Create GitHub App</strong>.</li>
+<li>GitHub te llevará a la página del repo con <code>?code=…</code> en la dirección. Copia esa dirección entera y pégasela a Hermes en el chat <strong>antes de 1 hora</strong> (el código caduca).</li>
+<li>Después, en la página de la app, pulsa <strong>Install App</strong> → <strong>Only select repositories</strong> → <code>talazbragoles-web</code> → <strong>Install</strong>.</li>
+</ol>
+<p>El código no es una contraseña: solo sirve una vez para que Hermes recoja la clave de la app y la guarde fuera del repo.</p>
+<form action="https://github.com/settings/apps/new?state=hermes-tzb" method="post">
+<input type="hidden" name="manifest" id="manifest">
+<button type="submit">Crear la app en GitHub</button>
+</form>
+<script>
+document.getElementById('manifest').value = JSON.stringify({
+  name: "hermes-talazbragoles",
+  url: "https://talazbragoles.com",
+  description: "Agente Hermes: ramas, PRs, CI y despliegue de talazbragoles-web.",
+  hook_attributes: { url: "https://talazbragoles.com", active: false },
+  redirect_url: "https://github.com/PabloFMM/talazbragoles-web",
+  public: false,
+  default_permissions: {
+    contents: "write",
+    pull_requests: "write",
+    issues: "write",
+    workflows: "write",
+    administration: "write",
+    checks: "read",
+    actions: "read",
+    statuses: "read",
+    metadata: "read"
+  },
+  default_events: []
+});
+</script>
+</body>
+</html>

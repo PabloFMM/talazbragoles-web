@@ -129,8 +129,8 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
           TALAZBRÁGOLES
         </a>
 
-        <!-- Desktop -->
-        <div class="hidden md:flex gap-7 text-xs uppercase font-semibold tracking-[0.22em]">
+        <!-- Desktop (desde 1280 px: con 7 entradas el menú no cabe antes) -->
+        <div class="hidden xl:flex gap-7 text-xs uppercase font-semibold tracking-[0.22em]">
           {nav.map((item) => (
             <a
               href={item.href}
@@ -142,7 +142,7 @@ const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen 
         </div>
 
         <!-- Mobile (sin JS): <details>/<summary> accesible -->
-        <details class="md:hidden relative">
+        <details class="xl:hidden relative">
           <summary
             class="list-none cursor-pointer select-none rounded-xl border border-[color:var(--line)] bg-white/55 px-4 py-2 text-[0.7rem] uppercase tracking-[0.24em] text-[color:var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
             aria-label="Abrir menú"
