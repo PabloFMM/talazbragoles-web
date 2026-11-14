@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://talazbragoles-web.vercel.app',
+  site: 'https://www.talazbragoles.com',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

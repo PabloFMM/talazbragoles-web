@@ -24,7 +24,7 @@ const {
   nav = mainNav,
 } = Astro.props;
 
-const siteUrl = Astro.site ? new URL(Astro.site) : new URL("https://talazbragoles-web.vercel.app");
+const siteUrl = Astro.site ? new URL(Astro.site) : new URL("https://www.talazbragoles.com");
 const canonical = new URL(canonicalPath, siteUrl).toString();
 
 const ogTitle = title.includes("TALAZBRÁGOLES") ? title : `${title} · TALAZBRÁGOLES`;
