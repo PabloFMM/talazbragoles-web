@@ -5,7 +5,8 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://www.talazbragoles.com',
-  integrations: [sitemap()],
+  // /diseno/ es interna (noindex): fuera del sitemap.
+  integrations: [sitemap({ filter: (page) => !page.includes('/diseno') })],
   vite: {
     plugins: [tailwindcss()],
   },

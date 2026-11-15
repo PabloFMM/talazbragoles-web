@@ -1,0 +1,25 @@
+---
+/**
+ * «Pendiente»: lo que no sabemos se dice.
+ * - Sin mensaje ni contenido: palabra «pendiente» en línea (cursiva, subrayado de puntos).
+ * - Con mensaje (o contenido): bloque con rótulo, lo que falta y, opcionalmente, qué se pide.
+ */
+interface Props {
+  mensaje?: string;
+  /** Qué material ayudaría a completarlo. */
+  pide?: string;
+  etiqueta?: string;
+}
+const { mensaje, pide, etiqueta } = Astro.props;
+const bloque = Boolean(mensaje || pide || Astro.slots.has("default"));
+---
+{bloque ? (
+  <div class="tz-hueco">
+    <p class="tz-hueco-rotulo tz-rotulo">{etiqueta ?? "Pendiente de documentar"}</p>
+    {mensaje && <p>{mensaje}</p>}
+    <slot />
+    {pide && <p class="tz-hueco-pide">{pide}</p>}
+  </div>
+) : (
+  <span class="tz-pendiente">{etiqueta ?? "pendiente"}</span>
+)}

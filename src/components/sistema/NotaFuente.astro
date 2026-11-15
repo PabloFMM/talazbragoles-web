@@ -1,0 +1,34 @@
+---
+/**
+ * Nota de fuente numerada: qué es, qué dice y con qué reservas (lo que NO dice).
+ * Recibe los campos de la colección «sources». Usar dentro de <ol class="tz-fuentes">.
+ */
+interface Props {
+  n: number | string;
+  titulo: string;
+  url: string;
+  tipo?: string;
+  fecha?: string;
+  consulta?: string;
+  afirma?: string;
+  reserva?: string;
+  caido?: boolean;
+}
+const { n, titulo, url, tipo, fecha, consulta, afirma, reserva, caido = false } = Astro.props;
+const tipos: Record<string, string> = {
+  testimonio: "Testimonio", prensa: "Prensa", "documento-oficial": "Documento oficial",
+  "web-archivo": "Web archivada", foto: "Foto", video: "Vídeo", otro: "Otro",
+};
+const meta = [tipo && (tipos[tipo] ?? tipo), fecha, consulta && `consultada el ${consulta}`].filter(Boolean).join(" · ");
+---
+<li class="tz-fuente">
+  <span class="tz-fuente-n tz-num" aria-hidden="true">{String(n).padStart(2, "0")}</span>
+  <div>
+    <p class="tz-fuente-titulo">
+      {caido ? <><span class="tz-fuente-caido">{titulo}</span> (enlace caído)</> : <a href={url} rel="noreferrer">{titulo}</a>}
+    </p>
+    {meta && <p class="tz-fuente-meta">{meta}</p>}
+    {afirma && <p><span class="tz-fuente-etiqueta">Dice:</span> {afirma}</p>}
+    {reserva && <p class="tz-fuente-reserva"><span class="tz-fuente-etiqueta">Reservas:</span> {reserva}</p>}
+  </div>
+</li>

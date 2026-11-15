@@ -1,0 +1,650 @@
+/*
+  Sistema de diseño «Papel y tinta» — Talazbrágoles.
+  Actual, limpio y elegante (PabloFM, 2026-11-15): blanco y negro sobrio,
+  mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso.
+  Nada de fotocopia, sellos, recortes ni texturas.
+  Documentación: proyecto/docs/diseno.md · Muestrario: /diseno/
+
+  Reglas fijas (no romper):
+  - Texto ≥ 16 px (1rem). Botones y campos ≥ 48 px. Contraste ≥ 7:1.
+  - Sin animaciones ni transiciones. Sin imágenes decorativas: solo tipografía.
+  - Prefijo de clases: tz- (no usar z-, que es de Tailwind).
+*/
+
+/* ===== 1. Tipografías autoalojadas (SIL OFL 1.1; licencias en /fonts/) ===== */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("/fonts/archivo-wdth-wght.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-serif-4-opsz-wght.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-serif-4-opsz-wght-italic.woff2") format("woff2");
+}
+
+/* ===== 2. Tokens ===== */
+:root {
+  /* Color: papel y tinta. Contrastes medidos sobre --papel. */
+  --papel: #f4f0e6;      /* fondo */
+  --papel-2: #ebe5d8;    /* recuadros discretos (tinta 15,3:1 · tinta-2 8,1:1) */
+  --tinta: #0f0f10;      /* texto, filetes de estructura (16,8:1) */
+  --tinta-2: #45413b;    /* texto secundario (8,9:1). Nunca más claro */
+  --filete: #b8b2a5;     /* SOLO filetes divisorios finos, nunca texto */
+
+  /* Familias: texto e interfaz sin remates; titulares con remates limpios */
+  --letra-texto: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --letra-titular: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  /* Escala tipográfica (razón ≈ 1,25 sobre 18 px). Mínimo absoluto: --t-0 = 16 px */
+  --t-0: 1rem;          /* 16 · rótulos, metadatos, notas */
+  --t-1: 1.125rem;      /* 18 · texto corrido */
+  --t-2: 1.375rem;      /* 22 · entradilla, título de ficha */
+  --t-3: 1.75rem;       /* 28 · título de sección (móvil) */
+  --t-4: 2.375rem;      /* 38 · título de sección */
+  --t-5: clamp(2.5rem, 1.5rem + 4.4vw, 4.75rem);  /* 40→76 · titular de página */
+  --t-6: clamp(2.75rem, 1rem + 7.4vw, 7.5rem);    /* 44→120 · titular de portada */
+  --t-logo: clamp(2.5rem, 1.4rem + 4.2vw, 5rem);  /* 40→80 · logotipo */
+
+  /* Pesos */
+  --p-fino: 300;      /* logotipo y titulares grandes */
+  --p-normal: 400;
+  --p-medio: 500;
+  --p-semi: 600;
+
+  /* Interlineado */
+  --il-titular: 1.04;
+  --il-titulo: 1.18;
+  --il-texto: 1.6;
+
+  /* Espaciado: base 4 px, en rem */
+  --e-1: 0.25rem;  /*   4 */
+  --e-2: 0.5rem;   /*   8 */
+  --e-3: 0.75rem;  /*  12 */
+  --e-4: 1rem;     /*  16 */
+  --e-5: 1.5rem;   /*  24 */
+  --e-6: 2rem;     /*  32 */
+  --e-7: 3rem;     /*  48 */
+  --e-8: 4rem;     /*  64 */
+  --e-9: 6rem;     /*  96 */
+  --e-10: 8rem;    /* 128 */
+
+  /* Retícula */
+  --pagina: 76rem;                          /* 1216 px de caja */
+  --margen: clamp(1.25rem, 0.5rem + 3vw, 3.5rem);
+  --medianil: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  --medida: 40rem;                          /* ≈ 70 caracteres a 18 px */
+  --columna-margen: 15rem;                  /* notas al margen (≥ 1024 px) */
+  --aire: clamp(3rem, 2rem + 4vw, 6rem);    /* separación entre secciones */
+
+  /* Filetes */
+  --f-fino: 1px;
+  --f-medio: 2px;
+
+  /* Controles */
+  --toque: 3rem;  /* 48 px: alto mínimo de botones, campos y enlaces de menú */
+
+  /* Compatibilidad con estilos anteriores (no usar en código nuevo) */
+  --paper: var(--papel);
+  --paper-2: var(--papel-2);
+  --ink: var(--tinta);
+  --ink-2: var(--tinta-2);
+  --line: var(--tinta);
+  --line-2: var(--filete);
+  --accent: var(--tinta);
+  --nav-offset: 1.5rem;
+}
+
+/* ===== 3. Base ===== */
+@layer base {
+  html {
+    background: var(--papel);
+    color: var(--tinta);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: auto;
+  }
+  body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--letra-texto);
+    font-size: var(--t-1);
+    line-height: var(--il-texto);
+    overflow-wrap: break-word;
+    font-kerning: normal;
+  }
+  @media (min-width: 48rem) {
+    body { font-size: 1.1875rem; } /* 19 px en pantallas grandes */
+  }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  ::selection { background: var(--tinta); color: var(--papel); }
+  :focus-visible {
+    outline: 3px solid var(--tinta);
+    outline-offset: 3px;
+  }
+  summary { cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+  section[id], h2[id], h3[id] { scroll-margin-top: var(--nav-offset); }
+}
+
+/* ===== 4. Componentes ===== */
+@layer components {
+
+  /* --- 4.1 Retícula --- */
+  .tz-pagina {
+    width: min(100% - 2 * var(--margen), var(--pagina));
+    margin-inline: auto;
+  }
+  .tz-medida { max-width: var(--medida); }
+  .tz-reticula {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-6) var(--medianil);
+  }
+  @media (min-width: 48rem) {
+    .tz-reticula { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .tz-col-4 { grid-column: span 4; }
+    .tz-col-6 { grid-column: span 6; }
+    .tz-col-8 { grid-column: span 8; }
+    .tz-col-12 { grid-column: 1 / -1; }
+  }
+  /* Texto con columna de notas al margen */
+  .tz-con-margen {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-6) var(--medianil);
+  }
+  @media (min-width: 64rem) {
+    .tz-con-margen { grid-template-columns: minmax(0, var(--medida)) var(--columna-margen); justify-content: space-between; }
+  }
+  .tz-margen {
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+    border-top: var(--f-fino) solid var(--tinta);
+    padding-top: var(--e-3);
+  }
+  .tz-margen p { margin: 0; }
+  .tz-margen p + p { margin-top: var(--e-2); }
+  .tz-seccion { padding-block: var(--aire); }
+  .tz-seccion + .tz-seccion { padding-top: 0; }
+  .tz-seccion > :last-child { margin-bottom: 0; }
+
+  /* --- 4.2 Rótulos y numeración --- */
+  .tz-rotulo {
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .tz-num {
+    font-family: var(--letra-texto);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .tz-lista-numerada { list-style: none; padding: 0; margin: 0; counter-reset: tz-n; }
+  .tz-lista-numerada > li {
+    counter-increment: tz-n;
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--e-3);
+    padding-block: var(--e-4);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-lista-numerada > li:first-child { border-top-color: var(--tinta); }
+  .tz-lista-numerada > li::before {
+    content: counter(tz-n, decimal-leading-zero);
+    color: var(--tinta-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- 4.3 Logotipo --- */
+  .tz-logo {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--e-2);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-logo-nombre {
+    font-family: var(--letra-titular);
+    font-size: var(--t-logo);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+  }
+  .tz-logo-sub {
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .tz-logo:hover .tz-logo-nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+
+  /* --- 4.4 Títulos --- */
+  .tz-antetitulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--e-1) var(--e-3);
+    margin: 0 0 var(--e-5);
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .tz-antetitulo .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
+  .tz-titular {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-5);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: var(--il-titular);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .tz-titular--portada { font-size: var(--t-6); letter-spacing: -0.02em; }
+  .tz-titulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--e-4);
+    margin: 0 0 var(--e-6);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+    font-family: var(--letra-titular);
+    font-size: var(--t-3);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: var(--il-titulo);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-titulo { font-size: var(--t-4); } }
+  .tz-titulo .tz-num {
+    font-size: var(--t-0);
+    font-weight: var(--p-normal);
+    letter-spacing: 0.04em;
+    color: var(--tinta-2);
+  }
+  .tz-subtitulo {
+    margin: var(--e-7) 0 var(--e-3);
+    font-family: var(--letra-texto);
+    font-size: var(--t-2);
+    font-weight: var(--p-semi);
+    line-height: var(--il-titulo);
+    text-wrap: balance;
+  }
+  .tz-entradilla {
+    margin: var(--e-5) 0 0;
+    max-width: 38rem;
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    line-height: 1.5;
+    color: var(--tinta-2);
+    text-wrap: pretty;
+  }
+  @media (min-width: 48rem) { .tz-entradilla { font-size: 1.5rem; } }
+
+  /* Encabezado de página: antetítulo + titular + entradilla (cierra el aire de la primera sección) */
+  .tz-encabezado {
+    padding-block: var(--aire) 0;
+  }
+
+  /* --- 4.5 Filetes --- */
+  .tz-filete {
+    border: 0;
+    margin: var(--e-6) 0;
+    height: 0;
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-filete--suave { border-top-color: var(--filete); }
+  .tz-filete--medio { border-top-width: var(--f-medio); }
+  .tz-filete--corto { width: 3rem; border-top-width: var(--f-medio); }
+
+  /* --- 4.6 Prosa (texto corrido y Markdown) --- */
+  .tz-prosa { max-width: var(--medida); }
+  .tz-prosa > * { margin-block: 0; }
+  .tz-prosa > * + * { margin-top: var(--e-4); }
+  .tz-prosa p { text-wrap: pretty; }
+  .tz-prosa h2 {
+    margin: var(--e-8) 0 var(--e-4);
+    font-family: var(--letra-titular);
+    font-size: var(--t-3);
+    font-weight: var(--p-normal);
+    line-height: var(--il-titulo);
+  }
+  .tz-prosa h3 { margin: var(--e-6) 0 var(--e-2); font-size: var(--t-2); font-weight: var(--p-semi); line-height: var(--il-titulo); }
+  .tz-prosa ul, .tz-prosa ol { padding-left: 1.4em; }
+  .tz-prosa ul { list-style: disc; }
+  .tz-prosa ol { list-style: decimal; }
+  .tz-prosa li + li { margin-top: var(--e-2); }
+  .tz-prosa li::marker { color: var(--tinta-2); }
+  .tz-prosa strong { font-weight: var(--p-semi); }
+  .tz-prosa small, .tz-prosa sub, .tz-prosa sup { font-size: 1em; vertical-align: baseline; }
+
+  /* --- 4.7 Enlaces y botones --- */
+  .tz-enlace, .tz-prosa a, .tz-pie a, .tz-fuente a, .tz-cita a, .tz-hueco a, .tz-ref a {
+    color: var(--tinta);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+  .tz-enlace:hover, .tz-prosa a:hover, .tz-pie a:hover, .tz-fuente a:hover, .tz-cita a:hover, .tz-hueco a:hover, .tz-ref a:hover {
+    text-decoration-thickness: 2px;
+  }
+  .tz-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    min-width: var(--toque);
+    padding: var(--e-2) var(--e-5);
+    border: var(--f-fino) solid var(--tinta);
+    background: transparent;
+    color: var(--tinta);
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .tz-boton:hover { background: var(--tinta); color: var(--papel); }
+  .tz-boton--tinta { background: var(--tinta); color: var(--papel); }
+  .tz-boton--tinta:hover { background: var(--papel); color: var(--tinta); }
+
+  /* --- 4.8 Estado documental y «pendiente» --- */
+  .tz-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+  .tz-estado::before {
+    content: "";
+    flex: none;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: 50%;
+    border: var(--f-medio) solid var(--tinta);
+    box-sizing: border-box;
+  }
+  .tz-estado--documentada::before { background: var(--tinta); }
+  .tz-estado--parcial::before { box-shadow: inset 0.25em 0 0 var(--tinta); }
+  .tz-estado--pendiente::before { background: transparent; }
+
+  /* «pendiente» en línea: palabra en cursiva, gris tinta-2, subrayado de puntos */
+  .tz-pendiente {
+    font-style: italic;
+    color: var(--tinta-2);
+    text-decoration: underline dotted var(--tinta-2);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    white-space: nowrap;
+  }
+
+  /* Bloque «pendiente de documentar» (secciones sin datos) */
+  .tz-hueco {
+    padding: var(--e-6) var(--e-5);
+    background: var(--papel-2);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-hueco-rotulo { margin: 0 0 var(--e-3); color: var(--tinta-2); }
+  .tz-hueco p { margin: 0; max-width: var(--medida); }
+  .tz-hueco p + p { margin-top: var(--e-3); }
+  .tz-hueco .tz-hueco-pide { color: var(--tinta-2); }
+
+  /* --- 4.9 Ficha (ediciones, personas, sistemas, guías) --- */
+  .tz-ficha {
+    display: flex;
+    flex-direction: column;
+    border-top: var(--f-medio) solid var(--tinta);
+    padding-top: var(--e-4);
+  }
+  .tz-ficha-cabeza {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--e-1) var(--e-4);
+    margin-bottom: var(--e-3);
+    color: var(--tinta-2);
+    font-size: var(--t-0);
+  }
+  .tz-ficha-cabeza .tz-estado { color: var(--tinta); }
+  .tz-ficha-cuerpo { flex: 1; }
+  .tz-ficha-titulo {
+    margin: 0 0 var(--e-5);
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-ficha-titulo { font-size: 1.625rem; } }
+  .tz-ficha-titulo a { color: inherit; text-decoration: none; }
+  .tz-ficha-titulo a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .tz-datos { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+  .tz-datos > div { padding-block: var(--e-3); border-top: var(--f-fino) solid var(--filete); }
+  .tz-datos dt { font-size: var(--t-0); font-weight: var(--p-normal); color: var(--tinta-2); }
+  .tz-datos dd { margin: 0; }
+  @media (min-width: 30rem) {
+    .tz-datos > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--e-4); align-items: baseline; }
+  }
+  .tz-ficha-pie { margin-top: var(--e-3); }
+  .tz-ficha-pie a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    border-top: var(--f-fino) solid var(--tinta);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-ficha-pie a:hover span:first-child { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  .tz-fichas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: var(--e-8) var(--medianil);
+  }
+
+  /* --- 4.10 Cita --- */
+  .tz-cita {
+    margin: var(--e-7) 0;
+    max-width: 46rem;
+  }
+  .tz-cita blockquote { margin: 0; }
+  .tz-cita blockquote p {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-3);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-cita blockquote p { font-size: 2.25rem; } }
+  .tz-cita figcaption {
+    margin-top: var(--e-5);
+    padding-top: var(--e-3);
+    border-top: var(--f-fino) solid var(--tinta);
+    max-width: 24rem;
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+  }
+
+  /* --- 4.11 Nota de fuente --- */
+  .tz-fuentes { list-style: none; margin: 0; padding: 0; }
+  .tz-fuente {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--e-3);
+    padding-block: var(--e-5);
+    border-top: var(--f-fino) solid var(--filete);
+    font-size: var(--t-0);
+    line-height: 1.55;
+  }
+  .tz-fuente:first-child { border-top-color: var(--tinta); }
+  .tz-fuente-n { color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-fuente-titulo { margin: 0; font-size: var(--t-1); font-weight: var(--p-semi); line-height: 1.4; }
+  .tz-fuente-meta { margin: var(--e-1) 0 var(--e-3); color: var(--tinta-2); }
+  .tz-fuente p { margin: 0; }
+  .tz-fuente p + p { margin-top: var(--e-2); }
+  .tz-fuente-reserva { color: var(--tinta-2); }
+  .tz-fuente-etiqueta { font-weight: var(--p-semi); color: var(--tinta); }
+  .tz-fuente-caido { text-decoration: line-through; }
+  /* Referencia corta en línea: «Fuente: …» */
+  .tz-ref { font-size: var(--t-0); color: var(--tinta-2); }
+
+  /* --- 4.12 Cabecera del sitio --- */
+  .tz-cabecera { border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-cabecera-fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--e-5) var(--e-7);
+    padding-block: var(--e-6) var(--e-5);
+  }
+
+  /* --- 4.13 Navegación (sin JS) --- */
+  .tz-nav ul { list-style: none; margin: 0; padding: 0; }
+  .tz-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--e-2);
+    min-height: var(--toque);
+    color: var(--tinta);
+    text-decoration: none;
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+  }
+  .tz-nav a .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
+  .tz-nav a:hover .tz-nav-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+  .tz-nav a[aria-current="page"] .tz-nav-texto {
+    font-weight: var(--p-semi);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  /* Móvil y tableta: índice plegable con <details> */
+  .tz-nav-plegable { border-top: var(--f-fino) solid var(--tinta); }
+  .tz-nav-plegable > summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--toque);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+  }
+  .tz-nav-plegable > summary::after {
+    content: "+";
+    font-size: 1.5rem;
+    font-weight: var(--p-fino);
+    line-height: 1;
+  }
+  .tz-nav-plegable[open] > summary::after { content: "\2212"; }
+  .tz-nav-plegable ul {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: var(--medianil);
+    padding-bottom: var(--e-3);
+  }
+  @media (min-width: 30rem) { .tz-nav-plegable ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-nav-plegable li { border-top: var(--f-fino) solid var(--filete); }
+  .tz-nav-plegable a .tz-num { min-width: 1.75rem; }
+
+  /* Escritorio (≥ 1024 px): una fila */
+  .tz-nav-fila { display: none; }
+  @media (min-width: 64rem) {
+    .tz-nav-plegable { display: none; }
+    .tz-nav-fila { display: block; border-top: var(--f-fino) solid var(--filete); }
+    .tz-nav-fila ul { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 var(--e-5); }
+  }
+
+  /* --- 4.14 Pie --- */
+  .tz-pie {
+    margin-top: var(--aire);
+    border-top: var(--f-fino) solid var(--tinta);
+    padding-block: var(--e-7) var(--e-7);
+    font-size: var(--t-0);
+  }
+  .tz-pie-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-7) var(--medianil);
+  }
+  @media (min-width: 48rem) { .tz-pie-cols { grid-template-columns: 5fr 4fr; } }
+  @media (min-width: 64rem) { .tz-pie-cols { grid-template-columns: 5fr 4fr 3fr; } }
+  .tz-pie h2 {
+    margin: 0 0 var(--e-3);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .tz-pie p { margin: 0; max-width: 32rem; color: var(--tinta-2); }
+  .tz-pie p + p { margin-top: var(--e-3); }
+  .tz-pie-indice { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--e-4); }
+  .tz-pie-indice a { display: flex; align-items: center; min-height: var(--toque); }
+  .tz-pie-final {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--e-2) var(--e-5);
+    margin-top: var(--e-8);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--filete);
+    color: var(--tinta-2);
+  }
+
+  /* --- 4.15 Saltar al contenido --- */
+  .tz-saltar {
+    position: absolute;
+    left: var(--e-4);
+    top: -10rem;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--toque);
+    padding: var(--e-2) var(--e-5);
+    background: var(--tinta);
+    color: var(--papel);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-saltar:focus { top: var(--e-4); }
+}

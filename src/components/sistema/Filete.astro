@@ -1,0 +1,8 @@
+---
+/** Filete horizontal. tipo: fino (tinta) | suave (gris, divisorio) | medio (2 px) | corto. */
+interface Props {
+  tipo?: "fino" | "suave" | "medio" | "corto";
+}
+const { tipo = "fino" } = Astro.props;
+---
+<hr class:list={["tz-filete", tipo !== "fino" && `tz-filete--${tipo}`]} />

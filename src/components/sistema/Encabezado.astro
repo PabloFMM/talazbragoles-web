@@ -1,0 +1,28 @@
+---
+/**
+ * Encabezado de página: antetítulo (número + sección) · titular · entradilla · filete fino.
+ * Un solo <h1> por página: va aquí.
+ */
+interface Props {
+  titulo: string;
+  /** Número de la sección, p. ej. "02". */
+  numero?: string;
+  /** Nombre de la sección en el antetítulo, p. ej. "Archivo". */
+  seccion?: string;
+  entradilla?: string;
+  /** Titular de portada (más grande). */
+  portada?: boolean;
+}
+const { titulo, numero, seccion, entradilla, portada = false } = Astro.props;
+---
+<header class="tz-encabezado">
+  {(numero || seccion) && (
+    <p class="tz-antetitulo">
+      {numero && <span class="tz-num">{numero}</span>}
+      {seccion && <span>{seccion}</span>}
+    </p>
+  )}
+  <h1 class:list={["tz-titular", { "tz-titular--portada": portada }]}>{titulo}</h1>
+  {entradilla && <p class="tz-entradilla">{entradilla}</p>}
+  <slot />
+</header>

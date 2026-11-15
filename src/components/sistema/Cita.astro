@@ -1,0 +1,22 @@
+---
+/**
+ * Cita destacada: serif fino grande y atribución obligatoria bajo un filete.
+ * Si el origen no se conoce, origenPendiente añade «origen pendiente».
+ */
+import Pendiente from "./Pendiente.astro";
+interface Props {
+  texto: string;
+  autor?: string;
+  fuente?: string;
+  url?: string;
+  fecha?: string;
+  origenPendiente?: boolean;
+}
+const { texto, autor, fuente, url, fecha, origenPendiente = false } = Astro.props;
+---
+<figure class="tz-cita">
+  <blockquote cite={url}><p>«{texto}»</p></blockquote>
+  <figcaption>
+    {autor}{fuente && <>{autor ? ", " : ""}{url ? <a href={url}>{fuente}</a> : fuente}</>}{fecha && <> ({fecha})</>}{origenPendiente && <>. Origen: <Pendiente /></>}
+  </figcaption>
+</figure>

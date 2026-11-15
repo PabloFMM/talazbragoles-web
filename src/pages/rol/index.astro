@@ -1,0 +1,37 @@
+---
+/**
+ * /rol/ — Juegos de rol (PabloFM, 2026-11-15: la sección debe existir en el
+ * índice aunque aún tenga poco contenido). Su contenido lo concreta la
+ * tarjeta 2/5 del rediseño (t_d211a9fa). No afirmar nada sin fuente.
+ */
+import Layout from "../../layouts/Layout.astro";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+---
+
+<Layout
+  title="Juegos de rol"
+  description="Juegos de rol en el archivo de las Jornadas Talazbrágoles. Sección en preparación."
+  canonicalPath="/rol"
+>
+  <div class="tz-pagina">
+    <Encabezado
+      numero="06"
+      seccion="Rol"
+      titulo="Juegos de rol"
+      entradilla="Partidas, campañas y material de rol relacionados con el archivo."
+    />
+    <section class="tz-seccion" aria-label="Contenido de la sección">
+      <div class="tz-medida">
+        <Pendiente
+          etiqueta="Sección en preparación"
+          mensaje="Todavía no hay contenido documentado en esta sección."
+          pide="Si tienes material de partidas o campañas (hojas, módulos, programas), escríbenos."
+        />
+      </div>
+      <p class="tz-ref tz-medida" style="margin-top:var(--e-5)">
+        Los sistemas de juego que se jugaron en las Jornadas están en <a href="/sistemas">Sistemas</a>.
+      </p>
+    </section>
+  </div>
+</Layout>

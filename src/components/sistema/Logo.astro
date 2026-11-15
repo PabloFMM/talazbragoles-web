@@ -1,0 +1,12 @@
+---
+/**
+ * Logotipo tipográfico (PabloFM, 2026-11-15): «Talazbrágoles» grande en peso fino
+ * y «Archivo de las Jornadas» debajo en pequeño. Enlaza a la portada.
+ */
+interface Props { href?: string }
+const { href = "/" } = Astro.props;
+---
+<a href={href} class="tz-logo" aria-label="Talazbrágoles · Archivo de las Jornadas (portada)">
+  <span class="tz-logo-nombre">Talazbrágoles</span>
+  <span class="tz-logo-sub">Archivo de las Jornadas</span>
+</a>

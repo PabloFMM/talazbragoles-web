@@ -1,0 +1,12 @@
+---
+/**
+ * Estado documental (mismos valores que el esquema de ediciones).
+ * Círculo lleno = documentada, medio = parcial, vacío = pendiente; siempre con texto.
+ */
+interface Props {
+  estado: "documentada" | "parcial" | "pendiente";
+}
+const { estado } = Astro.props;
+const texto = { documentada: "Documentada", parcial: "Parcial", pendiente: "Pendiente" }[estado];
+---
+<span class:list={["tz-estado", `tz-estado--${estado}`]}>{texto}</span>

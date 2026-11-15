@@ -44,7 +44,7 @@ src/
 │   ├── editions/           # EditionCard, EditionDetail
 │   └── sources/            # SourceCard
 ├── layouts/
-│   └── Layout.astro        # Layout único (nav sticky + footer)
+│   └── Layout.astro        # Layout único (cabecera, índice sin JS, pie-colofón)
 ├── lib/
 │   ├── nav.ts              # mainNav (secciones) y homeNav (anclas)
 │   └── collections.ts      # Helpers tipados: getAllEditions(), getAllSources(), etc.
@@ -58,10 +58,14 @@ src/
 │   │   └── index.astro     # Línea temporal
 │   ├── sistemas/
 │   │   └── index.astro     # Catálogo de sistemas
-│   └── personas/
-│       └── index.astro     # Directorio de personas
+│   ├── personas/
+│   │   └── index.astro     # Directorio de personas
+│   ├── rol/
+│   │   └── index.astro     # Juegos de rol (poco contenido: bloque «pendiente»)
+│   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
-    └── global.css          # Solo importa Tailwind
+    ├── global.css          # Tailwind + @theme (familias)
+    └── sistema.css         # Sistema de diseño: tokens y componentes tz-
 ```
 
 ---
@@ -174,18 +178,21 @@ Texto biográfico en Markdown.
 - El asesor NO se edita a mano: se genera con `proyecto/tools/build-asesor.py` desde `proyecto/web/index.html`.
 - La clave de `localStorage` es `wowf-chaman-v1`. No cambiarla ni borrar campos del estado: los jugadores perderían sus datos.
 - Reglas de lectura de la sección (público de más de 50 años): texto ≥ 16 px, botones ≥ 48 px, contraste ≥ 7:1, sin animaciones. Estilos en `src/components/mmo/MmoStyles.astro`.
-- El menú de escritorio aparece desde 1280 px (`xl`): con 7 entradas no cabe antes.
+- El índice del sitio tiene 8 entradas (`src/lib/nav.ts`, con «Rol» → `/rol`). Por debajo de 1024 px es un `<details>` «Índice» (sin JS); desde 1024 px, una fila.
 - `proyecto/`: documentación, herramientas, pruebas y datos de trabajo. No se publica (está fuera de `public/`). Empezar por `proyecto/docs/ESTRUCTURA.md`.
 
 ---
 
 ## Reglas de diseño (no romper)
 
-- **Paleta**: solo B/N + papel (`--paper: #f4f0e6`, `--ink: #0f0f10`). El acento cian (`--accent: #00f5d4`) solo para estados interactivos (focus, hover de subrayados).
+- **Sistema «Papel y tinta»** (2026-11-15): leer `proyecto/docs/diseno.md` y ver `/diseno/` antes de maquetar. Tokens y componentes en `src/styles/sistema.css` (prefijo `tz-`) y `src/components/sistema/`.
+- **Paleta**: solo papel y tinta (`--papel: #f4f0e6`, `--tinta: #0f0f10`, `--tinta-2: #45413b` para texto secundario). Sin color de acento: los estados se marcan invirtiendo o engrosando filetes.
+- **Tipografías**: Archivo (texto e interfaz, sin remates) y Source Serif 4 (logotipo y titulares, peso fino), autoalojadas en `public/fonts/` (SIL OFL 1.1). Nada de fuentes externas.
+- **Mínimos**: texto ≥ 16 px, controles ≥ 48 px, contraste ≥ 7:1, sin animaciones ni transiciones. Nada de `text-xs`, `text-black/60`, `rounded-*`, sombras ni texturas.
 - **Sin JS en cliente**: no añadir `<script>` ni frameworks de UI (única excepción: el asesor, ver «Sección MMO»).
-- **Sin dorados ni gradientes de color**: estética fanzine/fotocopia.
-- **Accesibilidad**: mantener `aria-hidden` en decorativos, `focus-visible:ring`, `prefers-reduced-motion`.
-- **Tailwind v4**: no existe `tailwind.config.*`. Los tokens CSS están en el `<style is:global>` de `Layout.astro`.
+- **Estilo** (PabloFM, 2026-11-15): actual, limpio y elegante. Blanco y negro sobrio; nada de fotocopia, sellos, recortes, texturas, dorados ni degradados.
+- **Accesibilidad**: mantener `aria-hidden` en decorativos y el foco visible (contorno de tinta de 3 px, definido en `sistema.css`).
+- **Tailwind v4**: no existe `tailwind.config.*`. Los tokens CSS están en `src/styles/sistema.css`; `global.css` importa Tailwind y mapea `font-sans`/`font-serif` en `@theme`.
 
 ---
 
