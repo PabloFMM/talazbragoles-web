@@ -10,7 +10,8 @@ Quien trabaje en el proyecto (persona o IA) lee esto primero y después `README.
 | Fuentes nuevas del Archivo | Se publican como enlace + resumen propio. No se copian textos ni imágenes ajenos (no son de dominio público) | PabloFM (condición) + coordinación, 2026-11-14 |
 | Guías de profesiones | Sí: todas las profesiones de WoW Forever, una guía por profesión | PabloFM, 2026-11-14 |
 | Publicación | Hermes trabaja en ramas, fusiona con checks en verde y publica; PabloFM hace QA en producción | PabloFM, 2026-11-13 |
-| Dos estéticas | Fanzine B/N en todo el sitio, también en MMO y guías. Tema oscuro solo dentro del asesor | Coordinación, 2026-11-14 (reversible) |
+| Dos estéticas | ~~Tema oscuro solo dentro del asesor~~ → sustituida por «Rediseño» | Coordinación, 2026-11-14 |
+| Rediseño | Estilo (precisado por PabloFM 2026-11-15): «algo actual, limpio y elegante». Blanco y negro sobrio y contemporáneo, NO estética de fotocopia ni recortes; del fanzine se queda solo la paleta. En TODO el sitio, asesor incluido (se acaba el tema oscuro). Portada centrada en el Archivo de las Jornadas: arriba una frase que explique qué fueron las Jornadas y debajo las ediciones por año (PabloFM, 2026-11-15). Solo tipografía (no hay logo, fotos ni ilustraciones). Logotipo: «Talazbrágoles» grande y en peso fino, con «Archivo de las Jornadas» debajo en pequeño (PabloFM, 2026-11-15). La Barbarie/asesor/guías: una entrada más del menú («MMO») al mismo nivel que Ediciones o Cronología, sin bloque propio en portada (PabloFM, 2026-11-15). Solo modo claro (papel y tinta), sin modo oscuro (PabloFM, 2026-11-15). Debe existir una sección de JUEGOS DE ROL (`/rol/`) en el menú aunque aún tenga poco contenido (PabloFM, 2026-11-15; anula «no se publican páginas vacías» para `/rol/`). El estilo «fotocopia» y el acento cian de `repo/CLAUDE.md` quedan sustituidos: actualizar ese archivo. Sin webs de referencia | PabloFM, 2026-11-15 |
 | Una sola rama de publicación | Todo lo preparado va junto en `hermes/web-mmo` (un solo PR) | Coordinación, 2026-11-14 |
 | Archivo del proyecto | El repo guarda copia de todo el material de trabajo en `proyecto/` (no se publica) | PabloFM pide poder archivar; coordinación, 2026-11-14 |
 | JS en cliente | Prohibido en todo el sitio salvo UNA página: el asesor de La Barbarie | Coordinación, 2026-11-14 (reversible) |
@@ -62,6 +63,9 @@ Menú principal (hecho en rama): Inicio · Ediciones · Cronología · Sistemas 
 | `hermes/fuentes-archivo` | 2 fuentes, 5ª edición (1996, año deducido), 2 entradas de cronología | correcto (8 páginas) |
 
 | `hermes/web-mmo` | **Las tres anteriores + sección MMO completa + `proyecto/`.** Es la que se publica | correcto (21 páginas) |
+| `hermes/rediseno` | Desde `hermes/web-mmo`: sistema de diseño, Layout nuevo y `/diseno/` (tarjetas 1-5 del rediseño). Worktree en `repo-rediseno/` | correcto (22 páginas) |
+
+Tarjeta de publicación: `t_c67acf00` (un solo PR con `hermes/web-mmo`). Las tarjetas de CI, dominio, fuentes y guías solo comprueban su parte en producción.
 
 Todas esperan lo mismo: la GitHub App (tarjeta `t_29d0b62b`), que solo puede crear PabloFM con `docs/crear-github-app.html`.
 

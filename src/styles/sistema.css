@@ -224,7 +224,7 @@
     font-size: var(--t-logo);
     font-weight: var(--p-fino);
     font-optical-sizing: auto;
-    line-height: 0.95;
+    line-height: 1.1; /* deja sitio al trazo bajo de la «g» sobre el subtítulo */
     letter-spacing: -0.015em;
   }
   .tz-logo-sub {
