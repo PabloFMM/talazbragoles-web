@@ -49,6 +49,19 @@ Formato: dato · fuente · fecha de comprobación. Última revisión: 2026-11-13
 - Phantom Armory admite perfiles de Forever por nombre y apellido · AccountShark · 2026-11-13. No probado.
 - Búsqueda web de «Fissel Kasteaya»: sin resultados (2026-11-13).
 
+## Ayuda: comandos del chat (2026-11-15)
+- Lista de comandos de los archivos del cliente de Forever (build 1.60.1.70888): Zephras, https://zephras.com/forever/enUS/slash-command/ (178 comandos, 247 gestos). Estar en el cliente no garantiza que funcionen en los reinos.
+- En la web hay una selección (hablar, canales, hermandad, grupo y banda, social, utilidades). Se han dejado fuera los de sistemas de WoW actual (buscador de mazmorras y de bandas, combates de mascotas, modo edición, comentarista).
+- `/discord` y `/gf` están en el cliente; si funcionan: pendiente (Bind on Forever, artículo de hermandades).
+- Nombres en español: lista del foro europeo de Blizzard de 2006 (copia en bluetracker.gg). Sin comprobar en Forever.
+- Teclas Intro, / y R: Lore Forever, ajustes del chat (consultado el 2026-11-15).
+
+## Banco de hermandad y tabardo (2026-11-15)
+- El banco de hermandad existe: Wowhead, guía de bolsas y banco, actualizada el 2026-11-14 (con captura del juego). Antes del lanzamiento, Bind on Forever decía que no estaba en la beta. Ahora está confirmado.
+- Primera pestaña 100 de oro; diseñar el tabardo, 10 de oro. Lo dice un jugador en el foro oficial («Guild Bank Tab Cost», 2026-11-08). No es dato oficial.
+- Maestro de hermandad de Orgrimmar: Urtrun Clanbringer (43.6, 74.6). Vendedor de tabardos: Garyl (43.8, 74.2). Datos de Classic según Forevermastery.
+- Pendiente: precio de las demás pestañas, permisos, sitio de la cámara en Orgrimmar y precio del tabardo.
+
 ## Enlaces
 - https://worldofwarcraft.blizzard.com/news/24303009
 - https://news.blizzard.com/en-us/article/24315820/world-of-warcraft-forever-goes-live-globally-november-4

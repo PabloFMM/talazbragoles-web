@@ -1,6 +1,6 @@
 /* Auditoría de web/index.html. Se pega en la consola del navegador (o se evalúa con una herramienta)
    con la página servida (python3 -m http.server 8765 --directory web).
-   Recorre los 3 tamaños de letra × 8 secciones × 13 pestañas (60 vistas) y devuelve un JSON:
+   Recorre los 3 tamaños de letra × 8 secciones × 14 pestañas (63 vistas) y devuelve un JSON:
      { n: número de fallos, issues: [...], errs: errores de JS, checks: vistas revisadas }
    Comprueba en cada vista: sin scroll horizontal, texto visible >= 16 px, botones y campos >= 48 px,
    casillas >= 28 px. Solo mide elementos visibles.

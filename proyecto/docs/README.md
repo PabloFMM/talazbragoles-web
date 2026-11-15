@@ -31,7 +31,7 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - `inicio` → qué es el sitio y cómo se trabaja.
 - `archivo` → historia, ediciones, cronología, recuerdos, legado (contenido del repo Astro).
 - `rol` → Rol de mesa. Contenido: pendiente.
-- `mmo` → La Barbarie · WoW Forever: asesoría completa con 13 pestañas.
+- `mmo` → La Barbarie · WoW Forever: asesoría completa con 14 pestañas (la 13.ª, «Ayuda», tiene los comandos del chat, el banco de hermandad y el tabardo; 2026-11-15).
 - `juegos` → sección de juegos. Contenido: pendiente (falta definir).
 - `larp` → LARP (rol en vivo). Contenido: pendiente.
 - `eventos` → Eventos de rol (jornadas). Contenido: pendiente.
@@ -90,7 +90,7 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - Confirmaciones: «¿Seguro? Pulsa otra vez» (`confirma()`), nunca `confirm()`.
 
 ## Comprobación antes de publicar (repetida el 2026-11-13, tarde)
-- Herramienta: `tests/auditoria.js` (se evalúa en la página servida). Recorre 3 tamaños de letra × 8 secciones × 13 pestañas = 60 vistas.
+- Herramienta: `tests/auditoria.js` (se evalúa en la página servida). Recorre 3 tamaños de letra × 8 secciones × 14 pestañas = 63 vistas.
 - Anchos: 320, 360, 390, 414, 480, 540, 600, 640, 700, 768, 820, 900, 1024, 1100, 1280 y 1440 px.
 - Resultado: 0 fallos en las 960 vistas. Sin scroll horizontal, texto ≥ 16 px, botones y campos ≥ 48 px, casillas ≥ 28 px, 0 errores de JavaScript.
 - Probado a mano con `tests/subasta-prueba.csv`: subir CSV (con BOM, fila mala y nombre con apóstrofo), plan de inversión, compras por sufijo, buscador y «Usar», valor del almacén, meta de la montura, totales del libro, importación no válida, tamaños de letra, enlaces con `#`, estado antiguo con sección desconocida.
@@ -127,7 +127,8 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - El plan usa el precio más bajo de cada material para todas las unidades. Si se compran muchas, las últimas pueden salir más caras. Se avisa en pantalla.
 - Compras por sufijo: se busca el sufijo y el nivel entre paréntesis en el nombre. Probado solo con nombres de prueba; falta un CSV real.
 - La subida completa de precios del 2026-11-13 08:16 (2.991 objetos) no está disponible fuera del artifact de Claude: la web incluye solo un extracto con los precios clave de `comercio.md`. Pendiente de integrar.
-- Integrada (2026-11-13) una subida completa nueva de 3.823 objetos (AH1, recibida a las 21:27 UTC; hora de exportación pendiente). Es la que usa la web por defecto. Ver `datos.md`.
+- Integrada (2026-11-13) una subida completa de 3.823 objetos (AH1, recibida a las 21:27 UTC; hora de exportación pendiente). Ver `datos.md`.
+- Integrada (2026-11-15) una subida completa de 4.634 objetos (AH2, recibida a las 17:44 UTC; hora de exportación pendiente). Es la que usa la web por defecto. Ver `datos.md`.
 - La base de datos compartida (`db`) del artifact no está conectada en el prototipo: los CSV se guardan solo en este navegador (máximo 6).
 - La ficha de personajes del artifact (capturas base64) no está portada: campo `img` reservado en el estado.
 - El HTML real del artifact (slug `31c048d5-0dec-48aa-9c43-1bce5782e570`) no es accesible desde aquí: la sección MMO está reconstruida desde su documentación.
