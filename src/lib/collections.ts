@@ -43,3 +43,9 @@ export async function getAllGuides() {
   const all = await getCollection("guides");
   return all.sort((a, b) => a.data.profesion.localeCompare(b.data.profesion, "es"));
 }
+
+/** Campañas actuales del grupo (sección /rol/), sin borradores, por título. */
+export async function getAllCampaigns() {
+  const all = await getCollection("campaigns", ({ data }) => !data.draft);
+  return all.sort((a, b) => a.data.title.localeCompare(b.data.title, "es"));
+}

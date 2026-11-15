@@ -1,0 +1,80 @@
+---
+/** /rol/<slug>/: ficha de una campaña actual (colección «campaigns»). */
+import Layout from "../../layouts/Layout.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+import Migas from "../../components/archivo/Migas.astro";
+import { getAllCampaigns } from "../../lib/collections";
+import { estadoCampana } from "../../lib/formato";
+
+export async function getStaticPaths() {
+  const campanas = await getAllCampaigns();
+  return campanas.map((c) => ({ params: { slug: c.id }, props: { campana: c } }));
+}
+
+const { campana } = Astro.props;
+const { title, system, status, started, gm, summary, sessions, characters } = campana.data;
+const datos = [
+  { etiqueta: "Sistema", valor: system },
+  { etiqueta: "Estado", valor: estadoCampana[status] },
+  { etiqueta: "Desde", valor: started },
+  { etiqueta: "Dirige", valor: gm },
+];
+const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() === "";
+---
+
+<Layout title={title} description={summary ?? `Campaña de ${system}: sesiones y personajes.`} canonicalPath={`/rol/${campana.id}`}>
+  <div class="tz-pagina">
+    <div class="tz-encabezado" style="padding-bottom:0">
+      <Migas pasos={[{ texto: "Juegos de rol", href: "/rol" }, { texto: title }]} />
+    </div>
+    <header class="tz-encabezado" style="padding-top:var(--e-5)">
+      <p class="tz-antetitulo"><span class="tz-num">06</span><span>Campaña</span></p>
+      <h1 class="tz-titular">{title}</h1>
+      {summary && <p class="tz-entradilla">{summary}</p>}
+    </header>
+
+    <section class="tz-seccion" aria-labelledby="s-datos">
+      <Titulo id="s-datos" numero="01">Datos</Titulo>
+      <dl class="tz-datos tz-medida">
+        {datos.map((d) => <div><dt>{d.etiqueta}</dt><dd>{vacio(d.valor) ? <Pendiente /> : d.valor}</dd></div>)}
+      </dl>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-sesiones">
+      <Titulo id="s-sesiones" numero="02">Sesiones</Titulo>
+      {sessions.length > 0 ? (
+        <ol class="tz-lista-numerada tz-medida">
+          {sessions.map((s) => (
+            <li>
+              <div>
+                <p style="margin:0;font-weight:var(--p-semi)">{s.title ?? (s.n ? `Sesión ${s.n}` : "Sesión")}</p>
+                {s.date && <p class="tz-ref" style="margin:var(--e-1) 0 0">{s.date}</p>}
+                <p style="margin:var(--e-2) 0 0">{s.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay resúmenes de sesión." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-personajes">
+      <Titulo id="s-personajes" numero="03">Personajes</Titulo>
+      {characters.length > 0 ? (
+        <dl class="tz-datos tz-medida">
+          {characters.map((p) => (
+            <div><dt>{p.name}</dt><dd>{[p.player && `Lo lleva ${p.player}.`, p.description].filter(Boolean).join(" ") || <Pendiente />}</dd></div>
+          ))}
+        </dl>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay personajes registrados." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Todas las campañas</a>
+    </div>
+  </div>
+</Layout>

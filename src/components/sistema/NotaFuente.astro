@@ -13,15 +13,17 @@ interface Props {
   afirma?: string;
   reserva?: string;
   caido?: boolean;
+  /** Ancla (id de la fuente en la colección) para enlazarla desde otras páginas. */
+  id?: string;
 }
-const { n, titulo, url, tipo, fecha, consulta, afirma, reserva, caido = false } = Astro.props;
+const { n, titulo, url, tipo, fecha, consulta, afirma, reserva, caido = false, id } = Astro.props;
 const tipos: Record<string, string> = {
   testimonio: "Testimonio", prensa: "Prensa", "documento-oficial": "Documento oficial",
   "web-archivo": "Web archivada", foto: "Foto", video: "Vídeo", otro: "Otro",
 };
 const meta = [tipo && (tipos[tipo] ?? tipo), fecha, consulta && `consultada el ${consulta}`].filter(Boolean).join(" · ");
 ---
-<li class="tz-fuente">
+<li class="tz-fuente" id={id}>
   <span class="tz-fuente-n tz-num" aria-hidden="true">{String(n).padStart(2, "0")}</span>
   <div>
     <p class="tz-fuente-titulo">

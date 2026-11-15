@@ -1,34 +1,75 @@
 ---
+/**
+ * /personas/: fichas de la colección «people» (sin borradores).
+ * Hoy está vacía: estado «pendiente» y los testimonios anónimos que sí hay.
+ */
 import Layout from "../../layouts/Layout.astro";
-import { mainNav } from "../../lib/nav";
-import { getAllPeople } from "../../lib/collections";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Ficha from "../../components/sistema/Ficha.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+import { getAllPeople, getAllSources } from "../../lib/collections";
+import { anclaFuente } from "../../lib/formato";
 
-const people = await getAllPeople();
+const personas = (await getAllPeople()).sort((a, b) => a.data.name.localeCompare(b.data.name, "es"));
+const testimonios = (await getAllSources()).filter(
+  (s) => s.data.type === "testimonio" && s.data.tags.includes("menciona Talazbrágoles"),
+);
+const papel: Record<string, string> = {
+  organizador: "Organización", autor: "Autoría", disenador: "Diseño", ilustrador: "Ilustración",
+  jugador: "Juego", periodista: "Prensa", otro: "Otro",
+};
 ---
 
 <Layout
-  title="Personas · TALAZBRÁGOLES"
-  description="Organizadores, autores y figuras de la comunidad rolera que forman parte del legado Talazbrágoles."
+  title="Personas"
+  description="Personas de las Jornadas Talazbrágoles: organización, dirección de partidas y testimonios. Solo nombres con fuente."
   canonicalPath="/personas"
-  nav={mainNav}
 >
-  <div id="top" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
-    <header class="text-center max-w-3xl mx-auto">
-      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.22em] text-black uppercase">
-        PERSONAS
-      </h1>
-      <p class="mt-6 text-base sm:text-xl text-black/80 leading-relaxed">
-        Quienes organizaron, jugaron, diseñaron o dieron vida a las Talazbrágoles.
-        Solo aparecen nombres con fuente verificable.
-      </p>
-    </header>
+  <div class="tz-pagina">
+    <Encabezado
+      numero="05"
+      seccion="Archivo"
+      titulo="Personas"
+      entradilla="Quién organizó, dirigió partidas o jugó en las Jornadas. Solo aparece un nombre si una fuente lo da."
+    />
 
-    <div class="mt-16 rounded-3xl border border-black/15 bg-white/45 p-10 text-center">
-      <div class="text-xs uppercase tracking-[0.3em] text-black/60">Próximamente</div>
-      <p class="mt-3 text-black/80">
-        Esta sección se irá completando a medida que documentemos quiénes participaron.
-        {people.length > 0 && ` Ya hay ${people.length} ${people.length === 1 ? "persona" : "personas"} en el archivo.`}
-      </p>
-    </div>
+    <section class="tz-seccion" aria-labelledby="s-fichas">
+      <Titulo id="s-fichas" numero="01">Fichas</Titulo>
+      {personas.length > 0 ? (
+        <div class="tz-fichas">
+          {personas.map((p, i) => (
+            <Ficha
+              numero={String(i + 1).padStart(2, "0")}
+              titulo={p.data.name}
+              datos={[
+                { etiqueta: "Papel", valor: p.data.roles.map((r) => papel[r] ?? r).join(", ") },
+                { etiqueta: "Ediciones", valor: p.data.editionIds.length || undefined },
+                { etiqueta: "Fuentes", valor: p.data.sourceIds.length || undefined },
+              ]}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="tz-medida">
+          <Pendiente
+            mensaje="Todavía no hay ninguna persona con ficha: las fuentes reunidas no nombran a quienes organizaron las Jornadas ni a quienes dirigieron sus partidas."
+            pide="Ayudarían programas con nombres, créditos de La Runa o testimonios de quienes estuvieron."
+          />
+        </div>
+      )}
+    </section>
+
+    {testimonios.length > 0 && (
+      <section class="tz-seccion" aria-labelledby="s-testimonios">
+        <Titulo id="s-testimonios" numero="02">Testimonios recogidos</Titulo>
+        <p class="tz-medida" style="margin:0 0 var(--e-5)">Personas que cuentan que estuvieron. Sin ficha propia: el archivo no recoge sus nombres.</p>
+        <ol class="tz-lista-numerada tz-medida">
+          {testimonios.map((s) => (
+            <li><span>{s.data.asserts} <span class="tz-ref">(<a href={anclaFuente(s.id)}>{s.data.title}</a>)</span></span></li>
+          ))}
+        </ol>
+      </section>
+    )}
   </div>
 </Layout>

@@ -647,4 +647,148 @@
     text-decoration: none;
   }
   .tz-saltar:focus { top: var(--e-4); }
+
+  /* --- 4.16 Archivo (tarjeta 2/5): portada, migas, registro de ediciones, cronología --- */
+  /* Frase de portada: qué fueron las Jornadas (es el h1) */
+  .tz-portada-frase {
+    margin: 0;
+    max-width: 22em;
+    font-family: var(--letra-titular);
+    font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3.5rem);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.16;
+    letter-spacing: -0.012em;
+    text-wrap: pretty;
+  }
+  .tz-portada-ref { margin: var(--e-5) 0 0; max-width: var(--medida); }
+
+  /* Migas: «Ediciones › 1996» (enlaces de 48 px) */
+  .tz-migas { margin: 0 0 var(--e-2); }
+  .tz-migas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--e-3); }
+  .tz-migas li { display: flex; align-items: center; gap: var(--e-3); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-migas li + li::before { content: "›"; color: var(--tinta-2); }
+  .tz-migas a { display: inline-flex; align-items: center; min-height: var(--toque); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+  /* Enlace de bloque con flecha (48 px de alto), p. ej. «Ver ficha ›» fuera de una Ficha */
+  .tz-enlace-bloque {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-enlace-bloque span:first-child { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  .tz-enlace-bloque:hover span:first-child { text-decoration-thickness: 2px; }
+
+  /* Registro de ediciones por año: año grande a la izquierda, datos a la derecha */
+  .tz-registro { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-registro-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-2) var(--medianil);
+    padding-block: var(--e-5) var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-registro-ano {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+    font-weight: var(--p-fino);
+    font-variant-numeric: lining-nums;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .tz-registro-ano--pendiente {
+    font-family: var(--letra-texto);
+    font-size: var(--t-1);
+    font-weight: var(--p-normal);
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  .tz-registro-titulo {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-registro-titulo { font-size: 1.75rem; } }
+  .tz-registro-titulo a { color: inherit; text-decoration: none; }
+  .tz-registro-titulo a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .tz-registro-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-1) var(--e-5);
+    margin: var(--e-3) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+  }
+  .tz-registro-meta .tz-estado { color: var(--tinta); }
+  .tz-registro-texto { margin: var(--e-3) 0 0; max-width: var(--medida); color: var(--tinta-2); font-size: var(--t-0); line-height: 1.55; }
+  .tz-registro-pie { margin-top: var(--e-2); }
+  @media (min-width: 48rem) {
+    .tz-registro-fila { grid-template-columns: 11rem minmax(0, 1fr); padding-block: var(--e-6) var(--e-4); }
+    .tz-registro-ano--pendiente { padding-top: var(--e-2); }
+  }
+
+  /* Cronología: fecha a la izquierda, hecho a la derecha */
+  .tz-crono { list-style: none; margin: 0; padding: 0; }
+  .tz-crono-entrada {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-2) var(--medianil);
+    padding-block: var(--e-5);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-crono-entrada:first-child { border-top-color: var(--tinta); }
+  .tz-crono-fecha { margin: 0; }
+  .tz-crono-ano {
+    display: block;
+    font-family: var(--letra-titular);
+    font-size: var(--t-4);
+    font-weight: var(--p-fino);
+    font-variant-numeric: lining-nums;
+    line-height: 1;
+  }
+  .tz-crono-dia { display: block; margin-top: var(--e-2); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-crono-titulo {
+    margin: var(--e-2) 0 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .tz-crono-cuerpo > p { margin: var(--e-3) 0 0; max-width: var(--medida); }
+  .tz-crono-cuerpo .tz-registro-meta { margin-top: 0; }
+  @media (min-width: 48rem) {
+    .tz-crono-entrada { grid-template-columns: 11rem minmax(0, 1fr); padding-block: var(--e-6); }
+  }
+
+  /* Resumen de secciones (portada, «Más del archivo»): menos peso que las ediciones */
+  .tz-resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--e-7) var(--medianil);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tz-resumen > li { display: flex; flex-direction: column; border-top: var(--f-fino) solid var(--tinta); padding-top: var(--e-3); }
+  .tz-resumen h3 { margin: 0; font-family: var(--letra-titular); font-size: var(--t-2); font-weight: var(--p-normal); line-height: 1.25; }
+  .tz-resumen p { flex: 1; margin: var(--e-2) 0 0; color: var(--tinta-2); font-size: var(--t-0); line-height: 1.55; }
+  .tz-resumen .tz-enlace-bloque { margin-top: var(--e-2); }
+
+  /* Recuento en línea y fila de botones */
+  .tz-recuento { margin: var(--e-5) 0 0; font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-acciones { display: flex; flex-wrap: wrap; gap: var(--e-4); margin-top: var(--e-7); }
 }

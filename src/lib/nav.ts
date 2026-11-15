@@ -11,14 +11,3 @@ export const mainNav: NavItem[] = [
   { label: "MMO",        href: "/mmo"        },
   { label: "Fuentes",    href: "/fuentes"    },
 ];
-
-/** Navegación de la home (anclas internas). */
-export const homeNav: NavItem[] = [
-  { label: "Inicio",          href: "/#top"       },
-  { label: "Historia",        href: "/#historia"  },
-  { label: "Ediciones",       href: "/#ediciones" },
-  { label: "Recuerdos",       href: "/#red"       },
-  { label: "MMO",             href: "/mmo"        },
-  { label: "Fuentes",         href: "/fuentes"    },
-  { label: "El Legado",       href: "/#legado"    },
-];

@@ -39,17 +39,17 @@ src/
 │   ├── systems/            # Sistemas de rol (.md / .mdx)
 │   └── timeline/           # Eventos cronológicos (.json)
 ├── components/
-│   ├── ui/                 # Átomos: Badge, SourceRef, PendingBanner
-│   ├── home/               # Secciones de la homepage
-│   ├── editions/           # EditionCard, EditionDetail
-│   └── sources/            # SourceCard
+│   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
+│   ├── archivo/            # RegistroEdiciones (ediciones por año), Migas
+│   └── mmo/                # MmoStyles
 ├── layouts/
 │   └── Layout.astro        # Layout único (cabecera, índice sin JS, pie-colofón)
 ├── lib/
-│   ├── nav.ts              # mainNav (secciones) y homeNav (anclas)
-│   └── collections.ts      # Helpers tipados: getAllEditions(), getAllSources(), etc.
+│   ├── nav.ts              # mainNav (8 secciones)
+│   ├── formato.ts          # Fechas parciales, etiquetas, anclas de fuente (solo presentación)
+│   └── collections.ts      # Helpers tipados: getAllEditions(), getAllSources(), getAllCampaigns()…
 ├── pages/
-│   ├── index.astro         # Home (usa componentes home/)
+│   ├── index.astro         # Portada: frase de qué fueron las Jornadas + ediciones por año
 │   ├── fuentes.astro       # Listado de fuentes
 │   ├── ediciones/
 │   │   ├── index.astro     # Listado de ediciones
@@ -61,7 +61,8 @@ src/
 │   ├── personas/
 │   │   └── index.astro     # Directorio de personas
 │   ├── rol/
-│   │   └── index.astro     # Juegos de rol (poco contenido: bloque «pendiente»)
+│   │   ├── index.astro     # Juegos de rol: campañas ACTUALES del grupo (colección campaigns)
+│   │   └── [slug].astro    # Ficha de campaña: sesiones y personajes
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
     ├── global.css          # Tailwind + @theme (familias)
@@ -107,6 +108,12 @@ Archivos Markdown en `src/content/guides/`. Frontmatter: `profesion`, `slug`, `t
 Archivos JSON en `src/content/timeline/`.
 
 Campos clave: `date` (ISO 8601 o parcial: `"1994"`, `"1994-05"`), `precision`, `title`, `category`, `sourceIds[]`, `verified`.
+
+### `campaigns` — Campañas actuales del grupo (sección `/rol/`)
+
+Archivos JSON en `src/content/campaigns/` (hoy vacía: no inventar campañas ni personajes). Distinto de `systems`, que es lo jugado en las Jornadas históricas.
+
+Campos: `title`, `system`, `status` (`en-curso` | `en-pausa` | `terminada` | `pendiente`), `started`, `gm`, `summary`, `sessions[]` (`n`, `date`, `title`, `summary`), `characters[]` (`name`, `player`, `description`), `draft`.
 
 ---
 

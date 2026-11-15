@@ -1,0 +1,13 @@
+---
+/** Migas de pan: enlaces de 48 px separados por «›»; el último paso no enlaza. */
+interface Paso { texto: string; href?: string }
+interface Props { pasos: Paso[] }
+const { pasos } = Astro.props;
+---
+<nav class="tz-migas" aria-label="Estás en">
+  <ol>
+    {pasos.map((p, i) => (
+      <li>{p.href && i < pasos.length - 1 ? <a href={p.href}>{p.texto}</a> : <span aria-current="page">{p.texto}</span>}</li>
+    ))}
+  </ol>
+</nav>

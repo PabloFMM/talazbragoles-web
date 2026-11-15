@@ -173,4 +173,40 @@ const guides = defineCollection({
   }),
 });
 
-export const collections = { sources, editions, people, systems, timeline, guides };
+// ─── 7. campaigns — partidas y campañas ACTUALES del grupo (sección /rol/) ──
+// Distinto de «systems» (lo jugado en las Jornadas históricas). PabloFM, 2026-11-15.
+// Nada inventado: sin datos de una campaña, no se crea el archivo.
+
+const campaigns = defineCollection({
+  loader: glob({ pattern: "**/*.json", base: "./src/content/campaigns" }),
+  schema: z.object({
+    title: z.string(),
+    system: z.string(),
+    status: z.enum(["en-curso", "en-pausa", "terminada", "pendiente"]).default("pendiente"),
+    started: z.string().optional(),        // ISO o parcial: "2026", "2026-09"
+    gm: z.string().optional(),             // quien dirige
+    summary: z.string().optional(),        // de qué va la campaña
+    sessions: z
+      .array(
+        z.object({
+          n: z.number().int().optional(),
+          date: z.string().optional(),
+          title: z.string().optional(),
+          summary: z.string(),
+        })
+      )
+      .default([]),
+    characters: z
+      .array(
+        z.object({
+          name: z.string(),
+          player: z.string().optional(),
+          description: z.string().optional(),
+        })
+      )
+      .default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { sources, editions, people, systems, timeline, guides, campaigns };

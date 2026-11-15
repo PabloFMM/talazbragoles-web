@@ -71,7 +71,16 @@ Pesos: `--p-fino` 300 (logotipo y titulares grandes; en tinta pura cumple 16,8:1
 | `Estado` (`estado`: documentada, parcial, pendiente) | `tz-estado--*` | Marca de estado: cuadro lleno / medio / vacío + texto. Mismos valores que el esquema de ediciones |
 | `Pendiente` (`mensaje`, `pide`, `etiqueta`) | `tz-pendiente` (en línea), `tz-hueco` (bloque) | Sin props: etiqueta en línea. Con `mensaje`/`pide`: bloque digno para secciones con poco contenido (lo usa `/rol/`) |
 | `Cita` (`texto`, `autor`, `fuente`, `url`, `fecha`, `origenPendiente`) | `tz-cita` | Cita en Source Serif cursiva con atribución obligatoria; si no se sabe el origen, `origenPendiente` |
-| `NotaFuente` (`n`, `titulo`, `url`, `tipo`, `fecha`, `consulta`, `afirma`, `reserva`, `caido`) | `tz-fuentes` (el `<ol>`), `tz-fuente*` | Nota numerada con tipo, fechas, «Dice:» (`asserts`) y «Reservas:». Recibe los campos de la colección `sources` |
+| `NotaFuente` (`n`, `titulo`, `url`, `tipo`, `fecha`, `consulta`, `afirma`, `reserva`, `caido`, `id`) | `tz-fuentes` (el `<ol>`), `tz-fuente*` | Nota numerada con tipo, fechas, «Dice:» (`asserts`) y «Reservas:». Recibe los campos de la colección `sources`. `id` = id de la fuente: en `/fuentes/` cada nota es el ancla `/fuentes#<id>` a la que enlazan las demás páginas |
+
+### Componentes del Archivo (`src/components/archivo/`, tarjeta 2/5)
+| Componente (props) | Clases | Qué hace |
+|---|---|---|
+| `RegistroEdiciones` (`ediciones`, `conTexto`, `nivel`) | `tz-registro`, `tz-registro-*` | Ediciones por año: año grande en serif fino a la izquierda (desde 768 px), título, estado, sede y nº de fuentes. Año desconocido = «Año pendiente», al final. `conTexto` añade la descripción (en `/ediciones/`) |
+| `Migas` (`pasos[]`) | `tz-migas` | «Ediciones › 1996». Enlaces de 48 px; el último paso no enlaza |
+
+Clases nuevas (`sistema.css` §4.16): `tz-portada-frase` (h1 de portada: la frase que explica las Jornadas), `tz-portada-ref`, `tz-enlace-bloque` («Ver ficha ›», 48 px), `tz-crono`/`tz-crono-*` (cronología: fecha a la izquierda), `tz-resumen` (bloques de menos peso de la portada), `tz-recuento`, `tz-acciones`.
+Formato compartido (sin datos): `src/lib/formato.ts` (`partesFecha`, etiquetas de categoría y estado, `plural`, `anclaFuente`).
 
 Otras clases: `tz-rotulo`, `tz-subtitulo`, `tz-lista-numerada`, `tz-prosa` (texto y Markdown), `tz-enlace`, `tz-boton`, `tz-boton--tinta`, `tz-ref` (referencia corta «Fuente: …»), `tz-medida`, `tz-seccion`.
 Prefijo `tz-` obligatorio (`z-` es de Tailwind).
@@ -109,9 +118,19 @@ Tailwind sigue disponible para maquetar (`grid`, `gap-*`…), pero tamaños de l
 - Pasar cada ancho dos veces: índice cerrado y abierto (`details.open=true`).
 - 16 anchos: 320, 360, 390, 414, 480, 540, 600, 640, 700, 768, 820, 900, 1024, 1100, 1280, 1440.
 
-Resultado 2026-11-15 (tarjeta 1/5): `/diseno/`, `/rol/`, `/mmo/`, `/mmo/wow-forever/` y guías: 0 fallos en los 16 anchos, índice abierto y cerrado. Capturas a 360 y 1280 revisadas. Las páginas del Archivo (`/`, `/ediciones/`, `/fuentes/`, `/cronologia/`, `/personas/`, `/sistemas/`) aún usan sus componentes antiguos (tarjeta 2/5): letra de 10–14 px de utilidades Tailwind y desbordamiento en la portada (Hero antiguo, tabla `min-w-[760px]`).
+Resultado 2026-11-15 (tarjeta 1/5): `/diseno/`, `/rol/`, `/mmo/`, `/mmo/wow-forever/` y guías: 0 fallos en los 16 anchos, índice abierto y cerrado. Capturas a 360 y 1280 revisadas.
+
+Resultado 2026-11-15 (tarjeta 2/5): Archivo rehecho. `/`, `/ediciones/`, las 2 fichas de edición, `/cronologia/`, `/personas/`, `/sistemas/`, `/fuentes/`, `/rol/`, `/diseno/`, `/mmo/` y `/mmo/wow-forever/`: 384 vistas (12 páginas × 16 anchos × índice cerrado/abierto), 0 fallos. La auditoría mide ahora también `.tz-migas a` y `.tz-enlace-bloque` (≥ 48 px). Capturas a 360 y 1280 revisadas.
+
+## 8 bis. Páginas del Archivo (tarjeta 2/5)
+- Portada (PabloFM, 2026-11-15): antetítulo «Qué fueron las Jornadas», UNA frase como `h1` sacada de la fuente `rol-de-los-90-la-runa-2018` (con su referencia y «fuente secundaria, año deducido» debajo), ediciones por año (`RegistroEdiciones`) y, con menos peso, «Más del archivo» (cronología, fuentes, sistemas, personas). Inicio y fin de las Jornadas: «pendiente».
+- `/ediciones/`: recuento por estado, registro con descripción y «Lo que falta». `/ediciones/<slug>/`: migas, datos (vacíos = «pendiente»), «Lo que cuentan las fuentes», actividades, notas de fuente y entradas de cronología.
+- `/cronologia/`: cada entrada con ancla `#<id>`, fuente enlazada a `/fuentes#<id>` y edición relacionada.
+- `/personas/` y `/sistemas/`: colecciones vacías → bloque `Pendiente` digno. Personas lista los testimonios anónimos; Sistemas, los juegos que nombran las fuentes (Magic, SATM, Doom, cartas de Star Trek), cada uno con su fuente y la aclaración de que no son de rol.
+- `/fuentes/`: «Nombran las Talazbrágoles» (etiqueta `menciona Talazbrágoles`) y «Contexto»; «Qué buscamos». Canal para enviar material: «pendiente» (no existe; no se escribe «escríbenos» sin canal).
+- `/rol/`: campañas ACTUALES del grupo (colección `campaigns`: `title`, `system`, `status` en-curso/en-pausa/terminada/pendiente, `started`, `gm`, `summary`, `sessions[]` {n, date, title, summary}, `characters[]` {name, player, description}, `draft`), ficha en `/rol/<slug>/`. Hoy vacía: estado «pendiente».
 
 ## 9. Pendiente para las tarjetas siguientes
-- 2/5 (`t_d211a9fa`): portada = Archivo de las Jornadas y páginas del Archivo con estos componentes; contenido de `/rol/`; retirar `components/home/*`, `ui/Badge`, `ui/PendingBanner`, `ui/SourceRef` y `homeNav` si ya no hacen falta.
+- 2/5 (`t_d211a9fa`): HECHO (ver §8 bis). Retirados `components/home/*`, `components/ui/*`, `EditionCard`, `SourceCard` y `homeNav`. Queda: la edición `talazbragoles-sin-fecha-1` lleva sede «Majadahonda», pero su fuente (Comunidad Umbría) solo dice «en la Talazbrágoles y en la Casa de la Juventud de Majadahonda»: revisar el dato (decisión de contenido, no de diseño). El pie del Layout dice «aquí lo cuidamos» sin canal de contacto.
 - Asesor (`public/mmo/wow-forever/asesor/`, generado) y `MmoStyles.astro`: pasar a tokens `tz-`, misma cabecera y menú, quitar el tema oscuro.
 - `/og.png` sigue sin existir (solo tipografía: si se hace, el logotipo en Source Serif 4 fino sobre papel).
