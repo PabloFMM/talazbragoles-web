@@ -1,6 +1,6 @@
 # Pestaña Comercio: reglas y cálculos
 
-Última revisión: 2026-11-13.
+Última revisión: 2026-11-15.
 
 ## Reglas de la subasta de Forever
 - Comisión al vender: 5 %. Fuente: EpicCarry. Comprobado: 2026-11-13.
@@ -19,9 +19,10 @@
 - Las reglas de la subasta (comisión, depósito, presupuesto, precio por unidad).
 - Subidas de precios: lista con fecha, origen y antigüedad; subir CSV.
 - ¿En qué invierto ahora?: plan con el presupuesto en plata.
-- Resultado documentado del 2026-11-13 08:16 con 25 de plata (referencia, con fuente).
-- Qué ha cambiado: comparación con la subida anterior.
-- Buscar un precio: buscador con botón «Usar» (rellena calculadora y libro).
+- Resultado documentado de AH2 (2026-11-15 17:44) con 25 de plata (referencia, con fuente).
+- Qué ha cambiado: comparación con la subida anterior, con filtro y buscador.
+- Tus anuncios: filas marcadas «Sí» en «¿Propiedad?».
+- Buscar un precio: buscador con precio de la subida anterior y cambio; botón «Usar» (rellena calculadora y libro).
 - ¿Vendo el material o lo trabajo?: tabla por receta.
 - Compras que te sirven a tu nivel.
 - Calculadoras: subasta o vendedor; fabricar o vender.
@@ -31,7 +32,7 @@
 - Fundir cobre: 1 mineral de cobre → 1 lingote. Minería 1.
 - Fundir estaño: 1 mineral de estaño → 1 lingote. Minería 65.
 - Fundir bronce: 1 lingote de cobre + 1 de estaño → 2 lingotes de bronce. Minería 65. El «2» es de Forever.
-- Tornillos de cobre: 1 lingote de cobre → 1. Ingeniería 30.
+- Tornillos de cobre: 1 lingote de cobre → 1 «Un puñado de tornillos de cobre» (nombre en la subasta; antes se buscaba «Tornillos de cobre» y salía «precio pendiente»). Ingeniería 30.
 - Pólvora férrea: 1 piedra basta → 1. Ingeniería 1.
 - Pólvora burda: 1 piedra burda → 1. Ingeniería 75.
 - Piedra de afilar férrea: 1 piedra basta → 1. Herrería 1.
@@ -86,10 +87,50 @@
 - Precios clave en AH1: mineral de cobre 94; lingote de cobre 90; lingote de estaño 100 (167 a la venta); lingote de bronce 189; piedra basta 10; pólvora férrea 19; paño de lino 20; bolsa de lino 201 (cobre por unidad).
 - «Qué ha cambiado» no compara AH1 con el extracto AH0 (el extracto no tiene disponibilidad). Habrá comparación desde la siguiente subida completa.
 
+## Resultado con la subida AH2 (4.634 objetos, recibida 2026-11-15 17:44 UTC) y 25 de plata
+- Con las habilidades apuntadas (Minería 56): comprar 86 piedras bastas (3 pl. 44) → 86 pólvoras férreas. Recupera 12 pl. 26, ganancia 8 pl. 82. Sobran 21 pl. 56. Limitado por el 15 % de las 579 pólvoras a la venta.
+- Con Minería 65 (regresión, vale para AH2): 86 pólvoras (8 pl. 82) + 8 lingotes de cobre y 8 de estaño (19 pl. 84) → 16 de bronce (7 pl. 6) + 1 mineral de estaño → 1 lingote (18 cobre). Invierte 24 pl. 75, recupera 40 pl. 81, ganancia 16 pl. 6.
+- Precios clave en AH2 (cobre por unidad, entre paréntesis a la venta): mineral de cobre 85 (1.143, propio); lingote de cobre 74 (1.980); mineral de estaño 147 (1.800); lingote de estaño 174 (1.102); lingote de bronce 177 (3.528); piedra basta 4 (3.976); pólvora férrea 15 (579); paño de lino 23 (3.671); bolsa de lino 213 (151).
+- «Qué ha cambiado» compara ya AH2 con AH1.
+
+## Resultado con AH3 (4.731 objetos, 2026-11-15 21:15 UTC), Minería 80, Ingeniería 43 (valores por defecto) y 25 de plata
+- 12 puñados de tornillos (14 pl. 1), 10 lingotes de bronce (4 pl. 65) y 7 pólvoras (2 cobre). Invierte 24 pl. 97, recupera 43 pl. 65, ganancia 18 pl. 68.
+- AH2 → AH3: 142 cambios ≥15 % (101 bajan, 41 suben); 7 de «lo que te importa».
+
 ## Cambios entre subidas
 - Solo objetos con 20 o más a la venta en las dos subidas.
 - Solo cambios del 15 % o más.
 - Baja: mejor comprar que vender. Sube: mejor vender que comprar.
+- Solo entre dos subidas completas (el extracto no cuenta). Se compara el precio más bajo de cada nombre (`ahIdx`) y las unidades totales.
+- Arriba, resumen: cuántos objetos cambian, cuántos bajan y cuántos suben.
+- Filtro «Mostrar» (2026-11-15):
+  - «Lo que te importa» (por defecto): materiales y resultados de `RECETAS`, almacén y libro (`nombresMios`).
+  - «Lo que baja», «Lo que sube», «Todo».
+- Filtro por nombre (parte del nombre).
+- Orden: del cambio más grande al más pequeño. Se muestran 25; botón «Mostrar los N» para verlos todos.
+- Columna «A la venta (antes → ahora)».
+- Resultado con AH1 → AH2: 357 objetos cambian (239 bajan, 118 suben); 12 de «lo que te importa».
+- Aviso fijo: con dos subidas no se sabe si el cambio durará.
+
+## Buscar un precio
+- Si hay subida anterior completa: columnas «Subida anterior» (o «no estaba») y «Cambio».
+
+## Oportunidades: comprar barato y revender (2026-11-15)
+- Usa todas las subidas completas (`ahCompletas()`); hacen falta 3 o más.
+- Condiciones: no es equipo con sufijo; está en todas las subidas; 30 o menos a la venta ahora; comprarlo todo (precio más bajo × unidades, es un mínimo) cabe en «Tengo para invertir»; precio de ahora × 1,3 ≤ el más bajo de los precios de las subidas anteriores (cambiado de mediana a mínimo el 2026-11-15: la mediana se disparaba con anuncios caros aislados).
+- «Revender a» = el más bajo de los precios de las subidas anteriores. Ganancia = revender × unidades × (1 − comisión) − comprarlo todo. Sin depósitos.
+- Orden: más ganancia primero; 15 filas como máximo. Filtro «Todo» / «Lo que te importa».
+- Límites: la exportación no dice quién vende ni cuánto se vende. Con 3 subidas la mediana sale de 2 precios y un anuncio caro aislado la dispara (p. ej. «1 oro → 10 pl. → 10 pl.»): revisar la columna de historial antes de comprar.
+- Con AH1–AH3 (regla de mínimo): 10 candidatos con hasta 1 oro, casi todos recetas y patrones de nicho; el mayor, «Fórmula: Encantar torso: intelecto menor» (15 a 6 pl., antes 20 y 12 pl.).
+
+## Tus anuncios
+- Filas de la subida más reciente con «Sí» en «¿Propiedad?»: precio más bajo, unidades totales, subida anterior y cambio.
+- Qué significa exactamente «Sí» (si el precio más bajo es el tuyo o solo que tienes algo puesto): pendiente de confirmar.
+- Con AH2: 9 filas.
+
+## Plan en la pestaña Hoy
+- Se calcula en vivo con `planCalc()` (el mismo cálculo que Comercio) sobre la subida más reciente y el presupuesto apuntado. Antes era un texto fijo del 2026-11-13.
+- Con AH2, Minería 56 y 25 de plata: fabricar 86 pólvoras férreas, invertir 3 pl. 44 y ganar 8 pl. 82.
 
 ## Compras de equipo
 - Sufijos buenos para chamán Mejora: del gorila, de fuerza, del jabalí, del oso, del tigre, de poder.

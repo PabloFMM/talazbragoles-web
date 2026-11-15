@@ -10,10 +10,11 @@ Hace tres cosas:
 3. Copia docs, tools, tests, data, IDEA.md y web/index.html  →  repo/proyecto/  (archivo; no se publica)
 Después: `npm run build` en el repo y commit.
 """
-import pathlib, shutil, subprocess, sys
+import os, pathlib, shutil, subprocess, sys
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
-REPO = RAIZ / 'repo'
+# TZ_REPO=<ruta> apunta a otro clon o worktree (p. ej. repo-rediseno, rama hermes/rediseno).
+REPO = pathlib.Path(os.environ['TZ_REPO']).resolve() if os.environ.get('TZ_REPO') else RAIZ / 'repo'
 if not (REPO / 'astro.config.mjs').exists():
     sys.exit('No encuentro el clon en ' + str(REPO))
 rama = subprocess.run(['git', '-C', str(REPO), 'branch', '--show-current'], capture_output=True, text=True).stdout.strip()

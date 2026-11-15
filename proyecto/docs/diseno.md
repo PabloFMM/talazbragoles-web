@@ -157,5 +157,14 @@ Resultado 2026-11-15 (tarjeta 3/5): `/mmo/`, `/mmo/wow-forever/`, `/mmo/wow-fore
 ## 9. Pendiente para las tarjetas siguientes
 - 2/5 (`t_d211a9fa`): HECHO (ver §8 bis). Retirados `components/home/*`, `components/ui/*`, `EditionCard`, `SourceCard` y `homeNav`. Queda: la edición `talazbragoles-sin-fecha-1` lleva sede «Majadahonda», pero su fuente (Comunidad Umbría) solo dice «en la Talazbrágoles y en la Casa de la Juventud de Majadahonda»: revisar el dato (decisión de contenido, no de diseño). El pie del Layout dice «aquí lo cuidamos» sin canal de contacto.
 - 3/5 (`t_a2f1420e`): HECHO (ver §8 ter). `MmoStyles.astro` retirado.
-- 4/5: asesor (`public/mmo/wow-forever/asesor/`, generado desde `web/index.html`): pasar a tokens `tz-`, quitar el tema oscuro. Puede reutilizar el CSS de `tools/build-guias.py` (misma paleta y tamaños) y `.tz-tabla`.
+- 4/5 (`t_63deb1c3`): HECHO (ver §8 quater).
 - `/og.png` sigue sin existir (solo tipografía: si se hace, el logotipo en Source Serif 4 fino sobre papel).
+
+## 8 quater. Asesor de La Barbarie (tarjeta 4/5)
+- Fuente única: `web/index.html` (copia previa: `web/index-antes-rediseno.html`). El asesor del sitio (`public/mmo/wow-forever/asesor/index.html`) se GENERA con `tools/build-asesor.py` / `tools/sync-repo.py`; con el worktree del rediseño: `TZ_REPO=repo-rediseno python3 tools/sync-repo.py`.
+- Solo cambió el CSS (bloque `<style>` reescrito con los tokens de §2-§4) y dos retoques de marcado (logotipo «Talazbrágoles / Archivo de las Jornadas» en la cabecera; la frase de antigüedad de las subidas ya no habla de naranja/rojo). La lógica y la clave `wowf-chaman-v1` no se tocaron.
+- Las clases siguen siendo las del asesor (`card`, `asesor`, `btn`, `pill`…), SIN prefijo `tz-`: el JS genera esas clases en cientos de cadenas y renombrarlas sería tocar lógica. Equivalencias: `.card` = bloque con filete de tinta arriba (sin caja); `.asesor` y `.card.aviso` = `tz-nota` (papel-2 + filete de tinta de 2 px); `.pend` = `tz-hueco` con filete discontinuo; `.btn` = `tz-boton` (1 px de tinta, relleno al pasar); `.btn.onS` = `tz-boton--tinta`; tablas = `tz-tabla` (dentro de `.tscroll` se desplazan; no se apilan porque las genera el JS sin `data-etiqueta`).
+- Pestañas (`.wtabs`): rejilla `repeat(auto-fill,minmax(8em,1fr))`, celdas de 48 px con filete inferior; la actual en relleno de tinta. 2 columnas a 320-360 px, 7-8 desde 1280.
+- Marcas de estado sin color: `pill-ok` filete continuo, `pill-warn` discontinuo, `pill-bad` relleno de tinta; el texto siempre dice el estado. La gráfica de oro (`.charta`) pinta las barras en tinta desde CSS (pisa los `fill` del SVG).
+- Tipografías: `@font-face` a `/fonts/…` (sirven en el sitio); en `web/` local salen las de respaldo.
+- Auditoría: `tests/auditoria.js` mide ahora también el contraste ≥ 7:1 (mismo cálculo que `auditoria-sitio.js`). Resultado 2026-11-15: 1.008 vistas (3 tamaños de letra × 21 vistas × 16 anchos) con `tests/subasta-prueba.csv`, 0 fallos, 0 errores de JS; build del sitio auditado con `auditoria.js` sobre `/mmo/wow-forever/asesor/`. Regresión del plan con estado limpio idéntica a la de antes del cambio. Capturas a 360 y 1280 revisadas.

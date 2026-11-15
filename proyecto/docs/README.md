@@ -13,6 +13,7 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 
 ## Documentos
 - `ESTRUCTURA.md`: documento rector. Mapa del sitio, decisiones, reglas entre sesiones, ramas y fases. LEER PRIMERO.
+- `diseno.md`: sistema de diseño «Hoja de archivo» del sitio Astro (tokens, tipografías, componentes, auditoría). Muestrario en `/diseno/`.
 - `README.md`: este índice.
 - `guias/`: guías de profesiones de WoW Forever (`_REGLAS.md` formato y normas, `_ESTADO.md` estado de revisión).
 - `datos.md`: modelo de datos (localStorage, formato CSV de la subasta, extracto AH0).
@@ -76,17 +77,18 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - Nombres de objetos: los del cliente en español.
 
 ## Estilo
-- Dos estéticas documentadas:
-  - Archivo (fanzine): papel `#f4f0e6`, tinta `#0f0f10`, bordes de 2 px, serif.
-  - MMO La Barbarie (oscuro): fondo `#0e0908`, panel `#1c1210`, panel 2 `#2a1813`, borde `#5a2a1e`, texto `#f4e9d4`, secundario `#d2bfa0`, oro `#e7b552`, azul `#7fc0ee`, verde `#7fd27f`, naranja `#f0a050`, rojo claro `#ff8f80`.
-- Tipografía: Georgia/Palatino. Cuerpo 18 px (16 px con A−). Interlineado 1,6. Títulos en versalitas.
-- Cortes: 700 px y 1100 px. Primero móvil.
+- Una sola estética en todo el sitio, asesor incluido: sistema «Papel y tinta» (`docs/diseno.md`). El tema oscuro de La Barbarie se retiró el 2026-11-15 (tarjeta `t_63deb1c3`; copia previa en `web/index-antes-rediseno.html`).
+  - Papel `#f4f0e6`, papel-2 `#ebe5d8` (consejos del asesor, avisos, huecos), tinta `#0f0f10`, tinta-2 `#45413b` (notas, fuentes), filete `#b8b2a5` (solo filetes). Sin color de acento, sin esquinas redondeadas, sin sombras.
+  - Marcas de estado sin color (la palabra manda): `pill-ok` filete continuo, `pill-warn` filete discontinuo, `pill-bad` relleno de tinta; `.fill` engrosa el filete. `okL`/`warnL`/`badL`: tinta en negrita (`badL` subrayado).
+  - Pestañas: rejilla de celdas (2 columnas a 320-360 px, 7-8 desde 1280); la actual, en relleno de tinta.
+- Tipografía: Archivo (texto e interfaz) y Source Serif 4 (titulares, peso fino), servidas desde `/fonts/` del sitio; en `web/` local salen las de respaldo (Helvetica/Arial, Georgia). Cuerpo 18 px (16 px con A−, 21 con A+). Interlineado 1,6.
+- Cortes: 700 px y 768 px. Primero móvil. La cabecera no es fija.
 - Sin animaciones, sin transiciones, sin `alert`/`confirm`/`prompt`.
 
 ## Accesibilidad (obligatoria)
 - Texto ≥ 16 px. Botones y campos ≥ 48 px. Casillas ≥ 28 px.
-- Contraste ≥ 7:1 (verificado el 2026-11-13: 15 pares de color, todos ≥ 8:1 salvo ninguno por debajo de 7:1).
-- Foco visible: contorno de 3 px (cian en claro, oro en oscuro).
+- Contraste ≥ 7:1: desde el 2026-11-15 lo mide `tests/auditoria.js` en cada vista (tinta 16,8:1, tinta-2 8,9:1 sobre papel y 8,1:1 sobre papel-2).
+- Foco visible: contorno de tinta de 3 px separado 3 px.
 - Confirmaciones: «¿Seguro? Pulsa otra vez» (`confirma()`), nunca `confirm()`.
 
 ## Comprobación antes de publicar (repetida el 2026-11-13, tarde)
@@ -96,6 +98,7 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - Probado a mano con `tests/subasta-prueba.csv`: subir CSV (con BOM, fila mala y nombre con apóstrofo), plan de inversión, compras por sufijo, buscador y «Usar», valor del almacén, meta de la montura, totales del libro, importación no válida, tamaños de letra, enlaces con `#`, estado antiguo con sección desconocida.
 - Prueba de regresión del plan: con Minería 65, pólvora férrea ×415 a la venta y 25 de plata, sale exactamente el resultado documentado en `comercio.md` (62 pólvoras + 16 bronces; recupera 40 pl. 51 cobre).
 - No probado: descarga real del archivo de copia y portapapeles (dependen del navegador del jugador); un CSV real de 2.991 filas.
+- Repetida el 2026-11-15 tras el rediseño «Papel y tinta» (tarjeta `t_63deb1c3`): con `tests/subasta-prueba.csv` subido y datos en Almacén, Oro, Libro y Diario, 0 fallos en 1.008 vistas (63 × 16 anchos), ya con contraste ≥ 7:1 medido; 0 errores de JavaScript. Regresión del plan (estado limpio, AH4, valores por defecto y con Minería 65): texto idéntico al de antes del cambio (13 puñados de tornillos + 8 bronces + 8 pólvoras; invierte 24 pl. 92, recupera 41 pl. 85, ganancia 16 pl. 93).
 
 ## Cambios del 2026-11-13 (tarde)
 - Errores corregidos:
@@ -128,14 +131,15 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - Compras por sufijo: se busca el sufijo y el nivel entre paréntesis en el nombre. Probado solo con nombres de prueba; falta un CSV real.
 - La subida completa de precios del 2026-11-13 08:16 (2.991 objetos) no está disponible fuera del artifact de Claude: la web incluye solo un extracto con los precios clave de `comercio.md`. Pendiente de integrar.
 - Integrada (2026-11-13) una subida completa de 3.823 objetos (AH1, recibida a las 21:27 UTC; hora de exportación pendiente). Ver `datos.md`.
-- Integrada (2026-11-15) una subida completa de 4.634 objetos (AH2, recibida a las 17:44 UTC; hora de exportación pendiente). Es la que usa la web por defecto. Ver `datos.md`.
+- Integrada (2026-11-15) una subida completa de 4.634 objetos (AH2, recibida a las 17:44 UTC; hora de exportación pendiente). Ver `datos.md`.
+- Integrada (2026-11-15) AH3, 4.731 objetos, recibida a las 21:15 UTC. Es la que usa la web por defecto.
 - La base de datos compartida (`db`) del artifact no está conectada en el prototipo: los CSV se guardan solo en este navegador (máximo 6).
 - La ficha de personajes del artifact (capturas base64) no está portada: campo `img` reservado en el estado.
 - El HTML real del artifact (slug `31c048d5-0dec-48aa-9c43-1bce5782e570`) no es accesible desde aquí: la sección MMO está reconstruida desde su documentación.
 
 ## Producción (pendiente de permisos)
 - Riesgos antes de pasar a producción:
-  - Dos estéticas (fanzine claro + oscuro WoW): decidir si se unifican o se mantienen por sección.
+  - ~~Dos estéticas (fanzine claro + oscuro WoW)~~: unificadas en «Papel y tinta» el 2026-11-15 (rediseño 4/5).
   - Integrar el HTML real del artifact de Claude o mantener esta reimplementación.
   - Conectar la sincronización de precios (en el repo Astro haría falta un backend o un JSON versionado en el repo).
   - Dominio canonical: arreglado en local el 2026-11-13 (`astro.config.mjs`, `public/robots.txt`, `src/layouts/Layout.astro` → `https://www.talazbragoles.com`; `npm run build` correcto). Sin commit ni push. En producción sigue apuntando a `vercel.app` hasta que se publique.

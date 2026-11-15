@@ -12,12 +12,16 @@ Qué cambia respecto al prototipo:
 No cambia la clave de localStorage (wowf-chaman-v1) ni el estado.
 Cada sustitución debe casar el número exacto de veces; si no, el script falla.
 """
-import pathlib, re, sys
+import os, pathlib, re, sys
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 ORIGEN = RAIZ / 'web' / 'index.html'
 # Carpeta de trabajo: <raíz>/repo es el clon. Dentro del repo: esta carpeta es <repo>/proyecto.
-REPO = RAIZ / 'repo' if (RAIZ / 'repo').is_dir() else RAIZ.parent
+# TZ_REPO=<ruta> apunta a otro clon o worktree (p. ej. repo-rediseno).
+if os.environ.get('TZ_REPO'):
+    REPO = pathlib.Path(os.environ['TZ_REPO']).resolve()
+else:
+    REPO = RAIZ / 'repo' if (RAIZ / 'repo').is_dir() else RAIZ.parent
 DESTINO = REPO / 'public' / 'mmo' / 'wow-forever' / 'asesor' / 'index.html'
 SITIO = 'https://www.talazbragoles.com'
 

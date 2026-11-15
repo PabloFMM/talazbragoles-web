@@ -49,7 +49,18 @@
 - Copia literal del archivo: `data/subastas/2026-11-13_2127UTC_recibida.csv`. 3.823 filas, 0 malas.
 - Una fila repetida en el original: «Elixir de fuerza menor» (60 cobre, 70 y 159 unidades). Se dejan las dos; `dispDe` las suma.
 - 6 filas marcadas como propias («Sí»).
-- `AHB=[AH0,AH1]`: subidas incluidas. `ahUltima()` parte de la más reciente de `AHB` y la cambia por una local si es más nueva. `ahSegunda()` ordena `AHB` + locales.
+
+## AH2 (subida completa, la más reciente)
+- `id:"s2"`, `base:true`, `n:4634`, `por`: «PabloFM (CSV completo, hora de recepción)».
+- `ts`: 2026-11-15 17:44 UTC = hora en que llegó por chat. Hora real de exportación en el juego: pendiente.
+- Copia literal: `data/subastas/2026-11-15_1744UTC_recibida.csv`. 4.634 filas, 0 malas.
+- Fila repetida en el original: «Elixir de fuerza menor» (77 cobre ×142 y 25 cobre ×161). Se dejan las dos.
+- 9 filas marcadas como propias («Sí»), entre ellas Mineral de cobre ×1.143 a 85 cobre.
+- `AHB=[AH0,AH1,AH2,AH3]`: subidas incluidas.
+
+## AH3 (subida completa, la más reciente)
+- `id:"s3"`, `base:true`, `n:4731`, recibida 2026-11-15 21:15 UTC (hora de exportación: pendiente).
+- Copia literal: `data/subastas/2026-11-15_2115UTC_recibida.csv`. 4.731 filas, 0 malas. Repetida: «Elixir de fuerza menor». 7 filas propias. `ahUltima()` parte de la más reciente de `AHB` y la cambia por una local si es más nueva. `ahSegunda()` ordena `AHB` + locales.
 
 ## Formato del archivo exportado (CSV)
 - Cabecera: `"Precio","Nombre","Nivel de objeto","¿Propiedad?","Disponible"`
@@ -77,3 +88,12 @@
 - `save()`: devuelve `true`/`false`. Si falla, aviso visible arriba de la página.
 - Los nombres de objeto se pasan a los botones con `data-…`, nunca dentro del `onclick` (los apóstrofos lo rompían).
 - Cambios del 2026-11-13: ningún campo nuevo en `S`.
+
+## Profesiones de Fissel (captura del juego, 2026-11-15 18:24 UTC)
+- Minería 80/150 (Oficial: ya tiene el tope 150). Ingeniería 43/75 (Aprendiz). Cocina 11/75 (Aprendiz). Pesca 96/150 (Oficial). Primeros auxilios 60/75 (Aprendiz).
+- Valores por defecto de `defS()` actualizados. Quien ya tenga datos guardados en su navegador debe cambiarlos en la pestaña Profesiones.
+
+
+## AH4 — 2026-11-15 21:36 UTC (hora de recepción)
+- Copia: `data/subastas/2026-11-15_2136UTC_recibida.csv`. 4.755 filas, 0 malas. «Elixir de fuerza menor» aparece dos veces (se deja tal cual). 8 filas propias.
+- `AHB=[AH0,AH1,AH2,AH3,AH4]`. Solo 21 min después de AH3: 20 cambios ≥15 % (9 bajan, 11 suben).
