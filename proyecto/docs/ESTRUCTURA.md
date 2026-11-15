@@ -63,13 +63,22 @@ Menú principal (hecho en rama): Inicio · Ediciones · Cronología · Sistemas 
 | `hermes/fuentes-archivo` | 2 fuentes, 5ª edición (1996, año deducido), 2 entradas de cronología | correcto (8 páginas) |
 
 | `hermes/web-mmo` | **Las tres anteriores + sección MMO completa + `proyecto/`.** Es la que se publica | correcto (21 páginas) |
-| `hermes/rediseno` | Desde `hermes/web-mmo`: sistema de diseño, Layout nuevo y `/diseno/` (tarjetas 1-5 del rediseño). Worktree en `repo-rediseno/` | correcto (22 páginas) |
+| `hermes/rediseno` | **`hermes/web-mmo` entera + rediseño «Papel y tinta» (tarjetas 1-5).** Worktree en `repo-rediseno/`. **Es la rama del PR único** (2026-11-15): contiene todo `hermes/web-mmo` sin divergencias y `origin/main` es su ancestro (fusión fast-forward, 14 commits) | correcto (23 páginas) |
 
-Tarjeta de publicación: `t_c67acf00` (un solo PR con `hermes/web-mmo`). Las tarjetas de CI, dominio, fuentes y guías solo comprueban su parte en producción.
+Tarjeta de publicación: `t_c67acf00`. **Un solo PR desde `hermes/rediseno`** (decidido en la QA final, tarjeta `t_4d16f210`, 2026-11-15): incluye todo `hermes/web-mmo`, así que no hace falta fusionar ramas; `hermes/web-mmo` queda como histórico. No se avanzó la rama `hermes/web-mmo` porque `repo/` tiene cambios sin guardar de otra sesión (batería Playwright/axe del 2026-11-14 y un Layout antiguo). Las tarjetas de CI, dominio, fuentes y guías solo comprueban su parte en producción.
 
 Todas esperan lo mismo: la GitHub App (tarjeta `t_29d0b62b`), que solo puede crear PabloFM con `docs/crear-github-app.html`.
 
-Flujo para actualizar la rama: editar en la carpeta de trabajo → `git -C repo checkout hermes/web-mmo` → `python3 tools/sync-repo.py` → `npm run build` → commit → `git -C repo checkout main`.
+### QA final del rediseño (2026-11-15, tarjeta `t_4d16f210`)
+Sobre el build de `hermes/rediseno` (23 páginas + asesor):
+- `tests/auditoria-sitio.js` en 16 anchos (320-1440): 368 vistas, 0 fallos (letra ≥16 px, controles ≥48 px, contraste ≥7:1, sin scroll horizontal, sin `<script>`).
+- Asesor con `tests/auditoria.js` a 320 y 1280: 0 fallos, 0 errores de JS (1.008 vistas en 16 anchos en la tarjeta 4/5).
+- axe-core 4.14 (WCAG 2.0/2.1/2.2 A-AA + buenas prácticas + contraste mejorado AAA) en 24 páginas a 360 y 1280: corregidos los 2 avisos (título duplicado «Tipografía» en `/diseno/`; nombre accesible de A−/A+ en el asesor). Lighthouse no está instalado en el host.
+- Teclado: primer Tab = «Saltar al contenido», que lleva a `#contenido`; todos los enlaces alcanzables, foco visible (contorno 3 px) y dentro de pantalla en todas las páginas a 360 y 1280; el «Índice» `<details>` se abre con Intro.
+- Enlaces internos y anclas del build: 0 rotos (1.189 enlaces). Las 7 URL de producción siguen existiendo.
+- Muro único para publicar: acceso de GitHub (GitHub App, `t_29d0b62b`).
+
+Flujo para actualizar la rama de publicación (desde 2026-11-15): editar en la carpeta de trabajo → `TZ_REPO=repo-rediseno python3 tools/sync-repo.py` → `npm run build` en `repo-rediseno/` → commit en `hermes/rediseno`. (Antes: `repo/` en `hermes/web-mmo`.)
 
 ## 6. Plan por fases
 1. **Acceso** (bloqueado por PabloFM): GitHub App → tokens → CI → protección de `main`.
