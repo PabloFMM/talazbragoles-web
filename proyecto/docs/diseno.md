@@ -80,7 +80,22 @@ Pesos: `--p-fino` 300 (logotipo y titulares grandes; en tinta pura cumple 16,8:1
 | `Migas` (`pasos[]`) | `tz-migas` | «Ediciones › 1996». Enlaces de 48 px; el último paso no enlaza |
 
 Clases nuevas (`sistema.css` §4.16): `tz-portada-frase` (h1 de portada: la frase que explica las Jornadas), `tz-portada-ref`, `tz-enlace-bloque` («Ver ficha ›», 48 px), `tz-crono`/`tz-crono-*` (cronología: fecha a la izquierda), `tz-resumen` (bloques de menos peso de la portada), `tz-recuento`, `tz-acciones`.
-Formato compartido (sin datos): `src/lib/formato.ts` (`partesFecha`, etiquetas de categoría y estado, `plural`, `anclaFuente`).
+Formato compartido (sin datos): `src/lib/formato.ts` (`partesFecha`, `fechaLarga` «14 de noviembre de 2026», etiquetas de categoría y estado, `plural`, `anclaFuente`).
+
+### MMO y guías (tarjeta 3/5, `sistema.css` §4.17)
+| Clase | Qué hace |
+|---|---|
+| `tz-tabla` | Tabla de datos: filete de tinta de 2 px arriba, filetes finos entre filas, sin rellenos. Dentro de un `tz-contenedor` (consulta de contenedor), si la caja mide ≤ 44 rem cada fila se apila como una ficha: la cabecera se oculta (sigue para lectores de pantalla) y cada celda muestra su etiqueta encima (`data-etiqueta`); entre 30 y 44 rem, etiqueta a la izquierda. Una tabla corta (3 columnas de cifras) va SIN `tz-contenedor` y se queda como tabla |
+| `tz-contenedor` | `container-type: inline-size`. El artículo de la guía lo lleva |
+| `tz-lista-enlaces` (`-nombre`, `-detalle`, `-flecha`; `--una` = una columna) | Lista de filas-enlace: nombre en serif, detalle en tinta-2, «›» a la derecha. Guías y accesos |
+| `tz-nota` | Nota de lectura («Cómo leer esta guía»): papel-2 y filete de tinta. No es «pendiente» |
+| `tz-guia-reticula`, `tz-guia-margen`, `tz-indice-guia`, `tz-guia` | Página de guía: nota + índice numerado (enlaces de 48 px) antes del texto en móvil y en columna al margen desde 1024 px; la prosa a `--medida` y las tablas a todo el ancho; `h2` con filete |
+| `tz-datos--ancho` | `tz-datos` con etiqueta de 11 rem (nombres de personaje) |
+| `tz-encabezado--tras-migas` (prop `trasMigas` de `Encabezado`) | Encabezado justo debajo de unas `Migas` |
+| `tz-cmd`, `.tz-prosa code` | Monoespaciada a 1 em (no `monospace` a secas: baja a 13 px) |
+
+- Markdown: `repo/src/lib/rehype-guias.mjs` (en `astro.config.mjs`) pone `data-etiqueta`, la clase `tz-tabla` y roles ARIA en todas las tablas, y quita el `# Título` de las guías (el `h1` lo pone `Encabezado`). `tools/build-guias.py` hace lo mismo para `web/guias/`.
+- `MmoStyles.astro` y las clases `mmo-*` ya no existen.
 
 Otras clases: `tz-rotulo`, `tz-subtitulo`, `tz-lista-numerada`, `tz-prosa` (texto y Markdown), `tz-enlace`, `tz-boton`, `tz-boton--tinta`, `tz-ref` (referencia corta «Fuente: …»), `tz-medida`, `tz-seccion`.
 Prefijo `tz-` obligatorio (`z-` es de Tailwind).
@@ -122,6 +137,15 @@ Resultado 2026-11-15 (tarjeta 1/5): `/diseno/`, `/rol/`, `/mmo/`, `/mmo/wow-fore
 
 Resultado 2026-11-15 (tarjeta 2/5): Archivo rehecho. `/`, `/ediciones/`, las 2 fichas de edición, `/cronologia/`, `/personas/`, `/sistemas/`, `/fuentes/`, `/rol/`, `/diseno/`, `/mmo/` y `/mmo/wow-forever/`: 384 vistas (12 páginas × 16 anchos × índice cerrado/abierto), 0 fallos. La auditoría mide ahora también `.tz-migas a` y `.tz-enlace-bloque` (≥ 48 px). Capturas a 360 y 1280 revisadas.
 
+Resultado 2026-11-15 (tarjeta 3/5): `/mmo/`, `/mmo/wow-forever/`, `/mmo/wow-forever/guias/` y las 10 guías (16 anchos × índice cerrado/abierto = 416 vistas) más `web/guias/` (índice + 10 guías × 16 anchos = 176 vistas): 592 vistas, 0 fallos, y ninguna cabecera de tabla visible en modo apilado. La auditoría mide ahora también `.tz-indice-guia a`, `.tz-lista-enlaces a` y los enlaces de `web/guias/` (`.nav a`, `.indice a`, `.lista a`). Capturas a 320/360 y 1280 revisadas.
+- Trampa: la auditoría NO ve una cabecera de tabla que se pinta como filas sueltas (pasó con `<thead>` roto por una expresión regular `<th[^>]*>` que también casaba con `<thead>`). Mirar siempre la captura de una tabla apilada.
+
+## 8 ter. Páginas MMO (tarjeta 3/5)
+- `/mmo/`: Encabezado «07 MMO · Juegos en línea», ficha de La Barbarie (datos + fuente) y «Directo a» (guías, asesor); «Otros juegos» = `Pendiente`.
+- `/mmo/wow-forever/`: migas, asesor (botón de tinta), guías (`tz-lista-enlaces`), bandas (tabla corta) con fuentes y fecha, miembros (`tz-datos--ancho`, huecos con `Pendiente`).
+- Guías: migas MMO › La Barbarie › Guías › profesión; antetítulo, nombre como `h1`, «Profesión de … · comprobada el …»; nota «Cómo leer esta guía» + índice al margen.
+- `web/guias/` (local, enlazada desde el asesor): misma maqueta con CSS propio en `tools/build-guias.py`. Usa los tipos de respaldo (Helvetica/Arial, Georgia): `web/` no tiene las tipografías. El script se para si una guía sale con 0 enlaces.
+
 ## 8 bis. Páginas del Archivo (tarjeta 2/5)
 - Portada (PabloFM, 2026-11-15): antetítulo «Qué fueron las Jornadas», UNA frase como `h1` sacada de la fuente `rol-de-los-90-la-runa-2018` (con su referencia y «fuente secundaria, año deducido» debajo), ediciones por año (`RegistroEdiciones`) y, con menos peso, «Más del archivo» (cronología, fuentes, sistemas, personas). Inicio y fin de las Jornadas: «pendiente».
 - `/ediciones/`: recuento por estado, registro con descripción y «Lo que falta». `/ediciones/<slug>/`: migas, datos (vacíos = «pendiente»), «Lo que cuentan las fuentes», actividades, notas de fuente y entradas de cronología.
@@ -132,5 +156,6 @@ Resultado 2026-11-15 (tarjeta 2/5): Archivo rehecho. `/`, `/ediciones/`, las 2 f
 
 ## 9. Pendiente para las tarjetas siguientes
 - 2/5 (`t_d211a9fa`): HECHO (ver §8 bis). Retirados `components/home/*`, `components/ui/*`, `EditionCard`, `SourceCard` y `homeNav`. Queda: la edición `talazbragoles-sin-fecha-1` lleva sede «Majadahonda», pero su fuente (Comunidad Umbría) solo dice «en la Talazbrágoles y en la Casa de la Juventud de Majadahonda»: revisar el dato (decisión de contenido, no de diseño). El pie del Layout dice «aquí lo cuidamos» sin canal de contacto.
-- Asesor (`public/mmo/wow-forever/asesor/`, generado) y `MmoStyles.astro`: pasar a tokens `tz-`, misma cabecera y menú, quitar el tema oscuro.
+- 3/5 (`t_a2f1420e`): HECHO (ver §8 ter). `MmoStyles.astro` retirado.
+- 4/5: asesor (`public/mmo/wow-forever/asesor/`, generado desde `web/index.html`): pasar a tokens `tz-`, quitar el tema oscuro. Puede reutilizar el CSS de `tools/build-guias.py` (misma paleta y tamaños) y `.tz-tabla`.
 - `/og.png` sigue sin existir (solo tipografía: si se hace, el logotipo en Source Serif 4 fino sobre papel).

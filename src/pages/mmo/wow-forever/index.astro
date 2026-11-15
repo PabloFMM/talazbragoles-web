@@ -1,74 +1,104 @@
 ---
 /**
- * La Barbarie · WoW Forever. Página estática de entrada.
+ * La Barbarie · WoW Forever. Página de entrada (sistema «Papel y tinta», tarjeta 3/5).
  * Los datos salen de docs/asesoria.md del proyecto (dato · fuente · fecha).
  */
 import Layout from "../../../layouts/Layout.astro";
-import MmoStyles from "../../../components/mmo/MmoStyles.astro";
-import { mainNav } from "../../../lib/nav";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import Migas from "../../../components/archivo/Migas.astro";
 import { getAllGuides } from "../../../lib/collections";
 
 const guides = await getAllGuides();
+
+const bandas = [
+  { banda: "Barrow Deeps", jugadores: "10", jefes: "8" },
+  { banda: "Hyjal Summit", jugadores: "20", jefes: "13" },
+  { banda: "Guarida de Onyxia", jugadores: "40", jefes: "1" },
+];
 ---
 
 <Layout
-  title="La Barbarie · WoW Forever · TALAZBRÁGOLES"
+  title="La Barbarie · WoW Forever"
   description="Asesoría de la hermandad La Barbarie en World of Warcraft: Forever: guías de profesiones y asesor de comercio, con fuentes."
   canonicalPath="/mmo/wow-forever"
-  nav={mainNav}
 >
-  <MmoStyles />
-  <div class="mmo max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
-    <ul class="mmo-nav" aria-label="Navegación de la sección">
-      <li><a class="mmo-btn" href="/mmo">← MMO</a></li>
-    </ul>
-
-    <h1>La Barbarie · World of Warcraft: Forever</h1>
-    <p>Hermandad de la Horda, cuatro jugadores. Esta sección es su asesoría: qué hacer, qué comprar y cómo subir las profesiones.</p>
-
-    <div class="mmo-card">
-      <h2>El asesor</h2>
-      <p>Herramienta para cada jugador: qué hago hoy, mi personaje, profesiones, almacén, oro, comercio en la subasta y diario.</p>
-      <p>Tus datos se guardan solo en tu navegador. Haz copia desde «Diario».</p>
-      <ul class="mmo-nav">
-        <li><a class="mmo-btn fuerte" href="/mmo/wow-forever/asesor/">Abrir el asesor</a></li>
-      </ul>
+  <div class="tz-pagina">
+    <div class="tz-encabezado" style="padding-bottom:0">
+      <Migas pasos={[{ texto: "MMO", href: "/mmo" }, { texto: "La Barbarie" }]} />
     </div>
+    <Encabezado
+      trasMigas
+      numero="07"
+      seccion="MMO · World of Warcraft: Forever"
+      titulo="La Barbarie"
+      entradilla="Hermandad de la Horda, cuatro jugadores. Esta sección es su asesoría: qué hacer, qué comprar y cómo subir las profesiones."
+    />
 
-    <div class="mmo-card">
-      <h2>Guías de profesiones</h2>
-      <p>Cómo empezar, rangos, ruta para subir y novedades. Redactadas desde páginas públicas, no probadas en el juego.</p>
-      <ul class="mmo-lista">
+    <section class="tz-seccion" aria-labelledby="s-asesor">
+      <Titulo id="s-asesor" numero="01">El asesor</Titulo>
+      <div class="tz-prosa">
+        <p>Herramienta para cada jugador: qué hago hoy, mi personaje, profesiones, almacén, oro, comercio en la subasta y diario.</p>
+        <p>Tus datos se guardan solo en tu navegador. Haz copia desde «Diario».</p>
+      </div>
+      <div class="tz-acciones" style="margin-top:var(--e-5)">
+        <a class="tz-boton tz-boton--tinta" href="/mmo/wow-forever/asesor/">Abrir el asesor</a>
+      </div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-guias">
+      <Titulo id="s-guias" numero="02">Guías de profesiones</Titulo>
+      <p class="tz-medida" style="margin:0 0 var(--e-6)">
+        Cómo empezar, rangos, ruta para subir y novedades. Redactadas desde páginas públicas, no probadas en el juego.
+      </p>
+      <ul class="tz-lista-enlaces">
         {guides.map((g) => (
-          <li><a href={`/mmo/wow-forever/guias/${g.id}`}><strong>{g.data.profesion}</strong>{g.data.tipo}</a></li>
+          <li>
+            <a href={`/mmo/wow-forever/guias/${g.id}`}>
+              <span class="tz-lista-enlaces-nombre">{g.data.profesion}</span>
+              <span class="tz-lista-enlaces-detalle">{g.data.tipo}</span>
+              <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+            </a>
+          </li>
         ))}
       </ul>
-    </div>
+      <a class="tz-enlace-bloque" style="margin-top:var(--e-4)" href="/mmo/wow-forever/guias"><span>Todas las guías, con fecha de comprobación</span><span aria-hidden="true">›</span></a>
+    </section>
 
-    <div class="mmo-card">
-      <h2>Bandas del 9 de diciembre de 2026</h2>
-      <p>Banda: grupo grande de jugadores contra jefes. Abren tres y las tres piden nivel 60.</p>
-      <table>
-        <thead><tr><th>Banda</th><th>Jugadores</th><th>Jefes</th></tr></thead>
-        <tbody>
-          <tr><td>Barrow Deeps</td><td>10</td><td>8</td></tr>
-          <tr><td>Hyjal Summit</td><td>20</td><td>13</td></tr>
-          <tr><td>Guarida de Onyxia</td><td>40</td><td>1</td></tr>
-        </tbody>
-      </table>
-      <p>Onyxia pide el Drakefire Amulet, que se consigue con una cadena de misiones.</p>
-      <p class="mmo-fuente">Fuentes: Blizzard, Method, RankedBoost, allthings.how · comprobado el 2026-11-13.</p>
-    </div>
+    <section class="tz-seccion" aria-labelledby="s-bandas">
+      <Titulo id="s-bandas" numero="03">Bandas del 9 de diciembre de 2026</Titulo>
+      <p class="tz-medida" style="margin:0 0 var(--e-5)">Banda: grupo grande de jugadores contra jefes. Abren tres y las tres piden nivel 60.</p>
+      <!-- Sin tz-contenedor a propósito: tres columnas cortas caben como tabla a 320 px -->
+      <div class="tz-medida">
+        <table class="tz-tabla" role="table">
+          <thead role="rowgroup">
+            <tr role="row"><th role="columnheader">Banda</th><th role="columnheader">Jugadores</th><th role="columnheader">Jefes</th></tr>
+          </thead>
+          <tbody role="rowgroup">
+            {bandas.map((b) => (
+              <tr role="row">
+                <td role="cell" data-etiqueta="Banda">{b.banda}</td>
+                <td role="cell" data-etiqueta="Jugadores">{b.jugadores}</td>
+                <td role="cell" data-etiqueta="Jefes">{b.jefes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="tz-medida" style="margin:var(--e-5) 0 0">Onyxia pide el Drakefire Amulet, que se consigue con una cadena de misiones.</p>
+      <p class="tz-ref" style="margin:var(--e-3) 0 0">Fuentes: Blizzard, Method, RankedBoost, allthings.how. Comprobado el 13 de noviembre de 2026.</p>
+    </section>
 
-    <div class="mmo-card">
-      <h2>Miembros</h2>
-      <ul>
-        <li><strong>Fissel Kasteaya</strong>: chamán orco, rama Mejora. Minería e Ingeniería.</li>
-        <li><strong>Woldrik Wulf</strong>: pícaro trol, rama Combate. Profesiones: <span class="mmo-tag">pendiente</span></li>
-        <li><strong>Mortem Freeman</strong>: datos <span class="mmo-tag">pendiente</span></li>
-        <li><strong>Towerbrünnen</strong>: apellido y datos <span class="mmo-tag">pendiente</span></li>
-      </ul>
-      <p class="mmo-fuente">Datos dados por los jugadores · 2026-11-13.</p>
-    </div>
+    <section class="tz-seccion" aria-labelledby="s-miembros">
+      <Titulo id="s-miembros" numero="04">Miembros</Titulo>
+      <dl class="tz-datos tz-datos--ancho tz-medida">
+        <div><dt>Fissel Kasteaya</dt><dd>Chamán orco, rama Mejora. Minería e Ingeniería.</dd></div>
+        <div><dt>Woldrik Wulf</dt><dd>Pícaro trol, rama Combate. Profesiones: <Pendiente /></dd></div>
+        <div><dt>Mortem Freeman</dt><dd>Datos: <Pendiente /></dd></div>
+        <div><dt>Towerbrünnen</dt><dd>Apellido y datos: <Pendiente /></dd></div>
+      </dl>
+      <p class="tz-ref" style="margin:var(--e-3) 0 0">Datos dados por los jugadores el 13 de noviembre de 2026.</p>
+    </section>
   </div>
 </Layout>

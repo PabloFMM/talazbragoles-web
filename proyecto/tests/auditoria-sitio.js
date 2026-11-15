@@ -53,7 +53,7 @@
     if (cr < 7) add(`contraste ${cr.toFixed(2)}: <${el.tagName.toLowerCase()} class="${tz(el)}"> «${t.textContent.trim().slice(0, 30)}»`);
   }
   // Controles ≥ 48 px (enlaces dentro de párrafos quedan exentos: son texto)
-  const ctrl = 'button, summary, input, select, textarea, .tz-boton, .tz-nav a, .tz-ficha-pie a, .tz-pie-indice a, .tz-cabecera-nombre, .tz-migas a, .tz-enlace-bloque';
+  const ctrl = 'button, summary, input, select, textarea, .tz-boton, .tz-nav a, .tz-ficha-pie a, .tz-pie-indice a, .tz-cabecera-nombre, .tz-migas a, .tz-enlace-bloque, .tz-indice-guia a, .tz-lista-enlaces a, .nav a, .indice a, .lista a';
   for (const el of document.querySelectorAll(ctrl)) {
     if (!visible(el)) continue;
     const r = el.getBoundingClientRect();

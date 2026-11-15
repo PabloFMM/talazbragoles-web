@@ -12,10 +12,12 @@ interface Props {
   entradilla?: string;
   /** Titular de portada (más grande). */
   portada?: boolean;
+  /** Va justo debajo de unas Migas: menos aire arriba. */
+  trasMigas?: boolean;
 }
-const { titulo, numero, seccion, entradilla, portada = false } = Astro.props;
+const { titulo, numero, seccion, entradilla, portada = false, trasMigas = false } = Astro.props;
 ---
-<header class="tz-encabezado">
+<header class:list={["tz-encabezado", { "tz-encabezado--tras-migas": trasMigas }]}>
   {(numero || seccion) && (
     <p class="tz-antetitulo">
       {numero && <span class="tz-num">{numero}</span>}

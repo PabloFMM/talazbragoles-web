@@ -668,7 +668,7 @@
   .tz-migas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--e-3); }
   .tz-migas li { display: flex; align-items: center; gap: var(--e-3); font-size: var(--t-0); color: var(--tinta-2); }
   .tz-migas li + li::before { content: "›"; color: var(--tinta-2); }
-  .tz-migas a { display: inline-flex; align-items: center; min-height: var(--toque); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  .tz-migas a { display: inline-flex; align-items: center; min-height: var(--toque); min-width: var(--toque); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
 
   /* Enlace de bloque con flecha (48 px de alto), p. ej. «Ver ficha ›» fuera de una Ficha */
   .tz-enlace-bloque {
@@ -791,4 +791,159 @@
   /* Recuento en línea y fila de botones */
   .tz-recuento { margin: var(--e-5) 0 0; font-size: var(--t-0); color: var(--tinta-2); }
   .tz-acciones { display: flex; flex-wrap: wrap; gap: var(--e-4); margin-top: var(--e-7); }
+
+  /* --- 4.17 MMO y guías (tarjeta 3/5) --- */
+  /* Contenedor de consulta: las tablas se apilan según el ancho de su caja, no de la pantalla */
+  .tz-contenedor { container-type: inline-size; }
+  .tz-encabezado.tz-encabezado--tras-migas { padding-top: var(--e-5); }
+  .tz-lista-enlaces--una { grid-template-columns: minmax(0, 1fr); }
+
+  /* Tabla de datos. Las celdas llevan data-etiqueta (plugin rehype-guias / build-guias.py) */
+  .tz-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: var(--t-0);
+    line-height: 1.5;
+    border-top: var(--f-medio) solid var(--tinta);
+  }
+  .tz-tabla th, .tz-tabla td {
+    padding: var(--e-3) var(--e-4) var(--e-3) 0;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: break-word;
+  }
+  .tz-tabla th:last-child, .tz-tabla td:last-child { padding-right: 0; }
+  .tz-tabla th {
+    font-weight: var(--p-semi);
+    border-bottom: var(--f-fino) solid var(--tinta);
+  }
+  .tz-tabla td { border-bottom: var(--f-fino) solid var(--filete); }
+  .tz-tabla td:first-child { font-weight: var(--p-semi); }
+  /* Caja estrecha: cada fila pasa a ser una ficha con la etiqueta de la columna encima */
+  @container (max-width: 44rem) {
+    .tz-tabla, .tz-tabla thead, .tz-tabla tbody, .tz-tabla tr, .tz-tabla th, .tz-tabla td { display: block; }
+    .tz-tabla thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .tz-tabla { border-top: 0; }
+    .tz-tabla tr { padding-block: var(--e-4); border-top: var(--f-fino) solid var(--filete); }
+    .tz-tabla tr:first-child { border-top: var(--f-medio) solid var(--tinta); }
+    .tz-tabla tr:last-child { border-bottom: var(--f-fino) solid var(--tinta); }
+    .tz-tabla td { padding: 0; border: 0; }
+    .tz-tabla td + td { margin-top: var(--e-3); }
+    .tz-tabla td[data-etiqueta]::before {
+      content: attr(data-etiqueta);
+      display: block;
+      color: var(--tinta-2);
+      font-weight: var(--p-normal);
+      font-size: var(--t-0);
+    }
+    .tz-tabla td:first-child { font-size: var(--t-1); }
+  }
+  @container (min-width: 30rem) and (max-width: 44rem) {
+    .tz-tabla td[data-etiqueta] { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--e-4); }
+  }
+
+  /* Lista de enlaces de fila (guías, accesos): nombre en serif, detalle debajo, flecha a la derecha */
+  .tz-lista-enlaces {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    column-gap: var(--medianil);
+  }
+  .tz-lista-enlaces > li { border-top: var(--f-fino) solid var(--tinta); }
+  .tz-lista-enlaces a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--e-1) var(--e-4);
+    min-height: var(--toque);
+    padding-block: var(--e-4);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-lista-enlaces-nombre {
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+  }
+  .tz-lista-enlaces-detalle { grid-column: 1; font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-lista-enlaces-flecha { grid-column: 2; grid-row: 1 / span 2; font-size: var(--t-2); }
+  .tz-lista-enlaces a:hover .tz-lista-enlaces-nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+
+  /* Nota de lectura (no es «pendiente»: explica cómo leer lo que sigue) */
+  .tz-nota {
+    padding: var(--e-5);
+    background: var(--papel-2);
+    border-top: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-0);
+    line-height: 1.55;
+  }
+  .tz-nota p { margin: 0; max-width: var(--medida); }
+  .tz-nota p + p { margin-top: var(--e-3); }
+  .tz-nota .tz-rotulo { margin-bottom: var(--e-3); }
+
+  /* Datos con etiqueta ancha (nombres de personaje) */
+  @media (min-width: 30rem) {
+    .tz-datos--ancho > div { grid-template-columns: 11rem minmax(0, 1fr); }
+  }
+
+  /* Página de guía: índice y nota al margen (antes del texto en móvil; a la derecha desde 1024 px) */
+  .tz-guia-reticula {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "margen" "texto";
+    gap: var(--e-7) var(--medianil);
+  }
+  .tz-guia-reticula > .tz-guia { grid-area: texto; }
+  .tz-guia-reticula > .tz-guia-margen { grid-area: margen; }
+  @media (min-width: 64rem) {
+    .tz-guia-reticula {
+      grid-template-columns: minmax(0, 1fr) var(--columna-margen);
+      grid-template-areas: "texto margen";
+      column-gap: var(--e-8);
+    }
+  }
+  .tz-guia-margen > * + * { margin-top: var(--e-6); }
+  .tz-indice-guia { border-top: var(--f-fino) solid var(--tinta); padding-top: var(--e-3); }
+  .tz-indice-guia ol { list-style: none; margin: var(--e-2) 0 0; padding: 0; counter-reset: tz-g; }
+  .tz-indice-guia li { counter-increment: tz-g; border-top: var(--f-fino) solid var(--filete); }
+  .tz-indice-guia li:first-child { border-top: 0; }
+  .tz-indice-guia a {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    align-items: center;
+    min-height: var(--toque);
+    padding-block: var(--e-1);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    line-height: 1.35;
+    text-decoration: none;
+  }
+  .tz-indice-guia a::before { content: counter(tz-g, decimal-leading-zero); color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-indice-guia a:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+  /* Texto de la guía (Markdown): la prosa a su medida; las tablas usan todo el ancho */
+  .tz-guia.tz-prosa { max-width: none; }
+  .tz-guia > p, .tz-guia > ul, .tz-guia > ol, .tz-guia > h3 { max-width: var(--medida); }
+  .tz-guia > h2 {
+    margin-top: var(--e-9);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  @media (min-width: 48rem) { .tz-guia > h2 { font-size: var(--t-4); } }
+  .tz-guia > h2:first-child { margin-top: 0; }
+  .tz-guia > .tz-tabla { margin-block: var(--e-5); }
+  .tz-prosa code, .tz-cmd { font-family: ui-monospace, Consolas, "Courier New", monospace; font-size: 1em; }
 }

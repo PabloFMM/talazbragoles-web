@@ -34,6 +34,13 @@ export const estadoCampana: Record<string, string> = {
   pendiente: "Pendiente",
 };
 
+/** «2026-11-14» → «14 de noviembre de 2026». Si no es una fecha completa, la devuelve tal cual. */
+export function fechaLarga(iso: string) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  return `${Number(m[3])} de ${MESES[Number(m[2]) - 1]} de ${m[1]}`;
+}
+
 /** «1 fuente» / «2 fuentes». */
 export function plural(n: number, uno: string, varios: string) {
   return `${n} ${n === 1 ? uno : varios}`;

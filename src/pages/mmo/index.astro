@@ -1,40 +1,76 @@
 ---
 /**
- * Portada de la sección MMO.
+ * Portada de la sección MMO (sistema «Papel y tinta», tarjeta 3/5).
  * Por ahora un solo juego: World of Warcraft: Forever (hermandad La Barbarie).
  */
 import Layout from "../../layouts/Layout.astro";
-import MmoStyles from "../../components/mmo/MmoStyles.astro";
-import { mainNav } from "../../lib/nav";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Ficha from "../../components/sistema/Ficha.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
 ---
 
 <Layout
-  title="MMO · TALAZBRÁGOLES"
+  title="MMO"
   description="Los juegos en línea de la gente de las Talazbrágoles. Ahora: la hermandad La Barbarie en World of Warcraft: Forever."
   canonicalPath="/mmo"
-  nav={mainNav}
 >
-  <MmoStyles />
-  <div class="mmo max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
-    <h1>MMO</h1>
-    <p>
-      MMO: juego en línea con muchos jugadores a la vez. Aquí está lo que juega hoy la gente de las Talazbrágoles.
-      La regla es la misma que en el archivo: cada dato lleva su fuente y lo que no se sabe se marca como pendiente.
-    </p>
+  <div class="tz-pagina">
+    <Encabezado
+      numero="07"
+      seccion="MMO"
+      titulo="Juegos en línea"
+      entradilla="MMO: juego en línea con muchos jugadores a la vez. Aquí está lo que juega hoy la gente de las Talazbrágoles, con la misma regla que el Archivo: cada dato lleva su fuente y lo que no se sabe se marca como pendiente."
+    />
 
-    <div class="mmo-card">
-      <h2>World of Warcraft: Forever · La Barbarie</h2>
-      <p>Hermandad de la Horda. Cuatro jugadores. El juego salió el 4 de noviembre de 2026.</p>
-      <p class="mmo-fuente">Fecha de salida: Blizzard · comprobado el 2026-11-13.</p>
-      <ul class="mmo-nav">
-        <li><a class="mmo-btn fuerte" href="/mmo/wow-forever">Entrar en La Barbarie</a></li>
-        <li><a class="mmo-btn" href="/mmo/wow-forever/guias">Guías de profesiones</a></li>
-        <li><a class="mmo-btn" href="/mmo/wow-forever/asesor/">Abrir el asesor</a></li>
-      </ul>
-    </div>
+    <section class="tz-seccion" aria-labelledby="s-wowf">
+      <Titulo id="s-wowf" numero="01">World of Warcraft: Forever</Titulo>
+      <div class="tz-reticula">
+        <div class="tz-col-6">
+          <Ficha
+            titulo="La Barbarie"
+            href="/mmo/wow-forever"
+            enlace="Entrar en La Barbarie"
+            datos={[
+              { etiqueta: "Qué es", valor: "Hermandad de la Horda" },
+              { etiqueta: "Jugadores", valor: "Cuatro" },
+              { etiqueta: "El juego salió", valor: "4 de noviembre de 2026" },
+            ]}
+          >
+            <p class="tz-ref" style="margin:var(--e-3) 0 0">Fecha de salida: Blizzard, comprobado el 13 de noviembre de 2026.</p>
+          </Ficha>
+        </div>
+        <div class="tz-col-6">
+          <p class="tz-rotulo" style="margin:0 0 var(--e-3)">Directo a</p>
+          <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+            <li>
+              <a href="/mmo/wow-forever/guias">
+                <span class="tz-lista-enlaces-nombre">Guías de profesiones</span>
+                <span class="tz-lista-enlaces-detalle">Cómo empezar, rangos y ruta para subir, con fuentes</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+            <li>
+              <a href="/mmo/wow-forever/asesor/">
+                <span class="tz-lista-enlaces-nombre">El asesor</span>
+                <span class="tz-lista-enlaces-detalle">Qué hago hoy, almacén, oro y comercio en la subasta</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-    <div class="mmo-aviso">
-      <p><strong>Otros juegos:</strong> pendiente. Se añadirán cuando haya contenido.</p>
-    </div>
+    <section class="tz-seccion" aria-labelledby="s-otros">
+      <Titulo id="s-otros" numero="02">Otros juegos</Titulo>
+      <div class="tz-medida">
+        <Pendiente
+          etiqueta="Pendiente"
+          mensaje="De momento solo hay un juego en esta sección."
+          pide="Se añadirán otros cuando haya contenido."
+        />
+      </div>
+    </section>
   </div>
 </Layout>

@@ -41,7 +41,7 @@ src/
 ├── components/
 │   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
 │   ├── archivo/            # RegistroEdiciones (ediciones por año), Migas
-│   └── mmo/                # MmoStyles
+│   (MMO y guías: clases tz- de sistema.css §4.17; ya no hay MmoStyles)
 ├── layouts/
 │   └── Layout.astro        # Layout único (cabecera, índice sin JS, pie-colofón)
 ├── lib/
@@ -184,7 +184,7 @@ Texto biográfico en Markdown.
 
 - El asesor NO se edita a mano: se genera con `proyecto/tools/build-asesor.py` desde `proyecto/web/index.html`.
 - La clave de `localStorage` es `wowf-chaman-v1`. No cambiarla ni borrar campos del estado: los jugadores perderían sus datos.
-- Reglas de lectura de la sección (público de más de 50 años): texto ≥ 16 px, botones ≥ 48 px, contraste ≥ 7:1, sin animaciones. Estilos en `src/components/mmo/MmoStyles.astro`.
+- Reglas de lectura de la sección (público de más de 50 años): texto ≥ 16 px, botones ≥ 48 px, contraste ≥ 7:1, sin animaciones. Mismo sistema «Papel y tinta» que el resto (clases `tz-` de `sistema.css` §4.17: `tz-tabla`, `tz-lista-enlaces`, `tz-nota`, `tz-guia-reticula`). Las tablas del Markdown se apilan como fichas en cajas estrechas gracias a `src/lib/rehype-guias.mjs` (pone `data-etiqueta` en cada celda y quita el `# Título` de las guías).
 - El índice del sitio tiene 8 entradas (`src/lib/nav.ts`, con «Rol» → `/rol`). Por debajo de 1024 px es un `<details>` «Índice» (sin JS); desde 1024 px, una fila.
 - `proyecto/`: documentación, herramientas, pruebas y datos de trabajo. No se publica (está fuera de `public/`). Empezar por `proyecto/docs/ESTRUCTURA.md`.
 
