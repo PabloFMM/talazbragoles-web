@@ -16,7 +16,7 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,4 +24,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      # Build + enlaces y sincronía (node) + lectura, accesibilidad, teclado y asesor (navegador).
+      - run: npm test
