@@ -2,9 +2,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { RAIZ, archivosHtml } from "./_comun.mjs";
+import { RAIZ, DIST, archivosHtml } from "./_comun.mjs";
 
 test("las guías publicadas son las de proyecto/docs/guias", () => {
   const origen = join(RAIZ, "proyecto", "docs", "guias");
@@ -30,6 +30,7 @@ test("el asesor publicado es el que genera proyecto/tools/build-asesor.py", () =
 test("ninguna página usa alert, confirm ni prompt", () => {
   // Todo el build (asesor incluido): código de <script> sin comentarios /* */ y atributos on…="…".
   const llamada = /(?<![\w.$])(?:window\.)?(alert|confirm|prompt)\s*\(/;
+  assert.ok(existsSync(DIST), "falta dist/: ejecuta npm run build antes (npm test ya lo hace)");
   const paginas = archivosHtml();
   assert.ok(paginas.length > 10, `solo ${paginas.length} páginas en dist/ (¿falta npm run build?)`);
   const fallos = [];

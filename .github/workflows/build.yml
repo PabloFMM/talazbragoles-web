@@ -28,7 +28,10 @@ jobs:
       # guardado en caché por versión de Playwright. Con la caché, solo faltan las librerías del sistema.
       - name: Versión de Playwright
         id: playwright
-        run: echo "version=$(npx --no-install playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+        run: |
+          v=$(npx --no-install playwright --version | awk '{print $2}')
+          test -n "$v" || { echo "No sé qué versión de Playwright hay instalada"; exit 1; }
+          echo "version=$v" >> "$GITHUB_OUTPUT"
       - uses: actions/cache@v4
         id: cache-playwright
         with:
