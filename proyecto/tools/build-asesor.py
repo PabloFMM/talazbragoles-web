@@ -198,7 +198,7 @@ for nombre in SRCS:
     if not f.is_file():
         sys.exit('%s pide %s y no está en %s' % (ORIGEN, nombre, DATOS_ORIGEN))
     datos[nombre] = f.read_bytes()
-sobran = sorted(f.name for f in DATOS_DESTINO.glob('*') if f.name not in datos) if DATOS_DESTINO.is_dir() else []
+sobran = sorted(f.name for f in DATOS_DESTINO.iterdir() if f.is_file() and f.name not in datos) if DATOS_DESTINO.is_dir() else []
 distintos = [k for k, v in datos.items() if not (DATOS_DESTINO / k).is_file() or (DATOS_DESTINO / k).read_bytes() != v]
 
 actual_publicado = DESTINO.read_text(encoding='utf-8') if DESTINO.is_file() else None

@@ -191,3 +191,15 @@ test("un error inesperado se avisa en pantalla (una vez) y queda en __errs", asy
   page.errores = [];
   await page.evaluate(() => { window.__errs = []; });
 });
+
+test("subidas incluidas: si una no responde en 30 s, cuenta como fallida (no se queda en «Cargando»)", async ({ page }) => {
+  await page.clock.install();
+  await page.route("**/asesor/datos/subasta-s2-*.json", () => {}); // nunca responde
+  await page.goto("about:blank");
+  await page.goto(ASESOR);
+  await expect(page.locator("#aviso-datos")).toContainText("Cargando");
+  await page.clock.runFor(31_000);
+  await expect(page.locator("html")).toHaveAttribute("data-precios", "incompletos");
+  await expect(page.locator("#aviso-datos")).toContainText("No se han podido cargar los precios de 1 subida");
+  expect(await page.evaluate(() => AHB.map((a) => a.id).includes("s2"))).toBe(false);
+});

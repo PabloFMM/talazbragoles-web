@@ -1025,17 +1025,26 @@ var AHB=[AH0,AH1,AH2,AH3,AH4,AH5];
 var AH_DIR='datos/';
 /* listo: ya se ha intentado cargar todo; fallan: subidas que no han llegado (se quitan de AHB). */
 var DATOS={listo:false,fallan:[]};
+var AH_ESPERA=30000; /* ms: una subida que no llega en este tiempo cuenta como fallida (si no, «Cargando» para siempre) */
 function cargaSubidas(){
  var pend=AHB.filter(function(a){ return a.src&&!Array.isArray(a.d); });
  if(!pend.length) return Promise.resolve([]);
- if(typeof fetch!=='function') return Promise.resolve(pend);
+ if(typeof fetch!=='function'){ pend.forEach(function(a){ a.motivo='navegador sin fetch'; }); return Promise.resolve(pend); }
  return Promise.all(pend.map(function(a){
-   return fetch(AH_DIR+a.src).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+   var ctl=(typeof AbortController==='function')?new AbortController():null;
+   var reloj=ctl?setTimeout(function(){ ctl.abort(); },AH_ESPERA):null;
+   return fetch(AH_DIR+a.src,ctl?{signal:ctl.signal}:undefined)
+     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
      .then(function(j){
        if(!j||j.id!==a.id||!Array.isArray(j.d)||j.d.length!==a.n) throw new Error('contenido inesperado');
        a.d=j.d; return null;
      })
-     .catch(function(){ return a; });
+     .catch(function(e){
+       a.motivo=String((e&&e.name==='AbortError')?'sin respuesta en '+(AH_ESPERA/1000)+' s':((e&&e.message)||e));
+       if(window.console&&console.warn) console.warn('Subida '+a.id+' ('+a.src+'): '+a.motivo);
+       return a;
+     })
+     .then(function(x){ if(reloj) clearTimeout(reloj); return x; });
  })).then(function(r){ return r.filter(Boolean); });
 }
 var CARGANDO='<p class="peq">Cargando los precios de la subasta…</p>';
@@ -2041,10 +2050,10 @@ cargaSubidas().then(function(fallan){
  DATOS.fallan=fallan;
  if(fallan.length) AHB=AHB.filter(function(a){ return fallan.indexOf(a)<0; });
  DATOS.listo=true;
+ document.documentElement.setAttribute('data-precios',fallan.length?'incompletos':'listos');
  avisoDatos();
  refrescaPrecios();
- document.documentElement.setAttribute('data-precios',fallan.length?'incompletos':'listos');
-});
+}).catch(function(e){ errorInesperado('Al pintar los precios: '+String((e&&e.message)||e)); });
 window.addEventListener('hashchange',function(){ if(leeHash()){ showSec(S.sec); showTab(S.tab); } });
 </script>
 </body>
