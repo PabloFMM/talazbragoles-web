@@ -995,7 +995,7 @@
     html, body { background: #fff; color: #000; }
     .tz-saltar, .tz-nav, .tz-pie nav { display: none; }
     .tz-cabecera { border-bottom-color: #000; }
-    .tz-cabecera-fila { padding-block: 0 var(--e-3); }
+    .tz-cabecera-fila { padding-block: var(--e-2) var(--e-3); }
     .tz-logo-nombre { font-size: 2rem; }
     .tz-migas a { min-height: 0; text-decoration: none; }
     .tz-pie { margin-top: var(--e-6); padding-block: var(--e-4) 0; }

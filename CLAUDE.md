@@ -186,7 +186,7 @@ Texto biográfico en Markdown.
 - El asesor NO se edita a mano: se genera con `proyecto/tools/build-asesor.py` desde `proyecto/web/index.html`.
 - La clave de `localStorage` es `wowf-chaman-v1`. No cambiarla ni borrar campos del estado: los jugadores perderían sus datos.
 - Reglas de lectura de la sección (público de más de 50 años): texto ≥ 16 px, botones ≥ 48 px, contraste ≥ 7:1, sin animaciones. Mismo sistema «Papel y tinta» que el resto (clases `tz-` de `sistema.css` §4.17: `tz-tabla`, `tz-lista-enlaces`, `tz-nota`, `tz-guia-reticula`). Las tablas del Markdown se apilan como fichas en cajas estrechas gracias a `src/lib/rehype-guias.mjs` (pone `data-etiqueta` en cada celda y quita el `# Título` de las guías).
-- El índice del sitio tiene 8 entradas (`src/lib/nav.ts`, con «Rol» → `/rol`). Por debajo de 1024 px es un `<details>` «Índice» (sin JS); desde 1024 px, una fila.
+- El índice del sitio tiene 8 entradas en 3 grupos (`gruposNav` de `src/lib/nav.ts`: Inicio · Archivo · Comunidad; componente `src/components/sistema/Indice.astro`). Por debajo de 1024 px es un botón «Menú» hecho con `<details>` (sin JS); desde 1024 px, una fila. `aria-current`: "page" en la portada de la sección, "true" en sus subpáginas. El asesor pinta la misma cabecera desde `build-asesor.py`: si cambias el índice, regenera el asesor (`tests/navegacion.spec.mjs` lo comprueba). Criterios WCAG/APG: `proyecto/docs/diseno.md` §6 bis.
 - `proyecto/`: documentación, herramientas, pruebas y datos de trabajo. No se publica (está fuera de `public/`). Empezar por `proyecto/docs/ESTRUCTURA.md`.
 
 ---

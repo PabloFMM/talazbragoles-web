@@ -3,7 +3,7 @@
 Rediseño de talazbragoles.com (encargo de PabloFM, 2026-11-15). Tarjeta 1/5: `t_6bd8248f`.
 Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **actual, limpio y elegante**. Blanco y negro sobrio, mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso. Nada de fotocopia, máquina de escribir, recortes, sellos, texturas, dorados ni degradados. Solo tipografía: no hay logo gráfico, fotos ni ilustraciones. Solo modo claro (sin `prefers-color-scheme`).
 
-- Código: `repo/src/styles/sistema.css` (tokens + componentes, prefijo `tz-`), `repo/src/styles/global.css` (punto de entrada: `reset.css` + `sistema.css`; sin Tailwind desde 2026-11-17), `repo/src/layouts/Layout.astro` (cabecera, índice, pie), `repo/src/components/sistema/*.astro`, `repo/src/lib/nav.ts` (8 entradas).
+- Código: `repo/src/styles/sistema.css` (tokens + componentes, prefijo `tz-`), `repo/src/styles/global.css` (punto de entrada: `reset.css` + `sistema.css`; sin Tailwind desde 2026-11-17), `repo/src/layouts/Layout.astro` (cabecera, índice, pie), `repo/src/components/sistema/*.astro`, `repo/src/lib/nav.ts` (8 entradas en 3 grupos), `repo/src/components/sistema/Indice.astro` (índice).
 - Muestrario vivo: `/diseno/` (noindex, fuera del sitemap por el filtro de `astro.config.mjs`).
 - Rama: `hermes/rediseno` (desde `hermes/web-mmo`), en el worktree `/opt/data/project-talazbragoles/repo-rediseno/` porque `repo/` tiene cambios sin guardar de otra sesión. Tiene su propio `node_modules` (ya no es un enlace a `repo/node_modules`: las dependencias de las dos ramas difieren).
 - Auditoría: `tests/auditoria-sitio.js` (ver §8).
@@ -104,11 +104,45 @@ Prefijo `tz-` obligatorio (evita choques con clases genéricas).
 
 ## 6. Marco del sitio (`Layout.astro`)
 - Props: `title` y `description` obligatorios; `noindex` (pone `robots noindex, nofollow`); `canonicalPath` opcional (por defecto, la ruta de la página sin barra final). El título lleva « · Talazbrágoles» salvo que ya contenga la marca. Open Graph completo: `og:site_name`, `og:locale`, `og:image` (`/og.png`) con tamaño y `og:image:alt`. Lo comprueba `tests/enlaces.test.mjs`.
-- Cabecera (no fija): logotipo y, debajo, el índice. Mismo marco en todo el sitio, MMO incluido.
-- Índice de 8 entradas numeradas (`nav.ts`): Inicio, Ediciones, Cronología, Sistemas, Personas, Rol (`/rol`), MMO (`/mmo`, La Barbarie), Fuentes. Sin JS: por debajo de 1024 px es un `<details>` «Índice» que se despliega en el flujo (1 columna; 2 desde 480 px); desde 1024 px, una fila repartida. La sección actual lleva `aria-current="page"` (calculado en el build).
+- Cabecera (no fija): logotipo y, debajo, el índice (`components/sistema/Indice.astro`). Mismo marco en todo el sitio, MMO y asesor incluidos.
+- Índice de 8 entradas numeradas en 3 grupos (`gruposNav` de `lib/nav.ts`, 2026-11-17): Inicio · **Archivo** (Ediciones, Cronología, Sistemas, Personas, Fuentes) · **Comunidad** (Rol, MMO). El número sale del orden (01…08) y `numeroSeccion()` lo pone en el antetítulo de cada página. Ver §6 bis.
 - Pie sobre filete de tinta: columnas «El método», índice y colofón (tipos y licencias).
 - Foco: contorno de tinta de 3 px separado 3 px. «Saltar al contenido» aparece al tabular.
 - Se quitaron: ruido SVG de fondo, degradados, `backdrop-blur`, sombras, cabecera fija, `scroll-smooth`, `overflow-x-hidden` en `body` (escondía desbordamientos).
+
+## 6 bis. Navegación (2026-11-17, tarjeta `t_f77da12d`)
+Encargo de PabloFM: «mejora el menú y su usabilidad, usa todos los estándares conocidos, que la web sea responsive». Público de más de 50 años: claridad antes que nada. Sin JS, sin desplegables, URL sin cambios.
+
+**Cómo es**
+- Móvil y tableta (< 1024 px): botón **«Menú»** con el icono de tres rayas (SVG `aria-hidden`), con borde de tinta y 48 px de alto; al lado, «Estás en: *sección*». Es un `<details>`: se abre en el sitio (empuja el contenido, no flota ni tapa nada), el icono pasa a aspa y el botón se invierte (papel sobre tinta). Dentro, los grupos con su rótulo (ARCHIVO, COMUNIDAD) y una entrada por línea (2 columnas desde 480 px). Cada página llega con el menú cerrado.
+- Escritorio (≥ 1024 px): una fila; cada grupo con su rótulo encima y un filete vertical entre grupos. Cabe sin partir a 1024 px.
+- Sección actual: seminegra y subrayado de 2 px, y `aria-current`: `"page"` en la portada de la sección (p. ej. `/ediciones/`) y `"true"` en sus subpáginas (`/ediciones/<slug>/`, `/mmo/wow-forever/guias/<slug>/`, el asesor). Así lo hace la *service navigation* de GOV.UK: en una subpágina, decir «página actual» sería falso para quien usa lector de pantalla. Función `actualDe()` de `lib/nav.ts`.
+- Migas (`archivo/Migas.astro`) en las subpáginas: empiezan siempre en «Inicio», cada paso se llama como en el índice («Rol», no «Juegos de rol»), el último es la página (sin enlace, `aria-current="page"`). En la portada de cada sección no hay migas: el índice ya dice dónde se está.
+- Asesor (página generada): misma cabecera, carácter a carácter. `tools/build-asesor.py` lee `gruposNav` de `lib/nav.ts` y copia de `sistema.css` el CSS de §4.3, 4.12, 4.13, 4.15 y las migas (pasado a px: el asesor tiene `html` a 18 px); debajo, migas «Inicio › MMO › La Barbarie › Asesor» y los botones A−/A+. Si se cambia el índice, regenerar el asesor (`sync-repo.py`); el test lo detecta si no.
+- Impresión (`@media print`, §4.18): fuera el enlace de salto, el índice y el índice del pie; se quedan logotipo, migas (como texto) y contenido; los enlaces externos llevan su dirección entre paréntesis.
+
+**Criterios que cumple** (comprobados por `tests/navegacion.spec.mjs`, `teclado.spec.mjs`, `lectura.spec.mjs` y `accesibilidad.spec.mjs`, todos en `npm test`)
+| Norma | Criterio | Cómo |
+|---|---|---|
+| WCAG 2.2 · 2.4.1 Evitar bloques (A) | «Saltar al contenido» | primer elemento con foco, visible al tabular, lleva a `#contenido` (también en el asesor) |
+| WCAG 2.2 · 2.4.3 Orden del foco (A) | orden lógico | logotipo → Menú → entradas en el orden visual → contenido; el menú no atrapa el foco |
+| WCAG 2.2 · 2.4.5 Múltiples vías (AA) | índice + migas + índice del pie | |
+| WCAG 2.2 · 2.4.7 Foco visible (AA) | contorno de tinta de 3 px separado 3 px | probado con Tab en 6 páginas y en el menú a 320 px |
+| WCAG 2.2 · 2.4.11 Foco no tapado (AA) | sin cabecera fija ni capas | cada elemento con foco queda dentro de la pantalla |
+| WCAG 2.2 · 2.4.8 Ubicación (AAA) | sección marcada + «Estás en» + migas + antetítulo numerado | |
+| WCAG 2.2 · 2.5.8 Tamaño del destino (AA) | ≥ 48 × 48 px (más que los 24 px del criterio) | botón, entradas, migas |
+| WCAG 2.2 · 1.4.10 Reflow (AA) | 320 px = zoom al 400 % | sin scroll horizontal en las 23 páginas × 16 anchos, menú abierto y cerrado |
+| WCAG 2.2 · 1.4.4 Texto al 200 % (AA) | `html{font-size:200%}` | 23 páginas × 16 anchos sin scroll horizontal (logotipo con tope `min(…, 13vw)`, botón «Menú» con relleno topado en px, titulares que parten palabras largas, etiquetas de `Datos` ≤ 40 %, tabla de bandas desplazable en su caja) |
+| WCAG 2.2 · 1.4.12 Espaciado del texto (AA) | interlineado 1,5, letras 0,12 em, palabras 0,16 em, párrafos 2 em | cabecera, índice y migas sin recortes en 6 páginas × 3 anchos; en el resto, solo dos tablas de guía de 6 columnas a 820 px piden scroll (tabla de datos: exenta en 1.4.10; no se pierde contenido) |
+| WCAG 2.2 · 1.4.3/1.4.6 Contraste | ≥ 7:1 | rótulos de grupo en `--tinta-2` (8,9:1) |
+| WCAG 2.2 · 1.3.1 Información y relaciones (A) | listas anidadas; cada grupo es una `<ul aria-labelledby>` con su rótulo | |
+| WCAG 2.2 · 3.2.3 Navegación coherente (AA) | mismo índice, mismo orden, en todas las páginas y en el asesor | test de cabecera idéntica |
+| WCAG 2.2 · 4.1.2 Nombre, función, valor (A) | `<details>/<summary>` nativo: nombre «Menú, Estás en: …», estado abierto/cerrado lo da el navegador | |
+| WAI-ARIA APG · Disclosure / landmarks | un solo `<nav aria-label="Secciones">` en la cabecera, migas en `<nav aria-label="Estás en">`, pie en `<nav aria-labelledby>`; `aria-current` en la sección | |
+| GOV.UK Design System | *service navigation* («Menu» que se despliega en el flujo, sección actual marcada en sección y subpáginas), *breadcrumbs* (empiezan en Inicio; el último paso no enlaza), *skip link* | |
+| USWDS | cabecera con navegación primaria agrupada y botón «Menú» con texto visible (no solo icono) | |
+
+**Lo que no hace (y por qué)**: no hay submenús desplegables (exigirían JS o capas encima del contenido); Escape no cierra el menú (sin JS; se cierra con el mismo botón); los números de sección cambiaron al agrupar (Fuentes pasa de 08 a 06, Rol de 06 a 07, MMO de 07 a 08), las URL no.
 
 ## 7. Cómo usarlo en una página
 ```astro
@@ -144,9 +178,9 @@ Resultado 2026-11-15 (tarjeta 3/5): `/mmo/`, `/mmo/wow-forever/`, `/mmo/wow-fore
 - Trampa: la auditoría NO ve una cabecera de tabla que se pinta como filas sueltas (pasó con `<thead>` roto por una expresión regular `<th[^>]*>` que también casaba con `<thead>`). Mirar siempre la captura de una tabla apilada.
 
 ## 8 ter. Páginas MMO (tarjeta 3/5)
-- `/mmo/`: Encabezado «07 MMO · Juegos en línea», ficha de La Barbarie (datos + fuente) y «Directo a» (guías, asesor); «Otros juegos» = `Pendiente`.
+- `/mmo/`: Encabezado «08 MMO · Juegos en línea» (07 hasta el 2026-11-17), ficha de La Barbarie (datos + fuente) y «Directo a» (guías, asesor); «Otros juegos» = `Pendiente`.
 - `/mmo/wow-forever/`: migas, asesor (botón de tinta), guías (`tz-lista-enlaces`), bandas (tabla corta) con fuentes y fecha, miembros (`tz-datos--ancho`, huecos con `Pendiente`).
-- Guías: migas MMO › La Barbarie › Guías › profesión; antetítulo, nombre como `h1`, «Profesión de … · comprobada el …»; nota «Cómo leer esta guía» + índice al margen.
+- Guías: migas Inicio › MMO › La Barbarie › Guías › profesión; antetítulo, nombre como `h1`, «Profesión de … · comprobada el …»; nota «Cómo leer esta guía» + índice al margen.
 - `web/guias/` (local, enlazada desde el asesor): misma maqueta con CSS propio en `tools/build-guias.py`. Usa los tipos de respaldo (Helvetica/Arial, Georgia): `web/` no tiene las tipografías. El script se para si una guía sale con 0 enlaces.
 
 ## 8 bis. Páginas del Archivo (tarjeta 2/5)

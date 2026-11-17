@@ -16,6 +16,7 @@ Quien trabaje en el proyecto (persona o IA) lee esto primero y después `README.
 | Una sola rama de publicación | Todo lo preparado va junto en `hermes/web-mmo` (un solo PR) | Coordinación, 2026-11-14 |
 | Archivo del proyecto | El repo guarda copia de todo el material de trabajo en `proyecto/` (no se publica) | PabloFM pide poder archivar; coordinación, 2026-11-14 |
 | JS en cliente | Prohibido en todo el sitio salvo UNA página: el asesor de La Barbarie | Coordinación, 2026-11-14 (reversible) |
+| Menú y navegación | Índice en 3 grupos sin desplegables: Inicio · Archivo (Ediciones, Cronología, Sistemas, Personas, Fuentes) · Comunidad (Rol, MMO); números 01-08 según ese orden (Fuentes 06, Rol 07, MMO 08). Móvil: botón «Menú» con icono + «Estás en: …». `aria-current` "page"/"true" (patrón GOV.UK). El asesor lleva la misma cabecera. Criterios en `docs/diseno.md` §6 bis | Encargo de PabloFM («usa todos los estándares»), tarjeta `t_f77da12d`, 2026-11-17 (reversible) |
 
 ## 2. Mapa del sitio (objetivo en talazbragoles.com)
 Las direcciones que ya existen no cambian.
@@ -75,7 +76,7 @@ Sobre el build de `hermes/rediseno` (23 páginas + asesor):
 - `tests/auditoria-sitio.js` en 16 anchos (320-1440): 368 vistas, 0 fallos (letra ≥16 px, controles ≥48 px, contraste ≥7:1, sin scroll horizontal, sin `<script>`).
 - Asesor con `tests/auditoria.js` a 320 y 1280: 0 fallos, 0 errores de JS (1.008 vistas en 16 anchos en la tarjeta 4/5).
 - axe-core 4.14 (WCAG 2.0/2.1/2.2 A-AA + buenas prácticas + contraste mejorado AAA) en 24 páginas a 360 y 1280: corregidos los 2 avisos (título duplicado «Tipografía» en `/diseno/`; nombre accesible de A−/A+ en el asesor). Lighthouse no está instalado en el host.
-- Teclado: primer Tab = «Saltar al contenido», que lleva a `#contenido`; todos los enlaces alcanzables, foco visible (contorno 3 px) y dentro de pantalla en todas las páginas a 360 y 1280; el «Índice» `<details>` se abre con Intro.
+- Teclado: primer Tab = «Saltar al contenido», que lleva a `#contenido`; todos los enlaces alcanzables, foco visible (contorno 3 px) y dentro de pantalla en todas las páginas a 360 y 1280; el «Menú» `<details>` se abre con Intro (desde 2026-11-17 el botón dice «Menú»; navegación y criterios WCAG en `docs/diseno.md` §6 bis).
 - Enlaces internos y anclas del build: 0 rotos (1.189 enlaces). Las 7 URL de producción siguen existiendo.
 - Muro único para publicar: acceso de GitHub (GitHub App, `t_29d0b62b`).
 
