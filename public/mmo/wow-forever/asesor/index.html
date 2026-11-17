@@ -379,6 +379,7 @@ li::marker{color:var(--tinta-2)}
 <main class="wrap" id="contenido" tabindex="-1">
 <div id="aviso-guardar" role="alert"></div>
 <div id="aviso-datos" role="status"></div>
+<div id="aviso-error" role="alert"></div>
 
 <!-- ================= INICIO ================= -->
 <section class="sec" id="sec-inicio">
@@ -1139,8 +1140,15 @@ li::marker{color:var(--tinta-2)}
 
 <script>
 window.__errs=[];
-window.addEventListener('error',function(e){window.__errs.push(String(e.message||'error'));});
-window.addEventListener('unhandledrejection',function(e){window.__errs.push('Promesa: '+String((e.reason&&e.reason.message)||e.reason||'rechazada'));});
+/* Errores inesperados: se apuntan en __errs (los leen las pruebas) y se avisa una vez en pantalla,
+   para que nadie siga usando cifras de una pantalla a medio pintar. */
+function errorInesperado(t){
+ window.__errs.push(t);
+ var el=document.getElementById('aviso-error'); if(!el||el.innerHTML) return;
+ el.innerHTML='<p class="pend badL">Algo ha fallado en el asesor y lo que ves puede estar incompleto. Recarga la página: lo último que se guardó sigue en este navegador. (Detalle: '+esc(t)+')</p>';
+}
+window.addEventListener('error',function(e){ errorInesperado(String(e.message||'error')); });
+window.addEventListener('unhandledrejection',function(e){ errorInesperado('Promesa: '+String((e.reason&&e.reason.message)||e.reason||'rechazada')); });
 
 /* ============ Estado ============ */
 var KEY='wowf-chaman-v1';
@@ -1802,7 +1810,7 @@ function renderMios(){
  if(!lista.length){ el.innerHTML='<p class="peq">Ninguna fila marcada como tuya en la subida del '+fmtTS(a.ts)+'.</p>'; return; }
  lista.sort(function(x,y){ return x.n.localeCompare(y.n,'es'); });
  var hayPrev=b&&!b.ext;
- var h='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Resultado de la búsqueda"><table><thead><tr><th>Objeto</th><th>Precio más bajo</th><th>A la venta (total)</th>'+(hayPrev?'<th>Subida anterior</th><th>Cambio</th>':'')+'</tr></thead><tbody>';
+ var h='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Tus anuncios"><table><thead><tr><th>Objeto</th><th>Precio más bajo</th><th>A la venta (total)</th>'+(hayPrev?'<th>Subida anterior</th><th>Cambio</th>':'')+'</tr></thead><tbody>';
  lista.forEach(function(e){
    var pp=hayPrev?precioDe(e.n,b):null;
    h+='<tr><td>'+esc(e.n)+'</td><td>'+fmtC(e.p)+'</td><td>'+(e.pend||!e.hay?'pendiente':e.d)+'</td>'+

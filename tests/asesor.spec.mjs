@@ -180,3 +180,14 @@ test("subidas incluidas: si falta una, lo dice y calcula con las demás", async 
   await page.evaluate(() => planHacer());
   await expect(page.locator("#plan-salida")).toContainText("Plan con");
 });
+
+test("un error inesperado se avisa en pantalla (una vez) y queda en __errs", async ({ page }) => {
+  await page.evaluate(() => { setTimeout(() => { throw new Error("prueba 1"); }); setTimeout(() => { throw new Error("prueba 2"); }); });
+  await expect(page.locator("#aviso-error")).toContainText("Algo ha fallado en el asesor");
+  await expect(page.locator("#aviso-error")).toContainText("prueba 1");
+  await expect.poll(() => page.evaluate(() => window.__errs.length)).toBe(2);
+  expect(await page.locator("#aviso-error p").count()).toBe(1);
+  // Errores provocados a propósito: se limpian para que afterEach no los cuente.
+  page.errores = [];
+  await page.evaluate(() => { window.__errs = []; });
+});
