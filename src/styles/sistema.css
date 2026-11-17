@@ -279,6 +279,8 @@
     text-wrap: balance;
   }
   @media (min-width: 48rem) { .tz-titulo { font-size: var(--t-4); } }
+  /* Palabras largas («Talazbrágoles») con el texto al 200 % en 320 px: que partan en vez de desbordar */
+  .tz-titulo > span { min-width: 0; max-width: 100%; }
   .tz-titulo .tz-num {
     font-size: var(--t-0);
     font-weight: var(--p-normal);
@@ -455,7 +457,8 @@
   .tz-datos dt { font-size: var(--t-0); font-weight: var(--p-normal); color: var(--tinta-2); }
   .tz-datos dd { margin: 0; }
   @media (min-width: 30rem) {
-    .tz-datos > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--e-4); align-items: baseline; }
+    /* La etiqueta no pasa del 40 % de la caja: con el texto al 200 % el dato sigue cabiendo */
+    .tz-datos > div { display: grid; grid-template-columns: min(7.5rem, 40%) minmax(0, 1fr); gap: var(--e-4); align-items: baseline; }
   }
   .tz-ficha-pie { margin-top: var(--e-3); }
   .tz-ficha-pie a {
@@ -854,6 +857,10 @@
   }
   .tz-tabla td { border-bottom: var(--f-fino) solid var(--filete); }
   .tz-tabla td:first-child { font-weight: var(--p-semi); }
+  /* Tabla que se queda como tabla en móvil (pocas columnas cortas): con el texto muy ampliado
+     se desplaza dentro de su caja, no la página entera (WCAG 1.4.10 exime las tablas de datos).
+     Chrome y Firefox dan foco de teclado a la caja solo cuando de verdad desborda. */
+  .tz-desplazable { overflow-x: auto; }
   /* Caja estrecha: cada fila pasa a ser una ficha con la etiqueta de la columna encima */
   @container (max-width: 44rem) {
     .tz-tabla, .tz-tabla thead, .tz-tabla tbody, .tz-tabla tr, .tz-tabla th, .tz-tabla td { display: block; }
@@ -930,7 +937,7 @@
 
   /* Datos con etiqueta ancha (nombres de personaje) */
   @media (min-width: 30rem) {
-    .tz-datos--ancho > div { grid-template-columns: 11rem minmax(0, 1fr); }
+    .tz-datos--ancho > div { grid-template-columns: min(11rem, 40%) minmax(0, 1fr); }
   }
 
   /* Página de guía: índice y nota al margen (antes del texto en móvil; a la derecha desde 1024 px) */

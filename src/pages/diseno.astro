@@ -259,7 +259,7 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
 <style>
   .muestra-logo { padding: var(--e-6) 0; border-bottom: var(--f-fino) solid var(--filete); }
   .muestra-logo--320 { width: min(100%, 288px); }
-  .muestra-logo--320 .tz-logo-nombre { font-size: 2.5rem; }
+  .muestra-logo--320 .tz-logo-nombre { font-size: min(2.5rem, 13vw); }
   .muestras-color { list-style: none; margin: var(--e-6) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: var(--e-6) var(--medianil); }
   .muestras-color li { display: flex; flex-direction: column; gap: var(--e-1); }
   .muestras-color strong { font-weight: var(--p-semi); }
@@ -273,7 +273,7 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
   .muestra-t3 { font-family: var(--letra-titular); font-size: var(--t-3); line-height: var(--il-titulo); }
   .muestra-t2 { font-size: var(--t-2); line-height: 1.4; }
   .espacios { list-style: none; margin: var(--e-6) 0; padding: 0; display: grid; gap: var(--e-2); }
-  .espacios li { display: grid; grid-template-columns: 4.5rem 8rem auto; align-items: center; gap: var(--e-3); color: var(--tinta-2); }
+  .espacios li { display: grid; grid-template-columns: minmax(0, 4.5rem) minmax(0, 8rem) auto; align-items: center; gap: var(--e-3); color: var(--tinta-2); }
   .espacio-barra { display: block; height: 0.75rem; background: var(--tinta); }
   .reticula-demo { margin-top: var(--e-6); gap: var(--e-2) var(--medianil); }
   .reticula-demo span { display: flex; align-items: flex-end; justify-content: center; min-height: 3rem; border-top: var(--f-medio) solid var(--tinta); background: var(--papel-2); color: var(--tinta-2); }
