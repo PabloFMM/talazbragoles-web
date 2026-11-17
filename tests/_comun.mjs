@@ -1,5 +1,5 @@
 // Utilidades comunes de los tests.
-import { readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -32,4 +32,13 @@ export function rutas() {
     .sort();
 }
 
-// Las pestañas del asesor se leen de su variable TABS en cada test (así no se desincronizan).
+// Las pestañas del asesor se leen de su variable TABS (así no se desincronizan).
+/** Pestañas del asesor publicado, leídas de su `TABS=[…]`: sirven para crear un test por pestaña. */
+export function pestanasAsesor() {
+  const html = readFileSync(join(RAIZ, "public", "mmo", "wow-forever", "asesor", "index.html"), "utf-8");
+  const m = /\bTABS=\[([^\]]*)\]/.exec(html);
+  if (!m) throw new Error("No encuentro TABS=[…] en el asesor publicado");
+  const lista = [...m[1].matchAll(/'([^']+)'/g)].map((x) => x[1]);
+  if (lista.length < 5) throw new Error(`TABS del asesor con solo ${lista.length} pestañas: ${lista}`);
+  return lista;
+}

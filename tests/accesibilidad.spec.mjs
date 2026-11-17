@@ -2,7 +2,7 @@
 // Donde axe no puede medir el contraste (texto sobre capas semitransparentes), lo mide tests/lectura.spec.mjs.
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { rutas, ASESOR } from "./_comun.mjs";
+import { rutas, ASESOR, pestanasAsesor } from "./_comun.mjs";
 
 const axe = (page) =>
   new AxeBuilder({ page })
@@ -22,16 +22,15 @@ for (const ruta of rutas().filter((r) => r !== ASESOR)) {
   }
 }
 
-test("axe: asesor, todas las pestañas", async ({ page }) => {
-  test.setTimeout(600_000); // axe tarda ~10 s por pestaña en el asesor
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto(ASESOR);
-  const PESTANAS = await page.evaluate(() => TABS);
-  const fallos = [];
-  for (const pest of PESTANAS) {
+// Un test por pestaña (antes uno solo de ~2-4 min con las 14): se reparten entre los workers.
+const PESTANAS = pestanasAsesor();
+for (const pest of PESTANAS) {
+  test(`axe: asesor, pestaña ${pest}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(ASESOR);
+    expect(await page.evaluate(() => TABS), "pestañas del asesor").toEqual(PESTANAS);
     await page.evaluate((p) => { showTab(p); if (p === "subasta") { planHacer(); document.getElementById("bus-q").value = "de"; buscar(); calcFab(); calcSubasta(); } }, pest);
     const r = await axe(page).analyze();
-    for (const linea of resumen(r.violations)) fallos.push(`${pest} · ${linea}`);
-  }
-  expect(fallos, fallos.join("\n")).toEqual([]);
-});
+    expect(resumen(r.violations), resumen(r.violations).join("\n")).toEqual([]);
+  });
+}

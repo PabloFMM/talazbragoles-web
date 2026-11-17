@@ -129,14 +129,23 @@ test("copia: exportar e importar conserva los datos; una copia no válida no cam
   expect(await page.evaluate(() => [S.tablon, S.alm.Cobre])).toEqual(["aviso de prueba", 3]);
 });
 
-test("borrar pide dos pulsaciones", async ({ page }) => {
-  await page.evaluate(() => { S.alm = { Cobre: 3 }; save(); renderAlm(); showTab("almacen"); });
-  const quitar = page.locator("#alm-lista button");
+test("borrar pide dos pulsaciones (y se desarma a los 4 s)", async ({ page }) => {
+  // Reloj falso: entre las dos pulsaciones no pasa el tiempo aunque la máquina vaya lenta (antes, con >4 s
+  // entre clics, el botón se desarmaba y el test fallaba sin motivo).
+  await page.clock.install();
+  await page.goto(ASESOR);
+  await page.evaluate(() => { S.alm = { Cobre: 3, Estaño: 2 }; save(); renderAlm(); showTab("almacen"); });
+  const quitar = page.locator("#alm-lista button").first();
+  const texto = await quitar.innerText();
   await quitar.click();
   await expect(quitar).toHaveText("¿Seguro? Pulsa otra vez");
-  expect(await page.evaluate(() => S.alm.Cobre)).toBe(3);
+  await page.clock.runFor(4100);
+  await expect(quitar).toHaveText(texto);
   await quitar.click();
-  expect(await page.evaluate(() => Object.keys(S.alm).length)).toBe(0);
+  await expect(quitar).toHaveText("¿Seguro? Pulsa otra vez");
+  expect(await page.evaluate(() => Object.keys(S.alm).length)).toBe(2);
+  await quitar.click();
+  expect(await page.evaluate(() => Object.keys(S.alm).length)).toBe(1);
 });
 
 test("enlaces directos: #mmo-subasta abre Comercio", async ({ page }) => {
