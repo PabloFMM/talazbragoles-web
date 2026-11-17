@@ -104,7 +104,7 @@
 - Al arrancar, `cargaSubidas()` los pide con `fetch` (`AH_DIR`: `datos/` en el prototipo; `/mmo/wow-forever/asesor/datos/` en el sitio, lo pone `build-asesor.py`) y comprueba que `id` y número de filas coinciden con la ficha. Mientras tanto, `DATOS.listo=false` y lo que depende de precios dice «Cargando…» (`preciosListos()`); al acabar, `<html data-precios="listos">` (o `"incompletos"`, y las que no llegan se quitan de `AHB` con aviso en `#aviso-datos`).
 - Nada de esto va a `localStorage`: el estado guardado (`wowf-chaman-v1`) no cambia. Las subidas que sube el jugador siguen en `S.ahs` con sus filas.
 - Añadir una subida: `scripts/add-subasta.py` del skill `talazbragoles-web` (escribe el JSON y la ficha) y `TZ_REPO=repo-rediseno python3 tools/sync-repo.py`.
-- Peso: las 5 completas suman 1.138.780 bytes en `web/datos/`; el HTML pasa de 1.242.608 a 129.760 bytes.
+- Peso: las 5 completas suman 1.138.780 bytes en `web/datos/`; el HTML pasa de 1.242.608 a 130.522 bytes (publicado: 141.658).
 
 ## AH5 — 2026-11-17 18:18 UTC (hora de recepción)
 - Copia: `data/subastas/2026-11-17_1818UTC_recibida.csv`. 4.514 filas, 0 malas. «Elixir de fuerza menor» repetido (se deja). 0 filas propias. Hora de exportación: pendiente.
