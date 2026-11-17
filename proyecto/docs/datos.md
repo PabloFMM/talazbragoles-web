@@ -97,3 +97,8 @@
 ## AH4 — 2026-11-15 21:36 UTC (hora de recepción)
 - Copia: `data/subastas/2026-11-15_2136UTC_recibida.csv`. 4.755 filas, 0 malas. «Elixir de fuerza menor» aparece dos veces (se deja tal cual). 8 filas propias.
 - `AHB=[AH0,AH1,AH2,AH3,AH4]`. Solo 21 min después de AH3: 20 cambios ≥15 % (9 bajan, 11 suben).
+
+## AH5 — 2026-11-17 18:18 UTC (hora de recepción)
+- Copia: `data/subastas/2026-11-17_1818UTC_recibida.csv`. 4.514 filas, 0 malas. «Elixir de fuerza menor» repetido (se deja). 0 filas propias. Hora de exportación: pendiente.
+- `AHB=[AH0,AH1,AH2,AH3,AH4,AH5]`. Casi dos días después de AH4: 1.537 cambios ≥15 % (937 bajan, 600 suben); 2.253 nombres desaparecen y 2.012 son nuevos.
+- Precios clave (cobre por unidad, a la venta entre paréntesis): mineral de cobre 140 (599); lingote de cobre 100 (1.260); mineral de estaño 148 (572); lingote de estaño 174 (333); lingote de bronce 174 (2.262); piedra basta 11 (3.031); pólvora férrea 75 (1.062); paño de lino 38 (6.143); puñado de tornillos de cobre 183 (59).

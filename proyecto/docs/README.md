@@ -132,7 +132,8 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - La subida completa de precios del 2026-11-13 08:16 (2.991 objetos) no está disponible fuera del artifact de Claude: la web incluye solo un extracto con los precios clave de `comercio.md`. Pendiente de integrar.
 - Integrada (2026-11-13) una subida completa de 3.823 objetos (AH1, recibida a las 21:27 UTC; hora de exportación pendiente). Ver `datos.md`.
 - Integrada (2026-11-15) una subida completa de 4.634 objetos (AH2, recibida a las 17:44 UTC; hora de exportación pendiente). Ver `datos.md`.
-- Integrada (2026-11-15) AH3, 4.731 objetos, recibida a las 21:15 UTC. Es la que usa la web por defecto.
+- Integrada (2026-11-15) AH3, 4.731 objetos, recibida a las 21:15 UTC.
+- Integrada (2026-11-17) AH5, 4.514 objetos, recibida a las 18:18 UTC. Es la que usa la web por defecto. Auditoría: 0 fallos en 1.008 vistas, 0 errores de JS.
 - La base de datos compartida (`db`) del artifact no está conectada en el prototipo: los CSV se guardan solo en este navegador (máximo 6).
 - La ficha de personajes del artifact (capturas base64) no está portada: campo `img` reservado en el estado.
 - El HTML real del artifact (slug `31c048d5-0dec-48aa-9c43-1bce5782e570`) no es accesible desde aquí: la sección MMO está reconstruida desde su documentación.

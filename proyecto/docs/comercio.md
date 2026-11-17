@@ -97,6 +97,10 @@
 - 12 puñados de tornillos (14 pl. 1), 10 lingotes de bronce (4 pl. 65) y 7 pólvoras (2 cobre). Invierte 24 pl. 97, recupera 43 pl. 65, ganancia 18 pl. 68.
 - AH2 → AH3: 142 cambios ≥15 % (101 bajan, 41 suben); 7 de «lo que te importa».
 
+## Resultado con AH5 (4.514 objetos, 2026-11-17 18:18 UTC), valores por defecto (Minería 80, Ingeniería 43) y 25 de plata
+- Regresión (estado limpio): 159 pólvoras férreas (compra 159 piedras bastas por 17 pl. 49; cobra 1 o. 13 pl. 29; ganancia 95 pl. 80) y 7 puñados de tornillos (coste 7 pl.; ganancia 5 pl. 17). Sobran 51 cobres.
+- Ojo: esa ganancia sale de que la pólvora férrea pasó de 15 a 75 cobres (es el precio más bajo, con 1.062 a la venta). No está asegurado que se vendan 159 más a ese precio.
+
 ## Cambios entre subidas
 - Solo objetos con 20 o más a la venta en las dos subidas.
 - Solo cambios del 15 % o más.
