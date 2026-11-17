@@ -1,3 +1,5 @@
+import { dosCifras } from "./formato";
+
 export type NavItem = { label: string; href: string };
 
 /** Paso de unas migas de pan (el último es la página actual y no enlaza). */
@@ -22,5 +24,5 @@ export const mainNav: NavItem[] = [
 export function numeroSeccion(href: string) {
   const i = mainNav.findIndex((item) => item.href === href);
   if (i < 0) throw new Error(`numeroSeccion: «${href}» no está en mainNav`);
-  return String(i + 1).padStart(2, "0");
+  return dosCifras(i + 1);
 }

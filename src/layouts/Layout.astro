@@ -30,8 +30,9 @@ const siteUrl = Astro.site ?? new URL("https://www.talazbragoles.com");
 const ruta = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const canonical = new URL(canonicalPath ?? ruta, siteUrl).toString();
 
-// Sin la marca repetida: «Talazbrágoles — 5ª edición» no lleva « · Talazbrágoles».
-const tituloCompleto = title.toLocaleLowerCase("es").includes(MARCA.toLocaleLowerCase("es")) ? title : `${title} · ${MARCA}`;
+// Sin la marca repetida: «Talazbrágoles — 5ª edición» no lleva « · Talazbrágoles» (sin mirar mayúsculas ni tildes).
+const llano = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+const tituloCompleto = llano(title).includes(llano(MARCA)) ? title : `${title} · ${MARCA}`;
 // Imagen para redes: generada con proyecto/tools/og-imagen.mjs (1200 × 630, solo tipografía).
 const ogImage = new URL("/og.png", siteUrl).toString();
 const ogImageAlt = "Talazbrágoles · Archivo de las Jornadas, en tinta negra sobre papel claro.";

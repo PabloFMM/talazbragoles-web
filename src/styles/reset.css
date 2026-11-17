@@ -3,6 +3,8 @@
   el sitio no usaba ninguna utilidad de Tailwind y su escáner metía en el CSS
   clases sueltas sacadas de la documentación, como .hidden, .table o .text-xs).
   Solo las reglas de las que depende sistema.css; mismo resultado visual.
+  Ojo: no incluye lo del preflight para formularios (::placeholder, textarea,
+  apariencia de botones) porque el sitio no tiene campos. Si se añaden, revisarlo.
 */
 @layer base {
   *, ::before, ::after, ::backdrop {

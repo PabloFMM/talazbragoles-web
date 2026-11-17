@@ -64,14 +64,15 @@ Pesos: `--p-fino` 300 (logotipo y titulares grandes; en tinta pura cumple 16,8:1
 | Componente (props) | Clases | Qué hace |
 |---|---|---|
 | `Logo` (`href`) | `tz-logo`, `tz-logo-nombre`, `tz-logo-sub` | «Talazbrágoles» en Source Serif 4 fino a `--t-logo` y «Archivo de las Jornadas» debajo en Archivo 16 px, mayúsculas espaciadas. Enlaza a la portada. Cabe a 320 px |
-| `Encabezado` (`titulo`, `numero`, `seccion`, `entradilla`, `portada`) | `tz-encabezado`, `tz-antetitulo`, `tz-titular`, `tz-entradilla` | Cabeza de página: antetítulo (número + sección), el único `h1`, entradilla |
+| `Encabezado` (`titulo`, `numero`, `seccion`, `entradilla`, `portada`, `migas[]`) | `tz-encabezado`, `tz-antetitulo`, `tz-titular`, `tz-entradilla` | Cabeza de página: [migas], antetítulo (número + sección), el único `h1`, entradilla. `numero` = `numeroSeccion("/ruta")` de `lib/nav.ts` |
 | `Titulo` (`id`, `numero`, `nivel`) | `tz-titulo` | `h2`/`h3` con filete fino de tinta encima y número «01» |
 | `Filete` (`tipo`: fino, suave, medio, corto) | `tz-filete`, `tz-filete--*` | Separador `<hr>` |
 | `Ficha` (`titulo`, `numero`, `estado`, `datos[]`, `href`, `enlace`, `nivel`) | `tz-ficha*`, `tz-datos`; rejilla `tz-fichas` | Ficha de archivo. Un dato vacío (`null`, `""`) se pinta «pendiente», no se omite. Pie con enlace de 48 px |
+| `Datos` (`datos[]`, `class`) | `tz-datos` | Lista `dl` etiqueta/valor; un valor vacío se pinta «pendiente». La usan `Ficha` y las fichas de edición y campaña |
 | `Estado` (`estado`: documentada, parcial, pendiente) | `tz-estado--*` | Marca de estado: cuadro lleno / medio / vacío + texto. Mismos valores que el esquema de ediciones |
 | `Pendiente` (`mensaje`, `pide`, `etiqueta`) | `tz-pendiente` (en línea), `tz-hueco` (bloque) | Sin props: etiqueta en línea. Con `mensaje`/`pide`: bloque digno para secciones con poco contenido (lo usa `/rol/`) |
 | `Cita` (`texto`, `autor`, `fuente`, `url`, `fecha`, `origenPendiente`) | `tz-cita` | Cita en Source Serif cursiva con atribución obligatoria; si no se sabe el origen, `origenPendiente` |
-| `NotaFuente` (`n`, `titulo`, `url`, `tipo`, `fecha`, `consulta`, `afirma`, `reserva`, `caido`, `id`) | `tz-fuentes` (el `<ol>`), `tz-fuente*` | Nota numerada con tipo, fechas, «Dice:» (`asserts`) y «Reservas:». Recibe los campos de la colección `sources`. `id` = id de la fuente: en `/fuentes/` cada nota es el ancla `/fuentes#<id>` a la que enlazan las demás páginas |
+| `NotaFuente` (`fuente`, `n`, `ancla`) | `tz-fuentes` (el `<ol>`), `tz-fuente*` | Nota numerada con tipo, fechas, «Dice:» (`asserts`) y «Reservas:». Recibe la entrada de la colección `sources`. `ancla` (solo en `/fuentes/`) pone `id` = id de la fuente: es el ancla `/fuentes#<id>` a la que enlazan las demás páginas |
 
 ### Componentes del Archivo (`src/components/archivo/`, tarjeta 2/5)
 | Componente (props) | Clases | Qué hace |
@@ -91,8 +92,9 @@ Formato compartido (sin datos): `src/lib/formato.ts` (`partesFecha`, `fechaLarga
 | `tz-nota` | Nota de lectura («Cómo leer esta guía»): papel-2 y filete de tinta. No es «pendiente» |
 | `tz-guia-reticula`, `tz-guia-margen`, `tz-indice-guia`, `tz-guia` | Página de guía: nota + índice numerado (enlaces de 48 px) antes del texto en móvil y en columna al margen desde 1024 px; la prosa a `--medida` y las tablas a todo el ancho; `h2` con filete |
 | `tz-datos--ancho` | `tz-datos` con etiqueta de 11 rem (nombres de personaje) |
-| `tz-encabezado--tras-migas` (prop `trasMigas` de `Encabezado`) | Encabezado justo debajo de unas `Migas` |
-| `tz-cmd`, `.tz-prosa code` | Monoespaciada a 1 em (no `monospace` a secas: baja a 13 px) |
+| `tz-encabezado--tras-migas` (prop `migas` de `Encabezado`, que pinta también las `Migas`) | Encabezado justo debajo de unas migas |
+| `code` (en `reset.css`) | Monoespaciada a 1 em (no `monospace` a secas: baja a 13 px) |
+| `tz-item-titulo`, `tz-item-meta`, `tz-item-texto` | Título, dato y texto de un elemento de `tz-lista-numerada` (actividades, sesiones) |
 
 - Markdown: `repo/src/lib/rehype-guias.mjs` (en `astro.config.mjs`) pone `data-etiqueta`, la clase `tz-tabla` y roles ARIA en todas las tablas, y quita el `# Título` de las guías (el `h1` lo pone `Encabezado`). `tools/build-guias.py` hace lo mismo para `web/guias/`.
 - `MmoStyles.astro` y las clases `mmo-*` ya no existen.
@@ -101,7 +103,7 @@ Otras clases: `tz-rotulo`, `tz-subtitulo`, `tz-lista-numerada`, `tz-prosa` (text
 Prefijo `tz-` obligatorio (evita choques con clases genéricas).
 
 ## 6. Marco del sitio (`Layout.astro`)
-- Prop nueva `noindex` (pone `robots noindex, nofollow`). El resto igual (`title`, `description`, `canonicalPath`, `nav`).
+- Props: `title` y `description` obligatorios; `noindex` (pone `robots noindex, nofollow`); `canonicalPath` opcional (por defecto, la ruta de la página sin barra final). El título lleva « · Talazbrágoles» salvo que ya contenga la marca. Open Graph completo: `og:site_name`, `og:locale`, `og:image` (`/og.png`) con tamaño y `og:image:alt`. Lo comprueba `tests/enlaces.test.mjs`.
 - Cabecera (no fija): logotipo y, debajo, el índice. Mismo marco en todo el sitio, MMO incluido.
 - Índice de 8 entradas numeradas (`nav.ts`): Inicio, Ediciones, Cronología, Sistemas, Personas, Rol (`/rol`), MMO (`/mmo`, La Barbarie), Fuentes. Sin JS: por debajo de 1024 px es un `<details>` «Índice» que se despliega en el flujo (1 columna; 2 desde 480 px); desde 1024 px, una fila repartida. La sección actual lleva `aria-current="page"` (calculado en el build).
 - Pie sobre filete de tinta: columnas «El método», índice y colofón (tipos y licencias).
@@ -114,10 +116,11 @@ Prefijo `tz-` obligatorio (evita choques con clases genéricas).
 import Layout from "../layouts/Layout.astro";
 import Encabezado from "../components/sistema/Encabezado.astro";
 import Titulo from "../components/sistema/Titulo.astro";
+import { numeroSeccion } from "../lib/nav";
 ---
-<Layout title="Ediciones" canonicalPath="/ediciones">
+<Layout title="Ediciones" description="…">
   <div class="tz-pagina">
-    <Encabezado numero="02" seccion="Archivo" titulo="Ediciones" entradilla="…" />
+    <Encabezado numero={numeroSeccion("/ediciones")} seccion="Archivo" titulo="Ediciones" entradilla="…" />
     <section class="tz-seccion" aria-labelledby="s1">
       <Titulo id="s1" numero="01">…</Titulo>
       <div class="tz-prosa">…</div>
