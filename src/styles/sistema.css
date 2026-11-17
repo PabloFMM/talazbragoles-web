@@ -218,7 +218,9 @@
   }
   .tz-logo-nombre {
     font-family: var(--letra-titular);
-    font-size: var(--t-logo);
+    /* Tope de 13vw: con el texto ampliado al 200 % en 320 px, la palabra (que no se puede partir)
+       cabe sin scroll horizontal; con el texto normal el tope no actúa (40 px < 41,6 px). */
+    font-size: min(var(--t-logo), 13vw);
     font-weight: var(--p-fino);
     font-optical-sizing: auto;
     line-height: 1.1; /* deja sitio al trazo bajo de la «g» sobre el subtítulo */
@@ -585,16 +587,18 @@
   .tz-nav-boton {
     display: inline-flex;
     align-items: center;
-    gap: var(--e-3);
+    /* Relleno, hueco e icono con tope en px: con el texto al 200 % en 320 px el botón sigue cabiendo */
+    gap: min(var(--e-3), 12px);
     min-height: var(--toque);
-    padding: 0 var(--e-5) 0 var(--e-4);
+    max-width: 100%;
+    padding: 0 min(var(--e-5), 24px) 0 min(var(--e-4), 16px);
     border: var(--f-fino) solid var(--tinta);
     font-size: var(--t-1);
     font-weight: var(--p-semi);
     line-height: 1.2;
   }
-  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(var(--e-5) - 1px) 0 calc(var(--e-4) - 1px); }
-  .tz-nav-icono { flex: none; width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(min(var(--e-5), 24px) - 1px) 0 calc(min(var(--e-4), 16px) - 1px); }
+  .tz-nav-icono { flex: none; width: min(1.5rem, 32px); height: min(1.5rem, 32px); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
   .tz-nav-icono-cerrar { display: none; }
   .tz-nav-plegable[open] .tz-nav-icono-abrir { display: none; }
   .tz-nav-plegable[open] .tz-nav-icono-cerrar { display: inline; }

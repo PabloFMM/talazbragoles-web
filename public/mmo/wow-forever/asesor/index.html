@@ -227,7 +227,7 @@ li::marker{color:var(--tinta-2)}
   }
   .tz-logo-nombre {
     font-family: var(--letra-titular);
-    font-size: var(--t-logo);
+    font-size: min(var(--t-logo), 13vw);
     font-weight: var(--p-fino);
     font-optical-sizing: auto;
     line-height: 1.1; 
@@ -293,16 +293,17 @@ li::marker{color:var(--tinta-2)}
   .tz-nav-boton {
     display: inline-flex;
     align-items: center;
-    gap: var(--e-3);
+    gap: min(var(--e-3), 12px);
     min-height: var(--toque);
-    padding: 0 var(--e-5) 0 var(--e-4);
+    max-width: 100%;
+    padding: 0 min(var(--e-5), 24px) 0 min(var(--e-4), 16px);
     border: var(--f-fino) solid var(--tinta);
     font-size: var(--t-1);
     font-weight: var(--p-semi);
     line-height: 1.2;
   }
-  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(var(--e-5) - 1px) 0 calc(var(--e-4) - 1px); }
-  .tz-nav-icono { flex: none; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(min(var(--e-5), 24px) - 1px) 0 calc(min(var(--e-4), 16px) - 1px); }
+  .tz-nav-icono { flex: none; width: min(24px, 32px); height: min(24px, 32px); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
   .tz-nav-icono-cerrar { display: none; }
   .tz-nav-plegable[open] .tz-nav-icono-abrir { display: none; }
   .tz-nav-plegable[open] .tz-nav-icono-cerrar { display: inline; }
