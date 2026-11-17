@@ -158,7 +158,7 @@ Resultado 2026-11-15 (tarjeta 3/5): `/mmo/`, `/mmo/wow-forever/`, `/mmo/wow-fore
 - 2/5 (`t_d211a9fa`): HECHO (ver §8 bis). Retirados `components/home/*`, `components/ui/*`, `EditionCard`, `SourceCard` y `homeNav`. Queda: la edición `talazbragoles-sin-fecha-1` lleva sede «Majadahonda», pero su fuente (Comunidad Umbría) solo dice «en la Talazbrágoles y en la Casa de la Juventud de Majadahonda»: revisar el dato (decisión de contenido, no de diseño). El pie del Layout dice «aquí lo cuidamos» sin canal de contacto.
 - 3/5 (`t_a2f1420e`): HECHO (ver §8 ter). `MmoStyles.astro` retirado.
 - 4/5 (`t_63deb1c3`): HECHO (ver §8 quater).
-- `/og.png` sigue sin existir (solo tipografía: si se hace, el logotipo en Source Serif 4 fino sobre papel).
+- `/og.png` (2026-11-17): solo tipografía, 1200 × 630: filete fino arriba, «Talazbrágoles» en Source Serif 4 300 a 168 px y «Archivo de las Jornadas» en Archivo 500 en mayúsculas espaciadas, sobre papel. Se regenera con `node proyecto/tools/og-imagen.mjs` (Chromium de Playwright; mismo resultado byte a byte). `Layout.astro` declara tamaño y texto alternativo (`og:image:alt`).
 
 ## 8 quater. Asesor de La Barbarie (tarjeta 4/5)
 - Fuente única: `web/index.html` (copia previa: `web/index-antes-rediseno.html`). El asesor del sitio (`public/mmo/wow-forever/asesor/index.html`) se GENERA con `tools/build-asesor.py` / `tools/sync-repo.py`; con el worktree del rediseño: `TZ_REPO=repo-rediseno python3 tools/sync-repo.py`.

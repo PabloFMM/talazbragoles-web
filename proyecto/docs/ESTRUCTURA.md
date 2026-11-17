@@ -12,6 +12,7 @@ Quien trabaje en el proyecto (persona o IA) lee esto primero y después `README.
 | Publicación | Hermes trabaja en ramas, fusiona con checks en verde y publica; PabloFM hace QA en producción | PabloFM, 2026-11-13 |
 | Dos estéticas | ~~Tema oscuro solo dentro del asesor~~ → sustituida por «Rediseño» | Coordinación, 2026-11-14 |
 | Rediseño | Estilo (precisado por PabloFM 2026-11-15): «algo actual, limpio y elegante». Blanco y negro sobrio y contemporáneo, NO estética de fotocopia ni recortes; del fanzine se queda solo la paleta. En TODO el sitio, asesor incluido (se acaba el tema oscuro). Portada centrada en el Archivo de las Jornadas: arriba una frase que explique qué fueron las Jornadas y debajo las ediciones por año (PabloFM, 2026-11-15). Solo tipografía (no hay logo, fotos ni ilustraciones). Logotipo: «Talazbrágoles» grande y en peso fino, con «Archivo de las Jornadas» debajo en pequeño (PabloFM, 2026-11-15). La Barbarie/asesor/guías: una entrada más del menú («MMO») al mismo nivel que Ediciones o Cronología, sin bloque propio en portada (PabloFM, 2026-11-15). Solo modo claro (papel y tinta), sin modo oscuro (PabloFM, 2026-11-15). Debe existir una sección de JUEGOS DE ROL (`/rol/`) en el menú aunque aún tenga poco contenido (PabloFM, 2026-11-15; anula «no se publican páginas vacías» para `/rol/`). El estilo «fotocopia» y el acento cian de `repo/CLAUDE.md` quedan sustituidos: actualizar ese archivo. Sin webs de referencia | PabloFM, 2026-11-15 |
+| Contenido pendiente de PabloFM | Sede de la edición sin fechar → «pendiente» (la fuente no la afirma). Sin medio de contacto: se quitan las invitaciones a escribir hasta que lo haya | Coordinación por delegación («dale caña»), 2026-11-17 (reversible) |
 | Una sola rama de publicación | Todo lo preparado va junto en `hermes/web-mmo` (un solo PR) | Coordinación, 2026-11-14 |
 | Archivo del proyecto | El repo guarda copia de todo el material de trabajo en `proyecto/` (no se publica) | PabloFM pide poder archivar; coordinación, 2026-11-14 |
 | JS en cliente | Prohibido en todo el sitio salvo UNA página: el asesor de La Barbarie | Coordinación, 2026-11-14 (reversible) |
@@ -85,7 +86,7 @@ Flujo para actualizar la rama de publicación (desde 2026-11-15): editar en la c
 2. **Publicar lo preparado**: dominio, fuentes del Archivo.
 3. **Guías de profesiones**: hechas y en la rama (2026-11-14). Falta: segunda pasada de contenido y sección «Para La Barbarie».
 4. **Sección MMO en Astro**: hecha en la rama `hermes/web-mmo` (2026-11-14).
-5. **Portada**: enlazar MMO desde la home. Imagen `/og.png`.
+5. **Portada**: enlazar MMO desde la home. Imagen `/og.png`: hecha el 2026-11-17 (`tools/og-imagen.mjs`).
 6. **Contenido pendiente del dueño**: rol de mesa, juegos, LARP, eventos; escaneos de La Runa.
 
 ## 7. Qué se puede archivar (2026-11-14)

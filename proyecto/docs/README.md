@@ -144,5 +144,5 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
   - Integrar el HTML real del artifact de Claude o mantener esta reimplementación.
   - Conectar la sincronización de precios (en el repo Astro haría falta un backend o un JSON versionado en el repo).
   - Dominio canonical: arreglado en local el 2026-11-13 (`astro.config.mjs`, `public/robots.txt`, `src/layouts/Layout.astro` → `https://www.talazbragoles.com`; `npm run build` correcto). Sin commit ni push. En producción sigue apuntando a `vercel.app` hasta que se publique.
-  - Falta la imagen `/og.png` que anuncia el `Layout.astro` (hay un TODO en el código).
+  - Imagen `/og.png`: hecha el 2026-11-17 en `hermes/rediseno` con `tools/og-imagen.mjs` (1200 × 630, solo tipografía).
 - Camino previsto: mover la sección MMO como página/ruta del repo Astro o como isla; contenido del archivo ya vive en las colecciones Astro.
