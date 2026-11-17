@@ -27,7 +27,9 @@ for (const ruta of ["/", "/fuentes/", "/mmo/", "/mmo/wow-forever/", "/mmo/wow-fo
     expect(primero?.texto).toContain("Saltar al contenido");
     expect(primero?.visible, "el enlace de salto se ve al recibir el foco").toBe(true);
     await page.keyboard.press("Enter");
-    expect(new URL(page.url()).hash).toBe("#contenido");
+    // toHaveURL reintenta: page.url() es la copia de Playwright y se actualiza con un evento aparte, así que
+    // leída justo después del Intro aún podía dar la URL de antes (falló así en el asesor, con «#mmo-hoy»).
+    await expect(page).toHaveURL(/#contenido$/);
 
     // Los 40 siguientes (o hasta el final de la página, cuando el foco sale a la barra del navegador):
     // cada elemento con foco está dentro de la pantalla y tiene contorno.

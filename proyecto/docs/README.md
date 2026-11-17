@@ -22,9 +22,11 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - `produccion.md`: checklist de paso a producción (GitHub App, protección de `main`, dominio, publicación).
 - `fichas/fissel.md`, `fichas/woldrik.md`, `fichas/mortem.md`, `fichas/towerbrunnen.md`: miembros.
 - `fuentes-candidatas.md`: fuentes nuevas del Archivo, con cita literal y JSON listos para el repo.
-- `../tools/build-guias.py`: genera `web/guias/*.html` desde `docs/guias/*.md` (vista local).
-- `../tools/build-asesor.py`: genera la página del asesor del sitio Astro desde `web/index.html`.
-- `../tools/sync-repo.py`: lleva guías, asesor y este material al clon del repo (rama `hermes/<tema>`).
+- `../tools/build-guias.py`: genera `web/guias/*.html` desde `docs/guias/*.md` (vista local). Borra las páginas cuyo `.md` ya no existe. Necesita el módulo `markdown` de Python.
+- `../tools/build-asesor.py`: genera la página del asesor del sitio Astro desde `web/index.html`. Con `--comprobar` no escribe: falla si el asesor publicado no es el que saldría (lo usa `tests/sincronia.test.mjs` del repo).
+- `../tools/sync-repo.py`: lleva guías, asesor y este material al clon del repo (rama `hermes/<tema>`; `TZ_REPO=repo-rediseno` para el worktree). Idempotente (las copias conservan la fecha). Se niega si en `<repo>/proyecto/` hay trabajo sin guardar que se perdería (archivo que no está en el origen o editado allí después); `TZ_FORZAR=1` lo pisa igualmente. No se lanza desde `<repo>/proyecto/tools` (origen = destino).
+- `../tools/_repo.py`: cómo encuentran el repo las herramientas (`TZ_REPO`, `repo/` o la carpeta de arriba).
+- `../tools/og-imagen.mjs`: genera `public/og.png` del repo (Chromium de Playwright).
 - `../tests/auditoria.js`: comprobación automática de tamaños y scroll (ver «Comprobación»).
 - `../tests/subasta-prueba.csv`: CSV de prueba. Sus precios de equipo son inventados para probar; no son datos del juego.
 
