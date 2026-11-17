@@ -106,8 +106,10 @@ test("almacén, montura y libro: totales", async ({ page }) => {
 
 test("norm(): estado antiguo o raro no rompe ni pierde datos", async ({ page }) => {
   const s = await page.evaluate(() => norm({ pj: { nivel: 14 }, skill: { "Minería": 70 }, alm: { "Mineral de cobre": 5 }, tablon: "hola", sec: "zzz", tab: "nope", ahs: "x" }));
+  const pescaPorDefecto = await page.evaluate(() => defS().skill["Pesca"]);
+  expect(typeof pescaPorDefecto).toBe("number");
   expect([s.pj.nivel, s.pj.nombre, s.skill["Minería"], s.skill["Pesca"], s.alm["Mineral de cobre"], s.tablon, Array.isArray(s.ahs), s.sub.com])
-    .toEqual([14, "Fissel Kasteaya", 70, 39, 5, "hola", true, 5]);
+    .toEqual([14, "Fissel Kasteaya", 70, pescaPorDefecto, 5, "hola", true, 5]);
   await page.evaluate(() => { localStorage.setItem("wowf-chaman-v1", JSON.stringify({ sec: "zzz", tab: "nope" })); });
   await page.goto("about:blank");
   await page.goto(ASESOR);

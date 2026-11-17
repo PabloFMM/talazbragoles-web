@@ -29,15 +29,19 @@ for (const ruta of ["/", "/fuentes/", "/mmo/", "/mmo/wow-forever/", "/mmo/wow-fo
     await page.keyboard.press("Enter");
     expect(new URL(page.url()).hash).toBe("#contenido");
 
-    // Los 40 siguientes: siempre hay un elemento con foco, dentro de la pantalla y con contorno.
+    // Los 40 siguientes (o hasta el final de la página, cuando el foco sale a la barra del navegador):
+    // cada elemento con foco está dentro de la pantalla y tiene contorno.
     const fallos = [];
+    let recorridos = 0;
     for (let i = 0; i < 40; i++) {
       await page.keyboard.press("Tab");
       const f = await foco(page);
-      if (!f) { fallos.push(`Tab ${i + 1}: sin foco`); continue; }
+      if (!f) break; // fin de la página
+      recorridos++;
       if (!f.contorno) fallos.push(`Tab ${i + 1}: sin contorno de foco en <${f.etiqueta}> «${f.texto}»`);
       if (!f.visible) fallos.push(`Tab ${i + 1}: foco fuera de la pantalla en <${f.etiqueta}> «${f.texto}»`);
     }
+    expect(recorridos, "elementos recorridos con Tab tras el salto").toBeGreaterThanOrEqual(8);
     expect(fallos, fallos.join("\n")).toEqual([]);
   });
 }

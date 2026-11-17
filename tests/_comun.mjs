@@ -32,5 +32,4 @@ export function rutas() {
     .sort();
 }
 
-/** Pestañas del asesor. */
-export const PESTANAS = ["hoy", "pj", "equipo", "prof", "almacen", "oro", "subasta", "diario", "hermandad", "tower", "mortem", "woldrik", "ayuda", "wfuentes"];
+// Las pestañas del asesor se leen de su variable TABS en cada test (así no se desincronizan).

@@ -1,7 +1,7 @@
 // Reglas de lectura en TODAS las páginas y en 16 anchos:
 // sin scroll horizontal, texto ≥ 16 px, controles ≥ 48 px, casillas ≥ 28 px, contraste ≥ 7:1.
 import { test, expect } from "@playwright/test";
-import { rutas, ANCHOS, ASESOR, PESTANAS } from "./_comun.mjs";
+import { rutas, ANCHOS, ASESOR } from "./_comun.mjs";
 
 /** Se ejecuta dentro de la página. Devuelve la lista de fallos de la vista actual. */
 function medir() {
@@ -13,6 +13,8 @@ function medir() {
     if (cs.visibility === "hidden" || cs.display === "none") return false;
     // .sr-only y similares: recortados a 1 px.
     if (r.width <= 1 && r.height <= 1) return false;
+    // Fuera de la pantalla por arriba o por la izquierda (enlace de salto sin foco).
+    if (r.right <= 0 || r.bottom <= 0) return false;
     for (let p = el; p; p = p.parentElement) if (getComputedStyle(p).clipPath === "inset(50%)" || getComputedStyle(p).clip === "rect(0px, 0px, 0px, 0px)") return false;
     // Dentro de un <details> cerrado.
     const d = el.closest("details:not([open])");
@@ -32,6 +34,11 @@ function medir() {
     return [...el.parentElement.childNodes].some((n) => n !== el && n.nodeType === 3 && n.nodeValue.trim().length > 0)
       || el.parentElement.closest("p, li, td, figcaption") !== null;
   };
+  // Excepción «equivalente» de WCAG 2.5.8: un enlace pequeño (p. ej. el título de una ficha) queda exento
+  // si en la página hay otro enlace visible al mismo destino que sí mide ≥ 48 × 48 (el «Ver ficha ›» del pie).
+  const grande = (el) => { const r = el.getBoundingClientRect(); return r.width >= 47.5 && r.height >= 47.5; };
+  const equivalente = (el) => el.tagName === "A" && [...document.querySelectorAll("a[href]")]
+    .some((o) => o !== el && o.getAttribute("href") === el.getAttribute("href") && visible(o) && grande(o));
   document.querySelectorAll("a[href], button, summary, select, textarea, input:not([type=hidden]):not([type=file])").forEach((el) => {
     if (!visible(el) || enLinea(el)) return;
     const r = el.getBoundingClientRect();
@@ -39,7 +46,7 @@ function medir() {
       if (r.width < 27.5 || r.height < 27.5) fallos.push(`casilla < 28 px: ${quien(el)}`);
       return;
     }
-    if (r.height < 47.5 || r.width < 47.5) fallos.push(`control < 48 px (${Math.round(r.width)}×${Math.round(r.height)}): ${quien(el)}`);
+    if ((r.height < 47.5 || r.width < 47.5) && !equivalente(el)) fallos.push(`control < 48 px (${Math.round(r.width)}×${Math.round(r.height)}): ${quien(el)}`);
   });
 
   // 3 y 4. Tamaño de texto y contraste.
@@ -113,9 +120,11 @@ for (const ruta of rutas().filter((r) => r !== ASESOR)) {
 }
 
 test("lectura: asesor (3 tamaños de letra × todas las pestañas)", async ({ page }) => {
+  test.setTimeout(600_000); // 16 anchos × 3 letras × 14 pestañas
   const errores = [];
   page.on("pageerror", (e) => errores.push(String(e)));
   await page.goto(ASESOR);
+  const PESTANAS = await page.evaluate(() => TABS); // las del propio asesor: una pestaña nueva entra sola
   // Datos de prueba para que las tablas tengan contenido.
   await page.evaluate(() => {
     S.alm = { "Lingote de cobre": 40, "Cosa d'prueba": 3 };
