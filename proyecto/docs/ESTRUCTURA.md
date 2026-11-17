@@ -42,7 +42,7 @@ Menú principal (hecho en rama): Inicio · Ediciones · Cronología · Sistemas 
 | Archivo (fuentes, ediciones, cronología, personas, sistemas) | `repo/src/content/` | JSON / Markdown con esquema Zod |
 | Guías de profesiones | `docs/guias/<slug>.md` → se copian a `repo/src/content/guides/` con `tools/sync-repo.py` | Markdown; reglas en `docs/guias/_REGLAS.md` |
 | Datos del juego comprobados | `docs/asesoria.md` | dato · fuente · fecha |
-| Asesor interactivo | `web/index.html` → `tools/build-asesor.py` genera la página del sitio | un archivo; estado en `localStorage` `wowf-chaman-v1` |
+| Asesor interactivo | `web/index.html` → `tools/build-asesor.py` genera la página del sitio | un archivo + subidas en `web/datos/*.json` (se cargan con fetch); estado en `localStorage` `wowf-chaman-v1` |
 | Subidas de precios | `data/subastas/*.csv` | CSV exportado de la subasta |
 | Fuentes candidatas (sin publicar) | `docs/fuentes-candidatas.md` | cita literal + lo que NO dice |
 | Pruebas | `tests/` | `auditoria.js`, CSV de prueba |

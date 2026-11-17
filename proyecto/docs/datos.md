@@ -98,6 +98,14 @@
 - Copia: `data/subastas/2026-11-15_2136UTC_recibida.csv`. 4.755 filas, 0 malas. «Elixir de fuerza menor» aparece dos veces (se deja tal cual). 8 filas propias.
 - `AHB=[AH0,AH1,AH2,AH3,AH4]`. Solo 21 min después de AH3: 20 cambios ≥15 % (9 bajan, 11 suben).
 
+## Dónde viven las subidas incluidas (desde el 2026-11-17)
+- En `web/index.html` solo queda la ficha de cada una: `var AHn={id:'sn',ts:…,por:…,n:<filas>,base:true, src:'subasta-sn-<resumen>.json'}`. AH0 (extracto de 8 precios) sigue dentro, con `d`.
+- Las filas van en `web/datos/subasta-sn-<resumen>.json`: `{"id":"sn","n":<filas>,"d":[[precio,nombre,nivel,propia 0/1,disponibles], …]}`, una fila por línea. `<resumen>` = 10 primeros hex del sha256 del archivo: si cambia el contenido, cambia el nombre. Por eso el sitio los sirve con `Cache-Control: public, max-age=31536000, immutable` (`vercel.json` del repo) y el navegador no los vuelve a pedir.
+- Al arrancar, `cargaSubidas()` los pide con `fetch` (`AH_DIR`: `datos/` en el prototipo; `/mmo/wow-forever/asesor/datos/` en el sitio, lo pone `build-asesor.py`) y comprueba que `id` y número de filas coinciden con la ficha. Mientras tanto, `DATOS.listo=false` y lo que depende de precios dice «Cargando…» (`preciosListos()`); al acabar, `<html data-precios="listos">` (o `"incompletos"`, y las que no llegan se quitan de `AHB` con aviso en `#aviso-datos`).
+- Nada de esto va a `localStorage`: el estado guardado (`wowf-chaman-v1`) no cambia. Las subidas que sube el jugador siguen en `S.ahs` con sus filas.
+- Añadir una subida: `scripts/add-subasta.py` del skill `talazbragoles-web` (escribe el JSON y la ficha) y `TZ_REPO=repo-rediseno python3 tools/sync-repo.py`.
+- Peso: las 5 completas suman 1.138.780 bytes en `web/datos/`; el HTML pasa de 1.242.608 a 129.760 bytes.
+
 ## AH5 — 2026-11-17 18:18 UTC (hora de recepción)
 - Copia: `data/subastas/2026-11-17_1818UTC_recibida.csv`. 4.514 filas, 0 malas. «Elixir de fuerza menor» repetido (se deja). 0 filas propias. Hora de exportación: pendiente.
 - `AHB=[AH0,AH1,AH2,AH3,AH4,AH5]`. Casi dos días después de AH4: 1.537 cambios ≥15 % (937 bajan, 600 suben); 2.253 nombres desaparecen y 2.012 son nuevos.

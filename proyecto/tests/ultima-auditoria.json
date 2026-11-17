@@ -1,87 +1,98 @@
 {
- "fecha": "2026-11-15",
- "nota": "Rediseño 4/5 Papel y tinta; con tests/subasta-prueba.csv y datos en Almacén, Oro, Libro y Diario; mide contraste",
- "subida": "AH4 4755 + prueba",
- "res": {
-  "320": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "360": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "390": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "414": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "480": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "540": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "600": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "640": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "700": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "768": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "820": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "900": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "1024": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "1100": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "1280": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  },
-  "1440": {
-   "n": 0,
-   "errs": [],
-   "checks": 63
-  }
+ "320": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "360": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "390": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "414": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "480": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "540": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "600": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "640": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "700": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "768": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "820": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "900": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "1024": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "1100": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "1280": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
+ },
+ "1440": {
+  "n": 0,
+  "checks": 63,
+  "errs": [],
+  "issues": []
  }
 }

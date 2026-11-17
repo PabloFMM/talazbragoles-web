@@ -5,7 +5,7 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 
 ## Qué es
 - Prototipo local de la web Talazbrágoles: archivo de unas jornadas de rol de los 90 + comunidad rolera activa.
-- Un solo archivo `web/index.html` autocontenido (CSS y JS dentro, sin librerías).
+- `web/index.html` con CSS y JS dentro, sin librerías (unos 130 KB). Las subidas completas de la subasta van aparte, en `web/datos/subasta-s<n>-<resumen>.json`, y se cargan con `fetch` al arrancar (desde el 2026-11-17; antes iban dentro y el archivo pesaba 1,24 MB). Por eso hay que servirlo (`python3 -m http.server 8765 --directory web`): abierto como archivo (`file://`) avisa de que no ha podido cargar los precios y calcula solo con el extracto AH0 y las subidas propias.
 - Secciones: Inicio, Archivo, Rol de mesa, MMO, Juegos, LARP, Eventos, Fuentes.
 - LARP y Eventos de rol son secciones distintas, no una combinada.
 - El WoW Forever (hermandad La Barbarie) es una sección (MMO) dentro de la web.
@@ -16,14 +16,14 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - `diseno.md`: sistema de diseño «Hoja de archivo» del sitio Astro (tokens, tipografías, componentes, auditoría). Muestrario en `/diseno/`.
 - `README.md`: este índice.
 - `guias/`: guías de profesiones de WoW Forever (`_REGLAS.md` formato y normas, `_ESTADO.md` estado de revisión).
-- `datos.md`: modelo de datos (localStorage, formato CSV de la subasta, extracto AH0).
+- `datos.md`: modelo de datos (localStorage, formato CSV de la subasta, extracto AH0, archivos de `web/datos/`).
 - `comercio.md`: reglas, recetas y algoritmos de la pestaña Comercio.
 - `asesoria.md`: datos del juego comprobados, con fuente y fecha.
 - `produccion.md`: checklist de paso a producción (GitHub App, protección de `main`, dominio, publicación).
 - `fichas/fissel.md`, `fichas/woldrik.md`, `fichas/mortem.md`, `fichas/towerbrunnen.md`: miembros.
 - `fuentes-candidatas.md`: fuentes nuevas del Archivo, con cita literal y JSON listos para el repo.
 - `../tools/build-guias.py`: genera `web/guias/*.html` desde `docs/guias/*.md` (vista local). Borra las páginas cuyo `.md` ya no existe. Necesita el módulo `markdown` de Python.
-- `../tools/build-asesor.py`: genera la página del asesor del sitio Astro desde `web/index.html`. Con `--comprobar` no escribe: falla si el asesor publicado no es el que saldría (lo usa `tests/sincronia.test.mjs` del repo).
+- `../tools/build-asesor.py`: genera la página del asesor del sitio Astro desde `web/index.html` y copia a `public/mmo/wow-forever/asesor/datos/` las subidas que pide (borra las que ya no pide). Con `--comprobar` no escribe: falla si el asesor publicado o su `datos/` no son lo que saldría (lo usa `tests/sincronia.test.mjs` del repo).
 - `../tools/sync-repo.py`: lleva guías, asesor y este material al clon del repo (rama `hermes/<tema>`; `TZ_REPO=repo-rediseno` para el worktree). Idempotente (las copias conservan la fecha). Se niega si en `<repo>/proyecto/` hay trabajo sin guardar que se perdería (archivo que no está en el origen o editado allí después); `TZ_FORZAR=1` lo pisa igualmente. No se lanza desde `<repo>/proyecto/tools` (origen = destino).
 - `../tools/_repo.py`: cómo encuentran el repo las herramientas (`TZ_REPO`, `repo/` o la carpeta de arriba).
 - `../tools/og-imagen.mjs`: genera `public/og.png` del repo (Chromium de Playwright).
@@ -136,6 +136,7 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - Integrada (2026-11-15) una subida completa de 4.634 objetos (AH2, recibida a las 17:44 UTC; hora de exportación pendiente). Ver `datos.md`.
 - Integrada (2026-11-15) AH3, 4.731 objetos, recibida a las 21:15 UTC.
 - Integrada (2026-11-17) AH5, 4.514 objetos, recibida a las 18:18 UTC. Es la que usa la web por defecto. Auditoría: 0 fallos en 1.008 vistas, 0 errores de JS.
+- 2026-11-17 (revisión de código 3/3, `t_a628d739`): AH1…AH5 salen del HTML a `web/datos/` (`index.html` 1.242.608 → 129.760 bytes). Nuevas subidas: `scripts/add-subasta.py` del skill `talazbragoles-web` ya escribe en ese formato. Mientras cargan, lo que depende de precios dice «Cargando los precios de la subasta…»; si falta un archivo, aviso arriba y se calcula con el resto. Un error de JS inesperado se avisa una vez en pantalla (`#aviso-error`). Regresión del plan con AH5 y estado limpio: texto idéntico (y el de las 14 pestañas). Auditoría: 0 fallos en 1.008 vistas, 0 errores de JS. Copia previa: `web/index-antes-revision.html`.
 - La base de datos compartida (`db`) del artifact no está conectada en el prototipo: los CSV se guardan solo en este navegador (máximo 6).
 - La ficha de personajes del artifact (capturas base64) no está portada: campo `img` reservado en el estado.
 - El HTML real del artifact (slug `31c048d5-0dec-48aa-9c43-1bce5782e570`) no es accesible desde aquí: la sección MMO está reconstruida desde su documentación.
