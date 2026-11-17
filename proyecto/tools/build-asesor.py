@@ -16,17 +16,20 @@ Qué cambia respecto al prototipo:
 - Los enlaces a las guías apuntan a /mmo/wow-forever/guias/<slug>.
 No cambia la clave de localStorage (wowf-chaman-v1) ni el estado.
 Cada sustitución debe casar el número exacto de veces; si no, el script falla.
-"""
-import os, pathlib, re, sys
 
-RAIZ = pathlib.Path(__file__).resolve().parent.parent
+Repo de destino: TZ_REPO=<ruta>, o repo/ en la carpeta de trabajo, o el repo que
+contiene proyecto/tools (ver _repo.py).
+    --comprobar   no escribe nada: sale con error si el asesor publicado no es el que
+                  saldría ahora (lo usa tests/sincronia.test.mjs).
+"""
+import re, sys
+
+sys.dont_write_bytecode = True  # sin __pycache__ en tools/ (se copia al repo)
+from _repo import RAIZ, repo  # noqa: E402
+
+COMPROBAR = '--comprobar' in sys.argv[1:]
 ORIGEN = RAIZ / 'web' / 'index.html'
-# Carpeta de trabajo: <raíz>/repo es el clon. Dentro del repo: esta carpeta es <repo>/proyecto.
-# TZ_REPO=<ruta> apunta a otro clon o worktree (p. ej. repo-rediseno).
-if os.environ.get('TZ_REPO'):
-    REPO = pathlib.Path(os.environ['TZ_REPO']).resolve()
-else:
-    REPO = RAIZ / 'repo' if (RAIZ / 'repo').is_dir() else RAIZ.parent
+REPO = repo()
 DESTINO = REPO / 'public' / 'mmo' / 'wow-forever' / 'asesor' / 'index.html'
 SITIO = 'https://www.talazbragoles.com'
 
@@ -37,8 +40,16 @@ def rep(viejo, nuevo, veces=1):
     global s
     n = s.count(viejo)
     if n != veces:
-        sys.exit('No casa (%d veces, esperaba %d): %r' % (n, veces, viejo[:80]))
+        sys.exit('%s: el texto casa %d veces y esperaba %d (¿ha cambiado el prototipo?): %r' % (ORIGEN, n, veces, viejo[:80]))
     s = s.replace(viejo, nuevo)
+
+
+def buscar(patron, texto, donde, flags=re.S):
+    """re.search que, si no encuentra nada, dice qué buscaba y dónde (en vez de un AttributeError)."""
+    m = re.search(patron, texto, flags)
+    if not m:
+        sys.exit('No encuentro %r en %s: build-asesor.py depende de su formato.' % (patron[:60], donde))
+    return m
 
 
 rep('<title>Talazbrágoles · Archivo y comunidad rolera</title>',
@@ -101,30 +112,36 @@ CABECERA = (
     '<li><a href="/mmo/wow-forever">La Barbarie</a></li><li><span aria-current="page">Asesor</span></li></ol></nav>\n'
     % (SECCION, grupos('m'), grupos('f')))
 
-m = re.search(r'<a class="salto" href="#contenido">Saltar al contenido</a>\s*<header class="top">\s*<div class="topbar">.*?'
-              r'(<span class="fsbtns">.*?</span>)\s*</div>\s*</header>', s, re.S)
-if not m:
-    sys.exit('No encuentro la cabecera del prototipo')
+m = buscar(r'<a class="salto" href="#contenido">Saltar al contenido</a>\s*<header class="top">\s*<div class="topbar">.*?'
+           r'(<span class="fsbtns">.*?</span>)\s*</div>\s*</header>', s, '%s (cabecera del prototipo)' % ORIGEN)
 s = s[:m.start()] + CABECERA + '  ' + m.group(1) + '\n</div>' + s[m.end():]
 
 # CSS de la cabecera, sacado de sistema.css (sin @layer: así gana a las reglas de elemento del asesor).
-css = (REPO / 'src' / 'styles' / 'sistema.css').read_text(encoding='utf-8')
+RUTA_CSS = REPO / 'src' / 'styles' / 'sistema.css'
+css = RUTA_CSS.read_text(encoding='utf-8')
 
 
 def trozo(desde, hasta):
-    i = css.index(desde)
-    return css[i:css.index(hasta, i)]
+    i = css.find(desde)
+    j = css.find(hasta, i + 1) if i >= 0 else -1
+    if i < 0 or j < 0:
+        sys.exit('No encuentro el tramo %r … %r en %s: build-asesor.py usa sus marcadores «/* --- 4.x».'
+                 % (desde.strip(), hasta.strip(), RUTA_CSS))
+    return css[i:j]
 
 
-tokens = re.search(r':root \{(.*?)\n\}', css, re.S).group(1)
+tokens = buscar(r':root \{(.*?)\n\}', css, RUTA_CSS).group(1)
+migas = ''.join(l + '\n' for l in css.splitlines() if l.startswith('  .tz-migas'))
+if not migas:
+    sys.exit('No encuentro las reglas .tz-migas en %s' % RUTA_CSS)
 partes = [
     '.tz-cabecera, .tz-saltar, .tz-asesor-barra {' + tokens + '\n}',
-    re.search(r'  \.tz-pagina \{.*?\n  \}', css, re.S).group(0),
-    re.search(r'  \.tz-num \{.*?\n  \}', css, re.S).group(0),
+    buscar(r'  \.tz-pagina \{.*?\n  \}', css, RUTA_CSS).group(0),
+    buscar(r'  \.tz-num \{.*?\n  \}', css, RUTA_CSS).group(0),
     trozo('  /* --- 4.3 Logotipo', '  /* --- 4.4 '),
     trozo('  /* --- 4.12 Cabecera del sitio', '  /* --- 4.14 '),
     trozo('  /* --- 4.15 Saltar al contenido', '  /* --- 4.16 '),
-    ''.join(l + '\n' for l in css.splitlines() if l.startswith('  .tz-migas')),
+    migas,
 ]
 cab = '\n'.join(partes)
 # rem → px: el asesor tiene html a 18 px; el sitio, a 16 px.
@@ -165,6 +182,15 @@ if n < 10:
 if 'wowf-chaman-v1' not in s:
     sys.exit('Falta la clave de localStorage')
 
-DESTINO.parent.mkdir(parents=True, exist_ok=True)
-DESTINO.write_text(s, encoding='utf-8')
-print('Asesor generado:', DESTINO, len(s), 'bytes;', n, 'enlaces a guías')
+actual_publicado = DESTINO.read_text(encoding='utf-8') if DESTINO.is_file() else None
+if COMPROBAR:
+    if actual_publicado != s:
+        sys.exit('%s no es el que genera build-asesor.py desde %s: ejecuta tools/sync-repo.py (o build-asesor.py).'
+                 % (DESTINO, ORIGEN))
+    print('Asesor al día:', DESTINO)
+    sys.exit(0)
+if actual_publicado != s:  # sin cambios no se reescribe (no cambia ni la fecha del archivo)
+    DESTINO.parent.mkdir(parents=True, exist_ok=True)
+    DESTINO.write_text(s, encoding='utf-8')
+print('Asesor %s: %s · %d bytes · %d enlaces a guías'
+      % ('generado' if actual_publicado != s else 'sin cambios', DESTINO, len(s.encode('utf-8')), n))

@@ -14,7 +14,10 @@ Las tipografías del sitio (Archivo, Source Serif 4) no están en web/: aquí sa
 respaldos (Helvetica/Arial y Georgia).
 """
 import html, pathlib, re, sys
-import markdown
+try:
+    import markdown
+except ImportError:
+    sys.exit('build-guias.py necesita el módulo «markdown» de Python (pip install markdown).')
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 ORIGEN = RAIZ / 'docs' / 'guias'
@@ -217,7 +220,13 @@ def main():
                       g['slug'], html.escape(g['profesion']), html.escape(g['tipo']), html.escape(fecha_larga(g['comprobado']))) for g in guias) + '</ul>')
     nav = '<a href="../index.html#mmo-prof">← Volver al asesor</a>'
     (DESTINO / 'index.html').write_text(pagina('Guías de profesiones', cuerpo, nav), encoding='utf-8')
-    print('Guías generadas:', len(guias), '→', DESTINO, '· enlaces a fuentes:', enlaces)
+    # Idempotente también al quitar una guía: fuera las páginas cuyo .md ya no existe.
+    quedan = {g['slug'] + '.html' for g in guias} | {'index.html'}
+    huerfanas = sorted(p.name for p in DESTINO.glob('*.html') if p.name not in quedan)
+    for nombre in huerfanas:
+        (DESTINO / nombre).unlink()
+    print('Guías generadas: %d → %s · enlaces a fuentes: %d%s' % (
+        len(guias), DESTINO, enlaces, (' · borradas (sin .md): ' + ', '.join(huerfanas)) if huerfanas else ''))
 
 
 if __name__ == '__main__':
