@@ -16,14 +16,27 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: npm # caché de ~/.npm según package-lock.json
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      # Build + enlaces y sincronía (node) + lectura, accesibilidad, teclado y asesor (navegador).
+      # Navegador de los tests: solo chromium-headless-shell (los tests y og-imagen.mjs van sin ventana),
+      # guardado en caché por versión de Playwright. Con la caché, solo faltan las librerías del sistema.
+      - name: Versión de Playwright
+        id: playwright
+        run: echo "version=$(npx --no-install playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        id: cache-playwright
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-shell
+      - if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps --only-shell chromium
+      - if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      # astro check + build + unidad (enlaces, metadatos, sincronía) + navegador (lectura, accesibilidad, teclado, navegación, asesor).
       - run: npm test
