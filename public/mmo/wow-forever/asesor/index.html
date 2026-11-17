@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asesor de La Barbarie · WoW Forever · TALAZBRÁGOLES</title>
+<title>Asesor de La Barbarie · WoW Forever · Talazbrágoles</title>
 <link rel="canonical" href="https://www.talazbragoles.com/mmo/wow-forever/asesor/">
 <meta name="description" content="Asesor de la hermandad La Barbarie en World of Warcraft: Forever. Los datos se guardan solo en tu navegador.">
 <style>
@@ -162,26 +162,218 @@ li::marker{color:var(--tinta-2)}
 .charta rect{fill:var(--tinta)}
 .charta text{fill:var(--tinta-2)}
 
-@media print{header.top,.wtabs,.salto,.btn{display:none}.sec.on,.wpane.on{display:block}}
+@media print{.wtabs,.btn{display:none}.sec.on,.wpane.on{display:block}}
+</style>
+<style>
+/* ==== Cabecera del sitio (generada desde src/styles/sistema.css por build-asesor.py) ==== */
+.tz-cabecera, .tz-saltar, .tz-asesor-barra {
+  --papel: #f4f0e6;      
+  --papel-2: #ebe5d8;    
+  --tinta: #0f0f10;      
+  --tinta-2: #45413b;    
+  --filete: #b8b2a5;     
+  --letra-texto: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --letra-titular: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --t-0: 16px;          
+  --t-1: 18px;      
+  --t-2: 22px;      
+  --t-3: 28px;       
+  --t-4: 38px;      
+  --t-5: clamp(40px, 24px + 4.4vw, 76px);  
+  --t-6: clamp(44px, 16px + 7.4vw, 120px);    
+  --t-logo: clamp(40px, 22.4px + 4.2vw, 80px);  
+  --p-fino: 300;      
+  --p-normal: 400;
+  --p-medio: 500;
+  --p-semi: 600;
+  --il-titular: 1.04;
+  --il-titulo: 1.18;
+  --il-texto: 1.6;
+  --e-1: 4px;  
+  --e-2: 8px;   
+  --e-3: 12px;  
+  --e-4: 16px;     
+  --e-5: 24px;   
+  --e-6: 32px;     
+  --e-7: 48px;     
+  --e-8: 64px;     
+  --e-9: 96px;     
+  --e-10: 128px;    
+  --pagina: 1216px;                          
+  --margen: clamp(20px, 8px + 3vw, 56px);
+  --medianil: clamp(16px, 8px + 2vw, 40px);
+  --medida: 640px;                          
+  --columna-margen: 240px;                  
+  --aire: clamp(48px, 32px + 4vw, 96px);    
+  --f-fino: 1px;
+  --f-medio: 2px;
+  --toque: 48px;  
+  --nav-offset: 24px;
+}
+  .tz-pagina {
+    width: min(100% - 2 * var(--margen), var(--pagina));
+    margin-inline: auto;
+  }
+  .tz-num {
+    font-family: var(--letra-texto);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .tz-logo {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--e-2);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-logo-nombre {
+    font-family: var(--letra-titular);
+    font-size: var(--t-logo);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.1; 
+    letter-spacing: -0.015em;
+  }
+  .tz-logo-sub {
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .tz-logo:hover .tz-logo-nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .tz-cabecera { border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-cabecera-fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--e-5) var(--e-7);
+    padding-block: var(--e-6) var(--e-5);
+  }
+  .tz-nav ul { list-style: none; margin: 0; padding: 0; }
+  .tz-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--e-2);
+    min-height: var(--toque);
+    color: var(--tinta);
+    text-decoration: none;
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+  }
+  .tz-nav a .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
+  .tz-nav a:hover .tz-nav-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+  .tz-nav a[aria-current] .tz-nav-texto {
+    font-weight: var(--p-semi);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+  .tz-nav-grupo-titulo {
+    display: block;
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    color: var(--tinta-2);
+  }
+  .tz-nav-plegable { border-top: var(--f-fino) solid var(--tinta); }
+  .tz-nav-plegable > summary {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-2) var(--e-4);
+    min-height: var(--toque);
+    padding-block: var(--e-3);
+  }
+  .tz-nav-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    padding: 0 var(--e-5) 0 var(--e-4);
+    border: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-1);
+    font-weight: var(--p-semi);
+    line-height: 1.2;
+  }
+  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(var(--e-5) - 1px) 0 calc(var(--e-4) - 1px); }
+  .tz-nav-icono { flex: none; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .tz-nav-icono-cerrar { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-abrir { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-cerrar { display: inline; }
+  .tz-nav-plegable[open] .tz-nav-boton { background: var(--tinta); color: var(--papel); }
+  .tz-nav-donde { font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-nav-donde strong { color: var(--tinta); font-weight: var(--p-semi); }
+  .tz-nav-plegable .tz-nav-grupos { padding-bottom: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo + .tz-nav-grupo { margin-top: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo-titulo { padding-block: var(--e-2); }
+  .tz-nav-plegable .tz-nav-grupo ul {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: var(--medianil);
+  }
+  @media (min-width: 480px) { .tz-nav-plegable .tz-nav-grupo ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-nav-plegable .tz-nav-grupo li { border-top: var(--f-fino) solid var(--filete); }
+  .tz-nav-plegable a .tz-num { min-width: 28px; }
+  .tz-nav-fila { display: none; }
+  @media (min-width: 1024px) {
+    .tz-nav-plegable { display: none; }
+    .tz-nav-fila { display: block; border-top: var(--f-fino) solid var(--filete); }
+    .tz-nav-fila .tz-nav-grupos { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0 var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo + .tz-nav-grupo { border-left: var(--f-fino) solid var(--filete); padding-left: var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo-titulo { padding-top: var(--e-3); }
+    .tz-nav-fila .tz-nav-grupo ul { display: flex; flex-wrap: wrap; gap: 0 var(--e-4); }
+  }
+  .tz-saltar {
+    position: absolute;
+    left: var(--e-4);
+    top: -160px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--toque);
+    padding: var(--e-2) var(--e-5);
+    background: var(--tinta);
+    color: var(--papel);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-saltar:focus { top: var(--e-4); }
+  .tz-migas { margin: 0 0 var(--e-2); }
+  .tz-migas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--e-3); }
+  .tz-migas li { display: flex; align-items: center; gap: var(--e-3); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-migas li + li::before { content: "›"; color: var(--tinta-2); }
+  .tz-migas a { display: inline-flex; align-items: center; min-height: var(--toque); min-width: var(--toque); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+/* Lo que pone en el sitio la base (reset.css / sistema.css §3) */
+.tz-cabecera, .tz-asesor-barra { font-size: 18px; line-height: 1.6; }
+@media (min-width: 768px) { .tz-cabecera, .tz-asesor-barra { font-size: 19px; } }
+:where(.tz-cabecera, .tz-asesor-barra) * { margin: 0; }
+.tz-cabecera svg { display: block; }
+.tz-nav-plegable > summary { cursor: pointer; }
+.tz-nav-plegable > summary::-webkit-details-marker { display: none; }
+/* Barra propia del asesor: migas a la izquierda, A−/A+ a la derecha */
+.tz-asesor-barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-top: 16px; }
+@media print { .tz-saltar, .tz-nav, .fsbtns { display: none; } .tz-migas a { min-height: 0; text-decoration: none; } }
 </style>
 </head>
 <body class="fs-med">
-<a class="salto" href="#contenido">Saltar al contenido</a>
-
-<header class="top">
-  <div class="topbar">
-    <span class="brand"><span class="brand-nombre">Talazbrágoles</span><span class="brand-sub">Archivo de las Jornadas</span></span>
-    <nav class="topnav" aria-label="Sitio">
-      <a class="btn" href="/">← Talazbrágoles</a>
-      <a class="btn" href="/mmo/wow-forever">La Barbarie</a>
-      <a class="btn" href="/mmo/wow-forever/guias">Guías</a>
-    </nav>
-    <span class="fsbtns">
+<a href="#contenido" class="tz-saltar">Saltar al contenido</a>
+<header class="tz-cabecera"><div class="tz-pagina"><div class="tz-cabecera-fila"><a href="/" class="tz-logo" aria-label="Talazbrágoles · Archivo de las Jornadas (portada)"><span class="tz-logo-nombre">Talazbrágoles</span> <span class="tz-logo-sub">Archivo de las Jornadas</span></a></div>
+<nav class="tz-nav" aria-label="Secciones"><details class="tz-nav-plegable"><summary><span class="tz-nav-boton"><svg class="tz-nav-icono" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path class="tz-nav-icono-abrir" d="M3 6h18M3 12h18M3 18h18"></path><path class="tz-nav-icono-cerrar" d="M5 5l14 14M19 5 5 19"></path></svg> <span>Menú</span></span> <span class="tz-nav-donde">Estás en: <strong>MMO</strong></span></summary>
+<ul class="tz-nav-grupos"><li class="tz-nav-grupo tz-nav-grupo--portada"><ul><li><a href="/"><span class="tz-num" aria-hidden="true">01</span> <span class="tz-nav-texto">Inicio</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--archivo"><span class="tz-nav-grupo-titulo" id="nav-m-archivo">Archivo</span><ul aria-labelledby="nav-m-archivo"><li><a href="/ediciones"><span class="tz-num" aria-hidden="true">02</span> <span class="tz-nav-texto">Ediciones</span></a></li><li><a href="/cronologia"><span class="tz-num" aria-hidden="true">03</span> <span class="tz-nav-texto">Cronología</span></a></li><li><a href="/sistemas"><span class="tz-num" aria-hidden="true">04</span> <span class="tz-nav-texto">Sistemas</span></a></li><li><a href="/personas"><span class="tz-num" aria-hidden="true">05</span> <span class="tz-nav-texto">Personas</span></a></li><li><a href="/fuentes"><span class="tz-num" aria-hidden="true">06</span> <span class="tz-nav-texto">Fuentes</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--comunidad"><span class="tz-nav-grupo-titulo" id="nav-m-comunidad">Comunidad</span><ul aria-labelledby="nav-m-comunidad"><li><a href="/rol"><span class="tz-num" aria-hidden="true">07</span> <span class="tz-nav-texto">Rol</span></a></li><li><a href="/mmo" aria-current="true"><span class="tz-num" aria-hidden="true">08</span> <span class="tz-nav-texto">MMO</span></a></li></ul></li></ul></details>
+<div class="tz-nav-fila"><ul class="tz-nav-grupos"><li class="tz-nav-grupo tz-nav-grupo--portada"><ul><li><a href="/"><span class="tz-num" aria-hidden="true">01</span> <span class="tz-nav-texto">Inicio</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--archivo"><span class="tz-nav-grupo-titulo" id="nav-f-archivo">Archivo</span><ul aria-labelledby="nav-f-archivo"><li><a href="/ediciones"><span class="tz-num" aria-hidden="true">02</span> <span class="tz-nav-texto">Ediciones</span></a></li><li><a href="/cronologia"><span class="tz-num" aria-hidden="true">03</span> <span class="tz-nav-texto">Cronología</span></a></li><li><a href="/sistemas"><span class="tz-num" aria-hidden="true">04</span> <span class="tz-nav-texto">Sistemas</span></a></li><li><a href="/personas"><span class="tz-num" aria-hidden="true">05</span> <span class="tz-nav-texto">Personas</span></a></li><li><a href="/fuentes"><span class="tz-num" aria-hidden="true">06</span> <span class="tz-nav-texto">Fuentes</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--comunidad"><span class="tz-nav-grupo-titulo" id="nav-f-comunidad">Comunidad</span><ul aria-labelledby="nav-f-comunidad"><li><a href="/rol"><span class="tz-num" aria-hidden="true">07</span> <span class="tz-nav-texto">Rol</span></a></li><li><a href="/mmo" aria-current="true"><span class="tz-num" aria-hidden="true">08</span> <span class="tz-nav-texto">MMO</span></a></li></ul></li></ul></div></nav></div></header>
+<div class="tz-pagina tz-asesor-barra"><nav class="tz-migas" aria-label="Estás en"><ol><li><a href="/">Inicio</a></li><li><a href="/mmo">MMO</a></li><li><a href="/mmo/wow-forever">La Barbarie</a></li><li><span aria-current="page">Asesor</span></li></ol></nav>
+  <span class="fsbtns">
       <button class="btn" id="fs-menos" onclick="cambiaFs(-1)" aria-label="A− (letra más pequeña)">A−</button>
       <button class="btn" id="fs-mas" onclick="cambiaFs(1)" aria-label="A+ (letra más grande)">A+</button>
     </span>
-  </div>
-</header>
+</div>
 
 <main class="wrap" id="contenido" tabindex="-1">
 <div id="aviso-guardar" role="alert"></div>

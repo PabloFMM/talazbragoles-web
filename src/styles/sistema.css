@@ -535,7 +535,12 @@
     padding-block: var(--e-6) var(--e-5);
   }
 
-  /* --- 4.13 Navegación (sin JS) --- */
+  /* --- 4.13 Navegación (sin JS) ---
+     Índice en grupos (lib/nav.ts): Inicio · Archivo (5) · Comunidad (2).
+     Móvil y tableta (< 1024 px): botón «Menú» (<details>) + «Estás en: …».
+     Escritorio: una fila con los grupos rotulados y separados por un filete.
+     Sección actual: aria-current ("page" o "true") → seminegra y subrayado de 2 px.
+     Criterios WCAG/APG que cumple: proyecto/docs/diseno.md §6. */
   .tz-nav ul { list-style: none; margin: 0; padding: 0; }
   .tz-nav a {
     display: flex;
@@ -549,47 +554,75 @@
   }
   .tz-nav a .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
   .tz-nav a:hover .tz-nav-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
-  .tz-nav a[aria-current="page"] .tz-nav-texto {
+  .tz-nav a[aria-current] .tz-nav-texto {
     font-weight: var(--p-semi);
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 0.3em;
   }
+  .tz-nav-grupo-titulo {
+    display: block;
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    color: var(--tinta-2);
+  }
 
-  /* Móvil y tableta: índice plegable con <details> */
+  /* Móvil y tableta: botón «Menú» con <details> */
   .tz-nav-plegable { border-top: var(--f-fino) solid var(--tinta); }
   .tz-nav-plegable > summary {
     list-style: none;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: var(--e-2) var(--e-4);
     min-height: var(--toque);
-    font-size: var(--t-0);
+    padding-block: var(--e-3);
+  }
+  .tz-nav-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    padding: 0 var(--e-5) 0 var(--e-4);
+    border: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-1);
     font-weight: var(--p-semi);
+    line-height: 1.2;
   }
-  .tz-nav-plegable > summary::after {
-    content: "+";
-    font-size: 1.5rem;
-    font-weight: var(--p-fino);
-    line-height: 1;
-  }
-  .tz-nav-plegable[open] > summary::after { content: "\2212"; }
-  .tz-nav-plegable ul {
+  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(var(--e-5) - 1px) 0 calc(var(--e-4) - 1px); }
+  .tz-nav-icono { flex: none; width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .tz-nav-icono-cerrar { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-abrir { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-cerrar { display: inline; }
+  /* Abierto: botón invertido (tinta sobre papel → papel sobre tinta), como el resto de estados del sistema */
+  .tz-nav-plegable[open] .tz-nav-boton { background: var(--tinta); color: var(--papel); }
+  .tz-nav-donde { font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-nav-donde strong { color: var(--tinta); font-weight: var(--p-semi); }
+  .tz-nav-plegable .tz-nav-grupos { padding-bottom: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo + .tz-nav-grupo { margin-top: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo-titulo { padding-block: var(--e-2); }
+  .tz-nav-plegable .tz-nav-grupo ul {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     column-gap: var(--medianil);
-    padding-bottom: var(--e-3);
   }
-  @media (min-width: 30rem) { .tz-nav-plegable ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .tz-nav-plegable li { border-top: var(--f-fino) solid var(--filete); }
+  @media (min-width: 30rem) { .tz-nav-plegable .tz-nav-grupo ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-nav-plegable .tz-nav-grupo li { border-top: var(--f-fino) solid var(--filete); }
   .tz-nav-plegable a .tz-num { min-width: 1.75rem; }
 
-  /* Escritorio (≥ 1024 px): una fila */
+  /* Escritorio (≥ 1024 px): una fila con los grupos rotulados */
   .tz-nav-fila { display: none; }
   @media (min-width: 64rem) {
     .tz-nav-plegable { display: none; }
     .tz-nav-fila { display: block; border-top: var(--f-fino) solid var(--filete); }
-    .tz-nav-fila ul { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 var(--e-5); }
+    .tz-nav-fila .tz-nav-grupos { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0 var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo + .tz-nav-grupo { border-left: var(--f-fino) solid var(--filete); padding-left: var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo-titulo { padding-top: var(--e-3); }
+    .tz-nav-fila .tz-nav-grupo ul { display: flex; flex-wrap: wrap; gap: 0 var(--e-4); }
   }
 
   /* --- 4.14 Pie --- */
@@ -942,4 +975,22 @@
   @media (min-width: 48rem) { .tz-guia > h2 { font-size: var(--t-4); } }
   .tz-guia > h2:first-child { margin-top: 0; }
   .tz-guia > .tz-tabla { margin-block: var(--e-5); }
+
+  /* --- 4.18 Impresión ---
+     Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice
+     y el índice del pie; las migas se quedan como texto (dicen dónde estaba la página).
+     Los enlaces externos del contenido llevan su dirección detrás, entre paréntesis. */
+  @media print {
+    html, body { background: #fff; color: #000; }
+    .tz-saltar, .tz-nav, .tz-pie nav { display: none; }
+    .tz-cabecera { border-bottom-color: #000; }
+    .tz-cabecera-fila { padding-block: 0 var(--e-3); }
+    .tz-logo-nombre { font-size: 2rem; }
+    .tz-migas a { min-height: 0; text-decoration: none; }
+    .tz-pie { margin-top: var(--e-6); padding-block: var(--e-4) 0; }
+    .tz-pie-final { margin-top: var(--e-4); }
+    main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: var(--t-0); overflow-wrap: anywhere; }
+    h1, h2, h3 { break-after: avoid; }
+    tr, .tz-ficha { break-inside: avoid; }
+  }
 }

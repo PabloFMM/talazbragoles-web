@@ -1,8 +1,15 @@
 ---
-/** Migas de pan: enlaces de 48 px separados por «›»; el último paso no enlaza. */
+/**
+ * Migas de pan (GOV.UK «breadcrumbs», WCAG 2.4.8): empiezan siempre en «Inicio»,
+ * los pasos se llaman como en el índice (lib/nav.ts) y el último paso es la página
+ * actual (sin enlace, con aria-current="page"). Enlaces de 48 px separados por «›».
+ * Se usan en las subpáginas (ficha de edición, campaña, La Barbarie, guías); en la
+ * portada de cada sección basta el índice, que ya marca dónde se está.
+ */
 import type { Paso } from "../../lib/nav";
 interface Props { pasos: Paso[] }
-const { pasos } = Astro.props;
+const { pasos: propios } = Astro.props;
+const pasos: Paso[] = [{ texto: "Inicio", href: "/" }, ...propios];
 ---
 <nav class="tz-migas" aria-label="Estás en">
   <ol>

@@ -1,8 +1,8 @@
 ---
 /**
  * Layout compartido para toda la web (sistema «Papel y tinta»).
- * Cabecera con el logotipo tipográfico, índice sin JS (<details> en móvil,
- * fila en escritorio) y pie. Tokens y componentes: src/styles/sistema.css.
+ * Cabecera con el logotipo tipográfico, índice sin JS (Indice.astro: botón «Menú»
+ * con <details> en móvil, fila en escritorio) y pie. Tokens y componentes: src/styles/sistema.css.
  * Documentación: proyecto/docs/diseno.md · Muestrario: /diseno/
  *
  * Nota de rigor: esta web es un archivo. Lo no verificable se marca «pendiente».
@@ -10,8 +10,8 @@
 
 import "../styles/global.css";
 import Logo from "../components/sistema/Logo.astro";
+import Indice from "../components/sistema/Indice.astro";
 import { mainNav } from "../lib/nav";
-import { dosCifras } from "../lib/formato";
 
 interface Props {
   /** Título de la página; se le añade « · Talazbrágoles» si no lleva ya la marca. */
@@ -37,16 +37,6 @@ const tituloCompleto = llano(title).includes(llano(MARCA)) ? title : `${title} �
 const ogImage = new URL("/og.png", siteUrl).toString();
 const ogImageAlt = "Talazbrágoles · Archivo de las Jornadas, en tinta negra sobre papel claro.";
 
-// Entrada activa del índice (sin JS: se calcula en el build).
-const esActual = (href: string) => {
-  const h = href.replace(/\/+$/, "") || "/";
-  return h === "/" ? ruta === "/" : ruta === h || ruta.startsWith(h + "/");
-};
-const indice = mainNav.map((item, i) => ({
-  ...item,
-  n: dosCifras(i + 1),
-  actual: esActual(item.href),
-}));
 ---
 
 <!DOCTYPE html>
@@ -96,34 +86,7 @@ const indice = mainNav.map((item, i) => ({
           <Logo />
         </div>
 
-        <nav class="tz-nav" aria-label="Secciones">
-          <details class="tz-nav-plegable">
-            <summary>Índice</summary>
-            <ul>
-              {indice.map((item) => (
-                <li>
-                  <a href={item.href} aria-current={item.actual ? "page" : undefined}>
-                    <span class="tz-num" aria-hidden="true">{item.n}</span>
-                    <span class="tz-nav-texto">{item.label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
-
-          <div class="tz-nav-fila">
-            <ul>
-              {indice.map((item) => (
-                <li>
-                  <a href={item.href} aria-current={item.actual ? "page" : undefined}>
-                    <span class="tz-num" aria-hidden="true">{item.n}</span>
-                    <span class="tz-nav-texto">{item.label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
+        <Indice ruta={ruta} />
       </div>
     </header>
 
