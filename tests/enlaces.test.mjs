@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { DIST, archivosHtml } from "./_comun.mjs";
+import { DIST, ASESOR, archivosHtml, rutas } from "./_comun.mjs";
 
 test("no hay enlaces internos rotos", () => {
   const rotos = [];
@@ -41,4 +41,28 @@ test("canonical y sitemap apuntan al dominio definitivo", () => {
     assert.ok(m[1].startsWith("https://www.talazbragoles.com/"), `${archivo}: ${m[1]}`);
   }
   assert.match(readFileSync(join(DIST, "robots.txt"), "utf-8"), /Sitemap: https:\/\/www\.talazbragoles\.com\/sitemap-index\.xml/);
+});
+
+test("cada página del sitio tiene título único, descripción, canonical propio e imagen para redes", () => {
+  const meta = (html, prop) => new RegExp(`<meta (?:name|property)="${prop}" content="([^"]*)"`).exec(html)?.[1];
+  const titulos = new Map();
+  const fallos = [];
+  for (const ruta of rutas().filter((r) => r !== ASESOR)) {
+    const html = readFileSync(join(DIST, ruta, "index.html"), "utf-8");
+    const titulo = /<title>([^<]+)<\/title>/.exec(html)?.[1];
+    if (!titulo) fallos.push(`${ruta}: sin <title>`);
+    else if (titulos.has(titulo)) fallos.push(`${ruta}: título repetido con ${titulos.get(titulo)}`);
+    else titulos.set(titulo, ruta);
+    if (titulo && (titulo.match(/talazbr[aá]goles/gi) ?? []).length > 1) fallos.push(`${ruta}: marca repetida en «${titulo}»`);
+    if (!(meta(html, "description")?.length > 40)) fallos.push(`${ruta}: descripción ausente o corta`);
+    const canonical = /<link rel="canonical" href="([^"]+)"/.exec(html)?.[1];
+    const esperado = "https://www.talazbragoles.com" + (ruta === "/" ? "/" : ruta.replace(/\/$/, ""));
+    if (canonical !== esperado) fallos.push(`${ruta}: canonical ${canonical}, esperaba ${esperado}`);
+    if (meta(html, "og:image") !== "https://www.talazbragoles.com/og.png") fallos.push(`${ruta}: og:image ${meta(html, "og:image")}`);
+    if (!meta(html, "og:image:alt")) fallos.push(`${ruta}: sin og:image:alt`);
+  }
+  assert.deepEqual(fallos, []);
+  // og.png existe y mide lo que declara el Layout (cabecera PNG: ancho y alto en los bytes 16-23).
+  const png = readFileSync(join(DIST, "og.png"));
+  assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [1200, 630]);
 });
