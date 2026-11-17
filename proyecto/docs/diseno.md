@@ -3,9 +3,9 @@
 Rediseño de talazbragoles.com (encargo de PabloFM, 2026-11-15). Tarjeta 1/5: `t_6bd8248f`.
 Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **actual, limpio y elegante**. Blanco y negro sobrio, mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso. Nada de fotocopia, máquina de escribir, recortes, sellos, texturas, dorados ni degradados. Solo tipografía: no hay logo gráfico, fotos ni ilustraciones. Solo modo claro (sin `prefers-color-scheme`).
 
-- Código: `repo/src/styles/sistema.css` (tokens + componentes, prefijo `tz-`), `repo/src/styles/global.css` (Tailwind + `@theme`), `repo/src/layouts/Layout.astro` (cabecera, índice, pie), `repo/src/components/sistema/*.astro`, `repo/src/lib/nav.ts` (8 entradas).
+- Código: `repo/src/styles/sistema.css` (tokens + componentes, prefijo `tz-`), `repo/src/styles/global.css` (punto de entrada: `reset.css` + `sistema.css`; sin Tailwind desde 2026-11-17), `repo/src/layouts/Layout.astro` (cabecera, índice, pie), `repo/src/components/sistema/*.astro`, `repo/src/lib/nav.ts` (8 entradas).
 - Muestrario vivo: `/diseno/` (noindex, fuera del sitemap por el filtro de `astro.config.mjs`).
-- Rama: `hermes/rediseno` (desde `hermes/web-mmo`), en el worktree `/opt/data/project-talazbragoles/repo-rediseno/` porque `repo/` tiene cambios sin guardar de otra sesión. `node_modules` es un enlace a `repo/node_modules`.
+- Rama: `hermes/rediseno` (desde `hermes/web-mmo`), en el worktree `/opt/data/project-talazbragoles/repo-rediseno/` porque `repo/` tiene cambios sin guardar de otra sesión. Tiene su propio `node_modules` (ya no es un enlace a `repo/node_modules`: las dependencias de las dos ramas difieren).
 - Auditoría: `tests/auditoria-sitio.js` (ver §8).
 
 ## 1. Principios
@@ -98,7 +98,7 @@ Formato compartido (sin datos): `src/lib/formato.ts` (`partesFecha`, `fechaLarga
 - `MmoStyles.astro` y las clases `mmo-*` ya no existen.
 
 Otras clases: `tz-rotulo`, `tz-subtitulo`, `tz-lista-numerada`, `tz-prosa` (texto y Markdown), `tz-enlace`, `tz-boton`, `tz-boton--tinta`, `tz-ref` (referencia corta «Fuente: …»), `tz-medida`, `tz-seccion`.
-Prefijo `tz-` obligatorio (`z-` es de Tailwind).
+Prefijo `tz-` obligatorio (evita choques con clases genéricas).
 
 ## 6. Marco del sitio (`Layout.astro`)
 - Prop nueva `noindex` (pone `robots noindex, nofollow`). El resto igual (`title`, `description`, `canonicalPath`, `nav`).
@@ -125,7 +125,7 @@ import Titulo from "../components/sistema/Titulo.astro";
   </div>
 </Layout>
 ```
-Tailwind sigue disponible para maquetar (`grid`, `gap-*`…), pero tamaños de letra, colores, bordes y esquinas salen de los tokens (`text-xs`, `text-black/60`, `rounded-*` quedan prohibidos).
+No hay Tailwind (retirado el 2026-11-17: no se usaba ninguna utilidad y su escáner metía en el CSS clases sacadas de la documentación). Maquetar con las clases `tz-`; si hace falta algo nuevo, añadirlo a `sistema.css` con los tokens: tamaños de letra, colores, bordes y esquinas salen siempre de ahí.
 
 ## 8. Auditoría
 `tests/auditoria-sitio.js` (evaluar en la página servida; devuelve un STRING JSON `{w, sw, issues}`). Revisa scroll horizontal (y qué desborda), texto visible < 16 px, contraste < 7:1 contra el fondo opaco efectivo, controles < 48 px, `<script>` e imágenes visibles.

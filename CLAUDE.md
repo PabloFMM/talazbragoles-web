@@ -18,7 +18,7 @@ Filosofía central: **rigor documental**. Solo se publica lo que tiene fuente ve
 | Herramienta | Versión | Rol |
 |-------------|---------|-----|
 | Astro | 6.x | Framework SSG |
-| Tailwind CSS | 4.x | Estilos (vía plugin Vite, sin `tailwind.config.*`) |
+| CSS propio | — | `reset.css` + `sistema.css` («Papel y tinta»), sin framework (Tailwind retirado el 2026-11-17) |
 | `@astrojs/sitemap` | latest | Sitemap automático |
 | TypeScript | strict | Tipado completo |
 | Vercel | — | Despliegue (push a `main` = deploy automático) |
@@ -65,7 +65,8 @@ src/
 │   │   └── [slug].astro    # Ficha de campaña: sesiones y personajes
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
-    ├── global.css          # Tailwind + @theme (familias)
+    ├── global.css          # Punto de entrada: importa reset.css y sistema.css
+    ├── reset.css           # Reinicio mínimo (lo que antes ponía el preflight de Tailwind)
     └── sistema.css         # Sistema de diseño: tokens y componentes tz-
 ```
 
@@ -199,7 +200,7 @@ Texto biográfico en Markdown.
 - **Sin JS en cliente**: no añadir `<script>` ni frameworks de UI (única excepción: el asesor, ver «Sección MMO»).
 - **Estilo** (PabloFM, 2026-11-15): actual, limpio y elegante. Blanco y negro sobrio; nada de fotocopia, sellos, recortes, texturas, dorados ni degradados.
 - **Accesibilidad**: mantener `aria-hidden` en decorativos y el foco visible (contorno de tinta de 3 px, definido en `sistema.css`).
-- **Tailwind v4**: no existe `tailwind.config.*`. Los tokens CSS están en `src/styles/sistema.css`; `global.css` importa Tailwind y mapea `font-sans`/`font-serif` en `@theme`.
+- **Sin Tailwind** (retirado el 2026-11-17): no se usaba ninguna utilidad y su escáner metía en el CSS clases sacadas de la documentación (`.hidden`, `.table`, `.text-xs`…). Tokens y componentes en `src/styles/sistema.css`; `reset.css` es el reinicio mínimo.
 
 ---
 
@@ -229,7 +230,7 @@ El repo está en GitHub (`PabloFMM/talazbragoles-web`). Vercel está conectado a
 
 ## Qué NO hacer
 
-- No crear archivos `tailwind.config.*` — Tailwind 4 no lo necesita.
+- No volver a meter Tailwind ni otro framework CSS: todo sale de los tokens de `sistema.css`.
 - No añadir dependencias de runtime JS (React, Vue, Alpine, etc.) sin consenso.
 - No publicar datos sin fuente en las colecciones.
 - No modificar la URL del sitio en `astro.config.mjs` sin actualizar también `robots.txt`.
