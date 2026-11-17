@@ -10,41 +10,40 @@
 
 import "../styles/global.css";
 import Logo from "../components/sistema/Logo.astro";
-import { mainNav, type NavItem } from "../lib/nav";
+import { mainNav } from "../lib/nav";
+import { dosCifras } from "../lib/formato";
 
 interface Props {
-  title?: string;
-  description?: string;
+  /** Título de la página; se le añade « · Talazbrágoles» si no lleva ya la marca. */
+  title: string;
+  description: string;
+  /** Ruta canónica. Por defecto, la de la página sin barra final (/fuentes/ → /fuentes). */
   canonicalPath?: string;
-  nav?: NavItem[];
   /** Páginas internas (p. ej. /diseno/): no indexar. */
   noindex?: boolean;
 }
 
-const {
-  title = "TALAZBRÁGOLES",
-  description = "Web oficial del legado de las Talazbrágoles: un archivo vivo de recuerdos, fuentes y documentación rolera.",
-  canonicalPath = "/",
-  nav = mainNav,
-  noindex = false,
-} = Astro.props;
+const { title, description, canonicalPath, noindex = false } = Astro.props;
 
-const siteUrl = Astro.site ? new URL(Astro.site) : new URL("https://www.talazbragoles.com");
-const canonical = new URL(canonicalPath, siteUrl).toString();
+const MARCA = "Talazbrágoles";
+const siteUrl = Astro.site ?? new URL("https://www.talazbragoles.com");
+const ruta = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const canonical = new URL(canonicalPath ?? ruta, siteUrl).toString();
 
-const ogTitle = title.includes("TALAZBRÁGOLES") ? title : `${title} · TALAZBRÁGOLES`;
-const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen real en /public/og.png
+// Sin la marca repetida: «Talazbrágoles — 5ª edición» no lleva « · Talazbrágoles».
+const tituloCompleto = title.toLocaleLowerCase("es").includes(MARCA.toLocaleLowerCase("es")) ? title : `${title} · ${MARCA}`;
+// Imagen para redes: generada con proyecto/tools/og-imagen.mjs (1200 × 630, solo tipografía).
+const ogImage = new URL("/og.png", siteUrl).toString();
+const ogImageAlt = "Talazbrágoles · Archivo de las Jornadas, en tinta negra sobre papel claro.";
 
 // Entrada activa del índice (sin JS: se calcula en el build).
-const ruta = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const esActual = (href: string) => {
-  if (href.includes("#")) return false;
   const h = href.replace(/\/+$/, "") || "/";
   return h === "/" ? ruta === "/" : ruta === h || ruta.startsWith(h + "/");
 };
-const indice = nav.map((item, i) => ({
+const indice = mainNav.map((item, i) => ({
   ...item,
-  n: String(i + 1).padStart(2, "0"),
+  n: dosCifras(i + 1),
   actual: esActual(item.href),
 }));
 ---
@@ -57,7 +56,7 @@ const indice = nav.map((item, i) => ({
     <meta name="generator" content={Astro.generator} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <title>{ogTitle}</title>
+    <title>{tituloCompleto}</title>
     <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
     <meta name="keywords" content="Talazbrágoles,Talazbragoles,jornadas,rol,simulación,Las Rozas,Majadahonda,Las Matas,archivo,nostalgia,90s" />
@@ -68,16 +67,23 @@ const indice = nav.map((item, i) => ({
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={ogTitle} />
+    <meta property="og:site_name" content={MARCA} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={tituloCompleto} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:title" content={tituloCompleto} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
   </head>
 
   <body>

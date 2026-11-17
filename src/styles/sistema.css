@@ -8,7 +8,7 @@
   Reglas fijas (no romper):
   - Texto ≥ 16 px (1rem). Botones y campos ≥ 48 px. Contraste ≥ 7:1.
   - Sin animaciones ni transiciones. Sin imágenes decorativas: solo tipografía.
-  - Prefijo de clases: tz- (no usar z-, que es de Tailwind).
+  - Prefijo de clases: tz-.
 */
 
 /* ===== 1. Tipografías autoalojadas (SIL OFL 1.1; licencias en /fonts/) ===== */
@@ -96,14 +96,7 @@
   /* Controles */
   --toque: 3rem;  /* 48 px: alto mínimo de botones, campos y enlaces de menú */
 
-  /* Compatibilidad con estilos anteriores (no usar en código nuevo) */
-  --paper: var(--papel);
-  --paper-2: var(--papel-2);
-  --ink: var(--tinta);
-  --ink-2: var(--tinta-2);
-  --line: var(--tinta);
-  --line-2: var(--filete);
-  --accent: var(--tinta);
+  /* Margen superior de los destinos de ancla (#s-…) */
   --nav-offset: 1.5rem;
 }
 
@@ -210,6 +203,10 @@
     color: var(--tinta-2);
     font-variant-numeric: tabular-nums;
   }
+  /* Elemento con título, dato y texto (actividades, sesiones, juegos mencionados) */
+  .tz-item-titulo { margin: 0; font-weight: var(--p-semi); }
+  .tz-item-meta { margin: var(--e-1) 0 0; }
+  .tz-item-texto { margin: var(--e-2) 0 0; }
 
   /* --- 4.3 Logotipo --- */
   .tz-logo {
@@ -945,5 +942,4 @@
   @media (min-width: 48rem) { .tz-guia > h2 { font-size: var(--t-4); } }
   .tz-guia > h2:first-child { margin-top: 0; }
   .tz-guia > .tz-tabla { margin-block: var(--e-5); }
-  .tz-prosa code, .tz-cmd { font-family: ui-monospace, Consolas, "Courier New", monospace; font-size: 1em; }
 }

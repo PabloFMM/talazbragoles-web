@@ -7,8 +7,8 @@ import Layout from "../../../layouts/Layout.astro";
 import Encabezado from "../../../components/sistema/Encabezado.astro";
 import Titulo from "../../../components/sistema/Titulo.astro";
 import Pendiente from "../../../components/sistema/Pendiente.astro";
-import Migas from "../../../components/archivo/Migas.astro";
 import { getAllGuides } from "../../../lib/collections";
+import { numeroSeccion } from "../../../lib/nav";
 
 const guides = await getAllGuides();
 
@@ -22,15 +22,11 @@ const bandas = [
 <Layout
   title="La Barbarie · WoW Forever"
   description="Asesoría de la hermandad La Barbarie en World of Warcraft: Forever: guías de profesiones y asesor de comercio, con fuentes."
-  canonicalPath="/mmo/wow-forever"
 >
   <div class="tz-pagina">
-    <div class="tz-encabezado" style="padding-bottom:0">
-      <Migas pasos={[{ texto: "MMO", href: "/mmo" }, { texto: "La Barbarie" }]} />
-    </div>
     <Encabezado
-      trasMigas
-      numero="07"
+      migas={[{ texto: "MMO", href: "/mmo" }, { texto: "La Barbarie" }]}
+      numero={numeroSeccion("/mmo")}
       seccion="MMO · World of Warcraft: Forever"
       titulo="La Barbarie"
       entradilla="Hermandad de la Horda, cuatro jugadores. Esta sección es su asesoría: qué hacer, qué comprar y cómo subir las profesiones."
@@ -71,16 +67,16 @@ const bandas = [
       <p class="tz-medida" style="margin:0 0 var(--e-5)">Banda: grupo grande de jugadores contra jefes. Abren tres y las tres piden nivel 60.</p>
       <!-- Sin tz-contenedor a propósito: tres columnas cortas caben como tabla a 320 px -->
       <div class="tz-medida">
-        <table class="tz-tabla" role="table">
-          <thead role="rowgroup">
-            <tr role="row"><th role="columnheader">Banda</th><th role="columnheader">Jugadores</th><th role="columnheader">Jefes</th></tr>
+        <table class="tz-tabla">
+          <thead>
+            <tr><th scope="col">Banda</th><th scope="col">Jugadores</th><th scope="col">Jefes</th></tr>
           </thead>
-          <tbody role="rowgroup">
+          <tbody>
             {bandas.map((b) => (
-              <tr role="row">
-                <td role="cell" data-etiqueta="Banda">{b.banda}</td>
-                <td role="cell" data-etiqueta="Jugadores">{b.jugadores}</td>
-                <td role="cell" data-etiqueta="Jefes">{b.jefes}</td>
+              <tr>
+                <td data-etiqueta="Banda">{b.banda}</td>
+                <td data-etiqueta="Jugadores">{b.jugadores}</td>
+                <td data-etiqueta="Jefes">{b.jefes}</td>
               </tr>
             ))}
           </tbody>

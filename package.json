@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "npm run build && npm run test:unidad && npm run test:navegador",
+    "test": "npm run check && npm run build && npm run test:unidad && npm run test:navegador",
+    "check": "astro check",
     "test:unidad": "node --test tests/*.test.mjs",
     "test:navegador": "playwright test"
   },
@@ -19,7 +20,9 @@
     "astro": "^6.1.1"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
     "@axe-core/playwright": "^4.14.0",
-    "@playwright/test": "^1.65.1"
+    "@playwright/test": "^1.65.1",
+    "typescript": "^5.9.3"
   }
 }

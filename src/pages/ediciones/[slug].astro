@@ -8,10 +8,11 @@ import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
 import Estado from "../../components/sistema/Estado.astro";
+import Datos from "../../components/sistema/Datos.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import NotaFuente from "../../components/sistema/NotaFuente.astro";
-import Migas from "../../components/archivo/Migas.astro";
-import { partesFecha } from "../../lib/formato";
+import { getAllTimeline } from "../../lib/collections";
+import { partesFecha, tipoActividad } from "../../lib/formato";
 
 export async function getStaticPaths() {
   const editions = await getCollection("editions");
@@ -22,48 +23,37 @@ const { edition } = Astro.props;
 const { year, title, status, verified, venue, organizer, description, activities, sourceIds } = edition.data;
 
 const fuentes = (await getCollection("sources")).filter((s) => sourceIds.includes(s.id));
-const cronologia = (await getCollection("timeline"))
-  .filter((t) => t.data.relatedEditionId === edition.id)
-  .sort((a, b) => a.data.date.localeCompare(b.data.date));
+const cronologia = (await getAllTimeline()).filter((t) => t.data.relatedEditionId === edition.id);
 
 const anoTexto = year === "desconocida" ? "Año pendiente" : String(year);
-const tipoActividad: Record<string, string> = {
-  "partida-rol": "Partida de rol", torneo: "Torneo", charla: "Charla", demo: "Demostración", exposicion: "Exposición", otro: "Otra",
-};
-const datos: { etiqueta: string; valor?: string | number }[] = [
+const datos = [
   { etiqueta: "Año", valor: year === "desconocida" ? undefined : year },
   { etiqueta: "Ciudad", valor: venue?.city },
   { etiqueta: "Lugar", valor: venue?.name },
   { etiqueta: "Dirección", valor: venue?.address },
   { etiqueta: "Organización", valor: organizer },
 ];
-const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() === "";
 ---
 
 <Layout
   title={title}
   description={description ?? `Ficha de la edición de las Jornadas Talazbrágoles (${anoTexto.toLowerCase()}): datos, fuentes y lo que falta.`}
-  canonicalPath={`/ediciones/${edition.id}`}
 >
   <div class="tz-pagina">
-    <div class="tz-encabezado" style="padding-bottom:0">
-      <Migas pasos={[{ texto: "Ediciones", href: "/ediciones" }, { texto: anoTexto }]} />
-    </div>
-    <header class="tz-encabezado" style="padding-top:var(--e-5)">
-      <p class="tz-antetitulo"><span class="tz-num">{year === "desconocida" ? "—" : year}</span><span>Edición</span></p>
-      <h1 class="tz-titular">{title}</h1>
+    <Encabezado
+      migas={[{ texto: "Ediciones", href: "/ediciones" }, { texto: anoTexto }]}
+      numero={year === "desconocida" ? "—" : String(year)}
+      seccion="Edición"
+      titulo={title}
+    >
       <p class="tz-recuento"><Estado estado={status} />{!verified && <> · sin verificar</>}</p>
-    </header>
+    </Encabezado>
 
     <section class="tz-seccion" aria-labelledby="s-datos">
       <Titulo id="s-datos" numero="01">Datos</Titulo>
       <div class="tz-con-margen">
         <div>
-          <dl class="tz-datos">
-            {datos.map((d) => (
-              <div><dt>{d.etiqueta}</dt><dd>{vacio(d.valor) ? <Pendiente /> : d.valor}</dd></div>
-            ))}
-          </dl>
+          <Datos datos={datos} />
           {description && (
             <div class="tz-prosa" style="margin-top:var(--e-6)">
               <h3 class="tz-subtitulo" style="margin-top:0">Lo que cuentan las fuentes</h3>
@@ -85,11 +75,11 @@ const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() 
           {activities.map((a) => (
             <li>
               <div>
-                <p style="margin:0;font-weight:var(--p-semi)">{a.name}</p>
-                <p class="tz-ref" style="margin:var(--e-1) 0 0">
-                  {[tipoActividad[a.type] ?? a.type, a.system && `Sistema: ${a.system}`, a.gm && `Dirige: ${a.gm}`].filter(Boolean).join(" · ")}
+                <p class="tz-item-titulo">{a.name}</p>
+                <p class="tz-ref tz-item-meta">
+                  {[tipoActividad[a.type], a.system && `Sistema: ${a.system}`, a.gm && `Dirige: ${a.gm}`].filter(Boolean).join(" · ")}
                 </p>
-                {a.description && <p style="margin:var(--e-2) 0 0">{a.description}</p>}
+                {a.description && <p class="tz-item-texto">{a.description}</p>}
               </div>
             </li>
           ))}
@@ -110,19 +100,7 @@ const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() 
       <Titulo id="s-fuentes" numero="03">Fuentes</Titulo>
       {fuentes.length > 0 ? (
         <ol class="tz-fuentes tz-medida">
-          {fuentes.map((s, i) => (
-            <NotaFuente
-              n={i + 1}
-              titulo={s.data.title}
-              url={s.data.url}
-              tipo={s.data.type}
-              fecha={s.data.date}
-              consulta={s.data.accessDate}
-              afirma={s.data.asserts}
-              reserva={s.data.caveat}
-              caido={s.data.broken}
-            />
-          ))}
+          {fuentes.map((s, i) => <NotaFuente fuente={s} n={i + 1} />)}
         </ol>
       ) : (
         <div class="tz-medida"><Pendiente mensaje="Esta edición no tiene ninguna fuente enlazada." /></div>

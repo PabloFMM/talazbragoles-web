@@ -8,9 +8,9 @@
 import { render } from "astro:content";
 import Layout from "../../../../layouts/Layout.astro";
 import Encabezado from "../../../../components/sistema/Encabezado.astro";
-import Migas from "../../../../components/archivo/Migas.astro";
 import { getAllGuides } from "../../../../lib/collections";
 import { fechaLarga } from "../../../../lib/formato";
+import { numeroSeccion } from "../../../../lib/nav";
 
 export async function getStaticPaths() {
   const guides = await getAllGuides();
@@ -26,20 +26,19 @@ const fecha = fechaLarga(guide.data.comprobado);
 <Layout
   title={`${guide.data.profesion} · Guía de WoW Forever`}
   description={`Guía de ${guide.data.profesion} en World of Warcraft: Forever: cómo empezar, rangos, ruta para subir y fuentes.`}
-  canonicalPath={`/mmo/wow-forever/guias/${guide.id}`}
 >
   <div class="tz-pagina">
-    <div class="tz-encabezado" style="padding-bottom:0">
-      <Migas
-        pasos={[
-          { texto: "MMO", href: "/mmo" },
-          { texto: "La Barbarie", href: "/mmo/wow-forever" },
-          { texto: "Guías", href: "/mmo/wow-forever/guias" },
-          { texto: guide.data.profesion },
-        ]}
-      />
-    </div>
-    <Encabezado trasMigas numero="07" seccion="Guía de profesión · WoW Forever" titulo={guide.data.profesion}>
+    <Encabezado
+      migas={[
+        { texto: "MMO", href: "/mmo" },
+        { texto: "La Barbarie", href: "/mmo/wow-forever" },
+        { texto: "Guías", href: "/mmo/wow-forever/guias" },
+        { texto: guide.data.profesion },
+      ]}
+      numero={numeroSeccion("/mmo")}
+      seccion="Guía de profesión · WoW Forever"
+      titulo={guide.data.profesion}
+    >
       <p class="tz-recuento">Profesión de {guide.data.tipo} · comprobada el {fecha}</p>
     </Encabezado>
 

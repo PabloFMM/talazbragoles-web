@@ -6,10 +6,11 @@ import Titulo from "../../components/sistema/Titulo.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import RegistroEdiciones from "../../components/archivo/RegistroEdiciones.astro";
 import { getAllEditions } from "../../lib/collections";
-import { plural } from "../../lib/formato";
+import { plural, type EstadoDocumental } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
 const ediciones = await getAllEditions();
-const cuenta = (s: string) => ediciones.filter((e) => e.data.status === s).length;
+const cuenta = (s: EstadoDocumental) => ediciones.filter((e) => e.data.status === s).length;
 const recuento = [
   plural(cuenta("documentada"), "documentada", "documentadas"),
   plural(cuenta("parcial"), "parcial", "parciales"),
@@ -20,11 +21,10 @@ const recuento = [
 <Layout
   title="Ediciones"
   description="Ediciones de las Jornadas Talazbrágoles por año: estado documental, sede y fuentes de cada una."
-  canonicalPath="/ediciones"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="02"
+      numero={numeroSeccion("/ediciones")}
       seccion="Archivo"
       titulo="Ediciones"
       entradilla="Cada edición de la que hay noticia, por año. Solo se afirma lo que dice alguna fuente; lo demás queda pendiente."

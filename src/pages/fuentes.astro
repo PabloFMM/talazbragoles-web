@@ -10,7 +10,8 @@ import Titulo from "../components/sistema/Titulo.astro";
 import NotaFuente from "../components/sistema/NotaFuente.astro";
 import Pendiente from "../components/sistema/Pendiente.astro";
 import { getAllSources } from "../lib/collections";
-import { plural } from "../lib/formato";
+import { dosCifras, plural } from "../lib/formato";
+import { numeroSeccion } from "../lib/nav";
 
 const fuentes = await getAllSources();
 const nombran = fuentes.filter((s) => s.data.tags.includes("menciona Talazbrágoles"));
@@ -33,11 +34,10 @@ const buscamos = [
 <Layout
   title="Fuentes"
   description="Fuentes del archivo de las Jornadas Talazbrágoles: qué dice cada una, con qué reservas y qué falta."
-  canonicalPath="/fuentes"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="08"
+      numero={numeroSeccion("/fuentes")}
       seccion="Archivo"
       titulo="Fuentes"
       entradilla="Todo lo que afirma este archivo sale de aquí. Cada fuente dice qué afirma y con qué reservas; si un enlace se cae, se indica."
@@ -47,24 +47,11 @@ const buscamos = [
 
     {grupos.map((g, gi) => (
       <section class="tz-seccion" aria-labelledby={g.id}>
-        <Titulo id={g.id} numero={String(gi + 1).padStart(2, "0")}>{g.titulo}</Titulo>
+        <Titulo id={g.id} numero={dosCifras(gi + 1)}>{g.titulo}</Titulo>
         {g.nota && <p class="tz-medida" style="margin:0 0 var(--e-5)">{g.nota}</p>}
         {g.lista.length > 0 ? (
           <ol class="tz-fuentes tz-medida">
-            {g.lista.map((s, i) => (
-              <NotaFuente
-                id={s.id}
-                n={i + 1}
-                titulo={s.data.title}
-                url={s.data.url}
-                tipo={s.data.type}
-                fecha={s.data.date}
-                consulta={s.data.accessDate}
-                afirma={s.data.asserts}
-                reserva={s.data.caveat}
-                caido={s.data.broken}
-              />
-            ))}
+            {g.lista.map((s, i) => <NotaFuente fuente={s} n={i + 1} ancla />)}
           </ol>
         ) : (
           <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna fuente en este grupo." /></div>

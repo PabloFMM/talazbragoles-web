@@ -10,7 +10,8 @@ import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import { getAllCampaigns } from "../../lib/collections";
-import { estadoCampana } from "../../lib/formato";
+import { dosCifras, estadoCampana } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
 const campanas = await getAllCampaigns();
 ---
@@ -18,11 +19,10 @@ const campanas = await getAllCampaigns();
 <Layout
   title="Juegos de rol"
   description="Partidas y campañas de rol que juega ahora el grupo: resúmenes de sesión y personajes."
-  canonicalPath="/rol"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="06"
+      numero={numeroSeccion("/rol")}
       seccion="Rol"
       titulo="Juegos de rol"
       entradilla="Las partidas y campañas que juega ahora el grupo: de qué van, qué pasó en cada sesión y quién lleva qué personaje."
@@ -34,7 +34,7 @@ const campanas = await getAllCampaigns();
         <div class="tz-fichas">
           {campanas.map((c, i) => (
             <Ficha
-              numero={String(i + 1).padStart(2, "0")}
+              numero={dosCifras(i + 1)}
               titulo={c.data.title}
               href={`/rol/${c.id}`}
               enlace="Ver campaña"

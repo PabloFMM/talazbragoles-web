@@ -10,9 +10,10 @@ import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import { getAllSystems, getAllSources } from "../../lib/collections";
-import { anclaFuente } from "../../lib/formato";
+import { anclaFuente, dosCifras } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
-const sistemas = (await getAllSystems()).sort((a, b) => a.data.name.localeCompare(b.data.name, "es"));
+const sistemas = await getAllSystems();
 const fuentes = await getAllSources();
 const titulo = (id: string) => fuentes.find((f) => f.id === id)?.data.title ?? id;
 
@@ -28,11 +29,10 @@ const mencionados = [
 <Layout
   title="Sistemas"
   description="Juegos de rol que se jugaron en las Jornadas Talazbrágoles, con las ediciones y fuentes de cada uno."
-  canonicalPath="/sistemas"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="04"
+      numero={numeroSeccion("/sistemas")}
       seccion="Archivo"
       titulo="Sistemas"
       entradilla="Los juegos de rol que se jugaron en las Jornadas. Las partidas que juega hoy el grupo están en Rol."
@@ -44,7 +44,7 @@ const mencionados = [
         <div class="tz-fichas">
           {sistemas.map((s, i) => (
             <Ficha
-              numero={String(i + 1).padStart(2, "0")}
+              numero={dosCifras(i + 1)}
               titulo={s.data.name}
               datos={[
                 { etiqueta: "Editorial", valor: s.data.publisher },
@@ -72,8 +72,8 @@ const mencionados = [
             {mencionados.map((m) => (
               <li>
                 <div>
-                  <p style="margin:0;font-weight:var(--p-semi)">{m.juego}</p>
-                  <p style="margin:var(--e-1) 0 0">{m.como} <span class="tz-ref">Fuente: <a href={anclaFuente(m.fuente)}>{titulo(m.fuente)}</a>.</span></p>
+                  <p class="tz-item-titulo">{m.juego}</p>
+                  <p class="tz-item-meta">{m.como} <span class="tz-ref">Fuente: <a href={anclaFuente(m.fuente)}>{titulo(m.fuente)}</a>.</span></p>
                 </div>
               </li>
             ))}

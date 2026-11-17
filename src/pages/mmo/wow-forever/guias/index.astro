@@ -3,9 +3,9 @@
 import Layout from "../../../../layouts/Layout.astro";
 import Encabezado from "../../../../components/sistema/Encabezado.astro";
 import Titulo from "../../../../components/sistema/Titulo.astro";
-import Migas from "../../../../components/archivo/Migas.astro";
 import { getAllGuides } from "../../../../lib/collections";
 import { fechaLarga } from "../../../../lib/formato";
+import { numeroSeccion } from "../../../../lib/nav";
 
 const guides = await getAllGuides();
 ---
@@ -13,15 +13,11 @@ const guides = await getAllGuides();
 <Layout
   title="Guías de profesiones · WoW Forever"
   description="Guías de las profesiones de World of Warcraft: Forever para la hermandad La Barbarie. Cada dato con su fuente."
-  canonicalPath="/mmo/wow-forever/guias"
 >
   <div class="tz-pagina">
-    <div class="tz-encabezado" style="padding-bottom:0">
-      <Migas pasos={[{ texto: "MMO", href: "/mmo" }, { texto: "La Barbarie", href: "/mmo/wow-forever" }, { texto: "Guías" }]} />
-    </div>
     <Encabezado
-      trasMigas
-      numero="07"
+      migas={[{ texto: "MMO", href: "/mmo" }, { texto: "La Barbarie", href: "/mmo/wow-forever" }, { texto: "Guías" }]}
+      numero={numeroSeccion("/mmo")}
       seccion="MMO · World of Warcraft: Forever"
       titulo="Guías de profesiones"
       entradilla="Una guía por profesión. Están redactadas a partir de páginas públicas, no de pruebas en el juego."

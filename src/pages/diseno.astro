@@ -15,6 +15,7 @@ import Pendiente from "../components/sistema/Pendiente.astro";
 import Estado from "../components/sistema/Estado.astro";
 import Logo from "../components/sistema/Logo.astro";
 import { getAllEditions, getAllSources } from "../lib/collections";
+import { dosCifras } from "../lib/formato";
 
 const ediciones = await getAllEditions();
 const fuentes = await getAllSources();
@@ -59,7 +60,6 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
 <Layout
   title="Sistema de diseño"
   description="Muestrario interno del sistema de diseño de Talazbrágoles."
-  canonicalPath="/diseno/"
   noindex
 >
   <div class="tz-pagina">
@@ -140,7 +140,7 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
         ))}
       </ul>
       <div class="tz-reticula reticula-demo" aria-hidden="true">
-        {Array.from({ length: 12 }, (_, i) => <span class="tz-num">{String(i + 1).padStart(2, "0")}</span>)}
+        {Array.from({ length: 12 }, (_, i) => <span class="tz-num">{dosCifras(i + 1)}</span>)}
       </div>
       <div class="tz-con-margen" style="margin-top:var(--e-7)">
         <div class="tz-prosa">
@@ -192,7 +192,7 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
       <div class="tz-fichas" style="margin-top:var(--e-7)">
         {ediciones.slice(0, 2).map((ed, i) => {
           const f = fichaDe(ed);
-          return <Ficha numero={String(i + 1).padStart(2, "0")} estado={f.estado} titulo={f.titulo} datos={f.datos} href={f.href} />;
+          return <Ficha numero={dosCifras(i + 1)} estado={f.estado} titulo={f.titulo} datos={f.datos} href={f.href} />;
         })}
       </div>
       <h3 class="tz-subtitulo">Estado documental</h3>
@@ -216,19 +216,7 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
       <Titulo id="s-fuentes" numero="09">Notas de fuente</Titulo>
       <p class="tz-medida">Numeradas, con tipo, fecha y fecha de consulta; qué dice la fuente y con qué reservas. Ejemplos reales de la colección de fuentes.</p>
       <ol class="tz-fuentes tz-medida" style="margin-top:var(--e-6)">
-        {fuentes.slice(0, 2).map((f, i) => (
-          <NotaFuente
-            n={i + 1}
-            titulo={f.data.title}
-            url={f.data.url}
-            tipo={f.data.type}
-            fecha={f.data.date}
-            consulta={f.data.accessDate}
-            afirma={f.data.asserts}
-            reserva={f.data.caveat}
-            caido={f.data.broken}
-          />
-        ))}
+        {fuentes.slice(0, 2).map((f, i) => <NotaFuente fuente={f} n={i + 1} />)}
       </ol>
       <p class="tz-ref tz-medida" style="margin-top:var(--e-5)">Referencia corta en línea (<code>tz-ref</code>): Fuente: <a href={fuentes[0]?.data.url}>{fuentes[0]?.data.title}</a>.</p>
     </section>
@@ -293,5 +281,4 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
   .muestra-caja { margin-top: var(--e-6); padding: var(--e-6) var(--e-5); border: var(--f-fino) solid var(--filete); }
   .estados { display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6); margin: 0 0 var(--e-3); }
   .botones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); margin-top: var(--e-6); }
-  code { font-family: ui-monospace, Consolas, "Courier New", monospace; font-size: 1em; }
 </style>

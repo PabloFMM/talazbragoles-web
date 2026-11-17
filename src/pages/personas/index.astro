@@ -9,26 +9,22 @@ import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import { getAllPeople, getAllSources } from "../../lib/collections";
-import { anclaFuente } from "../../lib/formato";
+import { anclaFuente, dosCifras, papelPersona } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
-const personas = (await getAllPeople()).sort((a, b) => a.data.name.localeCompare(b.data.name, "es"));
+const personas = await getAllPeople();
 const testimonios = (await getAllSources()).filter(
   (s) => s.data.type === "testimonio" && s.data.tags.includes("menciona Talazbrágoles"),
 );
-const papel: Record<string, string> = {
-  organizador: "Organización", autor: "Autoría", disenador: "Diseño", ilustrador: "Ilustración",
-  jugador: "Juego", periodista: "Prensa", otro: "Otro",
-};
 ---
 
 <Layout
   title="Personas"
   description="Personas de las Jornadas Talazbrágoles: organización, dirección de partidas y testimonios. Solo nombres con fuente."
-  canonicalPath="/personas"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="05"
+      numero={numeroSeccion("/personas")}
       seccion="Archivo"
       titulo="Personas"
       entradilla="Quién organizó, dirigió partidas o jugó en las Jornadas. Solo aparece un nombre si una fuente lo da."
@@ -40,10 +36,10 @@ const papel: Record<string, string> = {
         <div class="tz-fichas">
           {personas.map((p, i) => (
             <Ficha
-              numero={String(i + 1).padStart(2, "0")}
+              numero={dosCifras(i + 1)}
               titulo={p.data.name}
               datos={[
-                { etiqueta: "Papel", valor: p.data.roles.map((r) => papel[r] ?? r).join(", ") },
+                { etiqueta: "Papel", valor: p.data.roles.map((r) => papelPersona[r]).join(", ") },
                 { etiqueta: "Ediciones", valor: p.data.editionIds.length || undefined },
                 { etiqueta: "Fuentes", valor: p.data.sourceIds.length || undefined },
               ]}

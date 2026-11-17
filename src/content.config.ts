@@ -1,4 +1,5 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 // ─── 1. sources — bibliografía / fuentes documentales ─────────────────
@@ -7,7 +8,7 @@ const sources = defineCollection({
   loader: glob({ pattern: "**/*.json", base: "./src/content/sources" }),
   schema: z.object({
     title: z.string(),
-    url: z.string().url(),
+    url: z.url(),
     asserts: z.string(),
     caveat: z.string().optional(),
     type: z.enum(["testimonio", "prensa", "documento-oficial", "web-archivo", "foto", "video", "otro"]),
@@ -87,7 +88,7 @@ const people = defineCollection({
       })
       .optional(),
     links: z
-      .array(z.object({ label: z.string(), url: z.string().url() }))
+      .array(z.object({ label: z.string(), url: z.url() }))
       .default([]),
     editionIds: z.array(z.string()).default([]),
     sourceIds: z.array(z.string()).default([]),
@@ -131,7 +132,7 @@ const systems = defineCollection({
     playedAtEditionIds: z.array(z.string()).default([]),
     sourceIds: z.array(z.string()).default([]),
     links: z
-      .array(z.object({ label: z.string(), url: z.string().url() }))
+      .array(z.object({ label: z.string(), url: z.url() }))
       .default([]),
     draft: z.boolean().default(false),
   }),

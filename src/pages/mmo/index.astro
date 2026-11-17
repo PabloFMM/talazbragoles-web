@@ -8,16 +8,16 @@ import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
+import { numeroSeccion } from "../../lib/nav";
 ---
 
 <Layout
   title="MMO"
   description="Los juegos en línea de la gente de las Talazbrágoles. Ahora: la hermandad La Barbarie en World of Warcraft: Forever."
-  canonicalPath="/mmo"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="07"
+      numero={numeroSeccion("/mmo")}
       seccion="MMO"
       titulo="Juegos en línea"
       entradilla="MMO: juego en línea con muchos jugadores a la vez. Aquí está lo que juega hoy la gente de las Talazbrágoles, con la misma regla que el Archivo: cada dato lleva su fuente y lo que no se sabe se marca como pendiente."

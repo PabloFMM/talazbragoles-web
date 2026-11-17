@@ -7,6 +7,7 @@ import Titulo from "../../components/sistema/Titulo.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import { getAllTimeline } from "../../lib/collections";
 import { anclaFuente, categoriaCronologia, partesFecha } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
 const entradas = await getAllTimeline();
 const fuentes = await getCollection("sources");
@@ -18,11 +19,10 @@ const edicion = (id?: string) => (id ? ediciones.find((e) => e.id === id) : unde
 <Layout
   title="Cronología"
   description="Cronología de las Jornadas Talazbrágoles: cada entrada fechada con su fuente."
-  canonicalPath="/cronologia"
 >
   <div class="tz-pagina">
     <Encabezado
-      numero="03"
+      numero={numeroSeccion("/cronologia")}
       seccion="Archivo"
       titulo="Cronología"
       entradilla="Lo que se puede fechar, en orden. Algunas entradas fechan cuándo se publicó un testimonio, no cuándo ocurrió lo que cuenta."
@@ -45,7 +45,7 @@ const edicion = (id?: string) => (id ? ediciones.find((e) => e.id === id) : unde
                 </p>
                 <div class="tz-crono-cuerpo">
                   <ul class="tz-registro-meta">
-                    <li>{categoriaCronologia[t.data.category] ?? t.data.category}</li>
+                    <li>{categoriaCronologia[t.data.category]}</li>
                     <li>{t.data.verified ? "Verificada" : "Sin verificar"}</li>
                   </ul>
                   <h3 class="tz-crono-titulo">{t.data.title}</h3>

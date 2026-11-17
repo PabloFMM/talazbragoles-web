@@ -1,4 +1,11 @@
 /** Formato de fechas y etiquetas del Archivo (sin datos: solo presentación). */
+import type { CollectionEntry } from "astro:content";
+
+type Campo<C extends "sources" | "editions" | "people" | "timeline" | "campaigns", K extends keyof CollectionEntry<C>["data"]> =
+  CollectionEntry<C>["data"][K];
+
+/** Estado documental de una edición (mismo enum que el esquema). */
+export type EstadoDocumental = Campo<"editions", "status">;
 
 const MESES = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -9,7 +16,7 @@ const MESES = [
  * Parte una fecha ISO o parcial («1996», «1996-04», «1996-04-13») en año y resto
  * («13 de abril»), respetando la precisión declarada en la colección.
  */
-export function partesFecha(fecha: string, precision: "year" | "month" | "day" = "year") {
+export function partesFecha(fecha: string, precision: Campo<"timeline", "precision"> = "year") {
   const [ano, mes, dia] = fecha.split("-");
   const m = mes ? MESES[Number(mes) - 1] : undefined;
   let resto: string | undefined;
@@ -18,7 +25,16 @@ export function partesFecha(fecha: string, precision: "year" | "month" | "day" =
   return { ano, resto };
 }
 
-export const categoriaCronologia: Record<string, string> = {
+// Etiquetas de los enums de content.config.ts. Al ser Record<enum, string>,
+// un valor nuevo en el esquema sin su etiqueta aquí es un error de tipos (astro check).
+
+export const estadoDocumental: Record<EstadoDocumental, string> = {
+  documentada: "Documentada",
+  parcial: "Parcial",
+  pendiente: "Pendiente",
+};
+
+export const categoriaCronologia: Record<Campo<"timeline", "category">, string> = {
   edicion: "Edición",
   prensa: "Prensa",
   fundacion: "Fundación",
@@ -27,11 +43,40 @@ export const categoriaCronologia: Record<string, string> = {
   otra: "Otro",
 };
 
-export const estadoCampana: Record<string, string> = {
+export const estadoCampana: Record<Campo<"campaigns", "status">, string> = {
   "en-curso": "En curso",
   "en-pausa": "En pausa",
   terminada: "Terminada",
   pendiente: "Pendiente",
+};
+
+export const tipoFuente: Record<Campo<"sources", "type">, string> = {
+  testimonio: "Testimonio",
+  prensa: "Prensa",
+  "documento-oficial": "Documento oficial",
+  "web-archivo": "Web archivada",
+  foto: "Foto",
+  video: "Vídeo",
+  otro: "Otro",
+};
+
+export const tipoActividad: Record<Campo<"editions", "activities">[number]["type"], string> = {
+  "partida-rol": "Partida de rol",
+  torneo: "Torneo",
+  charla: "Charla",
+  demo: "Demostración",
+  exposicion: "Exposición",
+  otro: "Otra",
+};
+
+export const papelPersona: Record<Campo<"people", "roles">[number], string> = {
+  organizador: "Organización",
+  autor: "Autoría",
+  disenador: "Diseño",
+  ilustrador: "Ilustración",
+  jugador: "Juego",
+  periodista: "Prensa",
+  otro: "Otro",
 };
 
 /** «2026-11-14» → «14 de noviembre de 2026». Si no es una fecha completa, la devuelve tal cual. */
@@ -45,6 +90,9 @@ export function fechaLarga(iso: string) {
 export function plural(n: number, uno: string, varios: string) {
   return `${n} ${n === 1 ? uno : varios}`;
 }
+
+/** Número de orden a dos cifras: 1 → «01» (índice, fichas, fuentes). */
+export const dosCifras = (n: number) => String(n).padStart(2, "0");
 
 /** Ancla de una fuente en /fuentes/. */
 export const anclaFuente = (id: string) => `/fuentes#${id}`;

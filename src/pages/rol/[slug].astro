@@ -1,11 +1,13 @@
 ---
 /** /rol/<slug>/: ficha de una campaña actual (colección «campaigns»). */
 import Layout from "../../layouts/Layout.astro";
+import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
+import Datos from "../../components/sistema/Datos.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
-import Migas from "../../components/archivo/Migas.astro";
 import { getAllCampaigns } from "../../lib/collections";
 import { estadoCampana } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
 export async function getStaticPaths() {
   const campanas = await getAllCampaigns();
@@ -20,25 +22,21 @@ const datos = [
   { etiqueta: "Desde", valor: started },
   { etiqueta: "Dirige", valor: gm },
 ];
-const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() === "";
 ---
 
-<Layout title={title} description={summary ?? `Campaña de ${system}: sesiones y personajes.`} canonicalPath={`/rol/${campana.id}`}>
+<Layout title={title} description={summary ?? `Campaña de ${system}: sesiones y personajes.`}>
   <div class="tz-pagina">
-    <div class="tz-encabezado" style="padding-bottom:0">
-      <Migas pasos={[{ texto: "Juegos de rol", href: "/rol" }, { texto: title }]} />
-    </div>
-    <header class="tz-encabezado" style="padding-top:var(--e-5)">
-      <p class="tz-antetitulo"><span class="tz-num">06</span><span>Campaña</span></p>
-      <h1 class="tz-titular">{title}</h1>
-      {summary && <p class="tz-entradilla">{summary}</p>}
-    </header>
+    <Encabezado
+      migas={[{ texto: "Juegos de rol", href: "/rol" }, { texto: title }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Campaña"
+      titulo={title}
+      entradilla={summary}
+    />
 
     <section class="tz-seccion" aria-labelledby="s-datos">
       <Titulo id="s-datos" numero="01">Datos</Titulo>
-      <dl class="tz-datos tz-medida">
-        {datos.map((d) => <div><dt>{d.etiqueta}</dt><dd>{vacio(d.valor) ? <Pendiente /> : d.valor}</dd></div>)}
-      </dl>
+      <Datos datos={datos} class="tz-medida" />
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-sesiones">
@@ -48,9 +46,9 @@ const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() 
           {sessions.map((s) => (
             <li>
               <div>
-                <p style="margin:0;font-weight:var(--p-semi)">{s.title ?? (s.n ? `Sesión ${s.n}` : "Sesión")}</p>
-                {s.date && <p class="tz-ref" style="margin:var(--e-1) 0 0">{s.date}</p>}
-                <p style="margin:var(--e-2) 0 0">{s.summary}</p>
+                <p class="tz-item-titulo">{s.title ?? (s.n ? `Sesión ${s.n}` : "Sesión")}</p>
+                {s.date && <p class="tz-ref tz-item-meta">{s.date}</p>}
+                <p class="tz-item-texto">{s.summary}</p>
               </div>
             </li>
           ))}
@@ -63,11 +61,13 @@ const vacio = (v: unknown) => v === undefined || v === null || String(v).trim() 
     <section class="tz-seccion" aria-labelledby="s-personajes">
       <Titulo id="s-personajes" numero="03">Personajes</Titulo>
       {characters.length > 0 ? (
-        <dl class="tz-datos tz-medida">
-          {characters.map((p) => (
-            <div><dt>{p.name}</dt><dd>{[p.player && `Lo lleva ${p.player}.`, p.description].filter(Boolean).join(" ") || <Pendiente />}</dd></div>
-          ))}
-        </dl>
+        <Datos
+          class="tz-medida tz-datos--ancho"
+          datos={characters.map((p) => ({
+            etiqueta: p.name,
+            valor: [p.player && `Lo lleva ${p.player}.`, p.description].filter(Boolean).join(" "),
+          }))}
+        />
       ) : (
         <div class="tz-medida"><Pendiente mensaje="Todavía no hay personajes registrados." /></div>
       )}
