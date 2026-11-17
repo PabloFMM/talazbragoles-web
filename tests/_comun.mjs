@@ -42,3 +42,15 @@ export function pestanasAsesor() {
   if (lista.length < 5) throw new Error(`TABS del asesor con solo ${lista.length} pestañas: ${lista}`);
   return lista;
 }
+
+/**
+ * Abre el asesor (con `hash` opcional) y espera a que lleguen los precios de las subidas incluidas
+ * (public/…/asesor/datos/*.json, se cargan con fetch al arrancar): mientras tanto, lo que depende de
+ * precios dice «Cargando». Falla si alguna subida no ha llegado (data-precios="incompletos").
+ */
+export async function abrirAsesor(page, hash = "") {
+  await page.goto(ASESOR + hash);
+  await page.waitForFunction(() => document.documentElement.hasAttribute("data-precios"));
+  const estado = await page.locator("html").getAttribute("data-precios");
+  if (estado !== "listos") throw new Error(`El asesor no ha cargado todas las subidas (data-precios=${estado})`);
+}

@@ -1,6 +1,6 @@
 // Uso solo con teclado: orden de tabulación, foco visible, enlace de salto y menú móvil.
 import { test, expect } from "@playwright/test";
-import { ASESOR } from "./_comun.mjs";
+import { ASESOR, abrirAsesor } from "./_comun.mjs";
 
 /** Datos del elemento con foco. */
 const foco = (page) =>
@@ -63,7 +63,7 @@ test("teclado: menú móvil se abre con Intro y sus enlaces reciben el foco", as
 });
 
 test("teclado: en el asesor se cambia de pestaña con Intro", async ({ page }) => {
-  await page.goto(ASESOR);
+  await abrirAsesor(page);
   await page.locator("#wt-oro").focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("#wp-oro")).toBeVisible();

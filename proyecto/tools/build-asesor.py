@@ -3,6 +3,8 @@
 
 Entrada:  web/index.html  (prototipo completo; única fuente de verdad del asesor)
 Salida:   repo/public/mmo/wow-forever/asesor/index.html
+          + repo/public/mmo/wow-forever/asesor/datos/subasta-s<n>-<resumen>.json (copias de web/datos/ de
+          las subidas que pide el prototipo con src:'…'; las que ya no pide se borran)
 Uso:      python3 tools/build-asesor.py
 
 Qué cambia respecto al prototipo:
@@ -19,10 +21,10 @@ Cada sustitución debe casar el número exacto de veces; si no, el script falla.
 
 Repo de destino: TZ_REPO=<ruta>, o repo/ en la carpeta de trabajo, o el repo que
 contiene proyecto/tools (ver _repo.py).
-    --comprobar   no escribe nada: sale con error si el asesor publicado no es el que
+    --comprobar   no escribe nada: sale con error si el asesor publicado (o su carpeta datos/) no es el que
                   saldría ahora (lo usa tests/sincronia.test.mjs).
 """
-import re, sys
+import re, shutil, sys
 
 sys.dont_write_bytecode = True  # sin __pycache__ en tools/ (se copia al repo)
 from _repo import RAIZ, repo  # noqa: E402
@@ -182,15 +184,41 @@ if n < 10:
 if 'wowf-chaman-v1' not in s:
     sys.exit('Falta la clave de localStorage')
 
+# Subidas de la subasta: el prototipo las carga de web/datos/<src>; en el sitio, de DATOS_DESTINO (ruta absoluta,
+# para que funcione también si se entra por /mmo/wow-forever/asesor sin barra final).
+rep("var AH_DIR='datos/';", "var AH_DIR='%s/datos/';" % RUTA)
+DATOS_ORIGEN = ORIGEN.parent / 'datos'
+DATOS_DESTINO = DESTINO.parent / 'datos'
+SRCS = re.findall(r"\bsrc:'(subasta-s\d+-[0-9a-f]{10}\.json)'", s)
+if not SRCS or len(set(SRCS)) != len(SRCS):
+    sys.exit('No encuentro las subidas src:\'subasta-s<n>-<resumen>.json\' en %s (o hay repetidas): %r' % (ORIGEN, SRCS))
+datos = {}
+for nombre in SRCS:
+    f = DATOS_ORIGEN / nombre
+    if not f.is_file():
+        sys.exit('%s pide %s y no está en %s' % (ORIGEN, nombre, DATOS_ORIGEN))
+    datos[nombre] = f.read_bytes()
+sobran = sorted(f.name for f in DATOS_DESTINO.glob('*') if f.name not in datos) if DATOS_DESTINO.is_dir() else []
+distintos = [k for k, v in datos.items() if not (DATOS_DESTINO / k).is_file() or (DATOS_DESTINO / k).read_bytes() != v]
+
 actual_publicado = DESTINO.read_text(encoding='utf-8') if DESTINO.is_file() else None
 if COMPROBAR:
     if actual_publicado != s:
         sys.exit('%s no es el que genera build-asesor.py desde %s: ejecuta tools/sync-repo.py (o build-asesor.py).'
                  % (DESTINO, ORIGEN))
-    print('Asesor al día:', DESTINO)
+    if sobran or distintos:
+        sys.exit('%s no está al día (faltan o cambian: %s; sobran: %s): ejecuta tools/sync-repo.py (o build-asesor.py).'
+                 % (DATOS_DESTINO, distintos, sobran))
+    print('Asesor al día:', DESTINO, '·', len(datos), 'subidas en', DATOS_DESTINO)
     sys.exit(0)
 if actual_publicado != s:  # sin cambios no se reescribe (no cambia ni la fecha del archivo)
     DESTINO.parent.mkdir(parents=True, exist_ok=True)
     DESTINO.write_text(s, encoding='utf-8')
-print('Asesor %s: %s · %d bytes · %d enlaces a guías'
-      % ('generado' if actual_publicado != s else 'sin cambios', DESTINO, len(s.encode('utf-8')), n))
+DATOS_DESTINO.mkdir(parents=True, exist_ok=True)
+for k in distintos:
+    shutil.copy2(DATOS_ORIGEN / k, DATOS_DESTINO / k)
+for k in sobran:
+    (DATOS_DESTINO / k).unlink()
+print('Asesor %s: %s · %d bytes · %d enlaces a guías · %d subidas en datos/ (%d copiadas, %d quitadas)'
+      % ('generado' if actual_publicado != s else 'sin cambios', DESTINO, len(s.encode('utf-8')), n,
+         len(datos), len(distintos), len(sobran)))

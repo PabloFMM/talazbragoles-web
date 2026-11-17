@@ -8,7 +8,7 @@ Uso (desde la carpeta de trabajo, con el clon en una rama hermes/<tema>):
 Hace tres cosas:
 1. Copia las guías  docs/guias/<slug>.md  →  <repo>/src/content/guides/
 2. Genera el asesor  web/index.html  →  <repo>/public/mmo/wow-forever/asesor/index.html
-3. Copia docs, tools, tests, data, IDEA.md y web/index.html  →  <repo>/proyecto/  (archivo; no se publica)
+3. Copia docs, tools, tests, data, IDEA.md, web/index.html y web/datos  →  <repo>/proyecto/  (archivo; no se publica)
 Después: `npm run build` en el repo y commit.
 
 Idempotente: ejecutarlo dos veces deja el clon igual (las copias conservan la fecha
@@ -26,7 +26,7 @@ from _repo import RAIZ, repo  # noqa: E402
 
 REPO = repo()
 ARCH = REPO / 'proyecto'
-CARPETAS = ('docs', 'tools', 'tests', 'data')
+CARPETAS = ('docs', 'tools', 'tests', 'data', 'web/datos')
 SUELTOS = ('IDEA.md', 'web/index.html')
 
 if RAIZ == ARCH.resolve():

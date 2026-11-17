@@ -1,7 +1,7 @@
 // Reglas de lectura en TODAS las páginas y en 16 anchos:
 // sin scroll horizontal, texto ≥ 16 px, controles ≥ 48 px, casillas ≥ 28 px, contraste ≥ 7:1.
 import { test, expect } from "@playwright/test";
-import { rutas, ANCHOS, ASESOR } from "./_comun.mjs";
+import { rutas, ANCHOS, ASESOR, abrirAsesor } from "./_comun.mjs";
 
 /** Se ejecuta dentro de la página. Devuelve la lista de fallos de la vista actual. */
 function medir() {
@@ -129,7 +129,7 @@ for (const anchos of GRUPOS_ANCHOS) {
     test.setTimeout(300_000); // 4 anchos × 3 letras × 14 pestañas
     const errores = [];
     page.on("pageerror", (e) => errores.push(String(e)));
-    await page.goto(ASESOR);
+    await abrirAsesor(page);
     const PESTANAS = await page.evaluate(() => TABS); // las del propio asesor: una pestaña nueva entra sola
     // Datos de prueba para que las tablas tengan contenido.
     await page.evaluate(() => {

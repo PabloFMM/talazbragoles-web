@@ -2,7 +2,7 @@
 // Donde axe no puede medir el contraste (texto sobre capas semitransparentes), lo mide tests/lectura.spec.mjs.
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { rutas, ASESOR, pestanasAsesor } from "./_comun.mjs";
+import { rutas, ASESOR, pestanasAsesor, abrirAsesor } from "./_comun.mjs";
 
 const axe = (page) =>
   new AxeBuilder({ page })
@@ -27,7 +27,7 @@ const PESTANAS = pestanasAsesor();
 for (const pest of PESTANAS) {
   test(`axe: asesor, pestaña ${pest}`, async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto(ASESOR);
+    await abrirAsesor(page);
     expect(await page.evaluate(() => TABS), "pestañas del asesor").toEqual(PESTANAS);
     await page.evaluate((p) => { showTab(p); if (p === "subasta") { planHacer(); document.getElementById("bus-q").value = "de"; buscar(); calcFab(); calcSubasta(); } }, pest);
     const r = await axe(page).analyze();

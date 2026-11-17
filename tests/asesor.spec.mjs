@@ -2,14 +2,14 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { RAIZ, ASESOR } from "./_comun.mjs";
+import { RAIZ, ASESOR, abrirAsesor } from "./_comun.mjs";
 
 const CSV = readFileSync(join(RAIZ, "proyecto", "tests", "subasta-prueba.csv"), "utf-8");
 
 test.beforeEach(async ({ page }) => {
   page.errores = [];
   page.on("pageerror", (e) => page.errores.push(String(e)));
-  await page.goto(ASESOR);
+  await abrirAsesor(page);
 });
 test.afterEach(async ({ page }) => {
   expect(page.errores, "errores de JavaScript").toEqual([]);
@@ -112,7 +112,7 @@ test("norm(): estado antiguo o raro no rompe ni pierde datos", async ({ page }) 
     .toEqual([14, "Fissel Kasteaya", 70, pescaPorDefecto, 5, "hola", true, 5]);
   await page.evaluate(() => { localStorage.setItem("wowf-chaman-v1", JSON.stringify({ sec: "zzz", tab: "nope" })); });
   await page.goto("about:blank");
-  await page.goto(ASESOR);
+  await abrirAsesor(page);
   expect(await page.evaluate(() => [document.querySelectorAll(".sec.on").length, document.querySelectorAll(".wpane.on").length])).toEqual([1, 1]);
 });
 
@@ -133,7 +133,7 @@ test("borrar pide dos pulsaciones (y se desarma a los 4 s)", async ({ page }) =>
   // Reloj falso: entre las dos pulsaciones no pasa el tiempo aunque la máquina vaya lenta (antes, con >4 s
   // entre clics, el botón se desarmaba y el test fallaba sin motivo).
   await page.clock.install();
-  await page.goto(ASESOR);
+  await abrirAsesor(page);
   await page.evaluate(() => { S.alm = { Cobre: 3, Estaño: 2 }; save(); renderAlm(); showTab("almacen"); });
   const quitar = page.locator("#alm-lista button").first();
   const texto = await quitar.innerText();
@@ -150,6 +150,33 @@ test("borrar pide dos pulsaciones (y se desarma a los 4 s)", async ({ page }) =>
 
 test("enlaces directos: #mmo-subasta abre Comercio", async ({ page }) => {
   await page.goto("about:blank");
-  await page.goto(ASESOR + "#mmo-subasta");
+  await abrirAsesor(page, "#mmo-subasta");
   await expect(page.locator("#wp-subasta")).toBeVisible();
+});
+
+// Las subidas completas incluidas en la web se cargan de datos/*.json (antes iban dentro del HTML).
+test("subidas incluidas: llegan todas de datos/, con sus filas", async ({ page }) => {
+  const subidas = await page.evaluate(() => AHB.filter((a) => a.src).map((a) => [a.id, Array.isArray(a.d) && a.d.length === a.n]));
+  expect(subidas.length).toBeGreaterThanOrEqual(5);
+  expect(subidas.filter(([, ok]) => !ok), "subidas sin sus filas").toEqual([]);
+  expect(await page.locator("#aviso-datos").innerText()).toBe("");
+});
+
+test("subidas incluidas: la de 2026-11-17 18:18 (AH5) da el plan documentado en comercio.md", async ({ page }) => {
+  // Estado limpio (Minería 80, Ingeniería 43, 25 pl.): 159 pólvoras férreas + 7 puñados de tornillos; sobran 51 cobres.
+  expect(await page.evaluate(() => {
+    const P = planCalc(AHB.find((a) => a.id === "s5"));
+    return [P.pasos.map((p) => [p.rec.r, p.u]), Math.round(P.inv), Math.round(P.cob), P.resta];
+  })).toEqual([[["Pólvora férrea", 159], ["Un puñado de tornillos de cobre", 7]], 2449, 12546, 51]);
+});
+
+test("subidas incluidas: si falta una, lo dice y calcula con las demás", async ({ page }) => {
+  await page.route("**/asesor/datos/subasta-s1-*.json", (r) => r.fulfill({ status: 404, body: "" }));
+  await page.goto("about:blank");
+  await page.goto(ASESOR + "#mmo-subasta");
+  await expect(page.locator("html")).toHaveAttribute("data-precios", "incompletos");
+  await expect(page.locator("#aviso-datos")).toContainText("No se han podido cargar los precios de 1 subida incluida en la web");
+  expect(await page.evaluate(() => AHB.map((a) => a.id).includes("s1"))).toBe(false);
+  await page.evaluate(() => planHacer());
+  await expect(page.locator("#plan-salida")).toContainText("Plan con");
 });
