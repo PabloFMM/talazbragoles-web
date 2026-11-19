@@ -47,7 +47,8 @@ test("cada página del sitio tiene título único, descripción, canonical propi
   const meta = (html, prop) => new RegExp(`<meta (?:name|property)="${prop}" content="([^"]*)"`).exec(html)?.[1];
   const titulos = new Map();
   const fallos = [];
-  for (const ruta of rutas().filter((r) => r !== ASESOR)) {
+  // 404.html no es una ruta: es la página de error que sirve Cloudflare Pages.
+  for (const ruta of rutas().filter((r) => r !== ASESOR && r !== "/404.html")) {
     const html = readFileSync(join(DIST, ruta, "index.html"), "utf-8");
     const titulo = /<title>([^<]+)<\/title>/.exec(html)?.[1];
     if (!titulo) fallos.push(`${ruta}: sin <title>`);
