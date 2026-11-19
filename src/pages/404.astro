@@ -1,0 +1,32 @@
+---
+/**
+ * Página 404. Necesaria en Cloudflare Pages: sin un 404.html en la raíz,
+ * Pages trata el sitio como SPA y responde 200 con la portada a cualquier
+ * dirección inexistente.
+ */
+import Layout from "../layouts/Layout.astro";
+import Encabezado from "../components/sistema/Encabezado.astro";
+---
+
+<Layout
+  title="Página no encontrada"
+  description="Esta dirección no existe en el archivo de las Jornadas Talazbrágoles."
+  noindex
+>
+  <div class="tz-pagina">
+    <Encabezado
+      seccion="Error 404"
+      titulo="Esta página no existe"
+      entradilla="Puede que la dirección esté mal escrita o que la página haya cambiado de sitio."
+    />
+    <section class="tz-seccion" aria-labelledby="s-seguir">
+      <h2 id="s-seguir" class="tz-medida">Por dónde seguir</h2>
+      <ul class="tz-lista-enlaces tz-medida">
+        <li><a href="/">Inicio: qué fueron las Jornadas y sus ediciones</a></li>
+        <li><a href="/ediciones">Ediciones</a></li>
+        <li><a href="/fuentes">Fuentes</a></li>
+        <li><a href="/mmo">MMO</a></li>
+      </ul>
+    </section>
+  </div>
+</Layout>
