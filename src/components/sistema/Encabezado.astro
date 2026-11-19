@@ -1,0 +1,34 @@
+---
+/**
+ * Encabezado de página: [migas] · antetítulo (número + sección) · titular · entradilla.
+ * Un solo <h1> por página: va aquí.
+ */
+import Migas from "../archivo/Migas.astro";
+import type { Paso } from "../../lib/nav";
+
+interface Props {
+  titulo: string;
+  /** Número de la sección, p. ej. "02" (mejor con numeroSeccion() de lib/nav). */
+  numero?: string;
+  /** Nombre de la sección en el antetítulo, p. ej. "Archivo". */
+  seccion?: string;
+  entradilla?: string;
+  /** Titular de portada (más grande). */
+  portada?: boolean;
+  /** Migas de pan encima del encabezado (el último paso es esta página). */
+  migas?: Paso[];
+}
+const { titulo, numero, seccion, entradilla, portada = false, migas } = Astro.props;
+---
+{migas && <div class="tz-encabezado"><Migas pasos={migas} /></div>}
+<header class:list={["tz-encabezado", { "tz-encabezado--tras-migas": migas }]}>
+  {(numero || seccion) && (
+    <p class="tz-antetitulo">
+      {numero && <span class="tz-num">{numero}</span>}
+      {seccion && <span>{seccion}</span>}
+    </p>
+  )}
+  <h1 class:list={["tz-titular", { "tz-titular--portada": portada }]}>{titulo}</h1>
+  {entradilla && <p class="tz-entradilla">{entradilla}</p>}
+  <slot />
+</header>

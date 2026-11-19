@@ -1,34 +1,89 @@
 ---
+/**
+ * /sistemas/: juegos de rol jugados en las Jornadas históricas (colección «systems»).
+ * Distinto de /rol/ (campañas actuales del grupo). Hoy no hay fichas: «pendiente»
+ * y la lista de juegos que sí nombran las fuentes, cada uno con su fuente.
+ */
 import Layout from "../../layouts/Layout.astro";
-import { mainNav } from "../../lib/nav";
-import { getAllSystems } from "../../lib/collections";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Ficha from "../../components/sistema/Ficha.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+import { getAllSystems, getAllSources } from "../../lib/collections";
+import { anclaFuente, dosCifras } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
-const systems = await getAllSystems();
+const sistemas = await getAllSystems();
+const fuentes = await getAllSources();
+const titulo = (id: string) => fuentes.find((f) => f.id === id)?.data.title ?? id;
+
+// Juegos que nombran las fuentes del archivo (texto de «asserts»). Ninguno es un juego de rol.
+const mencionados = [
+  { juego: "Magic", como: "Campeonato en la 5ª edición.", fuente: "rol-de-los-90-la-runa-2018" },
+  { juego: "SATM (así lo escribe la fuente)", como: "Campeonato en la 5ª edición.", fuente: "rol-de-los-90-la-runa-2018" },
+  { juego: "Doom", como: "Partida en red en la 5ª edición.", fuente: "rol-de-los-90-la-runa-2018" },
+  { juego: "Juego de cartas de Star Trek: La Nueva Generación", como: "El autor conoció allí a una amiga que cambiaba cartas de este juego. Sin año ni sede.", fuente: "viruete-2009" },
+].filter((m) => fuentes.some((f) => f.id === m.fuente));
 ---
 
 <Layout
-  title="Sistemas · TALAZBRÁGOLES"
-  description="Catálogo de sistemas de juego de rol documentados en las Talazbrágoles."
-  canonicalPath="/sistemas"
-  nav={mainNav}
+  title="Sistemas"
+  description="Juegos de rol que se jugaron en las Jornadas Talazbrágoles, con las ediciones y fuentes de cada uno."
 >
-  <div id="top" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
-    <header class="text-center max-w-3xl mx-auto">
-      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.22em] text-black uppercase">
-        SISTEMAS
-      </h1>
-      <p class="mt-6 text-base sm:text-xl text-black/80 leading-relaxed">
-        Los juegos de rol que se jugaron —o de los que se habló— en las Talazbrágoles.
-        Cada ficha incluye ediciones conocidas y fuentes verificables.
-      </p>
-    </header>
+  <div class="tz-pagina">
+    <Encabezado
+      numero={numeroSeccion("/sistemas")}
+      seccion="Archivo"
+      titulo="Sistemas"
+      entradilla="Los juegos de rol que se jugaron en las Jornadas. Las partidas que juega hoy el grupo están en Rol."
+    />
 
-    <div class="mt-16 rounded-3xl border border-black/15 bg-white/45 p-10 text-center">
-      <div class="text-xs uppercase tracking-[0.3em] text-black/60">Próximamente</div>
-      <p class="mt-3 text-black/80">
-        Esta sección se irá completando a medida que documentemos qué sistemas se jugaron en cada edición.
-        {systems.length > 0 && ` Ya hay ${systems.length} ${systems.length === 1 ? "sistema" : "sistemas"} en el archivo.`}
-      </p>
-    </div>
+    <section class="tz-seccion" aria-labelledby="s-fichas">
+      <Titulo id="s-fichas" numero="01">Juegos de rol</Titulo>
+      {sistemas.length > 0 ? (
+        <div class="tz-fichas">
+          {sistemas.map((s, i) => (
+            <Ficha
+              numero={dosCifras(i + 1)}
+              titulo={s.data.name}
+              datos={[
+                { etiqueta: "Editorial", valor: s.data.publisher },
+                { etiqueta: "Año", valor: s.data.year },
+                { etiqueta: "Ediciones", valor: s.data.playedAtEditionIds.length || undefined },
+              ]}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="tz-medida">
+          <Pendiente
+            mensaje="Ningún juego de rol de las Jornadas está documentado todavía. La crónica de la 5ª edición habla de 130 mesas de partidas, pero no dice a qué se jugó."
+            pide="Ayudarían programas con la lista de partidas o recuerdos de quien dirigió o jugó una mesa."
+          />
+        </div>
+      )}
+    </section>
+
+    {mencionados.length > 0 && (
+      <section class="tz-seccion" aria-labelledby="s-mencionados">
+        <Titulo id="s-mencionados" numero="02">Otros juegos que nombran las fuentes</Titulo>
+        <div class="tz-con-margen">
+          <ol class="tz-lista-numerada">
+            {mencionados.map((m) => (
+              <li>
+                <div>
+                  <p class="tz-item-titulo">{m.juego}</p>
+                  <p class="tz-item-meta">{m.como} <span class="tz-ref">Fuente: <a href={anclaFuente(m.fuente)}>{titulo(m.fuente)}</a>.</span></p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <aside class="tz-margen">
+            <p class="tz-rotulo">Por qué aquí</p>
+            <p>Son juegos de cartas y un videojuego, no de rol. Se anotan porque las fuentes los sitúan en las Jornadas.</p>
+          </aside>
+        </div>
+      </section>
+    )}
   </div>
 </Layout>

@@ -1,48 +1,60 @@
 ---
+/** /ediciones/: todas las ediciones por año, con recuento por estado y lo que falta. */
 import Layout from "../../layouts/Layout.astro";
-import EditionCard from "../../components/editions/EditionCard.astro";
-import { mainNav } from "../../lib/nav";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+import RegistroEdiciones from "../../components/archivo/RegistroEdiciones.astro";
 import { getAllEditions } from "../../lib/collections";
+import { plural, type EstadoDocumental } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
-const editions = await getAllEditions();
-const documented = editions.filter((e) => e.data.status === "documentada");
-const partial    = editions.filter((e) => e.data.status === "parcial");
-const pending    = editions.filter((e) => e.data.status === "pendiente");
+const ediciones = await getAllEditions();
+const cuenta = (s: EstadoDocumental) => ediciones.filter((e) => e.data.status === s).length;
+const recuento = [
+  plural(cuenta("documentada"), "documentada", "documentadas"),
+  plural(cuenta("parcial"), "parcial", "parciales"),
+  plural(cuenta("pendiente"), "pendiente", "pendientes"),
+].join(", ");
 ---
 
 <Layout
-  title="Ediciones · TALAZBRÁGOLES"
-  description="Archivo de todas las ediciones de las Talazbrágoles: fechas, sedes, organizadores y fuentes."
-  canonicalPath="/ediciones"
-  nav={mainNav}
+  title="Ediciones"
+  description="Ediciones de las Jornadas Talazbrágoles por año: estado documental, sede y fuentes de cada una."
 >
-  <div id="top" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
-    <header class="text-center max-w-3xl mx-auto">
-      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.22em] text-black uppercase">
-        EDICIONES
-      </h1>
-      <p class="mt-6 text-base sm:text-xl text-black/80 leading-relaxed">
-        Cada edición de las Talazbrágoles que hemos podido documentar —o que sabemos que existió
-        aunque falten los datos. Solo publicamos lo que tiene fuente.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3 justify-center text-xs uppercase tracking-[0.26em]">
-        <span class="border border-black/30 bg-black/10 px-3 py-1 rounded-full">{documented.length} documentadas</span>
-        <span class="border border-black/20 bg-white/70 px-3 py-1 rounded-full">{partial.length} parciales</span>
-        <span class="border border-black/10 text-black/50 px-3 py-1 rounded-full">{pending.length} pendientes</span>
-      </div>
-    </header>
+  <div class="tz-pagina">
+    <Encabezado
+      numero={numeroSeccion("/ediciones")}
+      seccion="Archivo"
+      titulo="Ediciones"
+      entradilla="Cada edición de la que hay noticia, por año. Solo se afirma lo que dice alguna fuente; lo demás queda pendiente."
+    >
+      <p class="tz-recuento">{plural(ediciones.length, "edición registrada", "ediciones registradas")}: {recuento}.</p>
+    </Encabezado>
 
-    {editions.length === 0 ? (
-      <div class="mt-16 rounded-3xl border border-black/15 bg-white/45 p-10 text-center">
-        <div class="text-xs uppercase tracking-[0.3em] text-black/60">Pendiente de documentar</div>
-        <p class="mt-3 text-black/80">
-          Aún no hay ediciones registradas con datos suficientes. Si tienes material, <a href="/fuentes" class="underline underline-offset-4 hover:decoration-[color:var(--accent)]">compártelo</a>.
-        </p>
+    <section class="tz-seccion" aria-labelledby="s-por-ano">
+      <Titulo id="s-por-ano" numero="01">Por año</Titulo>
+      {ediciones.length > 0 ? (
+        <RegistroEdiciones ediciones={ediciones} conTexto />
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna edición registrada." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-falta">
+      <Titulo id="s-falta" numero="02">Lo que falta</Titulo>
+      <div class="tz-con-margen">
+        <ol class="tz-lista-numerada">
+          <li><span>Cuántas ediciones hubo y en qué años. La crónica de La Runa habla de una 5ª edición: de la 1ª a la 4ª no hay ningún dato.</span></li>
+          <li><span>Organización de cada edición.</span></li>
+          <li><span>Lugar exacto de cada edición (edificio o local).</span></li>
+          <li><span>Programas, carteles y listas de partidas.</span></li>
+        </ol>
+        <aside class="tz-margen">
+          <p class="tz-rotulo">Estado documental</p>
+          <p>Documentada: fecha, sede y organización con fuente. Parcial: algún dato con fuente. Pendiente: consta que existió, sin datos verificados.</p>
+        </aside>
       </div>
-    ) : (
-      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {editions.map((e) => <EditionCard edition={e} />)}
-      </div>
-    )}
+    </section>
   </div>
 </Layout>

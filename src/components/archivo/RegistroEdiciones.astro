@@ -1,0 +1,47 @@
+---
+/**
+ * Registro de ediciones por año (portada y /ediciones/): el año grande a la
+ * izquierda; título, estado, sede y fuentes a la derecha. Año desconocido =
+ * «Año pendiente», al final (lo ordena getAllEditions()).
+ * Nada se rellena: lo que la colección no tiene se muestra «pendiente».
+ */
+import type { CollectionEntry } from "astro:content";
+import Estado from "../sistema/Estado.astro";
+import Pendiente from "../sistema/Pendiente.astro";
+import { plural } from "../../lib/formato";
+
+interface Props {
+  ediciones: CollectionEntry<"editions">[];
+  /** Mostrar la descripción de cada edición (en /ediciones/ sí; en portada no). */
+  conTexto?: boolean;
+  nivel?: 2 | 3;
+}
+const { ediciones, conTexto = false, nivel = 3 } = Astro.props;
+const Tag = nivel === 2 ? "h2" : "h3";
+---
+<ol class="tz-registro">
+  {ediciones.map((e) => {
+    const { year, title, status, venue, sourceIds, description } = e.data;
+    const href = `/ediciones/${e.id}`;
+    const sede = [venue?.name, venue?.city].filter(Boolean).join(", ");
+    return (
+      <li class="tz-registro-fila">
+        <p class:list={["tz-registro-ano", { "tz-registro-ano--pendiente": year === "desconocida" }]}>
+          {year === "desconocida" ? <>Año <Pendiente /></> : year}
+        </p>
+        <div>
+          <Tag class="tz-registro-titulo"><a href={href}>{title}</a></Tag>
+          <ul class="tz-registro-meta">
+            <li><Estado estado={status} /></li>
+            <li>Sede: {sede ? sede : <Pendiente />}</li>
+            <li>{sourceIds.length ? plural(sourceIds.length, "fuente", "fuentes") : <>Fuentes: <Pendiente /></>}</li>
+          </ul>
+          {conTexto && description && <p class="tz-registro-texto">{description}</p>}
+          <p class="tz-registro-pie">
+            <a class="tz-enlace-bloque" href={href} aria-label={`Ver ficha: ${title}`}><span>Ver ficha</span><span aria-hidden="true">›</span></a>
+          </p>
+        </div>
+      </li>
+    );
+  })}
+</ol>

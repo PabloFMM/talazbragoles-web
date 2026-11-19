@@ -1,83 +1,74 @@
 ---
 /**
- * Página de fuentes.
- * Objetivo: transparencia total. Cada enlace incluye una nota "qué afirma".
- * Regla: si una fuente no se puede abrir (404, login, etc.), se indica.
+ * /fuentes/: corazón documental. Cada fuente con qué dice y con qué reservas.
+ * Primero las que nombran las Talazbrágoles; después, las de contexto.
+ * Cada nota lleva id = id de la fuente (enlaces /fuentes#<id> desde otras páginas).
  */
-
 import Layout from "../layouts/Layout.astro";
-import SourceCard from "../components/sources/SourceCard.astro";
-import { mainNav } from "../lib/nav";
+import Encabezado from "../components/sistema/Encabezado.astro";
+import Titulo from "../components/sistema/Titulo.astro";
+import NotaFuente from "../components/sistema/NotaFuente.astro";
+import Pendiente from "../components/sistema/Pendiente.astro";
 import { getAllSources } from "../lib/collections";
+import { dosCifras, plural } from "../lib/formato";
+import { numeroSeccion } from "../lib/nav";
 
-const sources = await getAllSources();
-
-const pending = [
-  "Programas oficiales o folletos escaneados (con fecha, sede y organizador).",
-  "Carteles/flyers de cada edición.",
-  "Recortes de prensa local que mencionen explícitamente Talazbrágoles.",
-  "Fotos fechadas (o con contexto verificable) de las jornadas.",
-  "Vídeos y publicaciones en redes que puedan citarse con URL estable.",
+const fuentes = await getAllSources();
+const nombran = fuentes.filter((s) => s.data.tags.includes("menciona Talazbrágoles"));
+const contexto = fuentes.filter((s) => !s.data.tags.includes("menciona Talazbrágoles"));
+const grupos = [
+  { id: "s-nombran", titulo: "Nombran las Talazbrágoles", lista: nombran },
+  { id: "s-contexto", titulo: "Contexto", lista: contexto, nota: "No nombran las Jornadas: sirven para situar la época y el lugar." },
 ];
 
-const description =
-  "Listado de fuentes y enlaces: qué afirma cada una, qué falta y qué necesita documentación.";
+const buscamos = [
+  "Programas o folletos de cualquier edición, con fecha, sede y organización.",
+  "Carteles.",
+  "Los números 1 y 2 del periódico La Runa (abril y mayo de 1996), o sus escaneos.",
+  "Recortes de prensa local que nombren las Talazbrágoles.",
+  "Fotos con fecha o con contexto que se pueda comprobar.",
+  "Vídeos y publicaciones con una dirección web estable.",
+];
 ---
 
 <Layout
-  title="Fuentes · TALAZBRÁGOLES"
-  description={description}
-  canonicalPath="/fuentes"
-  nav={mainNav}
+  title="Fuentes"
+  description="Fuentes del archivo de las Jornadas Talazbrágoles: qué dice cada una, con qué reservas y qué falta."
 >
-  <div id="top" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
-    <header class="text-center max-w-3xl mx-auto">
-      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.22em] text-black uppercase">
-        FUENTES
-      </h1>
-      <p class="mt-6 text-base sm:text-xl text-black/80 leading-relaxed">
-        Aquí está el corazón documental del proyecto: enlaces reales y una nota simple para cada uno:
-        <span class="font-semibold"> qué afirma</span>. Transparencia total, sin humo.
-      </p>
-    </header>
+  <div class="tz-pagina">
+    <Encabezado
+      numero={numeroSeccion("/fuentes")}
+      seccion="Archivo"
+      titulo="Fuentes"
+      entradilla="Todo lo que afirma este archivo sale de aquí. Cada fuente dice qué afirma y con qué reservas; si un enlace se cae, se indica."
+    >
+      <p class="tz-recuento">{plural(fuentes.length, "fuente", "fuentes")}: {nombran.length} nombran las Talazbrágoles y {contexto.length} dan contexto.</p>
+    </Encabezado>
 
-    <section class="mt-12 sm:mt-16">
-      <div class="rounded-3xl border border-black/15 bg-white/55 p-6 sm:p-10">
-        <div class="text-xs uppercase tracking-[0.3em] text-black/70">Listado (verificable)</div>
-        <p class="mt-3 text-black/80 leading-relaxed">
-          Si un enlace cae, lo señalamos. Si un dato es ambiguo, lo marcamos. Si aparece una fuente mejor, la priorizamos.
-        </p>
+    {grupos.map((g, gi) => (
+      <section class="tz-seccion" aria-labelledby={g.id}>
+        <Titulo id={g.id} numero={dosCifras(gi + 1)}>{g.titulo}</Titulo>
+        {g.nota && <p class="tz-medida" style="margin:0 0 var(--e-5)">{g.nota}</p>}
+        {g.lista.length > 0 ? (
+          <ol class="tz-fuentes tz-medida">
+            {g.lista.map((s, i) => <NotaFuente fuente={s} n={i + 1} ancla />)}
+          </ol>
+        ) : (
+          <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna fuente en este grupo." /></div>
+        )}
+      </section>
+    ))}
 
-        <ul class="mt-8 space-y-6">
-          {sources.map((s) => (
-            <SourceCard
-              title={s.data.title}
-              url={s.data.url}
-              asserts={s.data.asserts}
-              caveat={s.data.caveat}
-              broken={s.data.broken}
-              tags={s.data.tags}
-            />
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <section class="mt-10 sm:mt-14">
-      <div class="rounded-3xl border border-black/15 bg-white/45 p-6 sm:p-10">
-        <div class="text-xs uppercase tracking-[0.3em] text-black/70">Pendiente de documentar</div>
-        <p class="mt-3 text-black/80 leading-relaxed">
-          Este es el "botín" que buscamos para convertir memoria en archivo. Si tienes algo, aunque sea una foto borrosa,
-          puede ser la pieza que faltaba.
-        </p>
-        <ul class="mt-6 space-y-3 text-black/80">
-          {pending.map((p) => (
-            <li class="flex gap-3">
-              <span class="text-black/70" aria-hidden="true">✦</span>
-              <span>{p}</span>
-            </li>
-          ))}
-        </ul>
+    <section class="tz-seccion" aria-labelledby="s-buscamos">
+      <Titulo id="s-buscamos" numero="03">Qué buscamos</Titulo>
+      <div class="tz-con-margen">
+        <ol class="tz-lista-numerada">
+          {buscamos.map((b) => <li><span>{b}</span></li>)}
+        </ol>
+        <aside class="tz-margen">
+          <p class="tz-rotulo">Cómo enviarlo</p>
+          <p>Canal para enviar material: <Pendiente />.</p>
+        </aside>
       </div>
     </section>
   </div>

@@ -11,7 +11,7 @@ Archivo web dedicado a preservar la memoria de las **Talazbrágoles**, unas jorn
 ## Stack
 
 - [Astro 6](https://astro.build) — generación estática (SSG), sin JS en cliente
-- [Tailwind CSS 4](https://tailwindcss.com) — estilos vía plugin Vite
+- CSS propio (`src/styles/reset.css` + `sistema.css`, sistema «Papel y tinta»), sin framework
 - [Astro Content Layer](https://docs.astro.build/en/guides/content-collections/) — colecciones de contenido con validación Zod
 - [Vercel](https://vercel.com) — despliegue automático desde `main`
 

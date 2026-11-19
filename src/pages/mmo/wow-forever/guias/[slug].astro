@@ -1,0 +1,73 @@
+---
+/**
+ * Guía de profesión (sistema «Papel y tinta», tarjeta 3/5).
+ * El Markdown sale de proyecto/docs/guias/<slug>.md (copiado por tools/sync-repo.py).
+ * El plugin src/lib/rehype-guias.mjs quita su «# Título» (el h1 lo pone el Encabezado)
+ * y prepara las tablas para apilarse en anchos estrechos.
+ */
+import { render } from "astro:content";
+import Layout from "../../../../layouts/Layout.astro";
+import Encabezado from "../../../../components/sistema/Encabezado.astro";
+import { getAllGuides } from "../../../../lib/collections";
+import { fechaLarga } from "../../../../lib/formato";
+import { numeroSeccion } from "../../../../lib/nav";
+
+export async function getStaticPaths() {
+  const guides = await getAllGuides();
+  return guides.map((guide) => ({ params: { slug: guide.id }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const secciones = headings.filter((h) => h.depth === 2);
+const fecha = fechaLarga(guide.data.comprobado);
+---
+
+<Layout
+  title={`${guide.data.profesion} · Guía de WoW Forever`}
+  description={`Guía de ${guide.data.profesion} en World of Warcraft: Forever: cómo empezar, rangos, ruta para subir y fuentes.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[
+        { texto: "MMO", href: "/mmo" },
+        { texto: "La Barbarie", href: "/mmo/wow-forever" },
+        { texto: "Guías", href: "/mmo/wow-forever/guias" },
+        { texto: guide.data.profesion },
+      ]}
+      numero={numeroSeccion("/mmo")}
+      seccion="Guía de profesión · WoW Forever"
+      titulo={guide.data.profesion}
+    >
+      <p class="tz-recuento">Profesión de {guide.data.tipo} · comprobada el {fecha}</p>
+    </Encabezado>
+
+    <div class="tz-seccion tz-guia-reticula">
+      <aside class="tz-guia-margen" aria-label="Sobre esta guía">
+        <div class="tz-nota">
+          <p class="tz-rotulo">Cómo leer esta guía</p>
+          <p>
+            Está redactada el {fecha} a partir de páginas públicas, no de pruebas en el juego. Cada dato dice de qué
+            sitio sale. Cuando dos sitios no coinciden, no se elige: está apuntado en «Dudas y contradicciones». Lo que
+            no se ha podido confirmar está en «Pendiente».
+          </p>
+        </div>
+        <nav class="tz-indice-guia" aria-label="Índice de la guía">
+          <p class="tz-rotulo" style="margin:0">En esta guía</p>
+          <ol>
+            {secciones.map((h) => <li><a href={`#${h.slug}`}><span>{h.text}</span></a></li>)}
+          </ol>
+        </nav>
+        <div class="tz-acciones" style="margin-top:var(--e-6)">
+          <a class="tz-boton" href="/mmo/wow-forever/asesor/">Abrir el asesor</a>
+        </div>
+      </aside>
+
+      <article class="tz-guia tz-prosa tz-contenedor">
+        <Content />
+      </article>
+    </div>
+
+    <a class="tz-enlace-bloque" href="/mmo/wow-forever/guias"><span>Todas las guías</span><span aria-hidden="true">›</span></a>
+  </div>
+</Layout>

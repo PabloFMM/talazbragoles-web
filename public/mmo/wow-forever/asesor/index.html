@@ -1,0 +1,2251 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asesor de La Barbarie · WoW Forever · Talazbrágoles</title>
+<link rel="canonical" href="https://www.talazbragoles.com/mmo/wow-forever/asesor/">
+<meta name="description" content="Asesor de la hermandad La Barbarie en World of Warcraft: Forever. Los datos se guardan solo en tu navegador.">
+<style>
+/* ============ Sistema «Papel y tinta» (docs/diseno.md) ============
+   Actual, limpio y elegante: solo papel y tinta, filetes finos, jerarquía por tamaño y peso.
+   Sin sombras, esquinas redondeadas, degradados, texturas, animaciones ni transiciones.
+   Las tipografías están en /fonts/ del sitio Astro; en web/ (local) salen las de respaldo. */
+@font-face{font-family:"Archivo";font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url("/fonts/archivo-wdth-wght.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:normal;font-weight:200 900;font-display:swap;src:url("/fonts/source-serif-4-opsz-wght.woff2") format("woff2")}
+:root{
+  --papel:#f4f0e6; --papel-2:#ebe5d8; --tinta:#0f0f10; --tinta-2:#45413b; --filete:#b8b2a5;
+  --texto:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --titular:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --margen:clamp(20px,8px + 3vw,56px); --toque:48px;
+  /* Alias de los nombres antiguos (por si algún estilo generado los usa) */
+  --paper:var(--papel); --ink:var(--tinta); --muted:var(--tinta-2); --lineL:var(--tinta);
+}
+*,*::before,*::after{box-sizing:border-box;transition:none!important;animation:none!important}
+html{font-size:18px;background:var(--papel);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-size:18px}
+@media(min-width:700px){body{font-size:19px}}
+body.fs-min{font-size:16px}
+body.fs-max{font-size:21px}
+html,body{margin:0;padding:0}
+body{
+  background:var(--papel); color:var(--tinta);
+  font-family:var(--texto);
+  line-height:1.6;
+  overflow-wrap:break-word;
+}
+::selection{background:var(--tinta);color:var(--papel)}
+img{max-width:100%}
+h1,h2,h3{margin:0 0 .5em;color:var(--tinta);text-wrap:balance}
+h1{font-family:var(--titular);font-weight:300;font-size:2.4em;line-height:1.04;letter-spacing:-.015em}
+h2{font-family:var(--titular);font-weight:400;font-size:1.5em;line-height:1.18;letter-spacing:-.01em}
+h3{font-family:var(--texto);font-weight:600;font-size:1.15em;line-height:1.25}
+@media(min-width:768px){h1{font-size:3.2em}h2{font-size:1.75em}}
+p{margin:0 0 .75em}
+strong,b{font-weight:600}
+a{color:var(--tinta);text-decoration-thickness:1px;text-underline-offset:.22em}
+a:hover{text-decoration-thickness:2px}
+.u{text-decoration:underline}
+:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+small,sub,sup{font-size:1em}
+
+/* ============ Marco ============ */
+.wrap{width:min(100% - 2*var(--margen),1216px);margin:0 auto;padding:0 0 64px}
+header.top{border-bottom:1px solid var(--tinta);background:var(--papel)}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;width:min(100% - 2*var(--margen),1216px);margin:0 auto;padding:16px 0 12px}
+.brand{display:flex;flex-direction:column;gap:2px;padding:4px 0}
+.brand-nombre{font-family:var(--titular);font-weight:300;font-size:1.75em;line-height:1.05;letter-spacing:-.01em}
+.brand-sub{font-size:16px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;line-height:1.3}
+.topnav{display:flex;flex-wrap:wrap;gap:0 4px;order:3;flex:1 1 100%;margin-left:-10px}
+.topnav .btn{border:0;border-bottom:2px solid transparent;background:transparent;padding:9px 10px 8px;font-weight:500;text-decoration:none}
+.topnav .btn:hover{text-decoration:underline}
+.topnav .btn.onS,.topnav .btn[aria-current]{background:transparent;color:var(--tinta);border-bottom-color:var(--tinta);font-weight:600}
+.fsbtns{display:flex;gap:8px}
+/* Móvil: el menú va en su propia fila, debajo del nombre y de A−/A+. */
+.brand{flex:1 1 auto;order:1}.fsbtns{order:2}
+@media(max-width:699px){.topnav{margin-left:0;border-top:1px solid var(--filete);padding-top:4px}.topnav .btn{padding:9px 8px 8px}}
+main.wrap{padding-top:clamp(32px,16px + 4vw,64px)}
+.sec{display:none}
+.sec.on{display:block}
+.sec>p,.card>p,.asesor>p,.wow>p{max-width:44em}
+.peq{font-size:.89em;color:var(--tinta-2)}
+body.fs-min .peq{font-size:1em}
+.peq strong,.peq a,.peq .cmd{color:var(--tinta)}
+footer.top{border-top:1px solid var(--tinta);margin-top:32px;padding:24px 0;background:var(--papel)}
+footer .peq{margin:0}
+.salto{position:absolute;left:-9999px;top:0}
+.salto:focus{position:static;display:inline-block;min-height:48px;padding:9px 24px;font-weight:600;background:var(--tinta);color:var(--papel)}
+
+/* ============ Bloques ============ */
+/* Ficha: filete de tinta arriba, sin caja. */
+.card{border:0;border-top:1px solid var(--tinta);padding:24px 0 32px;margin:0;background:transparent;position:relative}
+.card h2,.card h3{margin-top:0}
+.card+.card,.asesor+.card,.card+.asesor,.asesor+.asesor{margin-top:0}
+/* Nota de lectura y consejos: papel-2 con filete de tinta. */
+.card.aviso,.asesor{background:var(--papel-2);border:0;border-top:2px solid var(--tinta);padding:24px clamp(16px,2vw,32px);margin:0 0 32px}
+.card.aviso{margin-top:8px}
+.asesor .card{border-top:1px solid var(--filete);padding:20px 0 8px;background:transparent}
+.asesor .card:first-of-type{border-top-color:var(--tinta)}
+.asesor .titulo{font-size:.89em;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.35;margin:0 0 16px;color:var(--tinta)}
+body.fs-min .asesor .titulo{font-size:1em}
+.fuente{font-size:.89em;color:var(--tinta-2);margin:8px 0 0}
+body.fs-min .fuente{font-size:1em}
+/* Hueco «pendiente»: recuadro de papel-2 con filete discontinuo. */
+.pend{border:1px dashed var(--tinta);padding:16px 20px;margin:0 0 24px;background:var(--papel-2)}
+.pend.badL{border:2px solid var(--tinta)}
+.estado:empty{display:none}
+.estado{font-weight:600;margin:8px 0}
+.grid{display:grid;gap:16px 24px}
+@media(min-width:768px){.grid.g2{grid-template-columns:1fr 1fr}.grid.g3{grid-template-columns:1fr 1fr 1fr}}
+figure{margin:0 0 16px}
+figcaption{font-size:.89em;color:var(--tinta-2)}
+body.fs-min figcaption{font-size:1em}
+
+/* ============ Controles ============ */
+.btn{display:inline-block;min-height:48px;min-width:48px;padding:9px 18px;
+  border:1px solid var(--tinta);border-radius:0;background:transparent;color:var(--tinta);
+  font:inherit;font-weight:500;line-height:1.6;text-align:center;text-decoration:none;cursor:pointer;vertical-align:middle}
+.btn:hover{background:var(--tinta);color:var(--papel)}
+.btn:active,.btn.onS{background:var(--tinta);color:var(--papel)}
+.btn.onS{font-weight:600}
+.btn:disabled,.btn:disabled:hover{border-style:dashed;background:transparent;color:var(--tinta-2);cursor:default}
+input,select,textarea{font:inherit;font-size:1rem;min-height:48px;padding:8px 12px;border:1px solid var(--tinta);
+  border-radius:0;background:var(--papel);color:var(--tinta);width:100%}
+.asesor input,.asesor select,.asesor textarea,.aviso input,.aviso select,.aviso textarea{background:var(--papel)}
+input:hover,select:hover,textarea:hover{border-width:2px;padding:7px 11px}
+textarea{min-height:96px}
+input[type=checkbox]{width:28px;min-height:28px;height:28px;padding:0;margin:0 8px 0 0;accent-color:var(--tinta);vertical-align:middle}
+input[type=checkbox]:hover{padding:0}
+label{display:block;font-weight:600;margin:12px 0 4px}
+
+/* ============ Pestañas de La Barbarie ============ */
+.wow{background:transparent;color:var(--tinta);padding:0;margin:0 0 16px;border-top:2px solid var(--tinta);padding-top:24px}
+.wow>h2{margin-bottom:.4em}
+.wtabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(8em,1fr));gap:0 16px;margin:24px 0 32px;
+  border-top:1px solid var(--tinta);padding:8px 0 0}
+.wtabs .btn{text-align:left;border:0;border-bottom:1px solid var(--filete);padding:9px 12px;margin:0}
+.wtabs .btn:hover{background:transparent;color:var(--tinta);text-decoration:underline}
+.wtabs .btn.onS,.wtabs .btn.onS:hover{background:var(--tinta);color:var(--papel);text-decoration:none;border-bottom-color:var(--tinta)}
+.wpane{display:none}
+.wpane.on{display:block}
+
+/* ============ Marcas de estado: sin color, la palabra manda ============
+   bien = filete continuo · aviso = filete discontinuo · mal = relleno de tinta */
+.tagL,.pill{display:inline-block;border:1px solid var(--tinta);border-radius:0;padding:0 .5em;font-size:.89em;font-weight:600;line-height:1.5;color:var(--tinta);background:transparent}
+body.fs-min .tagL,body.fs-min .pill{font-size:1em}
+.pill-ok{border-style:solid}
+.pill-warn{border-style:dashed}
+.pill-bad{background:var(--tinta);color:var(--papel)}
+.pill.fill{border-width:2px}
+.peq .pill,.peq .tagL,.fuente .pill,.fuente .tagL{font-size:1em}
+.peq .pill-bad,.fuente .pill-bad{color:var(--papel)}
+.okL,.warnL,.badL{color:var(--tinta);font-weight:600}
+.badL{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.2em}
+.pend.badL{text-decoration:none}
+
+/* ============ Tablas y listas de consulta ============ */
+.tscroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:8px 0 16px;border-top:2px solid var(--tinta);line-height:1.45}
+th,td{border:0;border-bottom:1px solid var(--filete);padding:10px 16px 10px 0;text-align:left;vertical-align:top}
+th:last-child,td:last-child{padding-right:0}
+th{font-weight:600;white-space:nowrap;border-bottom:1px solid var(--tinta)}
+.cmd{font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:1em;font-weight:600;white-space:nowrap}
+.cmdx{color:var(--tinta-2)}
+.cmdx .cmd{color:var(--tinta)}
+.cmds{list-style:none;padding:0;margin:0}
+.cmds li{padding:12px 0;border-top:1px solid var(--filete)}
+.cmds li:first-child{border-top:1px solid var(--tinta)}
+ul,ol{padding-left:1.4em}
+li::marker{color:var(--tinta-2)}
+/* Gráfica de oro: barras de tinta (los colores del SVG se pisan aquí). */
+.charta{width:100%;height:auto;display:block}
+.charta rect{fill:var(--tinta)}
+.charta text{fill:var(--tinta-2)}
+
+@media print{.wtabs,.btn{display:none}.sec.on,.wpane.on{display:block}}
+</style>
+<style>
+/* ==== Cabecera del sitio (generada desde src/styles/sistema.css por build-asesor.py) ==== */
+.tz-cabecera, .tz-saltar, .tz-asesor-barra {
+  --papel: #f4f0e6;      
+  --papel-2: #ebe5d8;    
+  --tinta: #0f0f10;      
+  --tinta-2: #45413b;    
+  --filete: #b8b2a5;     
+  --letra-texto: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --letra-titular: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --t-0: 16px;          
+  --t-1: 18px;      
+  --t-2: 22px;      
+  --t-3: 28px;       
+  --t-4: 38px;      
+  --t-5: clamp(40px, 24px + 4.4vw, 76px);  
+  --t-6: clamp(44px, 16px + 7.4vw, 120px);    
+  --t-logo: clamp(40px, 22.4px + 4.2vw, 80px);  
+  --p-fino: 300;      
+  --p-normal: 400;
+  --p-medio: 500;
+  --p-semi: 600;
+  --il-titular: 1.04;
+  --il-titulo: 1.18;
+  --il-texto: 1.6;
+  --e-1: 4px;  
+  --e-2: 8px;   
+  --e-3: 12px;  
+  --e-4: 16px;     
+  --e-5: 24px;   
+  --e-6: 32px;     
+  --e-7: 48px;     
+  --e-8: 64px;     
+  --e-9: 96px;     
+  --e-10: 128px;    
+  --pagina: 1216px;                          
+  --margen: clamp(20px, 8px + 3vw, 56px);
+  --medianil: clamp(16px, 8px + 2vw, 40px);
+  --medida: 640px;                          
+  --columna-margen: 240px;                  
+  --aire: clamp(48px, 32px + 4vw, 96px);    
+  --f-fino: 1px;
+  --f-medio: 2px;
+  --toque: 48px;  
+  --nav-offset: 24px;
+}
+  .tz-pagina {
+    width: min(100% - 2 * var(--margen), var(--pagina));
+    margin-inline: auto;
+  }
+  .tz-num {
+    font-family: var(--letra-texto);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .tz-logo {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--e-2);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-logo-nombre {
+    font-family: var(--letra-titular);
+    font-size: min(var(--t-logo), 13vw);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.1; 
+    letter-spacing: -0.015em;
+  }
+  .tz-logo-sub {
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .tz-logo:hover .tz-logo-nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .tz-cabecera { border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-cabecera-fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--e-5) var(--e-7);
+    padding-block: var(--e-6) var(--e-5);
+  }
+  .tz-nav ul { list-style: none; margin: 0; padding: 0; }
+  .tz-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--e-2);
+    min-height: var(--toque);
+    color: var(--tinta);
+    text-decoration: none;
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+  }
+  .tz-nav a .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
+  .tz-nav a:hover .tz-nav-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+  .tz-nav a[aria-current] .tz-nav-texto {
+    font-weight: var(--p-semi);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+  .tz-nav-grupo-titulo {
+    display: block;
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    color: var(--tinta-2);
+  }
+  .tz-nav-plegable { border-top: var(--f-fino) solid var(--tinta); }
+  .tz-nav-plegable > summary {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-2) var(--e-4);
+    min-height: var(--toque);
+    padding-block: var(--e-3);
+  }
+  .tz-nav-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: min(var(--e-3), 12px);
+    min-height: var(--toque);
+    max-width: 100%;
+    padding: 0 min(var(--e-5), 24px) 0 min(var(--e-4), 16px);
+    border: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-1);
+    font-weight: var(--p-semi);
+    line-height: 1.2;
+  }
+  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(min(var(--e-5), 24px) - 1px) 0 calc(min(var(--e-4), 16px) - 1px); }
+  .tz-nav-icono { flex: none; width: min(24px, 32px); height: min(24px, 32px); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .tz-nav-icono-cerrar { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-abrir { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-cerrar { display: inline; }
+  .tz-nav-plegable[open] .tz-nav-boton { background: var(--tinta); color: var(--papel); }
+  .tz-nav-donde { font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-nav-donde strong { color: var(--tinta); font-weight: var(--p-semi); }
+  .tz-nav-plegable .tz-nav-grupos { padding-bottom: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo + .tz-nav-grupo { margin-top: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo-titulo { padding-block: var(--e-2); }
+  .tz-nav-plegable .tz-nav-grupo ul {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: var(--medianil);
+  }
+  @media (min-width: 480px) { .tz-nav-plegable .tz-nav-grupo ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-nav-plegable .tz-nav-grupo li { border-top: var(--f-fino) solid var(--filete); }
+  .tz-nav-plegable a .tz-num { min-width: 28px; }
+  .tz-nav-fila { display: none; }
+  @media (min-width: 1024px) {
+    .tz-nav-plegable { display: none; }
+    .tz-nav-fila { display: block; border-top: var(--f-fino) solid var(--filete); }
+    .tz-nav-fila .tz-nav-grupos { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0 var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo + .tz-nav-grupo { border-left: var(--f-fino) solid var(--filete); padding-left: var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo-titulo { padding-top: var(--e-3); }
+    .tz-nav-fila .tz-nav-grupo ul { display: flex; flex-wrap: wrap; gap: 0 var(--e-4); }
+  }
+  .tz-saltar {
+    position: absolute;
+    left: var(--e-4);
+    top: -160px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--toque);
+    padding: var(--e-2) var(--e-5);
+    background: var(--tinta);
+    color: var(--papel);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-saltar:focus { top: var(--e-4); }
+  .tz-migas { margin: 0 0 var(--e-2); }
+  .tz-migas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--e-3); }
+  .tz-migas li { display: flex; align-items: center; gap: var(--e-3); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-migas li + li::before { content: "›"; color: var(--tinta-2); }
+  .tz-migas a { display: inline-flex; align-items: center; min-height: var(--toque); min-width: var(--toque); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+/* Lo que pone en el sitio la base (reset.css / sistema.css §3) */
+.tz-cabecera, .tz-asesor-barra { font-size: 18px; line-height: 1.6; }
+@media (min-width: 768px) { .tz-cabecera, .tz-asesor-barra { font-size: 19px; } }
+:where(.tz-cabecera, .tz-asesor-barra) * { margin: 0; }
+.tz-cabecera svg { display: block; }
+.tz-nav-plegable > summary { cursor: pointer; }
+.tz-nav-plegable > summary::-webkit-details-marker { display: none; }
+/* Barra propia del asesor: migas a la izquierda, A−/A+ a la derecha */
+.tz-asesor-barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-top: 16px; }
+@media print { .tz-saltar, .tz-nav, .fsbtns { display: none; } .tz-migas a { min-height: 0; text-decoration: none; } }
+</style>
+</head>
+<body class="fs-med">
+<a href="#contenido" class="tz-saltar">Saltar al contenido</a>
+<header class="tz-cabecera"><div class="tz-pagina"><div class="tz-cabecera-fila"><a href="/" class="tz-logo" aria-label="Talazbrágoles · Archivo de las Jornadas (portada)"><span class="tz-logo-nombre">Talazbrágoles</span> <span class="tz-logo-sub">Archivo de las Jornadas</span></a></div>
+<nav class="tz-nav" aria-label="Secciones"><details class="tz-nav-plegable"><summary><span class="tz-nav-boton"><svg class="tz-nav-icono" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path class="tz-nav-icono-abrir" d="M3 6h18M3 12h18M3 18h18"></path><path class="tz-nav-icono-cerrar" d="M5 5l14 14M19 5 5 19"></path></svg> <span>Menú</span></span> <span class="tz-nav-donde">Estás en: <strong>MMO</strong></span></summary>
+<ul class="tz-nav-grupos"><li class="tz-nav-grupo tz-nav-grupo--portada"><ul><li><a href="/"><span class="tz-num" aria-hidden="true">01</span> <span class="tz-nav-texto">Inicio</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--archivo"><span class="tz-nav-grupo-titulo" id="nav-m-archivo">Archivo</span><ul aria-labelledby="nav-m-archivo"><li><a href="/ediciones"><span class="tz-num" aria-hidden="true">02</span> <span class="tz-nav-texto">Ediciones</span></a></li><li><a href="/cronologia"><span class="tz-num" aria-hidden="true">03</span> <span class="tz-nav-texto">Cronología</span></a></li><li><a href="/sistemas"><span class="tz-num" aria-hidden="true">04</span> <span class="tz-nav-texto">Sistemas</span></a></li><li><a href="/personas"><span class="tz-num" aria-hidden="true">05</span> <span class="tz-nav-texto">Personas</span></a></li><li><a href="/fuentes"><span class="tz-num" aria-hidden="true">06</span> <span class="tz-nav-texto">Fuentes</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--comunidad"><span class="tz-nav-grupo-titulo" id="nav-m-comunidad">Comunidad</span><ul aria-labelledby="nav-m-comunidad"><li><a href="/rol"><span class="tz-num" aria-hidden="true">07</span> <span class="tz-nav-texto">Rol</span></a></li><li><a href="/mmo" aria-current="true"><span class="tz-num" aria-hidden="true">08</span> <span class="tz-nav-texto">MMO</span></a></li></ul></li></ul></details>
+<div class="tz-nav-fila"><ul class="tz-nav-grupos"><li class="tz-nav-grupo tz-nav-grupo--portada"><ul><li><a href="/"><span class="tz-num" aria-hidden="true">01</span> <span class="tz-nav-texto">Inicio</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--archivo"><span class="tz-nav-grupo-titulo" id="nav-f-archivo">Archivo</span><ul aria-labelledby="nav-f-archivo"><li><a href="/ediciones"><span class="tz-num" aria-hidden="true">02</span> <span class="tz-nav-texto">Ediciones</span></a></li><li><a href="/cronologia"><span class="tz-num" aria-hidden="true">03</span> <span class="tz-nav-texto">Cronología</span></a></li><li><a href="/sistemas"><span class="tz-num" aria-hidden="true">04</span> <span class="tz-nav-texto">Sistemas</span></a></li><li><a href="/personas"><span class="tz-num" aria-hidden="true">05</span> <span class="tz-nav-texto">Personas</span></a></li><li><a href="/fuentes"><span class="tz-num" aria-hidden="true">06</span> <span class="tz-nav-texto">Fuentes</span></a></li></ul></li><li class="tz-nav-grupo tz-nav-grupo--comunidad"><span class="tz-nav-grupo-titulo" id="nav-f-comunidad">Comunidad</span><ul aria-labelledby="nav-f-comunidad"><li><a href="/rol"><span class="tz-num" aria-hidden="true">07</span> <span class="tz-nav-texto">Rol</span></a></li><li><a href="/mmo" aria-current="true"><span class="tz-num" aria-hidden="true">08</span> <span class="tz-nav-texto">MMO</span></a></li></ul></li></ul></div></nav></div></header>
+<div class="tz-pagina tz-asesor-barra"><nav class="tz-migas" aria-label="Estás en"><ol><li><a href="/">Inicio</a></li><li><a href="/mmo">MMO</a></li><li><a href="/mmo/wow-forever">La Barbarie</a></li><li><span aria-current="page">Asesor</span></li></ol></nav>
+  <span class="fsbtns">
+      <button class="btn" id="fs-menos" onclick="cambiaFs(-1)" aria-label="A− (letra más pequeña)">A−</button>
+      <button class="btn" id="fs-mas" onclick="cambiaFs(1)" aria-label="A+ (letra más grande)">A+</button>
+    </span>
+</div>
+
+<main class="wrap" id="contenido" tabindex="-1">
+<div id="aviso-guardar" role="alert"></div>
+<div id="aviso-datos" role="status"></div>
+<div id="aviso-error" role="alert"></div>
+
+<!-- ================= INICIO ================= -->
+<section class="sec" id="sec-inicio">
+  <h1>Talazbrágoles: archivo y comunidad rolera</h1>
+  <p class="peq">Prototipo local del 13-nov-2026. Nada de lo que falta está inventado: lo pendiente va marcado como «pendiente».</p>
+  <div class="card">
+    <h2>Qué es este sitio</h2>
+    <p><strong>Archivo</strong> de unas jornadas de rol de los años 90 (Las Rozas / Majadahonda, Madrid) y <strong>comunidad rolera</strong> activa de la misma gente: rol de mesa, MMO, juegos y LARP.</p>
+    <ul>
+      <li><strong>Archivo</strong>: la historia documentada de las Talazbrágoles. Solo con fuentes.</li>
+      <li><strong>Rol de mesa</strong>: partidas y material. Contenido: pendiente.</li>
+      <li><strong>MMO</strong>: la asesoría de la hermandad La Barbarie en World of Warcraft: Forever.</li>
+      <li><strong>Juegos</strong>: sección de juegos. Contenido: pendiente.</li>
+      <li><strong>LARP</strong>: rol en vivo. Contenido: pendiente.</li>
+      <li><strong>Eventos</strong>: jornadas y eventos de rol. Contenido: pendiente.</li>
+    </ul>
+    <p><button class="btn onS" onclick="showSec('archivo')">Ir al Archivo</button>
+       <button class="btn" onclick="showSec('mmo')">Ir al MMO (La Barbarie)</button></p>
+  </div>
+  <div class="card aviso">
+    <h2>Cómo se trabaja aquí</h2>
+    <ul>
+      <li>Regla documental: lo que se afirma como hecho lleva fuente. Lo demás, «pendiente».</li>
+      <li>Cada consejo lleva fuente y fecha de comprobación.</li>
+      <li>Dato de beta o de Classic sin confirmar en Forever: se dice al lado.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= ARCHIVO ================= -->
+<section class="sec" id="sec-archivo">
+  <h1>Archivo: las Talazbrágoles</h1>
+  <div class="card">
+    <h2>Historia</h2>
+    <p>Un relato con corazón, pero con una regla: lo que se afirme como hecho tendrá fuente. Y donde falte, lo diremos alto y claro.</p>
+    <h3>Lo verificable (por ahora)</h3>
+    <p>Existe un testimonio público de un participante que afirma haber realizado partidas de demostración en la Talazbrágoles y en la Casa de la Juventud de Majadahonda.</p>
+    <p class="peq">Fuente: <a href="https://www.comunidadumbria.com/comunidad/foros/tema/25754">Comunidad Umbría (hilo, 2012)</a>.</p>
+    <p>El blog «Rol de los 90» reseña el periódico <em>La Runa</em> (editado en Las Rozas; nº 1 de abril de 1996 y nº 2 de mayo). Según esa reseña, <em>La Runa</em> publicó la crónica de la <strong>5ª edición de las jornadas Talazbrágoles</strong>, celebradas en Las Rozas (Madrid) el <strong>13 y 14 de abril</strong>:</p>
+    <ul>
+      <li>Jornadas «sin ningún tipo de interés comercial»: entrada y actividades gratuitas, con stands de tiendas y editoriales.</li>
+      <li>130 mesas preparadas para partidas de rol.</li>
+      <li>Campeonatos de <em>Magic</em> y SATM, una partida de <em>Doom</em> en red, charlas y mesas redondas.</li>
+      <li>Asistencia en torno a 700 personas (dato del nº 2).</li>
+      <li>Editoriales asistentes que cita: Yggdrasil, M+D, Joc Internacional, Shirasagi, La Factoría, Cronópolis, Kerykion.</li>
+    </ul>
+    <p class="peq">Fuente: <a href="https://roldelos90.blogspot.com/2018/06/la-runa-el-primer-y-unico-periodico.html">Rol de los 90 — «La Runa: el primer (y único) periódico rolero» (2018-06-10)</a> · comprobada el 2026-11-13.</p>
+    <p class="peq"><span class="tagL">fuente secundaria</span> Es una reseña del periódico, no el periódico. El año 1996 se deduce de la fecha de los dos números; la reseña no lo escribe junto a los días. Los escaneos originales (sagittarius.es) ya no se pueden descargar: comprobado el 2026-11-13.</p>
+    <h3>Pendiente de documentar</h3>
+    <p>Las otras ediciones, sedes concretas, organizadores, programas, carteles, invitados… todo eso merece estar aquí, pero solo lo publicaremos con pruebas.</p>
+    <h3>¿Tienes material?</h3>
+    <p>Envíanos escaneos o fotos: programas, credenciales, carteles, recortes o cualquier rastro.</p>
+  </div>
+
+  <div class="card">
+    <h2>Ediciones</h2>
+    <p>Una línea temporal clara: año → sede → organizador → fuente. Cuando no haya dato verificable, lo verás marcado como pendiente.</p>
+    <div class="tscroll">
+      <table>
+        <thead><tr><th>Año</th><th>Sede</th><th>Estado</th><th>Fuente principal</th></tr></thead>
+        <tbody>
+          <tr><td>1996 (año deducido) · 13 y 14 de abril · 5ª edición</td><td>Las Rozas</td><td><span class="tagL">parcial</span></td><td>rol-de-los-90-la-runa-2018 (fuente secundaria)</td></tr>
+          <tr><td>Pendiente</td><td>Majadahonda</td><td><span class="tagL">pendiente</span></td><td>comunidad-umbria-2012</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="peq">2 fichas: 1 parcial y 1 pendiente. Las ediciones 1ª a 4ª y las posteriores a la 5ª: pendientes de documentar.</p>
+  </div>
+
+  <div class="card">
+    <h2>Cronología</h2>
+    <ul>
+      <li><strong>1996, 13 y 14 de abril</strong> — 5ª edición de las jornadas en Las Rozas, según la crónica de <em>La Runa</em> que reseña «Rol de los 90». <span class="tagL">fuente secundaria</span> <span class="tagL">año deducido</span></li>
+      <li><strong>2009-11-04</strong> — Viruete.com: el autor recuerda haber ido a «unas Talazbrágoles (unas viejas jornadas de rol)». <span class="tagL">verificado</span></li>
+      <li><strong>2012</strong> — Testimonio de participante en foro (Comunidad Umbría): menciona partidas de demostración en la Talazbrágoles y en la Casa de la Juventud de Majadahonda. <span class="tagL">verificado</span></li>
+      <li><strong>2018-06-10</strong> — «Rol de los 90» publica la reseña de <em>La Runa</em> con la crónica de la 5ª edición. <span class="tagL">verificado</span></li>
+    </ul>
+    <p class="peq">«Verificado» quiere decir: la fuente existe y dice eso (comprobado el 2026-11-13). No quiere decir que el hecho esté contrastado con una segunda fuente.</p>
+    <p class="peq">Más eventos: pendientes de documentar.</p>
+  </div>
+
+  <div class="card">
+    <h2>Recuerdos en la Red</h2>
+    <p>Hilos, artículos y migas de pan: lugares donde la gente dejó una frase que hoy vale oro.</p>
+    <h3>Prensa — EL PAÍS: «Juegos de rol, en 'Sanse' y Las Rozas» (2001-01-13)</h3>
+    <p class="peq">Contexto local: actividades relacionadas con rol/simulación y cultura rolera en municipios de la zona. Parte del contenido puede requerir suscripción (muro de pago).</p>
+    <p class="peq"><a href="https://elpais.com/diario/2001/01/13/madrid/979388674_850215.html">Abrir fuente</a></p>
+    <h3>Testimonio — Comunidad Umbría: «Roleros por Majadahonda, Las Rozas de Madrid» (hilo, 2012)</h3>
+    <p class="peq">Un participante afirma haber hecho partidas de demostración en la Talazbrágoles y en la Casa de la Juventud de Majadahonda.</p>
+    <p class="peq"><a href="https://www.comunidadumbria.com/comunidad/foros/tema/25754">Abrir fuente</a></p>
+    <h3>Blog — Rol de los 90: «La Runa: el primer (y único) periódico rolero» (2018-06-10)</h3>
+    <p class="peq">Reseña del periódico <em>La Runa</em> (Las Rozas, 1996). Recoge su crónica de la 5ª edición de las jornadas Talazbrágoles: Las Rozas, 13 y 14 de abril, gratuitas, 130 mesas, unas 700 personas. Fuente secundaria.</p>
+    <p class="peq"><a href="https://roldelos90.blogspot.com/2018/06/la-runa-el-primer-y-unico-periodico.html">Abrir fuente</a></p>
+    <h3>Testimonio — Viruete.com: «Backstreet Boys en concierto, histeria no tan teenager» (2009-11-04)</h3>
+    <p class="peq">El autor cuenta que fue a «unas Talazbrágoles (unas viejas jornadas de rol)», donde conoció a una amiga que cambiaba cartas del juego de Star Trek: La Nueva Generación. En los comentarios, otro lector dice que fue a unas «hace ya lo menos diez años». Sin fecha ni sede de la edición.</p>
+    <p class="peq"><a href="https://viruete.com/blog/2009/11/04/backstreet-boys-en-concierto-histeria-no-tan-teenager/">Abrir fuente</a></p>
+    <h3>Pendiente de documentar</h3>
+    <p class="peq">Vídeos, fotos, blogs, Instagram, PDFs de revistas… lo que sea. Si lo encuentras, se añade con una nota clara de qué afirma. Lo más valioso ahora: los dos números de <em>La Runa</em> (abril y mayo de 1996) en papel o escaneados.</p>
+  </div>
+
+  <div class="card">
+    <h2>El Legado</h2>
+    <p>La fantasía no era evasión: era comunidad. Y la comunidad, cuando se documenta, se vuelve legado.</p>
+    <h3>Manifiesto: la mesa es un portal</h3>
+    <ul>
+      <li>Documentar no enfría el recuerdo: lo protege.</li>
+      <li>Una fuente no mata la magia: la hace compartible.</li>
+      <li>La nostalgia es gasolina; el archivo, el mapa.</li>
+    </ul>
+    <h3>Siguiente paso</h3>
+    <p>Completar la línea temporal con carteles, programas y fechas. Y que cada edición tenga su propia ficha.</p>
+  </div>
+</section>
+
+<!-- ================= ROL DE MESA ================= -->
+<section class="sec" id="sec-rol">
+  <h1>Rol de mesa</h1>
+  <div class="pend">
+    <p><strong>Pendiente de contenido.</strong> Qué irá aquí (idea del proyecto): partidas y material de rol de mesa (tabletop).</p>
+    <p class="peq">Sin datos todavía: cuando haya material documentado, se publicará con fuente.</p>
+  </div>
+</section>
+
+<!-- ================= MMO ================= -->
+<section class="sec" id="sec-mmo">
+  <h1>Asesor de La Barbarie</h1>
+  <p class="peq">Por ahora, un juego: World of Warcraft: Forever (salido el 4-nov-2026). Aquí vive la asesoría de la hermandad La Barbarie.</p>
+
+  <!-- ===== La Barbarie ===== -->
+  <div class="wow" id="wow-app">
+    <h2>La Barbarie · asesoría WoW Forever</h2>
+    <p class="peq">Hermandad de la Horda, 4 jugadores. <strong>Banda</strong>: grupo grande de jugadores contra jefes. <strong>Mazmorra</strong>: grupo de 5. <strong>Subasta</strong>: el mercado del juego.</p>
+    <p class="peq">Los precios no son en vivo: cada subida es una foto con fecha, subida a mano. Hay una subasta por región, ruleset y facción.</p>
+
+    <nav class="wtabs" aria-label="Pestañas de La Barbarie">
+      <button class="btn" id="wt-hoy" onclick="showTab('hoy')">Hoy</button>
+      <button class="btn" id="wt-pj" onclick="showTab('pj')">Mi chamán</button>
+      <button class="btn" id="wt-equipo" onclick="showTab('equipo')">Equipo</button>
+      <button class="btn" id="wt-prof" onclick="showTab('prof')">Profesiones</button>
+      <button class="btn" id="wt-almacen" onclick="showTab('almacen')">Almacén</button>
+      <button class="btn" id="wt-oro" onclick="showTab('oro')">Oro</button>
+      <button class="btn" id="wt-subasta" onclick="showTab('subasta')">Comercio</button>
+      <button class="btn" id="wt-diario" onclick="showTab('diario')">Diario</button>
+      <button class="btn" id="wt-hermandad" onclick="showTab('hermandad')">Hermandad</button>
+      <button class="btn" id="wt-tower" onclick="showTab('tower')">Tower</button>
+      <button class="btn" id="wt-mortem" onclick="showTab('mortem')">Mortem</button>
+      <button class="btn" id="wt-woldrik" onclick="showTab('woldrik')">Woldrik</button>
+      <button class="btn" id="wt-ayuda" onclick="showTab('ayuda')">Ayuda</button>
+      <button class="btn" id="wt-fuentes" onclick="showTab('wfuentes')">Fuentes</button>
+    </nav>
+
+    <!-- ==== HOY ==== -->
+    <div class="wpane" id="wp-hoy">
+      <div class="asesor">
+        <p class="titulo">¿Qué hago ahora?</p>
+        <div id="hoy-lista"></div>
+      </div>
+      <p class="fuente">Cada tarjeta lleva su fuente. Datos comprobados el 2026-11-13 salvo aviso.</p>
+    </div>
+
+    <!-- ==== PJ ==== -->
+    <div class="wpane" id="wp-pj">
+      <div class="card remaches">
+        <h3>Ficha de Fissel Kasteaya</h3>
+        <p class="peq">En Forever no hay reinos: el personaje se identifica por nombre y apellido.</p>
+        <div class="grid g2">
+          <div><label for="f-nombre">Nombre</label><input id="f-nombre" onchange="pjSave()"></div>
+          <div><label for="f-nivel">Nivel</label><input id="f-nivel" type="number" min="1" max="60" onchange="pjSave()"></div>
+          <div><label for="f-raza">Raza</label><select id="f-raza" onchange="pjSave()"></select></div>
+          <div><label for="f-rama">Rama</label><input id="f-rama" onchange="pjSave()"></div>
+        </div>
+        <p class="peq">Rama: especialización del personaje. «Mejora» es la rama más cómoda para subir niveles. Fuente: Method, Warcraft Tavern, Mobalytics · 2026-11-13.</p>
+      </div>
+
+      <div class="asesor">
+        <p class="titulo">Consejo del asesor: rotación básica</p>
+        <p><strong>Choque de llamas</strong> (hechizo que quema al enemigo) y reaplicarlo justo al acabar su efecto.</p>
+        <p class="fuente">Method · 2026-11-13.</p>
+      </div>
+
+      <div class="asesor">
+        <p class="titulo">Consejo del asesor: lo que más acelera</p>
+        <p>Mejorar el arma es lo que más acelera la subida de un chamán Mejora.</p>
+        <p class="fuente">Mobalytics · 2026-11-13.</p>
+      </div>
+
+      <div class="card">
+        <h3>Hitos por nivel</h3>
+        <p class="peq">Niveles donde se aprende algo importante: 12, 16, 18, 20, 30, 32, 40.</p>
+        <p class="pill pill-warn">Aviso: fuente Warcraft Tavern, versión anterior de la guía. Sin volver a comprobar uno a uno.</p>
+      </div>
+
+      <div class="card">
+        <h3>Armadura</h3>
+        <p>Cuero hasta el nivel 40; malla desde el 40.</p>
+        <p class="fuente">Mobalytics (Tiqqle) · 2026-11-13.</p>
+      </div>
+
+      <div class="card">
+        <h3>Habilidades nuevas de Forever</h3>
+        <ul>
+          <li>Rage of the Farseer</li>
+          <li>Call of the Elements</li>
+          <li>Totemic Projection</li>
+        </ul>
+        <p class="fuente">WoWTBC.gg · 2026-11-13. Nombres en el cliente español: pendientes de comprobar.</p>
+      </div>
+
+      <div class="card">
+        <h3>Equipo puesto por hueco</h3>
+        <p class="peq">Hueco: cada posición de equipo (arma, cabeza, pechera…). Apunta lo que llevas.</p>
+        <div id="pj-huecos"></div>
+      </div>
+    </div>
+
+    <!-- ==== EQUIPO ==== -->
+    <div class="wpane" id="wp-equipo">
+      <div class="asesor">
+        <p class="titulo">¿Qué equipo busco?</p>
+        <p>Sufijos buenos para chamán Mejora: <strong>del gorila</strong> (Fuerza + Intelecto), <strong>de fuerza</strong>, <strong>del jabalí</strong> (Fuerza + Espíritu), <strong>del oso</strong> (Fuerza + Aguante), <strong>del tigre</strong> (Fuerza + Agilidad), <strong>de poder</strong> (poder de ataque).</p>
+        <p>Nivel que pide el objeto: entre tu nivel − 4 y tu nivel + 1.</p>
+        <p class="fuente">Tabla propia del asesor sobre sufijos de Classic · 2026-11-13.</p>
+      </div>
+      <div class="card">
+        <h3>Aviso fijo</h3>
+        <p class="peq">La exportación de la subasta no dice el tipo de armadura. Comprueba que sea cuero o tela (malla desde el nivel 40). Las series «de soldado», «de cadete», «de asaltante» y «de infantería» suelen ser malla.</p>
+      </div>
+      <div class="card">
+        <h3>Compras de subasta según la última subida</h3>
+        <div id="equipo-compras"></div>
+      </div>
+      <div class="pend">
+        <p>Lista de misión y mazmorra por nivel: pendiente de traspasar de la guía.</p>
+      </div>
+    </div>
+
+    <!-- ==== PROF ==== -->
+    <div class="wpane" id="wp-prof">
+      <div class="card remaches">
+        <h3>Profesiones: habilidad contra objetivo</h3>
+        <div id="prof-lista"></div>
+        <p class="peq">Objetivos de habilidad por nivel: tabla propia del asesor sobre rangos de Classic. Sin confirmar en Forever: pendiente de traspasar los números.</p>
+      </div>
+      <div class="card">
+        <h3>Guías de profesiones</h3>
+        <p class="peq">Una guía por profesión: cómo empezar, rangos, ruta para subir y novedades de Forever. Redactadas el 2026-11-14 a partir de páginas públicas, no de pruebas en el juego. Cada dato lleva su fuente; lo que las fuentes no aclaran está marcado como duda o pendiente.</p>
+        <p><a class="btn" href="/mmo/wow-forever/guias/mineria">Minería</a>
+           <a class="btn" href="/mmo/wow-forever/guias/herboristeria">Herboristería</a>
+           <a class="btn" href="/mmo/wow-forever/guias/desuello-peleteria">Desuello y Peletería</a>
+           <a class="btn" href="/mmo/wow-forever/guias/alquimia">Alquimia</a>
+           <a class="btn" href="/mmo/wow-forever/guias/herreria">Herrería</a>
+           <a class="btn" href="/mmo/wow-forever/guias/ingenieria">Ingeniería</a>
+           <a class="btn" href="/mmo/wow-forever/guias/sastreria-encantamiento">Sastrería y Encantamiento</a>
+           <a class="btn" href="/mmo/wow-forever/guias/primeros-auxilios">Primeros auxilios</a>
+           <a class="btn" href="/mmo/wow-forever/guias/cocina">Cocina</a>
+           <a class="btn" href="/mmo/wow-forever/guias/pesca">Pesca</a></p>
+        <p><a class="btn" href="/mmo/wow-forever/guias">Ver todas las guías</a></p>
+      </div>
+      <div class="asesor">
+        <p class="titulo">Consejo del asesor: campamento</p>
+        <p>En Forever, cada profesión tiene un «campamento» con tres objetos. Campamento de Minería: poder de ataque cuerpo a cuerpo. Campamento de Primeros auxilios: Aguante; el botiquín se hace con vendas de lino + agua de manantio.</p>
+        <p class="fuente">Zockify, Icy Veins, HostedGG, Mobalytics · 2026-11-13.</p>
+      </div>
+      <div class="card">
+        <h3>Otros datos de profesiones</h3>
+        <ul>
+          <li>Las seis pociones de sanación son recetas de Primeros auxilios, no de Alquimia. Fuente: RankedBoost, Warcraft Tavern, Blizzard Watch · 2026-11-13.</li>
+          <li>Primeros auxilios añade cataplasmas (enfermedad), torniquetes (sangrado) y antídotos. Fuente: Warcraft Tavern, Blizzard Watch · 2026-11-13.</li>
+          <li>Algunas criaturas se pueden minar al morir. Fuente: Zockify · 2026-11-13.</li>
+          <li>Rutas 1-300 de Ingeniería, Primeros auxilios, Cocina y Pesca: de la versión anterior (Wowhead, wow-professions). Sin volver a comprobar.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ==== ALMACEN ==== -->
+    <div class="wpane" id="wp-almacen">
+      <div class="card">
+        <h3>¿Qué guardo y qué vendo?</h3>
+        <p class="peq">Almacén: lo que tienes en las bolsas y el banco. Apunta cantidades.</p>
+        <div id="alm-lista"></div>
+        <div class="grid g2">
+          <div><label for="alm-nuevo">Material nuevo (nombre del cliente en español)</label><input id="alm-nuevo"></div>
+          <div><label for="alm-cant">Cantidad</label><input id="alm-cant" type="number" min="0" step="1" value="1"></div>
+        </div>
+        <p><button class="btn" onclick="almAdd()">Añadir material</button></p>
+        <p class="peq">«Valor»: cantidad × precio más bajo de la última subida. Si el material no está en la subida: «pendiente».</p>
+      </div>
+      <div class="card">
+        <h3>Mínimos por nivel</h3>
+        <p class="peq">Mínimos de cada material por nivel: pendiente de definir.</p>
+      </div>
+      <div class="asesor">
+        <p class="titulo">¿Qué vendo ahora?</p>
+        <p>Con la subida del 2026-11-13 08:16 no conviene fabricar para vender: fundir cobre, fundir estaño, contacto de plata, vendas de lino, cocinar pececito luminoso.</p>
+        <p class="peq">Materiales que no conviene trabajar: véndelos tal cual, o guárdalos para tus propias recetas.</p>
+        <p class="fuente">Cálculo sobre la subida del 2026-11-13 08:16 · comercio.md.</p>
+      </div>
+    </div>
+
+    <!-- ==== ORO ==== -->
+    <div class="wpane" id="wp-oro">
+      <div class="asesor">
+        <p class="titulo">¿Cómo gano oro?</p>
+        <ul>
+          <li>Los cajones saqueados («Waylaid Crates») caen de enemigos, piden materiales y dan Favor de mercader. Se pueden vender. <span class="fuente">Overgear, ConquestCapped · 2026-11-13.</span></li>
+          <li>No comprar oro: va contra las normas de Blizzard.</li>
+          <li>Cifras de oro por hora: solo hay datos de beta. No se usan.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Meta de la montura</h3>
+        <p>Montura de nivel 40: 100 de oro. <span class="pill pill-warn">Dato de beta</span></p>
+        <p id="oro-meta"></p>
+        <p class="fuente">EpicCarry · 2026-11-13.</p>
+      </div>
+      <div class="card">
+        <h3>Registro de oro</h3>
+        <p class="peq">Apunta cuánta plata tienes en total cada día (100 de plata = 1 de oro).</p>
+        <div class="grid g2">
+          <div><label for="oro-f">Fecha</label><input id="oro-f" type="date"></div>
+          <div><label for="oro-g">Plata</label><input id="oro-g" type="number" step="0.01"></div>
+        </div>
+        <label for="oro-n">Nota</label><input id="oro-n">
+        <p><button class="btn" onclick="oroAdd()">Apuntar</button></p>
+        <div id="oro-lista"></div>
+        <div id="oro-chart"></div>
+      </div>
+    </div>
+
+    <!-- ==== SUBASTA / COMERCIO ==== -->
+    <div class="wpane" id="wp-subasta">
+      <div class="card remaches">
+        <h3>Las reglas de la subasta</h3>
+        <div class="grid g2">
+          <div><label for="su-com">Comisión al vender (%)</label><input id="su-com" type="number" min="0" max="100" step="0.1" onchange="subReglaSave()"></div>
+          <div><label for="su-dep">Depósito por anuncio (plata)</label><input id="su-dep" type="number" min="0" step="0.01" onchange="subReglaSave()"></div>
+          <div><label for="su-pres">Tengo para invertir (plata)</label><input id="su-pres" type="number" min="0" step="0.01" onchange="subReglaSave()"></div>
+          <div><label for="su-pu">Precio por unidad (plata)</label><input id="su-pu" type="number" min="0" step="0.01" onchange="subReglaSave()"></div>
+        </div>
+        <p class="peq">Comisión del 5 %: EpicCarry · 2026-11-13. Depósito mínimo de 1 plata: EpicCarry, Icy Veins · 2026-11-13. Si no se vende, la web cuenta que el depósito se pierde (criterio prudente; las fuentes no coinciden). Blizzard estudia bajar el mínimo a 1 cobre, sin fecha (Icy Veins).</p>
+      </div>
+
+      <div class="card">
+        <h3>Subidas de precios</h3>
+        <p><button class="btn" type="button" onclick="document.getElementById('csv-file').click()">Subir precios nuevos (CSV)</button>
+        <input id="csv-file" type="file" accept=".csv,text/csv" style="display:none" aria-label="Archivo CSV de la subasta" onchange="csvSubir(this)"></p>
+        <p class="estado" id="csv-msg" role="status"></p>
+        <p class="peq">El archivo exportado lleva: «Precio», «Nombre», «Nivel de objeto», «¿Propiedad?», «Disponible». Menos de 5 filas válidas: rechazado. Se guarda en este navegador; la base de datos compartida del artifact no está conectada en este prototipo.</p>
+        <div id="sub-lista"></div>
+      </div>
+
+      <div class="card">
+        <h3>¿En qué invierto ahora?</h3>
+        <p><button class="btn" onclick="planHacer()">Calcular plan con <span id="plan-pres"></span></button></p>
+        <div id="plan-salida"></div>
+      </div>
+
+      <div class="card aviso">
+        <h3>Resultado documentado (subida 2026-11-15 17:44, 25 de plata)</h3>
+        <ul>
+          <li>Con Minería 56: comprar 86 piedras bastas (3 pl. 44 cobre) → 86 pólvoras férreas. Ganancia: 8 pl. 82 cobre.</li>
+          <li>Con Minería 65: además, 8 lingotes de cobre y 8 de estaño (19 pl. 84 cobre) → 16 lingotes de bronce (ganancia 7 pl. 6 cobre). Total: invierte 24 pl. 75 cobre, recupera 40 pl. 81 cobre.</li>
+          <li>No hacer para vender: fundir cobre, contacto de plata, vendas de lino. Sin precio del resultado: tornillos de cobre, pececito asado.</li>
+        </ul>
+        <p class="fuente">comercio.md · cálculo sobre la subida completa (4.634 objetos) del 2026-11-15 17:44 (hora de recepción).</p>
+      </div>
+
+      <div class="card">
+        <h3>Qué ha cambiado</h3>
+        <div id="cambios-resumen"></div>
+        <div class="grid g2">
+          <div><label for="cambios-f">Mostrar</label>
+            <select id="cambios-f" onchange="CAMB.todo=false;renderCambios()">
+              <option value="mio">Lo que te importa</option>
+              <option value="baja">Lo que baja</option>
+              <option value="sube">Lo que sube</option>
+              <option value="todo">Todo</option>
+            </select></div>
+          <div><label for="cambios-q">Filtrar por nombre</label><input id="cambios-q" oninput="CAMB.todo=false;renderCambios()"></div>
+        </div>
+        <div id="cambios-salida"></div>
+        <p class="peq">«Lo que te importa»: materiales y resultados de tus recetas, tu almacén y tu libro. Solo objetos con 20 o más a la venta en las dos subidas y cambios del 15 % o más. Se compara el precio más bajo de cada subida: con dos subidas no se sabe si el cambio durará.</p>
+      </div>
+
+      <div class="card">
+        <h3>Oportunidades: comprar barato y revender</h3>
+        <p>Objetos con pocas unidades a la venta (30 o menos), que hoy están al menos un 30 % por debajo de su precio en todas las subidas anteriores y que puedes comprar enteros con tu presupuesto.</p>
+        <label for="opor-f">Mostrar</label>
+        <select id="opor-f" onchange="renderOpor()">
+          <option value="todo">Todo</option>
+          <option value="mio">Lo que te importa</option>
+        </select>
+        <div id="opor-salida"></div>
+        <p class="peq">«Revender a» es el más bajo de los precios de las subidas anteriores (prudente: un anuncio caro aislado no cuenta). «Comprarlo todo» es un mínimo: la exportación solo da el precio más bajo, y los demás anuncios pueden costar más. No incluye el depósito (1 pl. por anuncio). La exportación no dice quién vende ni cuánto se vende: las unidades que desaparecen mezclan ventas y anuncios caducados. Con más subidas (2 o 3 al día) el cálculo es más fiable.</p>
+      </div>
+
+      <div class="card">
+        <h3>Tus anuncios</h3>
+        <div id="mios-salida"></div>
+        <p class="peq">Qué significa exactamente «Sí» en la exportación (si el precio más bajo es el tuyo o solo que tienes algo puesto): pendiente de confirmar.</p>
+      </div>
+
+      <div class="card">
+        <h3>Buscar un precio</h3>
+        <label for="bus-q">Nombre (o parte)</label>
+        <input id="bus-q" onkeydown="if(event.key==='Enter'){buscar()}">
+        <p><button class="btn" onclick="buscar()">Buscar</button></p>
+        <div id="bus-salida"></div>
+      </div>
+
+      <div class="card">
+        <h3>¿Vendo el material o lo trabajo?</h3>
+        <div class="tscroll" id="recetas-tabla"></div>
+        <p class="peq">Cantidades y habilidades de las recetas: de Classic, sin confirmar en Forever, salvo fundir bronce. Fundir bronce en Forever: pide Minería 65, lleva 1 lingote de cobre + 1 de estaño y da 2 de bronce. Fuente: Wowhead, WoW Forever DB, ForeverDB, Icy Veins · 2026-11-14. <a href="/mmo/wow-forever/guias/mineria#fundir-bronce">Ver la guía de Minería</a>.</p>
+      </div>
+
+      <div class="card">
+        <h3>Compras que te sirven a tu nivel</h3>
+        <div id="compras-nivel"></div>
+      </div>
+
+      <div class="grid g2">
+        <div class="card">
+          <h3>Calculadora: subasta o vendedor</h3>
+          <label for="ca-s">Precio en subasta (plata)</label><input id="ca-s" type="number" min="0" step="0.01">
+          <label for="ca-v">Precio en vendedor (plata)</label><input id="ca-v" type="number" min="0" step="0.01">
+          <p><button class="btn" onclick="calcSubasta()">Calcular</button></p>
+          <div id="ca-salida"></div>
+        </div>
+        <div class="card">
+          <h3>Calculadora: fabricar o vender</h3>
+          <label for="cf-r">Receta</label><select id="cf-r"></select>
+          <label for="cf-u">Unidades</label><input id="cf-u" type="number" min="1" step="1" value="1">
+          <p><button class="btn" onclick="calcFab()">Calcular</button></p>
+          <div id="cf-salida"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Libro de compras y ventas</h3>
+        <div class="grid g2">
+          <div>
+            <label for="li-tipo">Tipo</label>
+            <select id="li-tipo"><option value="venta">Venta</option><option value="compra">Compra</option></select>
+          </div>
+          <div><label for="li-obj">Objeto</label><input id="li-obj"></div>
+          <div><label for="li-cant">Cantidad</label><input id="li-cant" type="number" min="1" step="1" value="1"></div>
+          <div><label for="li-pu">Precio por unidad (plata)</label><input id="li-pu" type="number" min="0" step="0.01"></div>
+        </div>
+        <p><button class="btn" onclick="libroAdd()">Apuntar</button></p>
+        <div id="libro-lista"></div>
+        <div id="libro-total"></div>
+      </div>
+    </div>
+
+    <!-- ==== DIARIO ==== -->
+    <div class="wpane" id="wp-diario">
+      <div class="card">
+        <h3>Diario</h3>
+        <div class="grid g2">
+          <div><label for="di-f">Fecha</label><input id="di-f" type="date"></div>
+          <div><label for="di-nv">Nivel</label><input id="di-nv" type="number" min="1" max="60"></div>
+          <div><label for="di-oro">Plata</label><input id="di-oro" type="number" min="0" step="0.01"></div>
+          <div><label for="di-zona">Zona</label><input id="di-zona"></div>
+        </div>
+        <label for="di-t">Notas</label><textarea id="di-t"></textarea>
+        <p><button class="btn" onclick="diarioAdd()">Apuntar en el diario</button></p>
+        <div id="diario-lista"></div>
+      </div>
+      <div class="card">
+        <h3>Copia de seguridad</h3>
+        <p><button class="btn" onclick="exportar()">Exportar copia (JSON)</button>
+           <button class="btn" onclick="descargar()">Descargar copia (archivo)</button></p>
+        <label for="ex-salida">Tu copia: guárdala donde quieras</label>
+        <textarea id="ex-salida" readonly></textarea>
+        <p><button class="btn" onclick="copiarTodo()">Copiar al portapapeles</button></p>
+        <p class="estado" id="copia-msg" role="status"></p>
+        <label for="im-entrada">Importar: pega aquí una copia</label>
+        <textarea id="im-entrada"></textarea>
+        <p><button class="btn" type="button" onclick="document.getElementById('im-file').click()">Cargar copia desde un archivo</button>
+           <input id="im-file" type="file" accept=".json,application/json,text/plain" style="display:none" aria-label="Archivo de copia" onchange="importarArchivo(this)">
+           <button class="btn" onclick="confirma(this,'importarAhora')">Importar (sustituye todo)</button></p>
+        <p class="estado" id="im-msg" role="status"></p>
+        <p class="peq">La importación sustituye todos los datos de este navegador tras confirmación.</p>
+      </div>
+    </div>
+
+    <!-- ==== HERMANDAD ==== -->
+    <div class="wpane" id="wp-hermandad">
+      <div class="card remaches">
+        <h3>Bandas del 2026-12-09</h3>
+        <p class="peq">Abren tres bandas. Las tres piden nivel 60.</p>
+        <div class="tscroll">
+          <table>
+            <thead><tr><th>Banda</th><th>Jugadores</th><th>Jefes</th></tr></thead>
+            <tbody>
+              <tr><td>Barrow Deeps</td><td>10</td><td>8</td></tr>
+              <tr><td>Hyjal Summit</td><td>20</td><td>13</td></tr>
+              <tr><td>Guarida de Onyxia</td><td>40</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="peq">Onyxia pide el Drakefire Amulet (cadena de misiones). Fuente: allthings.how · 2026-11-13.</p>
+        <div class="asesor">
+          <p class="titulo">Valoración del asesor</p>
+          <p id="her-cuenta"></p>
+          <p class="fuente">Valoración propia sobre datos de Blizzard, Method, RankedBoost · 2026-11-13.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Miembros</h3>
+        <ul>
+          <li><strong>Fissel Kasteaya</strong>: chamán orco, rama Mejora. Minería e Ingeniería. Dueño de esta web.</li>
+          <li><strong>Woldrik Wulf</strong>: pícaro trol, nivel 9, rama Combate. Equipo pobre y muere mucho. Profesiones: pendiente.</li>
+          <li><strong>Mortem Freeman</strong>: datos pendientes.</li>
+          <li><strong>Towerbrünnen</strong>: apellido y datos pendientes.</li>
+        </ul>
+        <div id="her-resumen"></div>
+        <p class="peq">Detallado en la pestaña de cada compañero. La tabla sale de lo que hay apuntado en este navegador.</p>
+      </div>
+      <div class="card">
+        <h3>Tablón de la hermandad</h3>
+        <textarea id="tablon" onchange="tablonSave()" placeholder="Avisos para la banda…"></textarea>
+        <p class="peq">Se guarda solo en este navegador.</p>
+      </div>
+    </div>
+
+    <!-- ==== COMPAÑEROS ==== -->
+    <div class="wpane" id="wp-tower">
+      <h3>Towerbrünnen <span class="pill pill-warn">pendiente</span></h3>
+      <p class="peq">Apellido y datos pendientes. Rellena lo que sepas; lo demás queda vacío.</p>
+      <div id="ficha-tower"></div>
+    </div>
+    <div class="wpane" id="wp-mortem">
+      <h3>Mortem Freeman <span class="pill pill-warn">pendiente</span></h3>
+      <p class="peq">Datos pendientes. Rellena lo que sepas; lo demás queda vacío.</p>
+      <div id="ficha-mortem"></div>
+    </div>
+    <div class="wpane" id="wp-woldrik">
+      <h3>Woldrik Wulf</h3>
+      <p class="peq">Pícaro trol, nivel 9, rama Combate. Equipo pobre y muere mucho: el consejo prioritario es mejorar el arma y la armadura de cuero o tela.</p>
+      <div id="ficha-woldrik"></div>
+    </div>
+
+    <!-- ==== AYUDA ==== -->
+    <div class="wpane" id="wp-ayuda">
+      <h3>Ayuda: comandos del chat</h3>
+      <p>Pulsa <strong>Intro</strong> para escribir y empieza con <strong>/</strong> para dar un comando. Con <strong>R</strong> respondes al último susurro. Donde pone <em>Nombre</em> va el nombre del personaje; donde pone <em>texto</em>, lo que quieras decir.</p>
+      <p class="peq">Lista de comandos sacada de los archivos del juego de Forever (build 1.60.1.70888, Zephras, consultado el 2026-11-15). Que un comando esté en el cliente no garantiza que funcione en los reinos: los dudosos llevan «pendiente». Se han dejado fuera los de sistemas de WoW actual (mazmorras automáticas, combates de mascotas, modo edición…).</p>
+      <div class="card">
+        <h3>Hablar</h3>
+        <ul class="cmds">
+          <li><span class="cmd">/s</span> — Decir: te oyen los jugadores cercanos.<br><span class="cmdx">también <span class="cmd">/say</span> · en español* <span class="cmd">/decir</span></span></li>
+          <li><span class="cmd">/y</span> — Gritar: llega más lejos que decir.<br><span class="cmdx">también <span class="cmd">/yell</span> <span class="cmd">/sh</span> <span class="cmd">/shout</span> · en español* <span class="cmd">/gritar</span> <span class="cmd">/ch</span></span></li>
+          <li><span class="cmd">/w</span> <em>Nombre texto</em> — Susurro privado a un jugador.<br><span class="cmdx">también <span class="cmd">/whisper</span> <span class="cmd">/t</span> <span class="cmd">/tell</span> <span class="cmd">/send</span> · en español* <span class="cmd">/susurrar</span></span></li>
+          <li><span class="cmd">/r</span> — Responder al último susurro.<br><span class="cmdx">también <span class="cmd">/reply</span> · en español* <span class="cmd">/responder</span></span></li>
+          <li><span class="cmd">/p</span> — Chat del grupo.<br><span class="cmdx">también <span class="cmd">/party</span> · en español* <span class="cmd">/grupo</span></span></li>
+          <li><span class="cmd">/g</span> — Chat de la hermandad.<br><span class="cmdx">también <span class="cmd">/gc</span> <span class="cmd">/gu</span> <span class="cmd">/guild</span> · en español* <span class="cmd">/hermandad</span></span></li>
+          <li><span class="cmd">/o</span> — Chat de oficiales de la hermandad.<br><span class="cmdx">también <span class="cmd">/osay</span> <span class="cmd">/officer</span> · en español* <span class="cmd">/odecir</span></span></li>
+          <li><span class="cmd">/raid</span> — Chat de la banda.<br><span class="cmdx">también <span class="cmd">/ra</span> <span class="cmd">/rsay</span> · en español* <span class="cmd">/bdecir</span></span></li>
+          <li><span class="cmd">/rw</span> — Aviso de banda (sale en el centro de la pantalla).</li>
+          <li><span class="cmd">/e</span> <em>texto</em> — Escribir una acción libre: «Fissel afila el hacha».<br><span class="cmdx">también <span class="cmd">/em</span> <span class="cmd">/emote</span> <span class="cmd">/me</span> · en español* <span class="cmd">/emocion</span> <span class="cmd">/yo</span></span></li>
+          <li><span class="cmd">/1</span>, <span class="cmd">/2</span>… y el texto: Hablar en el canal con ese número.</li>
+          <li><span class="cmd">/discord</span> <em>texto</em> — Escribir en el canal de Discord enlazado a la hermandad. Solo si la hermandad lo enlaza y Blizzard lo tiene activo: pendiente.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Canales</h3>
+        <ul class="cmds">
+          <li><span class="cmd">/join</span> <em>Nombre</em> — Entrar en un canal.<br><span class="cmdx">también <span class="cmd">/channel</span> <span class="cmd">/chan</span> · en español* <span class="cmd">/unirse</span> <span class="cmd">/canal</span></span></li>
+          <li><span class="cmd">/leave</span> <em>número</em> — Salir de un canal.<br><span class="cmdx">también <span class="cmd">/chatleave</span> <span class="cmd">/chatexit</span> · en español* <span class="cmd">/dejar</span></span></li>
+          <li><span class="cmd">/chatlist</span> — Ver tus canales o quién hay en uno.<br><span class="cmdx">también <span class="cmd">/chatwho</span> <span class="cmd">/chatinfo</span> · en español* <span class="cmd">/chatlista</span></span></li>
+          <li><span class="cmd">/chat</span> — Ayuda de los comandos de chat.<br><span class="cmdx">también <span class="cmd">/chathelp</span> · en español* <span class="cmd">/chatayuda</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Hermandad</h3>
+        <ul class="cmds">
+          <li><span class="cmd">/ginvite</span> <em>Nombre</em> — Invitar a la hermandad.<br><span class="cmdx">también <span class="cmd">/guildinvite</span> · en español* <span class="cmd">/hinvitar</span></span></li>
+          <li><span class="cmd">/gremove</span> <em>Nombre</em> — Expulsar de la hermandad.<br><span class="cmdx">también <span class="cmd">/guildremove</span> · en español* <span class="cmd">/hexpulsar</span></span></li>
+          <li><span class="cmd">/gpromote</span> <em>Nombre</em> — Subir de rango.<br><span class="cmdx">también <span class="cmd">/guildpromote</span> · en español* <span class="cmd">/hascender</span></span></li>
+          <li><span class="cmd">/gdemote</span> <em>Nombre</em> — Bajar de rango.<br><span class="cmdx">también <span class="cmd">/guilddemote</span> · en español* <span class="cmd">/hdegradar</span></span></li>
+          <li><span class="cmd">/gmotd</span> <em>texto</em> — Cambiar el mensaje del día.<br><span class="cmdx">también <span class="cmd">/guildmotd</span> · en español* <span class="cmd">/mdh</span></span></li>
+          <li><span class="cmd">/ginfo</span> — Información de la hermandad.<br><span class="cmdx">también <span class="cmd">/guildinfo</span></span></li>
+          <li><span class="cmd">/gquit</span> — Salir de la hermandad.<br><span class="cmdx">también <span class="cmd">/guildquit</span> · en español* <span class="cmd">/hdejar</span></span></li>
+          <li><span class="cmd">/gleader</span> <em>Nombre</em> — Pasar el liderazgo a otro miembro.<br><span class="cmdx">también <span class="cmd">/guildleader</span> · en español* <span class="cmd">/hmaestro</span></span></li>
+          <li><span class="cmd">/gdisband</span> — Disolver la hermandad. No tiene vuelta atrás.<br><span class="cmdx">también <span class="cmd">/guilddisband</span> · en español* <span class="cmd">/hdisolver</span></span></li>
+          <li><span class="cmd">/gf</span> — Buscador de hermandades. Está en el cliente; si funciona en los reinos: pendiente.<br><span class="cmdx">también <span class="cmd">/guildfinder</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Grupo y banda</h3>
+        <ul class="cmds">
+          <li><span class="cmd">/inv</span> <em>Nombre</em> — Invitar al grupo.<br><span class="cmdx">también <span class="cmd">/invite</span> · en español* <span class="cmd">/invitar</span></span></li>
+          <li><span class="cmd">/u</span> <em>Nombre</em> — Sacar del grupo.<br><span class="cmdx">también <span class="cmd">/un</span> <span class="cmd">/kick</span> <span class="cmd">/uninvite</span> <span class="cmd">/votekick</span> · en español* <span class="cmd">/echar</span></span></li>
+          <li><span class="cmd">/pr</span> <em>Nombre</em> — Hacer líder del grupo.<br><span class="cmdx">también <span class="cmd">/promote</span> · en español* <span class="cmd">/ascender</span></span></li>
+          <li><span class="cmd">/rc</span> — Preguntar a todos si están listos.<br><span class="cmdx">también <span class="cmd">/readycheck</span></span></li>
+          <li><span class="cmd">/roll</span> — Tirar dados (para repartir botín).<br><span class="cmdx">también <span class="cmd">/random</span> <span class="cmd">/rand</span> <span class="cmd">/rnd</span> · en español* <span class="cmd">/aleatorio</span> <span class="cmd">/dados</span></span></li>
+          <li><span class="cmd">/cd</span> <em>10</em> — Cuenta atrás en segundos.<br><span class="cmdx">también <span class="cmd">/countdown</span></span></li>
+          <li><span class="cmd">/raidinfo</span> — Ver en qué bandas tienes registro guardado.<br><span class="cmdx">en español* <span class="cmd">/bandainfo</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Social</h3>
+        <ul class="cmds">
+          <li><span class="cmd">/who</span> <em>texto</em> — Buscar jugadores por nombre, zona o nivel.<br><span class="cmdx">en español* <span class="cmd">/quien</span></span></li>
+          <li><span class="cmd">/friend</span> <em>Nombre</em> — Añadir a amigos.<br><span class="cmdx">también <span class="cmd">/friends</span> · en español* <span class="cmd">/amigo</span></span></li>
+          <li><span class="cmd">/removefriend</span> <em>Nombre</em> — Quitar de amigos.<br><span class="cmdx">también <span class="cmd">/remfriend</span> · en español* <span class="cmd">/quitaramigo</span></span></li>
+          <li><span class="cmd">/ignore</span> <em>Nombre</em> — Dejar de ver a un jugador.<br><span class="cmdx">en español* <span class="cmd">/ignorar</span></span></li>
+          <li><span class="cmd">/unignore</span> <em>Nombre</em> — Volver a verlo.<br><span class="cmdx">en español* <span class="cmd">/escuchar</span></span></li>
+          <li><span class="cmd">/afk</span> <em>texto</em> — Ausente, con mensaje automático.<br><span class="cmdx">también <span class="cmd">/away</span> · en español* <span class="cmd">/aus</span></span></li>
+          <li><span class="cmd">/dnd</span> <em>texto</em> — No molestar.<br><span class="cmdx">también <span class="cmd">/busy</span> · en español* <span class="cmd">/nm</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Personaje y utilidades</h3>
+        <ul class="cmds">
+          <li><span class="cmd">/ins</span> — Ver el equipo del objetivo.<br><span class="cmdx">también <span class="cmd">/inspect</span> · en español* <span class="cmd">/inspeccionar</span></span></li>
+          <li><span class="cmd">/tr</span> — Comerciar con el objetivo.<br><span class="cmdx">también <span class="cmd">/trade</span> · en español* <span class="cmd">/comerciar</span></span></li>
+          <li><span class="cmd">/f</span> — Seguir al objetivo.<br><span class="cmdx">también <span class="cmd">/follow</span> <span class="cmd">/fol</span> · en español* <span class="cmd">/seguir</span></span></li>
+          <li><span class="cmd">/duel</span> — Retar a duelo al objetivo.<br><span class="cmdx">en español* <span class="cmd">/duelo</span></span></li>
+          <li><span class="cmd">/yield</span> — Rendirse en un duelo.<br><span class="cmdx">también <span class="cmd">/concede</span> <span class="cmd">/forfeit</span> · en español* <span class="cmd">/rendirse</span></span></li>
+          <li><span class="cmd">/played</span> — Tiempo jugado con el personaje.<br><span class="cmdx">en español* <span class="cmd">/totaljugado</span></span></li>
+          <li><span class="cmd">/time</span> — Hora actual.<br><span class="cmdx">en español* <span class="cmd">/hora</span></span></li>
+          <li><span class="cmd">/calendar</span> — Abrir el calendario.</li>
+          <li><span class="cmd">/stopwatch</span> — Cronómetro.<br><span class="cmdx">también <span class="cmd">/timer</span> <span class="cmd">/sw</span></span></li>
+          <li><span class="cmd">/macro</span> — Ventana de macros.<br><span class="cmdx">también <span class="cmd">/m</span></span></li>
+          <li><span class="cmd">/reload</span> — Recargar la interfaz (tras cambiar addons).</li>
+          <li><span class="cmd">/logout</span> — Salir a la pantalla de personajes.<br><span class="cmdx">también <span class="cmd">/camp</span> · en español* <span class="cmd">/desconectar</span></span></li>
+          <li><span class="cmd">/quit</span> — Salir del juego.<br><span class="cmdx">también <span class="cmd">/exit</span> · en español* <span class="cmd">/salir</span></span></li>
+          <li><span class="cmd">/help</span> — Ayuda general.<br><span class="cmdx">también <span class="cmd">/h</span> <span class="cmd">/?</span> · en español* <span class="cmd">/ayuda</span></span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Gestos</h3>
+        <p>Animaciones y mensajes del personaje. Con un objetivo seleccionado, el gesto va dirigido a él.</p>
+        <p><span class="cmd">/wave</span> <span class="cmd">/hello</span> <span class="cmd">/bye</span> <span class="cmd">/thank</span> <span class="cmd">/cheer</span> <span class="cmd">/dance</span> <span class="cmd">/hug</span> <span class="cmd">/laugh</span> <span class="cmd">/bow</span> <span class="cmd">/ready</span> <span class="cmd">/oom</span> <span class="cmd">/healme</span> <span class="cmd">/sit</span> <span class="cmd">/sleep</span></p>
+        <p class="peq">El cliente trae 247 gestos (Zephras, 2026-11-15). Blizzard pone como ejemplo /wave, /cheer, /dance y /thank en su guía de inicio de Forever.</p>
+      </div>
+      <div class="card aviso">
+        <h3>*Columna «En español»</h3>
+        <p>Los nombres en inglés funcionan siempre. Los nombres en español salen de la lista del foro europeo de Blizzard de 2006 para el cliente en español: <strong>sin comprobar en Forever</strong>. Si alguno falla, usad el de inglés y apuntadlo para corregirlo aquí.</p>
+        <p>En el cliente en español <span class="cmd">/s</span> es decir (no susurrar), <span class="cmd">/g</span> es hermandad (no grupo) y <span class="cmd">/h</span> es ayuda (no hermandad).</p>
+      </div>
+      <div class="card">
+        <h3>Banco de hermandad y tabardo</h3>
+        <ul>
+          <li><strong>Banco de hermandad</strong>: existe en Forever (Wowhead, 2026-11-14). La primera pestaña cuesta 100 de oro según jugadores en el foro oficial (2026-11-08); no es dato oficial. Lo compra el maestro de hermandad. Precio de las demás pestañas, permisos por rango y sitio exacto en Orgrimmar: pendiente.</li>
+          <li><strong>Diseñar el tabardo</strong>: 10 de oro según el mismo hilo del foro (2026-11-08). Se hace con el maestro de hermandad de Orgrimmar, <strong>Urtrun Clanbringer</strong> (43.6, 74.6).</li>
+          <li><strong>Comprar el tabardo</strong>: cada miembro se lo compra a <strong>Garyl</strong>, vendedor de tabardos de Orgrimmar (43.8, 74.2). Precio: pendiente.</li>
+          <li>Las coordenadas vienen de datos de Classic: puede que Forever haya movido algún PNJ.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fuentes de esta pestaña</h3>
+        <ul>
+          <li><a href="https://zephras.com/forever/enUS/slash-command/">Zephras — Comandos y gestos de WoW Forever (archivos del juego, build 70888)</a></li>
+          <li><a href="https://www.bluetracker.gg/wow/topic/eu-es/46965519-comandos-emotes-lista-espa%C3%B1ola-completa/">Foro europeo de Blizzard (copia en Blue Tracker) — Lista española de comandos, 2006</a></li>
+          <li><a href="https://news.blizzard.com/en-us/article/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever">Blizzard — Guía de inicio de WoW Forever</a></li>
+          <li><a href="https://loreforeverwow.com/guides/wow-forever-chat-settings">Lore Forever — Ajustes del chat (teclas)</a></li>
+          <li><a href="https://bindonforever.com/es/articles/wow-forever-guilds">Bind on Forever — Hermandades: Discord y buscador</a></li>
+          <li><a href="https://www.wowhead.com/forever/guide/bags-storage-bank">Wowhead — Bolsas y banco (banco de hermandad), 2026-11-14</a></li>
+          <li><a href="https://us.forums.blizzard.com/en/wow/t/guild-bank-tab-cost/2406979">Foro de Blizzard — «Guild Bank Tab Cost», 2026-11-08</a></li>
+          <li><a href="https://forevermastery.com/en/npcs/category/tabard-vendors">Forevermastery — Vendedores de tabardos</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ==== FUENTES WoW ==== -->
+    <div class="wpane" id="wp-wfuentes">
+      <div class="card">
+        <h3>Fuentes del juego</h3>
+        <p class="peq">Datos comprobados el 2026-11-13 salvo aviso contrario.</p>
+        <ul>
+          <li><a href="https://worldofwarcraft.blizzard.com/news/24303009">Blizzard News — WoW Forever</a></li>
+          <li><a href="https://news.blizzard.com/en-us/article/24315820/world-of-warcraft-forever-goes-live-globally-november-4">Blizzard — Forever sale el 4 de noviembre</a></li>
+          <li><a href="https://www.method.gg/wow-forever/wow-forever-raids-a-look-at-barrow-deeps-hyjal-summit-and-onyxias-lair">Method — Bandas: Barrow Deeps, Hyjal Summit, Guarida de Onyxia</a></li>
+          <li><a href="https://www.method.gg/wow-forever/wow-forever-shaman-leveling-guide-and-talents">Method — Guía de chamán</a></li>
+          <li><a href="https://www.warcrafttavern.com/forever/guides/shaman-leveling/">Warcraft Tavern — Chamán (talentos de la beta, tope 30)</a></li>
+          <li><a href="https://mobalytics.gg/wow-forever/classes/shaman-leveling-guide">Mobalytics — Chamán</a></li>
+          <li><a href="https://www.warcrafttavern.com/forever/guides/first-aid/">Warcraft Tavern — Primeros auxilios</a></li>
+          <li><a href="https://rankedboost.com/world-of-warcraft/forever/professions/">RankedBoost — Profesiones</a></li>
+          <li><a href="https://www.icy-veins.com/wow-forever/news/this-wow-forever-campfire-system-makes-every-profession-worth-leveling/">Icy Veins — Campamentos de profesión</a></li>
+          <li><a href="https://www.zockify.com/forever/professions/">Zockify — Profesiones</a></li>
+          <li><a href="https://epiccarry.com/blogs/?p=44687">EpicCarry — Economía y montura</a></li>
+          <li><a href="https://www.icy-veins.com/wow-forever/news/wow-forever-players-are-getting-a-99-cheaper-auction-house-deposit/">Icy Veins — Depósito de la subasta</a></li>
+          <li><a href="https://overgear.com/guides/wow-forever/earning-gold/">Overgear — Ganar oro</a></li>
+          <li><a href="https://lfcarry.com/guides/wow-forever-gold-economy">LFCarry — Economía del oro</a></li>
+          <li><a href="https://accountshark.net/blog/phantom-armory-wow-forever-update">AccountShark — Phantom Armory (no probado)</a></li>
+        </ul>
+        <p class="peq">Documentación completa en los archivos .md del proyecto (README, datos, comercio, asesoria, fichas).</p>
+      </div>
+    </div>
+
+    <p class="peq">Clave de datos local: <code>wowf-chaman-v1</code> (no cambiar). Los datos se guardan solo en este navegador.</p>
+  </div>
+</section>
+
+<!-- ================= JUEGOS ================= -->
+<section class="sec" id="sec-juegos">
+  <h1>Juegos</h1>
+  <div class="pend">
+    <p><strong>Pendiente de contenido.</strong> Sección de juegos (falta por definir qué irá aquí).</p>
+    <p class="peq">Nada publicado sin contenido real: cuando esté, se hará con la misma regla de fuentes.</p>
+  </div>
+</section>
+
+<!-- ================= LARP ================= -->
+<section class="sec" id="sec-larp">
+  <h1>LARP</h1>
+  <div class="pend">
+    <p><strong>Pendiente de contenido.</strong> Qué irá aquí (idea del proyecto): rol en vivo (LARP, del inglés «Live Action Role-Playing»: el juego se interpreta en persona, con disfraces y utilería).</p>
+    <p class="peq">Nada publicado sin contenido real: cuando esté, se hará con la misma regla de fuentes.</p>
+  </div>
+</section>
+
+<!-- ================= EVENTOS DE ROL ================= -->
+<section class="sec" id="sec-eventos">
+  <h1>Eventos de rol</h1>
+  <div class="pend">
+    <p><strong>Pendiente de contenido.</strong> Qué irá aquí (idea del proyecto): jornadas y eventos de rol.</p>
+    <p class="peq">Conexión natural con el Archivo: las Talazbrágoles fueron jornadas de este tipo.</p>
+    <p><button class="btn" onclick="showSec('archivo')">Ir al Archivo</button></p>
+  </div>
+</section>
+
+<!-- ================= FUENTES ================= -->
+<section class="sec" id="sec-fuentes">
+  <h1>Fuentes</h1>
+  <div class="card">
+    <h3>Archivo Talazbrágoles</h3>
+    <ul>
+      <li>Comunidad Umbría — «Roleros por Majadahonda, Las Rozas de Madrid» (hilo, 2012). Testimonio: partidas de demostración en la Talazbrágoles y en la Casa de la Juventud de Majadahonda. <a href="https://www.comunidadumbria.com/comunidad/foros/tema/25754">Abrir</a></li>
+      <li>EL PAÍS — «Juegos de rol, en 'Sanse' y Las Rozas» (2001-01-13). Contexto local de rol en la zona. Puede requerir suscripción. <a href="https://elpais.com/diario/2001/01/13/madrid/979388674_850215.html">Abrir</a></li>
+      <li>Rol de los 90 — «La Runa: el primer (y único) periódico rolero» (2018-06-10). Fuente secundaria: reseña la crónica de <em>La Runa</em> sobre la 5ª edición (Las Rozas, 13 y 14 de abril; año 1996 deducido). Comprobada el 2026-11-13. <a href="https://roldelos90.blogspot.com/2018/06/la-runa-el-primer-y-unico-periodico.html">Abrir</a></li>
+      <li>Viruete.com — «Backstreet Boys en concierto, histeria no tan teenager» (2009-11-04). Testimonio: el autor fue a «unas Talazbrágoles». Comprobada el 2026-11-13. <a href="https://viruete.com/blog/2009/11/04/backstreet-boys-en-concierto-histeria-no-tan-teenager/">Abrir</a></li>
+    </ul>
+    <p class="peq">Las dos últimas están en el prototipo, todavía no en el repo de talazbragoles.com. Ver <code>docs/fuentes-candidatas.md</code>.</p>
+  </div>
+  <div class="card">
+    <h3>WoW Forever (comprobadas el 2026-11-13)</h3>
+    <ul>
+      <li>Blizzard — lanzamiento de Forever el 4-nov-2026; bandas del 9-dic-2026; nivel 60.</li>
+      <li>Method, Warcraft Tavern, Mobalytics — guía de chamán y bandas.</li>
+      <li>EpicCarry, Icy Veins — comisión y depósito de la subasta; montura de beta.</li>
+      <li>Listado completo de enlaces: pestaña «Fuentes» dentro de MMO.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="top">
+  <div class="wrap" style="padding-bottom:0">
+    <p class="peq">Talazbrágoles · asesor de La Barbarie. Tus datos se guardan solo en este navegador. Todo lo pendiente está marcado como pendiente; nada inventado.</p>
+  </div>
+</footer>
+
+<script>
+window.__errs=[];
+/* Errores inesperados: se apuntan en __errs (los leen las pruebas) y se avisa una vez en pantalla,
+   para que nadie siga usando cifras de una pantalla a medio pintar. */
+function errorInesperado(t){
+ window.__errs.push(t);
+ var el=document.getElementById('aviso-error'); if(!el||el.innerHTML) return;
+ el.innerHTML='<p class="pend badL">Algo ha fallado en el asesor y lo que ves puede estar incompleto. Recarga la página: lo último que se guardó sigue en este navegador. (Detalle: '+esc(t)+')</p>';
+}
+window.addEventListener('error',function(e){ errorInesperado(String(e.message||'error')); });
+window.addEventListener('unhandledrejection',function(e){ errorInesperado('Promesa: '+String((e.reason&&e.reason.message)||e.reason||'rechazada')); });
+
+/* ============ Estado ============ */
+var KEY='wowf-chaman-v1';
+var RAZAS=['Orco','Tauren','Trol','Skyborne','Enano'];
+var CLASES=['(sin saber)','Chamán','Pícaro','Guerrero','Mago','Brujo','Sacerdote','Druida','Cazador'];
+var HUECOS=['Arma','Cabeza','Hombreras','Capa','Pechera','Brazales','Guantes','Cinturón','Piernas','Botas'];
+var PROFKEYS=['Minería','Ingeniería','Primeros aux.','Cocina','Pesca'];
+/* Recetas: nombre, materiales [[nombre,cant]], resultado, cantidad, profesión, habilidad que pide */
+var RECETAS=[
+ {n:'Fundir cobre',m:[['Mineral de cobre',1]],r:'Lingote de cobre',c:1,p:'Minería',s:1},
+ {n:'Fundir estaño',m:[['Mineral de estaño',1]],r:'Lingote de estaño',c:1,p:'Minería',s:65},
+ {n:'Fundir bronce',m:[['Lingote de cobre',1],['Lingote de estaño',1]],r:'Lingote de bronce',c:2,p:'Minería',s:65},
+ {n:'Tornillos de cobre',m:[['Lingote de cobre',1]],r:'Un puñado de tornillos de cobre',c:1,p:'Ingeniería',s:30},
+ {n:'Pólvora férrea',m:[['Piedra basta',1]],r:'Pólvora férrea',c:1,p:'Ingeniería',s:1},
+ {n:'Pólvora burda',m:[['Piedra burda',1]],r:'Pólvora burda',c:1,p:'Ingeniería',s:75},
+ {n:'Piedra de afilar férrea',m:[['Piedra basta',1]],r:'Piedra de afilar férrea',c:1,p:'Herrería',s:1},
+ {n:'Contacto de plata',m:[['Lingote de plata',1]],r:'Contacto de plata',c:1,p:'Ingeniería',s:90},
+ {n:'Tubo de bronce',m:[['Lingote de bronce',2],['Flujo débil',1]],r:'Tubo de bronce',c:1,p:'Ingeniería',s:105},
+ {n:'Venda de lino',m:[['Paño de lino',1]],r:'Venda de lino',c:1,p:'Primeros auxilios',s:1},
+ {n:'Venda de lino pesado',m:[['Paño de lino',2]],r:'Venda de lino pesado',c:1,p:'Primeros auxilios',s:40},
+ {n:'Cocinar pececito luminoso',m:[['Pececito luminoso crudo',1]],r:'Pececito luminoso asado',c:1,p:'Cocina',s:1}
+];
+/* Extracto de la subida del 2026-11-13 08:16: solo precios clave (comercio.md).
+   Subida completa: 2.991 objetos, pendiente de integrar. disponibles=-1 => pendiente. */
+var TS0=Date.parse('2026-11-13T08:16:00');
+var AH0={id:'s0',ts:TS0,por:'Fissel (extracto)',n:8,ext:true,
+ d:[[149,'Mineral de cobre',0,0,-1],
+    [135,'Lingote de cobre',0,0,-1],
+    [100,'Lingote de estaño',0,0,-1],
+    [189,'Lingote de bronce',0,0,-1],
+    [10,'Piedra basta',0,0,-1],
+    [20,'Pólvora férrea',0,0,-1],
+    [24,'Paño de lino',0,0,-1],
+    [220,'Bolsa de lino',0,0,-1]]};
+
+/* Subida completa recibida por chat el 2026-11-13 21:27 UTC (hora de exportación del juego: pendiente).
+   Copia literal: data/subastas/2026-11-13_2127UTC_recibida.csv. 3.823 filas, 0 malas. */
+var AH1={id:'s1',ts:Date.parse('2026-11-13T21:27:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:3823,base:true,
+ src:'subasta-s1-7b20dd8777.json'};
+/* Subida completa recibida por chat el 2026-11-15 17:44 UTC (hora de exportación del juego: pendiente).
+   Copia literal: data/subastas/2026-11-15_1744UTC_recibida.csv. 4.634 filas, 0 malas. */
+var AH2={id:'s2',ts:Date.parse('2026-11-15T17:44:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:4634,base:true,
+ src:'subasta-s2-ea10e16733.json'};
+
+/* Subida completa recibida por chat el 2026-11-15 21:15 UTC (hora de exportación del juego: pendiente).
+   Copia literal: data/subastas/2026-11-15_2115UTC_recibida.csv. 4.731 filas, 0 malas. */
+var AH3={id:'s3',ts:Date.parse('2026-11-15T21:15:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:4731,base:true,
+ src:'subasta-s3-62027c2a8f.json'};
+
+/* Subida completa recibida por chat el 2026-11-15 21:36 UTC (hora de exportación del juego: pendiente).
+   Copia literal: data/subastas/2026-11-15_2136UTC_recibida.csv. 4.755 filas, 0 malas. */
+var AH4={id:'s4',ts:Date.parse('2026-11-15T21:36:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:4755,base:true,
+ src:'subasta-s4-e49a360957.json'};
+
+/* Subida completa recibida por chat el 2026-11-17 18:18 UTC (hora de exportación del juego: pendiente).
+   Copia literal: data/subastas/2026-11-17_1818UTC_recibida.csv. 4.514 filas, 0 malas. */
+var AH5={id:'s5',ts:Date.parse('2026-11-17T18:18:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:4514,base:true,
+ src:'subasta-s5-892c8b01e4.json'};
+
+/* Subidas incluidas en la web (no se pueden quitar), de más antigua a más reciente.
+   Las completas (src) viven en datos/<src> y se cargan al arrancar (cargaSubidas). El nombre lleva un
+   resumen del contenido: si cambia el contenido, cambia el nombre (así el navegador las guarda sin caducar). */
+var AHB=[AH0,AH1,AH2,AH3,AH4,AH5];
+var AH_DIR='/mmo/wow-forever/asesor/datos/';
+/* listo: ya se ha intentado cargar todo; fallan: subidas que no han llegado (se quitan de AHB). */
+var DATOS={listo:false,fallan:[]};
+var AH_ESPERA=30000; /* ms: una subida que no llega en este tiempo cuenta como fallida (si no, «Cargando» para siempre) */
+function cargaSubidas(){
+ var pend=AHB.filter(function(a){ return a.src&&!Array.isArray(a.d); });
+ if(!pend.length) return Promise.resolve([]);
+ if(typeof fetch!=='function'){ pend.forEach(function(a){ a.motivo='navegador sin fetch'; }); return Promise.resolve(pend); }
+ return Promise.all(pend.map(function(a){
+   var ctl=(typeof AbortController==='function')?new AbortController():null;
+   var reloj=ctl?setTimeout(function(){ ctl.abort(); },AH_ESPERA):null;
+   return fetch(AH_DIR+a.src,ctl?{signal:ctl.signal}:undefined)
+     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+     .then(function(j){
+       if(!j||j.id!==a.id||!Array.isArray(j.d)||j.d.length!==a.n) throw new Error('contenido inesperado');
+       a.d=j.d; return null;
+     })
+     .catch(function(e){
+       a.motivo=String((e&&e.name==='AbortError')?'sin respuesta en '+(AH_ESPERA/1000)+' s':((e&&e.message)||e));
+       if(window.console&&console.warn) console.warn('Subida '+a.id+' ('+a.src+'): '+a.motivo);
+       return a;
+     })
+     .then(function(x){ if(reloj) clearTimeout(reloj); return x; });
+ })).then(function(r){ return r.filter(Boolean); });
+}
+var CARGANDO='<p class="peq">Cargando los precios de la subasta…</p>';
+/* Mientras llegan las subidas, lo que depende de precios dice «Cargando» en vez de calcular con datos a medias. */
+function preciosListos(id){
+ if(DATOS.listo) return true;
+ var el=document.getElementById(id); if(el) el.innerHTML=CARGANDO;
+ return false;
+}
+function avisoDatos(){
+ var el=document.getElementById('aviso-datos'); if(!el) return;
+ if(!DATOS.listo){ el.innerHTML=CARGANDO; return; }
+ if(!DATOS.fallan.length){ el.innerHTML=''; return; }
+ var n=DATOS.fallan.length;
+ el.innerHTML='<p class="pend badL">No se han podido cargar los precios de '+(n===1?'1 subida incluida en la web':n+' subidas incluidas en la web')+
+   ' (del '+DATOS.fallan.map(function(a){ return esc(fmtTS(a.ts)); }).join(', del ')+'). Los cálculos usan solo las que sí han llegado y las que hayas subido tú. Recarga la página para volver a intentarlo.</p>';
+}
+
+function compiDef(nom){return {nombre:nom||'',clase:0,raza:0,nivel:0,rama:'',p1:'',s1:0,p2:'',s2:0,pa:0,coc:0,pes:0,img:'',necesita:'',dar:'',huecos:{},eq:{}};}
+function defS(){
+ return {
+  pj:{nombre:'Fissel Kasteaya',nivel:12,raza:0,rama:'Mejora',oro:0,img:'',eq:{},huecos:{}},
+  skill:{'Minería':80,'Ingeniería':43,'Primeros aux.':60,'Cocina':11,'Pesca':96},
+  alm:{},oro:[],diario:[],
+  compis:{tower:compiDef(''),mortem:compiDef(''),woldrik:compiDef('Woldrik Wulf')},
+  tablon:'',
+  sub:{com:5,dep:1,pres:25,pu:20,libro:[]},
+  ahs:[],fs:1,fsUser:1,tab:'hoy',sec:'inicio'
+ };
+}
+/* norm(): nunca borra campos; los nuevos entran con valor por defecto. */
+function norm(raw){
+ var d=defS(); if(!raw||typeof raw!=='object') return d;
+ var S={};
+ S.pj=Object.assign({},d.pj,(raw.pj&&typeof raw.pj==='object')?raw.pj:{});
+ S.pj.eq=(raw.pj&&raw.pj.eq&&typeof raw.pj.eq==='object')?raw.pj.eq:{};
+ S.pj.huecos=(raw.pj&&raw.pj.huecos&&typeof raw.pj.huecos==='object')?raw.pj.huecos:{};
+ S.skill=Object.assign({},d.skill,(raw.skill&&typeof raw.skill==='object')?raw.skill:{});
+ S.alm=(raw.alm&&typeof raw.alm==='object')?raw.alm:{};
+ S.oro=Array.isArray(raw.oro)?raw.oro:[];
+ S.diario=Array.isArray(raw.diario)?raw.diario:[];
+ S.compis={};
+ ['tower','mortem','woldrik'].forEach(function(k){
+   S.compis[k]=Object.assign({},compiDef(''),(raw.compis&&raw.compis[k])?raw.compis[k]:{});
+   S.compis[k].eq=(S.compis[k].eq&&typeof S.compis[k].eq==='object')?S.compis[k].eq:{};
+   S.compis[k].huecos=(S.compis[k].huecos&&typeof S.compis[k].huecos==='object')?S.compis[k].huecos:{};
+ });
+ S.tablon=typeof raw.tablon==='string'?raw.tablon:'';
+ S.sub=Object.assign({},d.sub,(raw.sub&&typeof raw.sub==='object')?raw.sub:{});
+ S.sub.libro=Array.isArray(S.sub.libro)?S.sub.libro:[];
+ S.ahs=Array.isArray(raw.ahs)?raw.ahs.slice(-6):[];
+ S.fs=typeof raw.fs==='number'?raw.fs:1;
+ S.fsUser=typeof raw.fsUser==='number'?raw.fsUser:1;
+ S.tab=typeof raw.tab==='string'?raw.tab:'hoy';
+ S.sec=typeof raw.sec==='string'?raw.sec:'inicio';
+ return S;
+}
+var S;
+function load(){ try{ S=norm(JSON.parse(localStorage.getItem(KEY)||'null')); }catch(e){ S=defS(); } }
+function save(){
+ try{ localStorage.setItem(KEY,JSON.stringify(S)); avisoGuardar(''); return true; }
+ catch(e){ avisoGuardar('No se ha podido guardar en este navegador (almacenamiento lleno o bloqueado). Ve a MMO → Diario y exporta una copia antes de cerrar.'); return false; }
+}
+function avisoGuardar(t){
+ var el=document.getElementById('aviso-guardar'); if(!el) return;
+ el.innerHTML=t?'<p class="pend badL">'+esc(t)+'</p>':'';
+}
+function msg(id,t,clase){
+ var el=document.getElementById(id); if(!el) return;
+ el.className='estado'+(clase?' '+clase:''); el.textContent=t||'';
+}
+function sinDoble(t){ return String(t).replace(/pl\.\./g,'pl.'); }
+function hoyISO(){
+ var d=new Date(), m=d.getMonth()+1, dd=d.getDate();
+ return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd;
+}
+
+/* ============ Utilidades ============ */
+function esc(t){ return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function fmtC(c){
+ if(c===null||c===undefined||c==='') return 'pendiente';
+ c=Math.round(Number(c)||0);
+ if(c<0) return '−'+fmtC(-c);
+ var o=Math.floor(c/10000), p=Math.floor((c%10000)/100), ct=c%100;
+ if(o>0) return o+' oro'+(p?' '+p+' pl.':'')+(ct?' '+ct+' cobre':'');
+ if(p>0) return p+' pl.'+(ct?' '+ct+' cobre':'');
+ return c+' cobre';
+}
+function fmtTS(ts){ try{ return new Date(ts).toLocaleString('es-ES'); }catch(e){ return 'fecha pendiente'; } }
+function diasPara(fechaISO){ return Math.ceil((Date.parse(fechaISO)-Date.now())/86400000); }
+function num(v){ var n=Number(v); return isFinite(n)?n:0; }
+
+/* Subida más reciente (local o extracto) */
+function ahUltima(){
+ var mejor=AHB[AHB.length-1], ts=mejor.ts;
+ (S.ahs||[]).forEach(function(a){ if(a&&num(a.ts)>=ts){ ts=num(a.ts); mejor=a; } });
+ return mejor;
+}
+function ahSegunda(){
+ var lista=AHB.concat(S.ahs||[]).slice().sort(function(a,b){return num(b.ts)-num(a.ts);});
+ return lista.length>1?lista[1]:null;
+}
+function filas(ah){ return (ah&&Array.isArray(ah.d))?ah.d:[]; }
+function badgeEdad(ah){
+ var h=(Date.now()-num(ah.ts))/3600000;
+ if(h>24) return ' <span class="pill pill-bad fill">precios viejos ('+Math.floor(h)+' h)</span>';
+ if(h>6)  return ' <span class="pill pill-warn fill">('+Math.floor(h)+' h)</span>';
+ return ' <span class="pill pill-ok fill">reciente</span>';
+}
+/* Índice por subida: nombre en minúsculas -> {n, p (precio mínimo con unidades), d (unidades), pend, hay, own}.
+   Se guarda en un WeakMap para no meterlo en localStorage. */
+var IDXC=(typeof WeakMap==='function')?new WeakMap():null;
+function ahIdx(ah){
+ if(!ah) return {};
+ if(IDXC){ var c=IDXC.get(ah); if(c) return c; }
+ var m={};
+ filas(ah).forEach(function(r){
+   var k=String(r[1]).toLowerCase();
+   var e=m[k]||(m[k]={n:String(r[1]),p:null,d:0,pend:false,hay:false,own:false});
+   if(r[4]!==0){ var p=num(r[0]); if(e.p===null||p<e.p) e.p=p; }
+   var d=num(r[4]); if(d<0) e.pend=true; else{ e.d+=d; e.hay=true; }
+   if(num(r[3])===1) e.own=true;
+ });
+ if(IDXC&&Array.isArray(ah.d)) IDXC.set(ah,m); /* sin filas todavía (cargando): no se guarda */
+ return m;
+}
+/* Precio mínimo de un nombre en una subida (cobre por unidad). null si no está. */
+function precioDe(nombre,ah){
+ ah=ah||ahUltima(); var e=ahIdx(ah)[String(nombre).toLowerCase()];
+ return e?e.p:null;
+}
+/* Unidades a la venta de un nombre. null = no consta o disponibilidad pendiente (-1). */
+function dispDe(nombre,ah){
+ ah=ah||ahUltima(); var e=ahIdx(ah)[String(nombre).toLowerCase()];
+ return (!e||e.pend||!e.hay)?null:e.d;
+}
+/* Cambio en % entre dos precios; null si falta alguno. */
+function pctCambio(antes,ahora){ return (antes===null||ahora===null||antes<=0)?null:(ahora-antes)/antes*100; }
+function pillCambio(ch){
+ if(ch===null) return '<span class="peq">—</span>';
+ var t=(ch>0?'+':'')+ch.toFixed(0)+'%';
+ if(Math.abs(ch)<15) return '<span class="pill pill-warn">'+t+'</span>';
+ return ch>0?'<span class="pill pill-warn">'+t+' sube: mejor vender</span>':'<span class="pill pill-ok">'+t+' baja: mejor comprar</span>';
+}
+/* Nombres que importan a Fissel: materiales y resultados de recetas, almacén y libro. */
+function nombresMios(){
+ var m={};
+ RECETAS.forEach(function(r){ m[r.r.toLowerCase()]=1; r.m.forEach(function(x){ m[x[0].toLowerCase()]=1; }); });
+ Object.keys(S.alm||{}).forEach(function(k){ m[k.toLowerCase()]=1; });
+ (S.sub.libro||[]).forEach(function(l){ if(l&&l.obj) m[String(l.obj).toLowerCase()]=1; });
+ return m;
+}
+
+/* ============ Navegación ============ */
+var SECS=['inicio','archivo','rol','mmo','juegos','larp','eventos','fuentes'];
+var TABS=['hoy','pj','equipo','prof','almacen','oro','subasta','diario','hermandad','tower','mortem','woldrik','ayuda','wfuentes'];
+var TITULOS={inicio:'Inicio',archivo:'Archivo',rol:'Rol de mesa',mmo:'MMO · La Barbarie',juegos:'Juegos',larp:'LARP',eventos:'Eventos de rol',fuentes:'Fuentes'};
+function showSec(id){
+ id='mmo'; /* en el sitio solo existe esta sección */
+ if(SECS.indexOf(id)<0) id='inicio';
+ SECS.forEach(function(s){
+   var el=document.getElementById('sec-'+s), nv=document.getElementById('nav-'+s);
+   if(el) el.classList.toggle('on',s===id);
+   if(nv){ nv.classList.toggle('onS',s===id); if(s===id) nv.setAttribute('aria-current','page'); else nv.removeAttribute('aria-current'); }
+ });
+ S.sec=id; save(); ponHash();
+ document.title=TITULOS[id]+' · Talazbrágoles';
+}
+function ponHash(){
+ try{
+   var h='#'+S.sec+(S.sec==='mmo'?'-'+S.tab:'');
+   if(location.hash!==h) history.replaceState(null,'',h);
+ }catch(e){}
+}
+function leeHash(){
+ var h=String(location.hash||'').slice(1).split('-');
+ if(SECS.indexOf(h[0])<0) return false;
+ S.sec=h[0];
+ if(h[0]==='mmo'&&TABS.indexOf(h[1])>=0) S.tab=h[1];
+ return true;
+}
+function showTab(id){
+ if(TABS.indexOf(id)<0) id='hoy';
+ TABS.forEach(function(t){
+   var el=document.getElementById('wp-'+t), bt=document.getElementById(t==='wfuentes'?'wt-fuentes':'wt-'+t);
+   if(el) el.classList.toggle('on',t===id);
+   if(bt){ bt.classList.toggle('onS',t===id); if(t===id) bt.setAttribute('aria-current','true'); else bt.removeAttribute('aria-current'); }
+ });
+ S.tab=id; save(); ponHash();
+ if(id==='hoy') renderHoy();
+}
+function setFs(n){
+ S.fs=Math.max(0,Math.min(2,num(n))); S.fsUser=S.fs; save(); aplicaFs();
+}
+function cambiaFs(d){ setFs(num(S.fs)+d); }
+function aplicaFs(){
+ document.body.classList.remove('fs-min','fs-max');
+ if(S.fs===0) document.body.classList.add('fs-min');
+ if(S.fs===2) document.body.classList.add('fs-max');
+ var me=document.getElementById('fs-menos'), ma=document.getElementById('fs-mas');
+ if(me) me.disabled=(S.fs===0);
+ if(ma) ma.disabled=(S.fs===2);
+}
+
+/* ============ Confirmación (sin confirm()) ============ */
+function confirma(btn,fn,arg){
+ if(btn.dataset.arm==='1'){
+   btn.dataset.arm=''; var t=btn.dataset.txt||''; btn.textContent=t;
+   if(typeof window[fn]==='function') window[fn](arg);
+ }else{
+   btn.dataset.arm='1'; btn.dataset.txt=btn.textContent;
+   btn.textContent='¿Seguro? Pulsa otra vez';
+   setTimeout(function(){ if(btn.dataset.arm==='1'){ btn.dataset.arm=''; btn.textContent=btn.dataset.txt||''; } },4000);
+ }
+}
+
+/* ============ Hoy ============ */
+var HITOS=[12,16,18,20,30,32,40];
+function faltan(){
+ var out=[];
+ if(!S.oro.length) out.push(['Tu plata de hoy (para ver cuánto falta para la montura)','oro','Ir a Oro']);
+ var puestos=0; HUECOS.forEach(function(sl){ if(String(S.pj.eq[sl]||'').trim()) puestos++; });
+ if(puestos<HUECOS.length) out.push(['Equipo puesto: '+puestos+' de '+HUECOS.length+' huecos apuntados','pj','Ir a Mi chamán']);
+ if(!Object.keys(S.alm).length) out.push(['Almacén: ningún material apuntado','almacen','Ir a Almacén']);
+ [['tower','Towerbrünnen','Tower'],['mortem','Mortem Freeman','Mortem'],['woldrik','Woldrik Wulf','Woldrik']].forEach(function(c){
+   var d=S.compis[c[0]], f=[];
+   if(!num(d.clase)) f.push('clase');
+   if(!num(d.nivel)) f.push('nivel');
+   if(!String(d.p1||'').trim()) f.push('profesiones');
+   if(f.length) out.push([c[1]+': falta '+f.join(', '),c[0],'Ir a '+c[2]]);
+ });
+ return out;
+}
+function renderHoy(){
+ if(!preciosListos('hoy-lista')) return;
+ var dias=diasPara('2026-12-09');
+ var nivel=num(S.pj.nivel);
+ var ah=ahUltima(), horas=(Date.now()-num(ah.ts))/3600000;
+ var html='';
+ if(horas>24){
+   html+='<div class="card"><h3>Precios viejos</h3><p>La última subida de precios es del '+fmtTS(ah.ts)+badgeEdad(ah)+'. Sube un CSV nuevo antes de comprar o vender.</p>'+
+         '<p><button class="btn" onclick="showTab(\'subasta\')">Ir a Comercio</button></p></div>';
+ }
+ var prox=null; HITOS.forEach(function(h){ if(prox===null&&h>nivel) prox=h; });
+ if(prox!==null){
+   html+='<div class="card"><h3>Próximo hito</h3><p>Nivel <strong>'+prox+'</strong>: te faltan '+(prox-nivel)+' '+(prox-nivel===1?'nivel':'niveles')+'. Ahí se aprende algo importante.</p>'+
+         '<p class="fuente">Warcraft Tavern, versión anterior de la guía. Sin volver a comprobar uno a uno.</p></div>';
+ }
+ html+='<div class="card"><h3>Rotación</h3><p><strong>Choque de llamas</strong> y reaplicarlo al acabar su efecto.</p><p class="fuente">Method · 2026-11-13.</p></div>';
+ html+='<div class="card"><h3>Mejora rápida</h3><p>Mejorar el arma es lo que más acelera la subida. Busca sufijos del gorila, de fuerza, del jabalí, del oso, del tigre o de poder.</p><p class="fuente">Mobalytics · 2026-11-13.</p></div>';
+ var txtB=dias>=0?('Faltan <strong>'+dias+' días</strong>.'):('Abrieron hace <strong>'+(-dias)+' días</strong>.');
+ html+='<div class="card"><h3>Bandas del 2026-12-09</h3><p>'+txtB+' Con nivel '+nivel+' y las tres bandas pidiendo nivel 60, la meta realista son las mazmorras de 5 (falta un quinto jugador).</p><p class="fuente">Blizzard, allthings.how · 2026-11-13. Valoración propia del asesor.</p></div>';
+ html+='<div class="card"><h3>Profesiones</h3><p>';
+ PROFKEYS.forEach(function(k){ html+=esc(k)+': <strong>'+num(S.skill[k])+'</strong>. '; });
+ html+='</p><p class="peq">Objetivos por nivel: pendientes de traspasar (tabla propia sobre rangos de Classic, sin confirmar en Forever).</p></div>';
+ var P=planCalc(ah), txtP;
+ if(!P.pasos.length) txtP='Con '+fmtC(P.presupuesto)+' no hay ninguna receta que puedas hacer con beneficio. No inviertas hoy.';
+ else txtP='Con '+fmtC(P.presupuesto)+': '+P.pasos.map(function(p){ return 'fabricar '+(p.u*p.rec.c)+' × '+esc(p.rec.r); }).join(', ')+'. Inviertes '+fmtC(P.inv)+' y ganas <strong>'+fmtC(P.cob-P.inv)+'</strong>.';
+ html+='<div class="card"><h3>Plan de inversión</h3><p>'+txtP+'</p>'+
+       '<p><button class="btn" onclick="showTab(\'subasta\')">Ver el plan en Comercio</button></p><p class="fuente">Calculado con la subida del '+fmtTS(ah.ts)+badgeEdad(ah)+'. Reglas: comercio.md.</p></div>';
+ html+='<div class="card"><h3>Meta de la montura</h3><p>Montura de nivel 40: 100 de oro. <span class="pill pill-warn">Dato de beta</span></p><p>'+esc(textoMeta())+'</p><p class="fuente">EpicCarry · 2026-11-13.</p></div>';
+ var fl=faltan();
+ if(fl.length){
+   html+='<div class="card"><h3>Datos que faltan por apuntar</h3><p class="peq">Sin estos datos el asesor no puede afinar. No se inventa nada: apunta solo lo que sepas.</p><ul>';
+   fl.forEach(function(f){ html+='<li>'+esc(f[0])+'. <button class="btn" onclick="showTab(\''+f[1]+'\')">'+esc(f[2])+'</button></li>'; });
+   html+='</ul></div>';
+ }
+ document.getElementById('hoy-lista').innerHTML=html;
+ var txtH=dias>=0?('llegar a 60 el 9 de diciembre ('+dias+' días) es muy difícil'):('las bandas ya están abiertas y piden nivel 60');
+ document.getElementById('her-cuenta').innerHTML='Con nivel '+nivel+' el '+(new Date().toLocaleDateString('es-ES'))+', '+txtH+'. Meta realista: mazmorras de 5 (falta un quinto jugador).';
+}
+
+/* ============ PJ ============ */
+function pintaPj(){
+ var sel=document.getElementById('f-raza');
+ sel.innerHTML=RAZAS.map(function(r,i){return '<option value="'+i+'">'+esc(r)+'</option>';}).join('');
+ document.getElementById('f-nombre').value=S.pj.nombre||'';
+ document.getElementById('f-nivel').value=num(S.pj.nivel);
+ document.getElementById('f-raza').value=String(num(S.pj.raza));
+ document.getElementById('f-rama').value=S.pj.rama||'';
+ var h='';
+ HUECOS.forEach(function(sl){
+   var v=S.pj.eq[sl]||'';
+   h+='<div class="grid g2" style="align-items:center"><div><label for="eq-'+esc(sl)+'">'+esc(sl)+'</label>'+
+      '<input id="eq-'+esc(sl)+'" value="'+esc(v)+'" onchange="eqSave(\''+esc(sl)+'\',this.value)"></div>'+
+      '<div style="display:flex;align-items:center;gap:8px;min-height:48px">'+
+      '<input type="checkbox" id="hq-'+esc(sl)+'"'+(S.pj.huecos[sl]?' checked':'')+' onchange="huecoToggle(\''+esc(sl)+'\',this.checked)">'+
+      '<label for="hq-'+esc(sl)+'">Conseguido</label></div></div>';
+ });
+ document.getElementById('pj-huecos').innerHTML=h;
+}
+function pjSave(){
+ S.pj.nombre=document.getElementById('f-nombre').value;
+ S.pj.nivel=Math.max(1,Math.min(60,num(document.getElementById('f-nivel').value)));
+ S.pj.raza=num(document.getElementById('f-raza').value);
+ S.pj.rama=document.getElementById('f-rama').value;
+ save(); renderHoy(); renderEquipo(); renderResumen();
+}
+function eqSave(sl,v){ S.pj.eq[sl]=v; save(); renderHoy(); }
+function huecoToggle(sl,v){ S.pj.huecos[sl]=!!v; save(); }
+
+/* ============ Profesiones ============ */
+function pintaProf(){
+ var h='';
+ PROFKEYS.forEach(function(k){
+   h+='<div class="grid g2"><div><label for="sk-'+esc(k)+'">'+esc(k)+' (0-300)</label></div>'+
+      '<div><input id="sk-'+esc(k)+'" type="number" min="0" max="300" value="'+num(S.skill[k])+'" onchange="skillSave(\''+esc(k)+'\',this.value)"></div></div>';
+ });
+ document.getElementById('prof-lista').innerHTML=h;
+}
+function skillSave(k,v){ S.skill[k]=Math.max(0,Math.min(300,num(v))); save(); renderRecetas(); renderHoy(); }
+
+/* ============ Equipo ============ */
+var SUFIJOS=['del gorila','de fuerza','del jabalí','del oso','del tigre','de poder'];
+/* El número entre paréntesis del nombre es el nivel que pide el objeto. */
+function nivelPide(nombre){ var m=/\((\d+)\)/.exec(String(nombre)); return m?parseInt(m[1],10):null; }
+function comprasEquipo(ah){
+ var nivel=num(S.pj.nivel), lo=Math.max(1,nivel-4), hi=nivel+1, out=[];
+ filas(ah).forEach(function(r){
+   if(r[3]||r[4]===0) return;
+   var np=nivelPide(r[1]); if(np===null||np<lo||np>hi) return;
+   var base=' '+String(r[1]).toLowerCase().replace(/\s*\(\d+\)\s*/g,' ').trim()+' ', suf=null;
+   SUFIJOS.forEach(function(sf){ if(suf===null&&base.indexOf(' '+sf+' ')>=0) suf=sf; });
+   if(suf===null) return;
+   out.push({r:r,np:np,suf:suf});
+ });
+ out.sort(function(a,b){ return num(a.r[0])-num(b.r[0]); });
+ return out;
+}
+function comprasHTML(ah){
+ var nivel=num(S.pj.nivel), lo=Math.max(1,nivel-4), hi=nivel+1;
+ var h='<p class="peq">Subida del '+fmtTS(ah.ts)+badgeEdad(ah)+'. Nivel pedido entre '+lo+' y '+hi+' (tu nivel: '+nivel+').</p>';
+ h+='<ul><li><strong>Bolsa de lino</strong>: '+fmtC(precioDe('Bolsa de lino',ah))+'</li></ul>';
+ if(ah.ext){
+   h+='<p class="peq">Extracto de la subida: faltan los objetos de equipo. Sube el CSV completo para ver compras por sufijo.</p>';
+   return h;
+ }
+ var out=comprasEquipo(ah);
+ if(!out.length){
+   h+='<p class="peq">Ningún objeto con los sufijos buenos entre los niveles '+lo+' y '+hi+' en esta subida.</p>';
+   return h;
+ }
+ var total=out.length; out=out.slice(0,25);
+ h+='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Compras que te sirven"><table><thead><tr><th>Objeto</th><th>Sufijo</th><th>Pide nivel</th><th>Precio</th></tr></thead><tbody>';
+ out.forEach(function(o){ h+='<tr><td>'+esc(o.r[1])+'</td><td>'+esc(o.suf)+'</td><td>'+o.np+'</td><td>'+fmtC(o.r[0])+'</td></tr>'; });
+ h+='</tbody></table></div>';
+ h+='<p class="peq">'+(total>25?'Se muestran los 25 más baratos de '+total+'. ':'')+'Antes de comprar: comprueba en el juego que sea cuero o tela (malla desde el nivel 40). La exportación no lo dice.</p>';
+ return h;
+}
+function renderEquipo(){
+ if(!preciosListos('equipo-compras')){ preciosListos('compras-nivel'); return; }
+ var h=comprasHTML(ahUltima());
+ document.getElementById('equipo-compras').innerHTML=h;
+ document.getElementById('compras-nivel').innerHTML=h;
+}
+
+/* ============ Almacén ============ */
+function renderAlm(){
+ if(!preciosListos('alm-lista')) return;
+ var keys=Object.keys(S.alm), ah=ahUltima();
+ var h='';
+ if(!keys.length) h='<p class="peq">Sin materiales apuntados todavía.</p>';
+ else{
+   h='<div class="tscroll"><table><thead><tr><th>Material</th><th>Cantidad</th><th>Precio u.</th><th>Valor</th><th>Acción</th></tr></thead><tbody>';
+   keys.forEach(function(k,i){
+     h+='<tr><td>'+esc(k)+'</td><td><input type="number" min="0" value="'+num(S.alm[k])+'" data-k="'+esc(k)+'" aria-label="Cantidad de '+esc(k)+'" onchange="almSet(this.dataset.k,this.value)" style="min-height:48px;min-width:96px"></td>'+
+        '<td>'+fmtC(precioDe(k,ah))+'</td><td id="alm-v-'+i+'"></td>'+
+        '<td><button class="btn" data-k="'+esc(k)+'" onclick="confirma(this,\'almDel\',this.dataset.k)">Quitar</button></td></tr>';
+   });
+   h+='</tbody></table></div><p id="alm-total"></p>'+
+      '<p class="fuente">Precios de la subida del '+fmtTS(ah.ts)+badgeEdad(ah)+'</p>';
+ }
+ document.getElementById('alm-lista').innerHTML=h;
+ almTotales();
+}
+function almTotales(){ /* totales del almacén */
+ var keys=Object.keys(S.alm), ah=ahUltima(), tot=0, sin=0;
+ keys.forEach(function(k,i){
+   var p=precioDe(k,ah), el=document.getElementById('alm-v-'+i);
+   if(p===null){ sin++; if(el) el.textContent='pendiente'; }
+   else{ var v=p*num(S.alm[k]); tot+=v; if(el) el.textContent=fmtC(v); }
+ });
+ var t=document.getElementById('alm-total'); if(!t) return;
+ var com=num(S.sub.com)/100;
+ t.innerHTML='Valor en subasta de lo apuntado: <strong>'+fmtC(tot)+'</strong>; quitando la comisión del '+num(S.sub.com)+'%: <strong>'+fmtC(tot*(1-com))+'</strong>'+
+   (sin?'. Sin precio en la subida: '+sin+' '+(sin===1?'material':'materiales')+' (pendiente).':'');
+}
+function almAdd(){
+ var k=document.getElementById('alm-nuevo').value.trim();
+ if(!k) return;
+ S.alm[k]=num(document.getElementById('alm-cant').value);
+ document.getElementById('alm-nuevo').value=''; document.getElementById('alm-cant').value=1;
+ save(); renderAlm(); renderHoy(); renderCambios();
+}
+function almSet(k,v){ if(k in S.alm){ S.alm[k]=Math.max(0,num(v)); save(); almTotales(); } }
+function almDel(k){ delete S.alm[k]; save(); renderAlm(); renderHoy(); renderCambios(); }
+
+/* ============ Oro ============ */
+function ultimoOro(){
+ var u=null; S.oro.forEach(function(o){ if(u===null||String(o.f||'')>=String(u.f||'')) u=o; });
+ return u;
+}
+function textoMeta(){
+ var u=ultimoOro();
+ if(!u) return 'Apunta tu plata en la pestaña Oro para ver cuánto te falta.';
+ var g=num(u.g), meta=10000, pc=Math.min(100,Math.floor(g/meta*100));
+ if(g>=meta) return sinDoble('Último apunte ('+(u.f||'sin fecha')+'): '+fmtC(g*100)+'. Ya tienes los 100 de oro.');
+ return sinDoble('Último apunte ('+(u.f||'sin fecha')+'): '+fmtC(g*100)+'. Llevas el '+pc+'% y te faltan '+fmtC((meta-g)*100)+'.');
+}
+function renderOro(){
+ var h='';
+ var om=document.getElementById('oro-meta'); if(om) om.textContent=textoMeta();
+ if(!S.oro.length) h='<p class="peq">Sin registros de oro todavía.</p>';
+ else{
+   h='<div class="tscroll"><table><thead><tr><th>Fecha</th><th>Plata</th><th>Nota</th><th>Acción</th></tr></thead><tbody>';
+   S.oro.slice().reverse().forEach(function(o,i){
+     var idx=S.oro.length-1-i;
+     h+='<tr><td>'+esc(o.f||'')+'</td><td>'+num(o.g)+'</td><td>'+esc(o.n||'')+'</td>'+
+        '<td><button class="btn" onclick="confirma(this,\'oroDel\','+idx+')">Quitar</button></td></tr>';
+   });
+   h+='</tbody></table></div>';
+ }
+ document.getElementById('oro-lista').innerHTML=h;
+ var c=document.getElementById('oro-chart');
+ if(S.oro.length){
+   var mx=0; S.oro.forEach(function(o){ mx=Math.max(mx,num(o.g)); });
+   if(mx<=0) mx=1;
+   var w=Math.max(320,S.oro.length*46), bw=36, gap=10;
+   var svg='<svg class="charta" viewBox="0 0 '+w+' 160" width="'+w+'" height="160" role="img" aria-label="Gráfica de la plata apuntada">';
+   S.oro.forEach(function(o,i){
+     var bh=Math.max(2,Math.round(100*num(o.g)/mx));
+     var x=i*(bw+gap)+4;
+     svg+='<rect x="'+x+'" y="'+(120-bh)+'" width="'+bw+'" height="'+bh+'"></rect>';
+     svg+='<text x="'+(x+bw/2)+'" y="138" font-size="12" text-anchor="middle">'+esc(String(o.f||'').slice(5))+'</text>';
+   });
+   svg+='</svg>';
+   c.innerHTML='<div class="tscroll">'+svg+'</div>';
+ } else c.innerHTML='';
+}
+function oroAdd(){
+ var f=document.getElementById('oro-f').value, g=document.getElementById('oro-g').value, n=document.getElementById('oro-n').value;
+ if(!f){ document.getElementById('oro-f').focus(); return; }
+ S.oro.push({f:f,g:num(g),n:n});
+ save(); document.getElementById('oro-g').value=''; document.getElementById('oro-n').value='';
+ renderOro(); renderHoy();
+}
+function oroDel(i){ if(i>=0&&i<S.oro.length){ S.oro.splice(i,1); save(); renderOro(); renderHoy(); } }
+
+/* ============ Comercio ============ */
+function pintaSubReglas(){
+ document.getElementById('su-com').value=S.sub.com;
+ document.getElementById('su-dep').value=S.sub.dep;
+ document.getElementById('su-pres').value=S.sub.pres;
+ document.getElementById('su-pu').value=S.sub.pu;
+ document.getElementById('plan-pres').textContent=fmtC(num(S.sub.pres)*100);
+}
+function subReglaSave(){
+ S.sub.com=Math.max(0,Math.min(100,num(document.getElementById('su-com').value)));
+ S.sub.dep=Math.max(0,num(document.getElementById('su-dep').value));
+ S.sub.pres=Math.max(0,num(document.getElementById('su-pres').value));
+ S.sub.pu=Math.max(0,num(document.getElementById('su-pu').value));
+ save(); pintaSubReglas(); renderRecetas(); renderLibro(); almTotales(); renderHoy();
+}
+function renderSubidas(){
+ if(!preciosListos('sub-lista')) return;
+ var h='<div class="tscroll"><table><thead><tr><th>Subida</th><th>Objetos</th><th>Origen</th><th>Acción</th></tr></thead><tbody>';
+ var lista=AHB.concat(S.ahs).slice().sort(function(a,b){return num(a.ts)-num(b.ts);});
+ var ult=ahUltima();
+ lista.forEach(function(a){
+   var ext=a.ext?'Extracto (8 precios clave; completa: 2.991, pendiente)':(a.base?'Incluida en la web: '+a.por:'CSV local');
+   var quitar=(a.ext||a.base)?'':'<button class="btn" data-id="'+esc(a.id)+'" onclick="confirma(this,\'ahDel\',this.dataset.id)">Quitar</button>';
+   h+='<tr><td>'+fmtTS(a.ts)+badgeEdad(a)+(a===ult?' <span class="pill pill-ok">en uso</span>':'')+'</td><td>'+((a.ext||a.base)?a.n:num(a.n))+'</td><td>'+esc(ext)+'</td><td>'+quitar+'</td></tr>';
+ });
+ h+='</tbody></table></div>';
+ h+='<p class="peq">Se usa siempre la subida más reciente. Antigüedad: más de 6 horas, aviso con recuadro discontinuo; más de 24, aviso en negro. Se guardan como máximo 6 subidas.</p>';
+ document.getElementById('sub-lista').innerHTML=h;
+}
+function ahDel(id){
+ S.ahs=S.ahs.filter(function(a){ return a.id!==id; });
+ save(); msg('csv-msg','Subida quitada.');
+ refrescaPrecios();
+}
+function refrescaPrecios(){
+ renderSubidas(); renderCambios(); renderMios(); renderOpor(); renderRecetas(); renderEquipo(); renderAlm(); renderHoy();
+ document.getElementById('plan-salida').innerHTML='';
+}
+function csvSubir(inp){
+ var f=inp.files&&inp.files[0]; if(!f) return;
+ var rd=new FileReader();
+ rd.onerror=function(){ msg('csv-msg','No se ha podido leer el archivo.','badL'); inp.value=''; };
+ rd.onload=function(){
+   var rows=parseCSV(String(rd.result));
+   var valid=rows.filter(function(r){ return r.length>=5 && /^\d+([.,]\d+)?$/.test(String(r[0]).trim()) && String(r[1]||'').trim().length>0; });
+   var malas=rows.length-valid.length;
+   inp.value='';
+   if(valid.length<5){ msg('csv-msg','Archivo rechazado: menos de 5 filas válidas. No se ha cambiado nada.','badL'); return; }
+   var d=valid.map(function(r){ return [Math.round(num(String(r[0]).trim().replace(',','.'))),String(r[1]).trim(),num(r[2]),(/s/i.test(String(r[3]))?1:0),num(r[4])]; });
+   var nueva={id:'s'+Date.now(),ts:Date.now(),por:'Fissel',n:d.length,d:d};
+   S.ahs.push(nueva);
+   if(S.ahs.length>6) S.ahs=S.ahs.slice(-6);
+   var borradas=0;
+   while(!save()&&S.ahs.length>1){ S.ahs.shift(); borradas++; }
+   if(!save()){
+     S.ahs=S.ahs.filter(function(a){ return a!==nueva; }); save();
+     avisoGuardar('');
+     msg('csv-msg','No cabe en el almacenamiento de este navegador: la subida no se ha guardado.','badL');
+   }else{
+     msg('csv-msg','Subida guardada: '+d.length+' objetos.'+(malas?' Filas ignoradas por no ser válidas: '+malas+'.':'')+(borradas?' Para hacer sitio se han borrado '+borradas+' subidas antiguas.':''));
+   }
+   refrescaPrecios();
+ };
+ rd.readAsText(f,'UTF-8');
+}
+function parseCSV(txt){
+ var rows=[],row=[],cur='',inQ=false,i,c;
+ txt=String(txt).replace(/^\uFEFF/,'');
+ for(i=0;i<txt.length;i++){
+   c=txt[i];
+   if(inQ){
+     if(c==='"'){ if(txt[i+1]==='"'){cur+='"';i++;} else inQ=false; }
+     else cur+=c;
+   }else{
+     if(c==='"') inQ=true;
+     else if(c===','){ row.push(cur); cur=''; }
+     else if(c==='\n'||c==='\r'){ if(cur!==''||row.length){ row.push(cur); rows.push(row); row=[]; cur=''; } }
+     else cur+=c;
+   }
+ }
+ if(cur!==''||row.length){ row.push(cur); rows.push(row); }
+ if(rows.length&&/^\s*precio/i.test(String(rows[0][0]||''))) rows.shift();
+ return rows;
+}
+var CAMB={todo:false};
+function renderCambios(){
+ if(!preciosListos('cambios-salida')){ document.getElementById('cambios-resumen').innerHTML=''; return; }
+ var a=ahUltima(), b=ahSegunda();
+ var el=document.getElementById('cambios-salida');
+ var res=document.getElementById('cambios-resumen');
+ if(!b||b.ext||a.ext){
+   res.innerHTML='';
+   el.innerHTML='<p class="peq">Pendiente: hacen falta dos subidas completas para comparar.</p>'; return;
+ }
+ var ia=ahIdx(a), ib=ahIdx(b), out=[], suben=0, bajan=0;
+ Object.keys(ia).forEach(function(k){
+   var ea=ia[k], eb=ib[k]; if(!eb) return;
+   var da=dispDe(k,a), db=dispDe(k,b);
+   if(da===null||db===null||da<20||db<20) return;
+   var ch=pctCambio(eb.p,ea.p); if(ch===null||Math.abs(ch)<15) return;
+   if(ch>0) suben++; else bajan++;
+   out.push({k:k,n:ea.n,de:eb.p,a:ea.p,ch:ch,dAntes:db,dAhora:da});
+ });
+ res.innerHTML='<p>Entre el '+fmtTS(b.ts)+' y el '+fmtTS(a.ts)+': <strong>'+out.length+'</strong> objetos han cambiado un 15 % o más. Bajan '+bajan+', suben '+suben+'.</p>';
+ var f=document.getElementById('cambios-f').value, q=document.getElementById('cambios-q').value.trim().toLowerCase();
+ var mios=nombresMios();
+ var lista=out.filter(function(o){
+   if(f==='mio'&&!mios[o.k]) return false;
+   if(f==='baja'&&o.ch>=0) return false;
+   if(f==='sube'&&o.ch<=0) return false;
+   if(q&&o.k.indexOf(q)<0) return false;
+   return true;
+ });
+ lista.sort(function(x,y){ return Math.abs(y.ch)-Math.abs(x.ch); });
+ if(!lista.length){
+   el.innerHTML='<p class="peq">'+(f==='mio'?'Nada de lo que te importa (recetas, almacén y libro) ha cambiado un 15 % o más con 20 o más a la venta.':'Sin resultados con este filtro.')+'</p>'; return;
+ }
+ var total=lista.length, corto=!CAMB.todo&&total>25;
+ if(corto) lista=lista.slice(0,25);
+ var h='<p class="peq">'+(corto?'Los 25 cambios más grandes de '+total+'.':total+' '+(total===1?'objeto':'objetos')+', del cambio más grande al más pequeño.')+'</p>';
+ h+='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Qué ha cambiado"><table><thead><tr><th>Objeto</th><th>Antes</th><th>Ahora</th><th>A la venta (antes → ahora)</th><th>Cambio</th></tr></thead><tbody>';
+ lista.forEach(function(o){
+   h+='<tr><td>'+esc(o.n)+((f!=='mio'&&mios[o.k])?' <span class="pill pill-ok">te importa</span>':'')+'</td><td>'+fmtC(o.de)+'</td><td>'+fmtC(o.a)+'</td><td>'+o.dAntes+' → '+o.dAhora+'</td><td>'+pillCambio(o.ch)+'</td></tr>';
+ });
+ h+='</tbody></table></div>';
+ if(total>25) h+='<p><button class="btn" onclick="CAMB.todo=!CAMB.todo;renderCambios()">'+(CAMB.todo?'Mostrar solo los 25 más grandes':'Mostrar los '+total)+'</button></p>';
+ el.innerHTML=h;
+}
+function renderMios(){
+ if(!preciosListos('mios-salida')) return;
+ var a=ahUltima(), b=ahSegunda(), el=document.getElementById('mios-salida'); if(!el) return;
+ var ia=ahIdx(a), lista=Object.keys(ia).filter(function(k){ return ia[k].own; }).map(function(k){ return ia[k]; });
+ if(a.ext){ el.innerHTML='<p class="peq">El extracto no trae la columna «¿Propiedad?». Sube el CSV completo.</p>'; return; }
+ if(!lista.length){ el.innerHTML='<p class="peq">Ninguna fila marcada como tuya en la subida del '+fmtTS(a.ts)+'.</p>'; return; }
+ lista.sort(function(x,y){ return x.n.localeCompare(y.n,'es'); });
+ var hayPrev=b&&!b.ext;
+ var h='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Tus anuncios"><table><thead><tr><th>Objeto</th><th>Precio más bajo</th><th>A la venta (total)</th>'+(hayPrev?'<th>Subida anterior</th><th>Cambio</th>':'')+'</tr></thead><tbody>';
+ lista.forEach(function(e){
+   var pp=hayPrev?precioDe(e.n,b):null;
+   h+='<tr><td>'+esc(e.n)+'</td><td>'+fmtC(e.p)+'</td><td>'+(e.pend||!e.hay?'pendiente':e.d)+'</td>'+
+      (hayPrev?'<td>'+(pp===null?'no estaba':fmtC(pp))+'</td><td>'+pillCambio(pctCambio(pp,e.p))+'</td>':'')+'</tr>';
+ });
+ h+='</tbody></table></div><p class="fuente">Subida del '+fmtTS(a.ts)+badgeEdad(a)+'. '+lista.length+' '+(lista.length===1?'fila marcada':'filas marcadas')+' con «Sí» en «¿Propiedad?».</p>';
+ el.innerHTML=h;
+}
+/* Rotación y oportunidades: usa todas las subidas completas, de más antigua a más reciente.
+   La exportación no dice quién vende ni cuánto se vendió: las unidades que desaparecen
+   entre dos subidas mezclan ventas, anuncios caducados y retirados. */
+function ahCompletas(){
+ return AHB.concat(S.ahs||[]).filter(function(a){ return a&&!a.ext&&Array.isArray(a.d); })
+   .sort(function(a,b){ return num(a.ts)-num(b.ts); });
+}
+function renderOpor(){
+ var el=document.getElementById('opor-salida'); if(!el||!preciosListos('opor-salida')) return;
+ var subs=ahCompletas();
+ if(subs.length<3){ el.innerHTML='<p class="peq">Pendiente: hacen falta al menos 3 subidas completas (hay '+subs.length+').</p>'; return; }
+ var ult=subs[subs.length-1], iu=ahIdx(ult), idxs=subs.map(ahIdx);
+ var pres=Math.round(num(S.sub.pres)*100), com=num(S.sub.com)/100, mios=nombresMios();
+ var f=document.getElementById('opor-f').value, out=[];
+ Object.keys(iu).forEach(function(k){
+   var e=iu[k]; if(e.pend||!e.hay||e.p===null||e.d<=0) return;
+   if(/\(\d+\)$/.test(e.n)) return;               /* equipo con sufijo: cada pieza es distinta */
+   if(f==='mio'&&!mios[k]) return;
+   var hist=[], qs=[], ok=true;
+   idxs.forEach(function(ix){ var h=ix[k]; if(!h||h.p===null||h.pend){ ok=false; return; } hist.push(h.p); qs.push(h.d); });
+   if(!ok) return;
+   var antes=hist.slice(0,-1), ref=antes.length?Math.min.apply(null,antes):null; /* todas las anteriores deben estar por encima: un anuncio caro aislado no cuenta */
+   var salen=0; for(var i=1;i<qs.length;i++) salen+=Math.max(0,qs[i-1]-qs[i]);
+   var compra=e.p*e.d;                               /* mínimo: los demás anuncios pueden ser más caros */
+   if(e.d>30||compra>pres||ref===null||ref<e.p*1.3) return;
+   var gan=ref*e.d*(1-com)-compra;
+   if(gan<=0) return;
+   out.push({n:e.n,k:k,p:e.p,d:e.d,hist:hist,qs:qs,salen:salen,compra:compra,ref:ref,gan:gan});
+ });
+ out.sort(function(a,b){ return b.gan-a.gan; });
+ var h='<p class="peq">'+subs.length+' subidas completas, del '+fmtTS(subs[0].ts)+' al '+fmtTS(ult.ts)+'. Presupuesto: '+fmtC(pres)+' (se cambia en «Tengo para invertir»).</p>';
+ if(!out.length){ el.innerHTML=h+'<p>Nada cumple las condiciones con este presupuesto.</p>'; return; }
+ var tot=out.length; out=out.slice(0,15);
+ h+='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Oportunidades"><table><thead><tr><th>Objeto</th><th>Ahora</th><th>Precio más bajo en cada subida</th><th>A la venta en cada subida</th><th>Comprarlo todo (mínimo)</th><th>Revender a</th><th>Ganancia si se vende todo</th></tr></thead><tbody>';
+ out.forEach(function(o){
+   h+='<tr><td>'+esc(o.n)+(mios[o.k]?' <span class="pill pill-ok">te importa</span>':'')+'</td><td>'+fmtC(o.p)+' ×'+o.d+'</td><td>'+o.hist.map(fmtC).join(' → ')+'</td><td>'+o.qs.join(' → ')+'</td><td>'+fmtC(o.compra)+'</td><td>'+fmtC(o.ref)+'</td><td><strong>'+fmtC(o.gan)+'</strong></td></tr>';
+ });
+ h+='</tbody></table></div>';
+ if(tot>15) h+='<p class="peq">Se muestran 15 de '+tot+', de más a menos ganancia.</p>';
+ el.innerHTML=sinDoble(h);
+}
+function skillDeProf(p){
+ var map={'Minería':'Minería','Ingeniería':'Ingeniería','Primeros auxilios':'Primeros aux.','Cocina':'Cocina','Pesca':'Pesca'};
+ return map[p]||null;
+}
+function veredictoRec(rec,ah){
+ var com=num(S.sub.com)/100, coste=0, falta=false;
+ rec.m.forEach(function(m){
+   var p=precioDe(m[0],ah);
+   if(p===null) falta=true; else coste+=p*m[1];
+ });
+ var pres=precioDe(rec.r,ah);
+ if(pres===null) falta=true;
+ var res={falta:falta,coste:coste};
+ if(falta) return res;
+ res.mat=coste*(1-com);
+ res.trab=pres*rec.c*(1-com);
+ res.dif=res.trab-res.mat;
+ res.rel=res.mat>0?res.dif/res.mat:0;
+ return res;
+}
+function puedesRec(rec){
+ var k=skillDeProf(rec.p);
+ if(!k) return {t:'no es tu profesión',ok:false};
+ var s=num(S.skill[k]);
+ if(s<=0) return {t:'comprueba tu '+rec.p,ok:false};
+ return s>=rec.s?{t:'sí',ok:true}:{t:'no todavía (pide '+rec.s+')',ok:false};
+}
+function renderRecetas(){
+ if(!preciosListos('recetas-tabla')) return;
+ var ah=ahUltima();
+ var h='<table><thead><tr><th>Receta</th><th>Materiales</th><th>Resultado</th><th>¿Vendo o trabajo?</th><th>¿Puedes?</th></tr></thead><tbody>';
+ RECETAS.forEach(function(rec){
+   var v=veredictoRec(rec,ah), p=puedesRec(rec);
+   var vered;
+   if(v.falta||v.mat===undefined) vered='<span class="pill pill-warn">precio pendiente</span>';
+   else if(v.rel>0.10) vered='<span class="pill pill-ok">trabájalo (+'+Math.round(v.rel*100)+'%)</span>';
+   else if(v.rel>=0) vered='<span class="pill pill-warn">casi igual</span>';
+   else vered='<span class="pill pill-bad">vende el material</span>';
+   var mats=rec.m.map(function(m){return esc(m[0])+' ×'+m[1];}).join(' + ');
+   h+='<tr><td>'+esc(rec.n)+'<br><span class="peq">'+esc(rec.p)+' '+rec.s+'</span></td><td>'+mats+'</td><td>'+esc(rec.r)+' ×'+rec.c+'</td><td>'+vered+'</td><td>'+esc(p.t)+'</td></tr>';
+ });
+ h+='</tbody></table>';
+ document.getElementById('recetas-tabla').innerHTML=h;
+}
+function buscar(){
+ if(!preciosListos('bus-salida')) return;
+ var q=document.getElementById('bus-q').value.trim().toLowerCase();
+ var ah=ahUltima(), prev=ahSegunda(), out=[];
+ filas(ah).forEach(function(r){
+   if(q&&String(r[1]).toLowerCase().indexOf(q)>=0) out.push(r);
+ });
+ var h='';
+ if(!q) h='<p class="peq">Escribe un nombre o parte de un nombre.</p>';
+ else if(!out.length) h='<p class="peq">Sin resultados en la subida del '+fmtTS(ah.ts)+'.</p>';
+ else{
+   var totalB=out.length;
+   out.sort(function(a,b){ return num(a[0])-num(b[0]); });
+   out=out.slice(0,25);
+   if(totalB>25) h+='<p class="peq">Se muestran los 25 más baratos de '+totalB+'. Escribe más letras para afinar.</p>';
+   var hayPrev=prev&&!prev.ext;
+   h+='<div class="tscroll"><table><thead><tr><th>Objeto</th><th>Precio</th>'+(hayPrev?'<th>Subida anterior</th><th>Cambio</th>':'')+'<th>Nivel</th><th>Disponible</th><th>Acción</th></tr></thead><tbody>';
+   out.forEach(function(r){
+     var disp=num(r[4])<0?'pendiente':num(r[4]);
+     var pp=hayPrev?precioDe(r[1],prev):null;
+     var colPrev=hayPrev?'<td>'+(pp===null?'no estaba':fmtC(pp))+'</td><td>'+pillCambio(pctCambio(pp,num(r[0])))+'</td>':'';
+     h+='<tr><td>'+esc(r[1])+'</td><td>'+fmtC(r[0])+'</td>'+colPrev+'<td>'+(num(r[2])>0?num(r[2]):'—')+'</td><td>'+disp+'</td>'+
+        '<td><button class="btn" data-n="'+esc(String(r[1]))+'" onclick="buscarUsar(this.dataset.n)">Usar</button></td></tr>';
+   });
+   h+='</tbody></table></div>';
+   if(hayPrev) h+='<p class="peq">Subida anterior: '+fmtTS(prev.ts)+'. Cambio con el precio más bajo de cada una.</p>';
+ }
+ document.getElementById('bus-salida').innerHTML=h;
+}
+function buscarUsar(nombre){
+ var p=precioDe(nombre);
+ document.getElementById('ca-s').value=(p===null?'':(p/100).toFixed(2));
+ document.getElementById('li-obj').value=nombre;
+ document.getElementById('li-pu').value=(p===null?'':(p/100).toFixed(2));
+ showTab('subasta');
+ document.getElementById('bus-q').value=nombre;
+}
+function calcSubasta(){
+ var ps=num(document.getElementById('ca-s').value), pv=num(document.getElementById('ca-v').value);
+ var com=num(S.sub.com)/100, dep=num(S.sub.dep);
+ var netoS=ps*(1-com), netoV=pv;
+ var h='<p>Subasta: cobras <strong>'+fmtC(netoS*100)+'</strong> (menos comisión del '+num(S.sub.com)+'%). '+
+       'Si no se vende, pierdes el depósito de '+fmtC(dep*100)+'.</p>'+
+       '<p>Vendedor: cobras <strong>'+fmtC(netoV*100)+'</strong> al momento, sin comisión ni riesgo.</p>';
+ if(netoS>netoV) h+='<p><span class="pill pill-ok">Mejor la subasta</span> si estás seguro de que se vende.</p>';
+ else if(netoV>netoS) h+='<p><span class="pill pill-ok">Mejor el vendedor</span>.</p>';
+ else h+='<p><span class="pill pill-warn">Lo mismo</span>.</p>';
+ document.getElementById('ca-salida').innerHTML=h;
+}
+function calcFab(){
+ if(!preciosListos('cf-salida')) return;
+ var i=parseInt(document.getElementById('cf-r').value,10)||0;
+ var rec=RECETAS[i], u=Math.max(1,num(document.getElementById('cf-u').value));
+ var v=veredictoRec(rec);
+ var h='';
+ if(v.falta||v.mat===undefined){ h='<p class="peq">Precio pendiente en la subasta para esta receta. Sube un CSV completo.</p>'; }
+ else{
+   var dif=v.dif*u;
+   h='<p>Vender los materiales de '+u+' × '+esc(rec.n)+': <strong>'+fmtC(v.mat*u)+'</strong>.</p>'+
+     '<p>Trabajarlos y vender el resultado: <strong>'+fmtC(v.trab*u)+'</strong>.</p>';
+   if(dif>0&&v.rel>0.10) h+='<p><span class="pill pill-ok">Trabájalo: gana '+fmtC(dif)+'</span></p>';
+   else if(dif>0) h+='<p><span class="pill pill-warn">Casi igual: +'+fmtC(dif)+'</span></p>';
+   else h+='<p><span class="pill pill-bad">Vende el material: '+fmtC(dif)+'</span></p>';
+   var p=puedesRec(rec);
+   h+='<p class="peq">¿Puedes? '+esc(p.t)+'.</p>';
+ }
+ document.getElementById('cf-salida').innerHTML=h;
+}
+/* Cálculo del plan (sin pintar). Lo usan Comercio y Hoy. */
+function planCalc(ah){
+ ah=ah||ahUltima();
+ var presupuesto=Math.round(num(S.sub.pres)*100);
+ var cand=[];
+ RECETAS.forEach(function(rec){
+   var p=puedesRec(rec);
+   if(p.t==='no es tu profesión') return;
+   if(p.t.indexOf('no todavía')===0) return;
+   var v=veredictoRec(rec,ah);
+   if(v.falta||v.mat===undefined||v.coste<=0) return;
+   /* Ganancia de invertir: lo que cobras (ya sin comisión) menos lo que pagas por los materiales. */
+   var gan=v.trab-v.coste;
+   if(gan<=0) return;
+   cand.push({rec:rec,unidad:v.coste,gan:gan,cobra:v.trab,sinComprobar:!p.ok});
+ });
+ cand.sort(function(a,b){ return (b.gan/b.unidad)-(a.gan/a.unidad); });
+ var resta=presupuesto, pasos=[], avisoCap=false, avisoMat=false, sinDisp=false, sinComprobar=false;
+ cand.forEach(function(c){
+   var u=Math.floor(resta/c.unidad);
+   if(u<=0) return;
+   var dr=dispDe(c.rec.r,ah);
+   if(dr===null) sinDisp=true;
+   else{ var cap=Math.floor(dr*0.15/c.rec.c); if(u>cap){ u=cap; avisoCap=true; } }
+   c.rec.m.forEach(function(m){
+     var dm=dispDe(m[0],ah);
+     if(dm===null){ sinDisp=true; return; }
+     var lim=Math.floor(dm/m[1]); if(u>lim){ u=lim; avisoMat=true; }
+   });
+   if(u<=0) return;
+   var coste=u*c.unidad;
+   pasos.push({rec:c.rec,u:u,coste:coste,gan:c.gan*u,cobra:c.cobra*u});
+   if(c.sinComprobar) sinComprobar=true;
+   resta-=coste;
+ });
+ var inv=pasos.reduce(function(s,p){return s+p.coste;},0), cob=pasos.reduce(function(s,p){return s+p.cobra;},0);
+ return {ah:ah,presupuesto:presupuesto,pasos:pasos,inv:inv,cob:cob,resta:resta,avisoCap:avisoCap,avisoMat:avisoMat,sinDisp:sinDisp,sinComprobar:sinComprobar};
+}
+function planHacer(){
+ if(!preciosListos('plan-salida')) return;
+ var P=planCalc(), ah=P.ah, presupuesto=P.presupuesto, pasos=P.pasos, resta=P.resta;
+ var avisoCap=P.avisoCap, avisoMat=P.avisoMat, sinDisp=P.sinDisp, sinComprobar=P.sinComprobar;
+ var h='';
+ if(!pasos.length){ h='<p><span class="pill pill-bad">No inviertas hoy</span>: ninguna receta que puedas hacer da beneficio con '+fmtC(presupuesto)+' y la subida del '+fmtTS(ah.ts)+'.</p>'; }
+ else{
+   h='<p class="peq">Plan con '+fmtC(presupuesto)+' y la subida del '+fmtTS(ah.ts)+badgeEdad(ah)+'</p><ul>';
+   pasos.forEach(function(p){
+     var mats=p.rec.m.map(function(m){return esc(m[0])+' ×'+(m[1]*p.u);}).join(' + ');
+     h+='<li>Comprar '+mats+' ('+fmtC(p.coste)+') → fabricar '+(p.u*p.rec.c)+' × '+esc(p.rec.r)+'. Ganancia: <strong>'+fmtC(p.gan)+'</strong>.</li>';
+   });
+   var inv=P.inv, cob=P.cob;
+   h+='</ul><p>Inviertes '+fmtC(inv)+'. Recuperas <strong>'+fmtC(cob)+'</strong> (comisión ya quitada). Ganancia total: <strong>'+fmtC(cob-inv)+'</strong>. Sobra sin invertir: '+fmtC(resta)+'.</p>';
+   var avisos=[];
+   if(ah.ext) avisos.push('extracto parcial: faltan precios y disponibilidades de la subida completa (2.991 objetos)');
+   if(avisoCap) avisos.push('se ha limitado al 15 % de lo que hay a la venta del resultado, para no hundir el precio');
+   if(avisoMat) avisos.push('se ha limitado a los materiales que hay a la venta');
+   if(sinDisp) avisos.push('disponibilidad pendiente: el límite del 15 % no se ha podido aplicar en todo');
+   if(sinComprobar) avisos.push('hay recetas con la habilidad sin apuntar: comprueba que puedes hacerlas');
+   avisos.push('se usa el precio más bajo de cada material: si compras muchos, los últimos pueden salir más caros');
+   avisos.push('riesgo: no vender (se pierde el depósito de '+fmtC(num(S.sub.dep)*100)+' por anuncio) o que los precios hayan cambiado desde la subida');
+   h+='<p class="peq">Avisos: '+avisos.join('; ')+'.</p>';
+ }
+ document.getElementById('plan-salida').innerHTML=sinDoble(h);
+}
+function libroAdd(){
+ var obj=document.getElementById('li-obj').value.trim();
+ if(!obj) return;
+ S.sub.libro.push({id:'l'+Date.now(),f:hoyISO(),tipo:document.getElementById('li-tipo').value,
+   obj:obj,cant:Math.max(1,num(document.getElementById('li-cant').value)),pu:num(document.getElementById('li-pu').value)});
+ save(); document.getElementById('li-obj').value='';
+ renderLibro(); renderCambios();
+}
+function renderLibro(){
+ var h='';
+ if(!S.sub.libro.length) h='<p class="peq">Sin movimientos apuntados.</p>';
+ else{
+   h='<div class="tscroll"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Objeto</th><th>Cant.</th><th>Precio u.</th><th>Acción</th></tr></thead><tbody>';
+   S.sub.libro.slice().reverse().forEach(function(l){
+     var idx=S.sub.libro.indexOf(l);
+     h+='<tr><td>'+esc(l.f||'')+'</td><td>'+esc(l.tipo||'')+'</td><td>'+esc(l.obj)+'</td><td>'+num(l.cant)+'</td><td>'+num(l.pu)+' pl.</td>'+
+        '<td><button class="btn" onclick="confirma(this,\'libroDel\','+idx+')">Quitar</button></td></tr>';
+   });
+   h+='</tbody></table></div>';
+ }
+ document.getElementById('libro-lista').innerHTML=h;
+ var lt=document.getElementById('libro-total'); if(!lt) return;
+ if(!S.sub.libro.length){ lt.innerHTML=''; return; }
+ var com=num(S.sub.com)/100, gasto=0, ventas=0;
+ S.sub.libro.forEach(function(l){ var t=num(l.cant)*num(l.pu)*100; if(l.tipo==='compra') gasto+=t; else ventas+=t; });
+ var neto=ventas*(1-com);
+ lt.innerHTML=sinDoble('<p>Compras: <strong>'+fmtC(gasto)+'</strong>. Ventas: <strong>'+fmtC(ventas)+'</strong> (quitando la comisión del '+num(S.sub.com)+'%: '+fmtC(neto)+'). Balance: <strong>'+fmtC(neto-gasto)+'</strong>.</p>'+
+   '<p class="peq">El balance no cuenta depósitos perdidos ni lo que vendiste al vendedor (ahí no hay comisión).</p>');
+}
+function libroDel(i){ if(i>=0&&i<S.sub.libro.length){ S.sub.libro.splice(i,1); save(); renderLibro(); renderCambios(); } }
+
+/* ============ Diario ============ */
+function diarioAdd(){
+ var f=document.getElementById('di-f').value;
+ if(!f){ document.getElementById('di-f').focus(); return; }
+ S.diario.push({id:'d'+Date.now(),f:f,nv:num(document.getElementById('di-nv').value)||num(S.pj.nivel),oro:num(document.getElementById('di-oro').value),
+   zona:document.getElementById('di-zona').value,t:document.getElementById('di-t').value});
+ save();
+ document.getElementById('di-t').value='';
+ renderDiario();
+}
+function renderDiario(){
+ var h='';
+ if(!S.diario.length) h='<p class="peq">Sin entradas todavía.</p>';
+ else{
+   h='<div class="tscroll"><table><thead><tr><th>Fecha</th><th>Nv.</th><th>Plata</th><th>Zona</th><th>Notas</th><th>Acción</th></tr></thead><tbody>';
+   S.diario.slice().reverse().forEach(function(d){
+     var idx=S.diario.indexOf(d);
+     h+='<tr><td>'+esc(d.f||'')+'</td><td>'+num(d.nv)+'</td><td>'+num(d.oro)+'</td><td>'+esc(d.zona||'')+'</td><td>'+esc(d.t||'')+'</td>'+
+        '<td><button class="btn" onclick="confirma(this,\'diarioDel\','+idx+')">Quitar</button></td></tr>';
+   });
+   h+='</tbody></table></div>';
+ }
+ document.getElementById('diario-lista').innerHTML=h;
+}
+function diarioDel(i){ if(i>=0&&i<S.diario.length){ S.diario.splice(i,1); save(); renderDiario(); } }
+
+function exportar(){ document.getElementById('ex-salida').value=JSON.stringify(S); }
+function copiarTodo(){
+ var ta=document.getElementById('ex-salida');
+ if(!ta.value) exportar();
+ ta.select();
+ var ok=function(){ msg('copia-msg','Copiado al portapapeles.'); };
+ var ko=function(){ msg('copia-msg','No se ha podido copiar solo: el texto está seleccionado, cópialo a mano.','warnL'); };
+ try{
+   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ta.value).then(ok,ko); }
+   else if(document.execCommand&&document.execCommand('copy')) ok(); else ko();
+ }catch(e){ ko(); }
+}
+function descargar(){
+ exportar();
+ try{
+   var b=new Blob([document.getElementById('ex-salida').value],{type:'application/json'});
+   var a=document.createElement('a'), url=URL.createObjectURL(b);
+   a.href=url; a.download='la-barbarie-copia-'+hoyISO()+'.json';
+   document.body.appendChild(a); a.click(); a.remove();
+   setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} },2000);
+   msg('copia-msg','Copia descargada: la-barbarie-copia-'+hoyISO()+'.json');
+ }catch(e){ msg('copia-msg','No se ha podido descargar: copia el texto de arriba.','warnL'); }
+}
+function importarArchivo(inp){
+ var f=inp.files&&inp.files[0]; if(!f) return;
+ var rd=new FileReader();
+ rd.onload=function(){ document.getElementById('im-entrada').value=String(rd.result); inp.value=''; msg('im-msg','Archivo cargado. Pulsa «Importar» para sustituir los datos.'); };
+ rd.onerror=function(){ inp.value=''; msg('im-msg','No se ha podido leer el archivo.','badL'); };
+ rd.readAsText(f,'UTF-8');
+}
+function importarAhora(){
+ var txt=document.getElementById('im-entrada').value.trim();
+ if(!txt){ msg('im-msg','No hay nada que importar: pega una copia o carga un archivo.','warnL'); return; }
+ var raw;
+ try{ raw=JSON.parse(txt); }catch(e){ msg('im-msg','La copia no es válida (no es JSON). No se ha cambiado nada.','badL'); return; }
+ if(!raw||typeof raw!=='object'||Array.isArray(raw)){ msg('im-msg','La copia no es válida. No se ha cambiado nada.','badL'); return; }
+ S=norm(raw); save();
+ pintaTodo();
+ document.getElementById('im-entrada').value='';
+ msg('im-msg','Copia importada.');
+}
+
+/* ============ Tablón y compañeros ============ */
+function tablonSave(){ S.tablon=document.getElementById('tablon').value; save(); }
+function fichaHTML(k){
+ var c=S.compis[k];
+ var selC=CLASES.map(function(cl,i){return '<option value="'+i+'"'+(num(c.clase)===i?' selected':'')+'>'+esc(cl)+'</option>';}).join('');
+ var selR=RAZAS.map(function(r,i){return '<option value="'+i+'"'+(num(c.raza)===i?' selected':'')+'>'+esc(r)+'</option>';}).join('');
+ var h='<div class="card">';
+ h+='<div class="grid g2">'+
+   '<div><label for="c-'+k+'-nombre">Nombre y apellido</label><input id="c-'+k+'-nombre" value="'+esc(c.nombre)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-clase">Clase</label><select id="c-'+k+'-clase" onchange="compiSave(\''+k+'\')">'+selC+'</select></div>'+
+   '<div><label for="c-'+k+'-raza">Raza</label><select id="c-'+k+'-raza" onchange="compiSave(\''+k+'\')">'+selR+'</select></div>'+
+   '<div><label for="c-'+k+'-nivel">Nivel</label><input id="c-'+k+'-nivel" type="number" min="1" max="60" value="'+num(c.nivel)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-rama">Rama</label><input id="c-'+k+'-rama" value="'+esc(c.rama)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-p1">Profesión 1</label><input id="c-'+k+'-p1" value="'+esc(c.p1)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-s1">Habilidad prof. 1</label><input id="c-'+k+'-s1" type="number" min="0" max="300" value="'+num(c.s1)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-p2">Profesión 2</label><input id="c-'+k+'-p2" value="'+esc(c.p2)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-s2">Habilidad prof. 2</label><input id="c-'+k+'-s2" type="number" min="0" max="300" value="'+num(c.s2)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-pa">Primeros aux. (0-300)</label><input id="c-'+k+'-pa" type="number" min="0" max="300" value="'+num(c.pa)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-coc">Cocina (0-300)</label><input id="c-'+k+'-coc" type="number" min="0" max="300" value="'+num(c.coc)+'" onchange="compiSave(\''+k+'\')"></div>'+
+   '<div><label for="c-'+k+'-pes">Pesca (0-300)</label><input id="c-'+k+'-pes" type="number" min="0" max="300" value="'+num(c.pes)+'" onchange="compiSave(\''+k+'\')"></div>'+
+ '</div>';
+ h+='<label for="c-'+k+'-necesita">Qué necesita</label><textarea id="c-'+k+'-necesita" onchange="compiSave(\''+k+'\')">'+esc(c.necesita)+'</textarea>';
+ h+='<label for="c-'+k+'-dar">Qué darle</label><textarea id="c-'+k+'-dar" onchange="compiSave(\''+k+'\')">'+esc(c.dar)+'</textarea>';
+ h+='<h3 style="margin-top:16px">Equipo por hueco</h3>';
+ HUECOS.forEach(function(sl){
+   h+='<label for="c-'+k+'-eq-'+esc(sl)+'">'+esc(sl)+'</label>'+
+      '<input id="c-'+k+'-eq-'+esc(sl)+'" value="'+esc(c.eq[sl]||'')+'" onchange="compiEq(\''+k+'\',\''+esc(sl)+'\',this.value)">';
+ });
+ h+='</div>';
+ return h;
+}
+function renderResumen(){
+ var el=document.getElementById('her-resumen'); if(!el) return;
+ var filasR=[[S.pj.nombre||'Fissel Kasteaya','Chamán',num(S.pj.nivel)]];
+ [['tower','Towerbrünnen'],['mortem','Mortem Freeman'],['woldrik','Woldrik Wulf']].forEach(function(c){
+   var d=S.compis[c[0]];
+   filasR.push([String(d.nombre||'').trim()||c[1], num(d.clase)?CLASES[num(d.clase)]:null, num(d.nivel)||null]);
+ });
+ var h='<div class="tscroll" tabindex="0" role="region" aria-label="Tabla: Personajes"><table><thead><tr><th>Personaje</th><th>Clase</th><th>Nivel</th></tr></thead><tbody>';
+ var niveles=[];
+ filasR.forEach(function(f){
+   if(f[2]) niveles.push(f[2]);
+   h+='<tr><td>'+esc(f[0])+'</td><td>'+(f[1]?esc(f[1]):'pendiente')+'</td><td>'+(f[2]?f[2]:'pendiente')+'</td></tr>';
+ });
+ h+='</tbody></table></div>';
+ if(niveles.length>1) h+='<p class="peq">Niveles apuntados: del '+Math.min.apply(null,niveles)+' al '+Math.max.apply(null,niveles)+' ('+niveles.length+' de 4 personajes).</p>';
+ el.innerHTML=h;
+}
+function pintaCompis(){
+ ['tower','mortem','woldrik'].forEach(function(k){
+   var el=document.getElementById('ficha-'+k);
+   if(el) el.innerHTML=fichaHTML(k);
+ });
+}
+function compiSave(k){
+ var c=S.compis[k];
+ c.nombre=document.getElementById('c-'+k+'-nombre').value;
+ c.clase=num(document.getElementById('c-'+k+'-clase').value);
+ c.raza=num(document.getElementById('c-'+k+'-raza').value);
+ c.nivel=num(document.getElementById('c-'+k+'-nivel').value);
+ c.rama=document.getElementById('c-'+k+'-rama').value;
+ c.p1=document.getElementById('c-'+k+'-p1').value;
+ c.s1=num(document.getElementById('c-'+k+'-s1').value);
+ c.p2=document.getElementById('c-'+k+'-p2').value;
+ c.s2=num(document.getElementById('c-'+k+'-s2').value);
+ c.pa=num(document.getElementById('c-'+k+'-pa').value);
+ c.coc=num(document.getElementById('c-'+k+'-coc').value);
+ c.pes=num(document.getElementById('c-'+k+'-pes').value);
+ c.necesita=document.getElementById('c-'+k+'-necesita').value;
+ c.dar=document.getElementById('c-'+k+'-dar').value;
+ save(); renderResumen(); renderHoy();
+}
+function compiEq(k,sl,v){ S.compis[k].eq[sl]=v; save(); }
+
+/* ============ Arranque ============ */
+function pintaTodo(){
+ aplicaFs();
+ showSec(S.sec||'inicio');
+ showTab(S.tab||'hoy');
+ pintaPj(); pintaProf(); pintaSubReglas(); pintaCompis();
+ document.getElementById('tablon').value=S.tablon||'';
+ renderHoy(); renderEquipo(); renderAlm(); renderOro();
+ renderSubidas(); renderCambios(); renderMios(); renderOpor(); renderRecetas(); renderLibro();
+ renderDiario(); renderResumen();
+ var sel=document.getElementById('cf-r');
+ sel.innerHTML=RECETAS.map(function(r,i){return '<option value="'+i+'">'+esc(r.n)+'</option>';}).join('');
+ var hoy=hoyISO();
+ document.getElementById('oro-f').value=hoy; document.getElementById('di-f').value=hoy;
+}
+load();
+leeHash();
+pintaTodo();
+avisoDatos();
+cargaSubidas().then(function(fallan){
+ DATOS.fallan=fallan;
+ if(fallan.length) AHB=AHB.filter(function(a){ return fallan.indexOf(a)<0; });
+ DATOS.listo=true;
+ document.documentElement.setAttribute('data-precios',fallan.length?'incompletos':'listos');
+ avisoDatos();
+ refrescaPrecios();
+}).catch(function(e){ errorInesperado('Al pintar los precios: '+String((e&&e.message)||e)); });
+window.addEventListener('hashchange',function(){ if(leeHash()){ showSec(S.sec); showTab(S.tab); } });
+</script>
+</body>
+</html>

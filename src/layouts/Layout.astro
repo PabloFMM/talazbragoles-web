@@ -1,202 +1,130 @@
 ---
 /**
- * Layout compartido para toda la web.
- * Objetivo: consistencia visual + SEO + accesibilidad + navegación.
+ * Layout compartido para toda la web (sistema «Papel y tinta»).
+ * Cabecera con el logotipo tipográfico, índice sin JS (Indice.astro: botón «Menú»
+ * con <details> en móvil, fila en escritorio) y pie. Tokens y componentes: src/styles/sistema.css.
+ * Documentación: proyecto/docs/diseno.md · Muestrario: /diseno/
  *
- * Nota de rigor:
- * - Esta web intenta ser un archivo. Cuando algo no es verificable, se marca como "Pendiente de documentar".
+ * Nota de rigor: esta web es un archivo. Lo no verificable se marca «pendiente».
  */
 
 import "../styles/global.css";
-import { mainNav, type NavItem } from "../lib/nav";
+import Logo from "../components/sistema/Logo.astro";
+import Indice from "../components/sistema/Indice.astro";
+import { mainNav } from "../lib/nav";
 
 interface Props {
-  title?: string;
-  description?: string;
+  /** Título de la página; se le añade « · Talazbrágoles» si no lleva ya la marca. */
+  title: string;
+  description: string;
+  /** Ruta canónica. Por defecto, la de la página sin barra final (/fuentes/ → /fuentes). */
   canonicalPath?: string;
-  nav?: NavItem[];
+  /** Páginas internas (p. ej. /diseno/): no indexar. */
+  noindex?: boolean;
 }
 
-const {
-  title = "TALAZBRÁGOLES",
-  description = "Web oficial del legado de las Talazbrágoles: un archivo vivo de recuerdos, fuentes y documentación rolera.",
-  canonicalPath = "/",
-  nav = mainNav,
-} = Astro.props;
+const { title, description, canonicalPath, noindex = false } = Astro.props;
 
-const siteUrl = Astro.site ? new URL(Astro.site) : new URL("https://talazbragoles-web.vercel.app");
-const canonical = new URL(canonicalPath, siteUrl).toString();
+const MARCA = "Talazbrágoles";
+const siteUrl = Astro.site ?? new URL("https://www.talazbragoles.com");
+const ruta = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const canonical = new URL(canonicalPath ?? ruta, siteUrl).toString();
 
-const ogTitle = title.includes("TALAZBRÁGOLES") ? title : `${title} · TALAZBRÁGOLES`;
-const ogImage = new URL("/og.png", siteUrl).toString(); // TODO: añadir imagen real en /public/og.png
+// Sin la marca repetida: «Talazbrágoles — 5ª edición» no lleva « · Talazbrágoles» (sin mirar mayúsculas ni tildes).
+const llano = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+const tituloCompleto = llano(title).includes(llano(MARCA)) ? title : `${title} · ${MARCA}`;
+// Imagen para redes: generada con proyecto/tools/og-imagen.mjs (1200 × 630, solo tipografía).
+const ogImage = new URL("/og.png", siteUrl).toString();
+const ogImageAlt = "Talazbrágoles · Archivo de las Jornadas, en tinta negra sobre papel claro.";
+
 ---
 
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <title>{ogTitle}</title>
+    <title>{tituloCompleto}</title>
     <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
     <meta name="keywords" content="Talazbrágoles,Talazbragoles,jornadas,rol,simulación,Las Rozas,Majadahonda,Las Matas,archivo,nostalgia,90s" />
+    <meta name="theme-color" content="#f4f0e6" />
+
+    <link rel="preload" href="/fonts/archivo-wdth-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/source-serif-4-opsz-wght.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={ogTitle} />
+    <meta property="og:site_name" content={MARCA} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={tituloCompleto} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:title" content={tituloCompleto} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-
-    <!--
-      SEO extra (pendiente):
-      - sitemap.xml y robots.txt se suelen servir como rutas estáticas (src/pages/sitemap.xml.ts y public/robots.txt).
-      - En este encargo solo devolvemos 3 archivos, pero el Layout ya está listo para ello.
-    -->
-
-    <style is:global>
-      /* Anclas: evitar que la navbar tape títulos al hacer scroll. */
-      :root { --nav-offset: 96px; }
-      section[id] { scroll-margin-top: var(--nav-offset); }
-
-      /*
-        Estilo "fanzine / periódico" (B/N) con textura.
-        - Nada de dorados: tinta, papel, fotocopia y un toque de "glitch" en sombras.
-      */
-      :root {
-        --paper: #f4f0e6;
-        --paper-2: #efe9db;
-        --ink: #0f0f10;
-        --ink-2: rgba(15, 15, 16, 0.72);
-        --line: rgba(15, 15, 16, 0.18);
-        --line-2: rgba(15, 15, 16, 0.10);
-        --accent: #00f5d4; /* cyberpunk muy sutil (solo estados interactivos) */
-      }
-
-      body {
-        background: radial-gradient(1200px 800px at 20% 10%, var(--paper-2), var(--paper)),
-          repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 6px);
-        color: var(--ink);
-      }
-
-      /* Capa de ruido: SVG inline muy ligero (no bloquea interacción). */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0.18;
-        mix-blend-mode: multiply;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-        background-size: 240px 240px;
-      }
-
-      /* Todo el contenido debe ir por encima del ruido. */
-      body > * { position: relative; z-index: 1; }
-
-      /* Scroll suave solo si el usuario no pide reducir movimiento. */
-      @media (prefers-reduced-motion: reduce) {
-        html { scroll-behavior: auto !important; }
-        * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-      }
-
-      /* Mejoras de accesibilidad: resumen (details) sin marcador por defecto. */
-      summary::-webkit-details-marker { display: none; }
-    </style>
+    <meta name="twitter:image:alt" content={ogImageAlt} />
   </head>
 
-  <body class="overflow-x-hidden font-sans selection:bg-black selection:text-white">
-    <a
-      href="#contenido"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:rounded-2xl focus:border focus:border-amber-400/40 focus:bg-[#0a1f18] focus:px-4 focus:py-3 focus:text-amber-200"
-    >
-      Saltar al contenido
-    </a>
+  <body>
+    <a href="#contenido" class="tz-saltar">Saltar al contenido</a>
 
-    <!-- NAVBAR: estilo cartel 90s, sticky y accesible -->
-    <nav class="bg-[color:var(--paper)]/85 backdrop-blur border-b border-[color:var(--line)] py-4 sticky top-0 z-50">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 flex justify-between items-center gap-4">
-        <a href="/#top" class="text-lg sm:text-2xl font-black tracking-[0.18em] uppercase text-[color:var(--ink)] whitespace-nowrap">
-          TALAZBRÁGOLES
-        </a>
-
-        <!-- Desktop -->
-        <div class="hidden md:flex gap-7 text-xs uppercase font-semibold tracking-[0.22em]">
-          {nav.map((item) => (
-            <a
-              href={item.href}
-              class="text-[color:var(--ink)]/90 hover:text-[color:var(--ink)] underline-offset-8 hover:underline decoration-[color:var(--line)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)] rounded"
-            >
-              {item.label}
-            </a>
-          ))}
+    <header class="tz-cabecera">
+      <div class="tz-pagina">
+        <div class="tz-cabecera-fila">
+          <Logo />
         </div>
 
-        <!-- Mobile (sin JS): <details>/<summary> accesible -->
-        <details class="md:hidden relative">
-          <summary
-            class="list-none cursor-pointer select-none rounded-xl border border-[color:var(--line)] bg-white/55 px-4 py-2 text-[0.7rem] uppercase tracking-[0.24em] text-[color:var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
-            aria-label="Abrir menú"
-          >
-            Menú
-          </summary>
-          <div
-            class="absolute right-0 mt-3 w-72 rounded-2xl border border-[color:var(--line)] bg-[color:var(--paper)] p-3 shadow-[0_18px_55px_rgba(0,0,0,0.25)]"
-          >
-            <div class="flex flex-col gap-1 text-xs uppercase tracking-[0.22em]">
-              {nav.map((item) => (
-                <a
-                  href={item.href}
-                  class="rounded-xl px-3 py-2 text-[color:var(--ink)]/90 hover:text-[color:var(--ink)] hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </details>
+        <Indice ruta={ruta} />
       </div>
-    </nav>
+    </header>
 
     <main id="contenido">
       <slot />
     </main>
 
-    <!-- PIE: cálido, con rigor -->
-    <footer class="border-t border-[color:var(--line)] bg-[color:var(--paper)]">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div>
-            <div class="text-xs uppercase tracking-[0.28em] text-[color:var(--ink)]/80">Archivo vivo</div>
-            <p class="mt-3 text-[color:var(--ink)]/80 leading-relaxed max-w-2xl">
-              Esto es memoria, pero también método: si no hay fuente, lo decimos. Si falta un dato, lo pedimos.
-              Si tienes material (programas, carteles, fotos, recortes), aquí lo cuidamos.
-            </p>
-          </div>
+    <footer class="tz-pie">
+      <div class="tz-pagina">
+        <div class="tz-pie-cols">
+          <section aria-labelledby="pie-metodo">
+            <h2 id="pie-metodo">El método</h2>
+            <p>Esto es memoria, pero también método: si no hay fuente, lo decimos. Si falta un dato, lo pedimos.</p>
+          </section>
 
-          <div class="flex flex-col gap-3">
-            <a
-              href="/fuentes"
-              class="inline-flex items-center justify-center rounded-xl border border-[color:var(--line)] bg-white/60 px-5 py-3 text-[0.7rem] uppercase tracking-[0.24em] text-[color:var(--ink)] hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--paper)]"
-            >
-              Ver fuentes
-            </a>
-            <div class="text-xs text-[color:var(--ink)]/60 tracking-widest">
-              Hecho con dados y nostalgia.
-            </div>
-          </div>
+          <nav aria-labelledby="pie-indice">
+            <h2 id="pie-indice">Índice</h2>
+            <ul class="tz-pie-indice">
+              {mainNav.map((item) => (
+                <li><a href={item.href}>{item.label}</a></li>
+              ))}
+            </ul>
+          </nav>
+
+          <section aria-labelledby="pie-tipos">
+            <h2 id="pie-tipos">Tipografía</h2>
+            <p>
+              Archivo y Source Serif 4, tipos de licencia libre
+              (<a href="/fonts/OFL-Archivo.txt">SIL OFL 1.1</a>).
+            </p>
+          </section>
+        </div>
+
+        <div class="tz-pie-final">
+          <span>Talazbrágoles · Archivo de las Jornadas</span>
+          <span>Hecho con dados y nostalgia</span>
         </div>
       </div>
     </footer>
   </body>
 </html>
-

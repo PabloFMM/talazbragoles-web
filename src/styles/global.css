@@ -1,1 +1,3 @@
-@import "tailwindcss";
+/* Hoja única del sitio: reinicio mínimo + sistema «Papel y tinta» (sin Tailwind). */
+@import "./reset.css";
+@import "./sistema.css";

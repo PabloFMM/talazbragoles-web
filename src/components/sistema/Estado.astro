@@ -1,0 +1,12 @@
+---
+/**
+ * Estado documental (mismos valores que el esquema de ediciones).
+ * Círculo lleno = documentada, medio = parcial, vacío = pendiente; siempre con texto.
+ */
+import { estadoDocumental, type EstadoDocumental } from "../../lib/formato";
+interface Props {
+  estado: EstadoDocumental;
+}
+const { estado } = Astro.props;
+---
+<span class:list={["tz-estado", `tz-estado--${estado}`]}>{estadoDocumental[estado]}</span>

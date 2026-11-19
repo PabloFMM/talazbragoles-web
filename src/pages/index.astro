@@ -1,37 +1,92 @@
 ---
 /**
- * Página principal.
- * Tono: cálido y nostálgico, pero con rigor documental.
- * Regla de oro: si no hay fuente verificable, no se afirma como hecho.
+ * Portada: el Archivo de las Jornadas (PabloFM, 2026-11-15).
+ * 1) UNA frase que dice qué fueron las Jornadas, sacada de las fuentes del archivo.
+ * 2) Las ediciones por año.
+ * 3) Con menos peso: cronología, fuentes, sistemas y personas.
+ * Regla de oro: si no hay fuente verificable, no se afirma; lo que falta, «pendiente».
  */
-
 import Layout from "../layouts/Layout.astro";
-import Hero from "../components/home/Hero.astro";
-import HistoriaSection from "../components/home/HistoriaSection.astro";
-import EdicionesPreview from "../components/home/EdicionesPreview.astro";
-import RecuerdosSection from "../components/home/RecuerdosSection.astro";
-import LegadoSection from "../components/home/LegadoSection.astro";
-import { homeNav } from "../lib/nav";
-import { getAllEditions, getAllSources } from "../lib/collections";
+import Titulo from "../components/sistema/Titulo.astro";
+import Pendiente from "../components/sistema/Pendiente.astro";
+import RegistroEdiciones from "../components/archivo/RegistroEdiciones.astro";
+import {
+  getAllEditions, getAllSources, getAllTimeline, getAllPeople, getAllSystems,
+} from "../lib/collections";
+import { anclaFuente, plural } from "../lib/formato";
 
-const editions = await getAllEditions();
-const sources  = await getAllSources();
+const ediciones = await getAllEditions();
+const fuentes = await getAllSources();
+const cronologia = await getAllTimeline();
+const personas = await getAllPeople();
+const sistemas = await getAllSystems();
+
+// La frase de portada sale de esta fuente (reseña de La Runa en Rol de los 90).
+const FUENTE_FRASE = "rol-de-los-90-la-runa-2018";
+const fuenteFrase = fuentes.find((f) => f.id === FUENTE_FRASE);
+const mencionan = fuentes.filter((f) => f.data.tags.includes("menciona Talazbrágoles")).length;
 
 const description =
-  "El legado de las Talazbrágoles: una web-archivo para conservar recuerdos roleros con cariño, rigor y fuentes.";
+  "Archivo de las Jornadas Talazbrágoles, jornadas de rol: ediciones por año, cronología y fuentes. Solo lo que tiene fuente; lo demás, pendiente.";
 ---
 
-<Layout
-  title="TALAZBRÁGOLES · El legado"
-  description={description}
-  canonicalPath="/"
-  nav={homeNav}
->
-  <div id="top" class="relative">
-    <Hero />
-    <HistoriaSection />
-    <EdicionesPreview editions={editions} />
-    <RecuerdosSection sources={sources} />
-    <LegadoSection />
+<Layout title="Archivo de las Jornadas" description={description}>
+  <div class="tz-pagina">
+    <header class="tz-encabezado">
+      <p class="tz-antetitulo"><span class="tz-num">01</span><span>Qué fueron las Jornadas</span></p>
+      <h1 class="tz-portada-frase">
+        Las Talazbrágoles fueron unas jornadas de rol: su 5ª edición, en Las Rozas (Madrid) el 13 y 14 de abril de 1996, reunió a unas 700 personas en partidas, campeonatos y charlas.
+      </h1>
+      <p class="tz-ref tz-portada-ref">
+        Fuente: {fuenteFrase
+          ? <a href={anclaFuente(FUENTE_FRASE)}>{fuenteFrase.data.title}</a>
+          : <Pendiente />}, que reseña la crónica del periódico La Runa. Es una fuente secundaria y el año se deduce de la fecha del periódico.
+        Cuándo empezaron y cuándo terminaron las Jornadas: <Pendiente />.
+      </p>
+    </header>
+
+    <section class="tz-seccion" aria-labelledby="s-ediciones">
+      <Titulo id="s-ediciones" numero="01">Ediciones</Titulo>
+      <p class="tz-medida" style="margin:0 0 var(--e-6)">
+        Por año. Cada una con su estado documental; lo que no dice ninguna fuente aparece como <Pendiente />.
+      </p>
+      {ediciones.length > 0 ? (
+        <RegistroEdiciones ediciones={ediciones} />
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna edición registrada." /></div>
+      )}
+      <p class="tz-recuento tz-medida">
+        La crónica habla de una 5ª edición; de las cuatro anteriores y de las que vinieran después no hay datos: <Pendiente />.
+      </p>
+      <div class="tz-acciones">
+        <a class="tz-boton tz-boton--tinta" href="/ediciones">Todas las ediciones</a>
+      </div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-archivo">
+      <Titulo id="s-archivo" numero="02">Más del archivo</Titulo>
+      <ul class="tz-resumen">
+        <li>
+          <h3>Cronología</h3>
+          <p>{plural(cronologia.length, "entrada fechada", "entradas fechadas")}: la 5ª edición y los testimonios publicados después.</p>
+          <a class="tz-enlace-bloque" href="/cronologia"><span>Ver la cronología</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Fuentes</h3>
+          <p>{plural(fuentes.length, "fuente", "fuentes")}; {mencionan} nombran las Talazbrágoles. Cada una con lo que dice y lo que no.</p>
+          <a class="tz-enlace-bloque" href="/fuentes"><span>Ver las fuentes</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Sistemas</h3>
+          <p>{sistemas.length ? plural(sistemas.length, "sistema documentado", "sistemas documentados") : <>Qué juegos de rol se jugaron: <Pendiente />.</>}</p>
+          <a class="tz-enlace-bloque" href="/sistemas"><span>Ver sistemas</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Personas</h3>
+          <p>{personas.length ? plural(personas.length, "persona", "personas") : <>Quién organizó las Jornadas: <Pendiente />.</>}</p>
+          <a class="tz-enlace-bloque" href="/personas"><span>Ver personas</span><span aria-hidden="true">›</span></a>
+        </li>
+      </ul>
+    </section>
   </div>
 </Layout>

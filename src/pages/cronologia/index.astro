@@ -1,67 +1,82 @@
 ---
+/** /cronologia/: entradas fechadas de la colección «timeline», de la más antigua a la más reciente. */
+import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import { mainNav } from "../../lib/nav";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
 import { getAllTimeline } from "../../lib/collections";
+import { anclaFuente, categoriaCronologia, partesFecha } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
 
-const entries = await getAllTimeline();
-
-const categoryLabel: Record<string, string> = {
-  edicion:    "Edición",
-  prensa:     "Prensa",
-  fundacion:  "Fundación",
-  comunidad:  "Comunidad",
-  sistema:    "Sistema",
-  otra:       "Otro",
-};
+const entradas = await getAllTimeline();
+const fuentes = await getCollection("sources");
+const ediciones = await getCollection("editions");
+const tituloFuente = (id: string) => fuentes.find((f) => f.id === id)?.data.title;
+const edicion = (id?: string) => (id ? ediciones.find((e) => e.id === id) : undefined);
 ---
 
 <Layout
-  title="Cronología · TALAZBRÁGOLES"
-  description="Línea temporal documentada de las Talazbrágoles y su contexto rolero."
-  canonicalPath="/cronologia"
-  nav={mainNav}
+  title="Cronología"
+  description="Cronología de las Jornadas Talazbrágoles: cada entrada fechada con su fuente."
 >
-  <div id="top" class="max-w-4xl mx-auto px-4 sm:px-8 py-14 sm:py-20">
-    <header class="text-center max-w-2xl mx-auto">
-      <h1 class="text-[clamp(2.2rem,6vw,4.5rem)] font-black tracking-[0.22em] text-black uppercase">
-        CRONOLOGÍA
-      </h1>
-      <p class="mt-6 text-base sm:text-xl text-black/80 leading-relaxed">
-        Una línea temporal de eventos documentados. Solo aparece lo que tiene fuente.
-      </p>
-    </header>
+  <div class="tz-pagina">
+    <Encabezado
+      numero={numeroSeccion("/cronologia")}
+      seccion="Archivo"
+      titulo="Cronología"
+      entradilla="Lo que se puede fechar, en orden. Algunas entradas fechan cuándo se publicó un testimonio, no cuándo ocurrió lo que cuenta."
+    />
 
-    {entries.length === 0 ? (
-      <div class="mt-16 rounded-3xl border border-black/15 bg-white/45 p-10 text-center">
-        <div class="text-xs uppercase tracking-[0.3em] text-black/60">Pendiente de documentar</div>
-        <p class="mt-3 text-black/80">
-          Aún no hay suficientes entradas documentadas. El archivo crece con cada nueva fuente.
-        </p>
+    <section class="tz-seccion" aria-labelledby="s-entradas">
+      <Titulo id="s-entradas" numero="01">Entradas</Titulo>
+      {entradas.length === 0 ? (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna entrada fechada." /></div>
+      ) : (
+        <ol class="tz-crono">
+          {entradas.map((t) => {
+            const f = partesFecha(t.data.date, t.data.precision);
+            const ed = edicion(t.data.relatedEditionId);
+            return (
+              <li class="tz-crono-entrada" id={t.id}>
+                <p class="tz-crono-fecha">
+                  <span class="tz-crono-ano">{f.ano}</span>
+                  {f.resto && <span class="tz-crono-dia">{f.resto}</span>}
+                </p>
+                <div class="tz-crono-cuerpo">
+                  <ul class="tz-registro-meta">
+                    <li>{categoriaCronologia[t.data.category]}</li>
+                    <li>{t.data.verified ? "Verificada" : "Sin verificar"}</li>
+                  </ul>
+                  <h3 class="tz-crono-titulo">{t.data.title}</h3>
+                  {t.data.description && <p>{t.data.description}</p>}
+                  <p class="tz-ref">
+                    {t.data.sourceIds.length > 0 ? (
+                      <>Fuente: {t.data.sourceIds.map((id, i) => (
+                        <>{i > 0 && "; "}<a href={anclaFuente(id)}>{tituloFuente(id) ?? id}</a></>
+                      ))}.</>
+                    ) : (
+                      <>Fuente: <Pendiente />.</>
+                    )}
+                    {ed && <> Edición: <a href={`/ediciones/${ed.id}`}>{ed.data.title}</a>.</>}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-huecos">
+      <Titulo id="s-huecos" numero="02">Huecos</Titulo>
+      <div class="tz-medida">
+        <Pendiente
+          etiqueta="Sin fecha todavía"
+          mensaje="El año de la primera edición, el de la última y las fechas de todas las ediciones salvo la 5ª."
+          pide="Ayudarían programas, carteles o recortes con fecha."
+        />
       </div>
-    ) : (
-      <ol class="mt-16 relative border-l border-black/15 ml-4 space-y-10">
-        {entries.map((e) => (
-          <li class="ml-8">
-            <div class="absolute -left-2 w-4 h-4 rounded-full border-2 border-black bg-[color:var(--paper)]"></div>
-            <div class="text-xs uppercase tracking-[0.26em] text-black/60">
-              {e.data.date}
-              {e.data.precision !== "day" && ` (aprox.)`}
-              <span class="ml-3 border border-black/15 px-2 py-0.5 rounded-full">
-                {categoryLabel[e.data.category]}
-              </span>
-              {e.data.verified && (
-                <span class="ml-2 text-black/40">✓ verificado</span>
-              )}
-            </div>
-            <h2 class="mt-2 text-lg font-black tracking-[0.12em] uppercase text-black">
-              {e.data.title}
-            </h2>
-            {e.data.description && (
-              <p class="mt-2 text-black/80 leading-relaxed text-sm">{e.data.description}</p>
-            )}
-          </li>
-        ))}
-      </ol>
-    )}
+    </section>
   </div>
 </Layout>

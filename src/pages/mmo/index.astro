@@ -1,0 +1,76 @@
+---
+/**
+ * Portada de la sección MMO (sistema «Papel y tinta», tarjeta 3/5).
+ * Por ahora un solo juego: World of Warcraft: Forever (hermandad La Barbarie).
+ */
+import Layout from "../../layouts/Layout.astro";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Ficha from "../../components/sistema/Ficha.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+import { numeroSeccion } from "../../lib/nav";
+---
+
+<Layout
+  title="MMO"
+  description="Los juegos en línea de la gente de las Talazbrágoles. Ahora: la hermandad La Barbarie en World of Warcraft: Forever."
+>
+  <div class="tz-pagina">
+    <Encabezado
+      numero={numeroSeccion("/mmo")}
+      seccion="MMO"
+      titulo="Juegos en línea"
+      entradilla="MMO: juego en línea con muchos jugadores a la vez. Aquí está lo que juega hoy la gente de las Talazbrágoles, con la misma regla que el Archivo: cada dato lleva su fuente y lo que no se sabe se marca como pendiente."
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-wowf">
+      <Titulo id="s-wowf" numero="01">World of Warcraft: Forever</Titulo>
+      <div class="tz-reticula">
+        <div class="tz-col-6">
+          <Ficha
+            titulo="La Barbarie"
+            href="/mmo/wow-forever"
+            enlace="Entrar en La Barbarie"
+            datos={[
+              { etiqueta: "Qué es", valor: "Hermandad de la Horda" },
+              { etiqueta: "Jugadores", valor: "Cuatro" },
+              { etiqueta: "El juego salió", valor: "4 de noviembre de 2026" },
+            ]}
+          >
+            <p class="tz-ref" style="margin:var(--e-3) 0 0">Fecha de salida: Blizzard, comprobado el 13 de noviembre de 2026.</p>
+          </Ficha>
+        </div>
+        <div class="tz-col-6">
+          <p class="tz-rotulo" style="margin:0 0 var(--e-3)">Directo a</p>
+          <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+            <li>
+              <a href="/mmo/wow-forever/guias">
+                <span class="tz-lista-enlaces-nombre">Guías de profesiones</span>
+                <span class="tz-lista-enlaces-detalle">Cómo empezar, rangos y ruta para subir, con fuentes</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+            <li>
+              <a href="/mmo/wow-forever/asesor/">
+                <span class="tz-lista-enlaces-nombre">El asesor</span>
+                <span class="tz-lista-enlaces-detalle">Qué hago hoy, almacén, oro y comercio en la subasta</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-otros">
+      <Titulo id="s-otros" numero="02">Otros juegos</Titulo>
+      <div class="tz-medida">
+        <Pendiente
+          etiqueta="Pendiente"
+          mensaje="De momento solo hay un juego en esta sección."
+          pide="Se añadirán otros cuando haya contenido."
+        />
+      </div>
+    </section>
+  </div>
+</Layout>

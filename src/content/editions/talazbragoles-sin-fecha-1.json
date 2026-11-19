@@ -1,12 +1,11 @@
 {
   "year": "desconocida",
-  "title": "Talazbrágoles (edición sin fechar — Majadahonda)",
+  "title": "Talazbrágoles (edición sin fechar)",
   "verified": false,
   "status": "pendiente",
-  "venue": {
-    "city": "Majadahonda"
-  },
-  "sourceIds": ["comunidad-umbria-2012"],
+  "sourceIds": [
+    "comunidad-umbria-2012"
+  ],
   "peopleIds": [],
   "activities": []
 }

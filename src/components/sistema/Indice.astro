@@ -1,0 +1,66 @@
+---
+/**
+ * Índice del sitio (navegación principal), sin JS.
+ * - Por debajo de 1024 px: botón «Menú» (un <details>) con el icono de tres rayas,
+ *   y a su lado «Estás en: <sección>». Se abre en el sitio, sin tapar nada,
+ *   y cada página nueva llega con él cerrado.
+ * - Desde 1024 px: una fila con los grupos rotulados (Archivo · Comunidad).
+ * La sección actual se marca con aria-current: "page" en su portada y "true" en
+ * sus subpáginas (lib/nav.ts, actualDe). Detalle y criterios: proyecto/docs/diseno.md §6.
+ *
+ * El asesor (página generada) pinta este mismo marcado desde
+ * proyecto/tools/build-asesor.py; tests/navegacion.spec.mjs comprueba que coinciden.
+ */
+import { gruposNav, actualDe, seccionDe } from "../../lib/nav";
+import { dosCifras } from "../../lib/formato";
+
+interface Props { ruta: string }
+const { ruta } = Astro.props;
+
+let n = 0;
+const grupos = gruposNav.map((g) => ({
+  ...g,
+  items: g.items.map((item) => ({ ...item, n: dosCifras(++n), actual: actualDe(ruta, item.href) })),
+}));
+const seccion = seccionDe(ruta);
+// Dos copias del índice (plegable y fila): cada una con sus propios id de rótulo.
+const copias = [{ sufijo: "m" }, { sufijo: "f" }];
+---
+<nav class="tz-nav" aria-label="Secciones">
+  <details class="tz-nav-plegable">
+    <summary>
+      <span class="tz-nav-boton">
+        <svg class="tz-nav-icono" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path class="tz-nav-icono-abrir" d="M3 6h18M3 12h18M3 18h18" /><path class="tz-nav-icono-cerrar" d="M5 5l14 14M19 5 5 19" /></svg>
+        <span>Menú</span>
+      </span>
+      {seccion && <span class="tz-nav-donde">Estás en: <strong>{seccion.label}</strong></span>}
+    </summary>
+    <ul class="tz-nav-grupos">
+      {grupos.map((g) => (
+        <li class:list={["tz-nav-grupo", `tz-nav-grupo--${g.id}`]}>
+          {g.titulo && <span class="tz-nav-grupo-titulo" id={`nav-${copias[0].sufijo}-${g.id}`}>{g.titulo}</span>}
+          <ul aria-labelledby={g.titulo ? `nav-${copias[0].sufijo}-${g.id}` : undefined}>
+            {g.items.map((item) => (
+              <li><a href={item.href} aria-current={item.actual}><span class="tz-num" aria-hidden="true">{item.n}</span> <span class="tz-nav-texto">{item.label}</span></a></li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </details>
+
+  <div class="tz-nav-fila">
+    <ul class="tz-nav-grupos">
+      {grupos.map((g) => (
+        <li class:list={["tz-nav-grupo", `tz-nav-grupo--${g.id}`]}>
+          {g.titulo && <span class="tz-nav-grupo-titulo" id={`nav-${copias[1].sufijo}-${g.id}`}>{g.titulo}</span>}
+          <ul aria-labelledby={g.titulo ? `nav-${copias[1].sufijo}-${g.id}` : undefined}>
+            {g.items.map((item) => (
+              <li><a href={item.href} aria-current={item.actual}><span class="tz-num" aria-hidden="true">{item.n}</span> <span class="tz-nav-texto">{item.label}</span></a></li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,71 @@
+---
+/**
+ * /rol/: partidas y campañas ACTUALES del grupo, con resúmenes de sesión y
+ * personajes (PabloFM, 2026-11-15). Colección «campaigns». Lo jugado en las
+ * Jornadas históricas está en /sistemas/. No inventar campañas ni personajes.
+ */
+import Layout from "../../layouts/Layout.astro";
+import Encabezado from "../../components/sistema/Encabezado.astro";
+import Titulo from "../../components/sistema/Titulo.astro";
+import Ficha from "../../components/sistema/Ficha.astro";
+import Pendiente from "../../components/sistema/Pendiente.astro";
+import { getAllCampaigns } from "../../lib/collections";
+import { dosCifras, estadoCampana } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
+
+const campanas = await getAllCampaigns();
+---
+
+<Layout
+  title="Juegos de rol"
+  description="Partidas y campañas de rol que juega ahora el grupo: resúmenes de sesión y personajes."
+>
+  <div class="tz-pagina">
+    <Encabezado
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Juegos de rol"
+      entradilla="Las partidas y campañas que juega ahora el grupo: de qué van, qué pasó en cada sesión y quién lleva qué personaje."
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-campanas">
+      <Titulo id="s-campanas" numero="01">Campañas</Titulo>
+      {campanas.length > 0 ? (
+        <div class="tz-fichas">
+          {campanas.map((c, i) => (
+            <Ficha
+              numero={dosCifras(i + 1)}
+              titulo={c.data.title}
+              href={`/rol/${c.id}`}
+              enlace="Ver campaña"
+              datos={[
+                { etiqueta: "Sistema", valor: c.data.system },
+                { etiqueta: "Estado", valor: estadoCampana[c.data.status] },
+                { etiqueta: "Sesiones", valor: c.data.sessions.length || undefined },
+                { etiqueta: "Personajes", valor: c.data.characters.length || undefined },
+              ]}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="tz-medida">
+          <Pendiente
+            etiqueta="Sección en preparación"
+            mensaje="Todavía no hay ninguna campaña registrada."
+            pide="Cada campaña tendrá su ficha: sistema, estado, resumen de cada sesión y personajes."
+          />
+        </div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-jornadas">
+      <Titulo id="s-jornadas" numero="02">Y en las Jornadas</Titulo>
+      <p class="tz-medida" style="margin:0">
+        Lo que se jugó en las Jornadas Talazbrágoles, en los años noventa, es otra cosa: está en el Archivo.
+      </p>
+      <div class="tz-acciones" style="margin-top:var(--e-5)">
+        <a class="tz-boton" href="/sistemas">Sistemas de las Jornadas</a>
+      </div>
+    </section>
+  </div>
+</Layout>

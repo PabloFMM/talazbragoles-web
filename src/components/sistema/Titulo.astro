@@ -1,0 +1,11 @@
+---
+/** Título de sección (h2 por defecto) con filete fino encima y número opcional. */
+interface Props {
+  id?: string;
+  numero?: string;
+  nivel?: 2 | 3;
+}
+const { id, numero, nivel = 2 } = Astro.props;
+const Tag = nivel === 3 ? "h3" : "h2";
+---
+<Tag id={id} class="tz-titulo">{numero && <span class="tz-num" aria-hidden="true">{numero}</span>}<span><slot /></span></Tag>

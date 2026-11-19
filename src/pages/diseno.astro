@@ -1,0 +1,284 @@
+---
+/**
+ * /diseno/ — Muestrario interno del sistema «Papel y tinta». No se indexa
+ * ni sale en el sitemap. Los ejemplos usan datos reales de las colecciones.
+ * Documentación: proyecto/docs/diseno.md
+ */
+import Layout from "../layouts/Layout.astro";
+import Encabezado from "../components/sistema/Encabezado.astro";
+import Titulo from "../components/sistema/Titulo.astro";
+import Filete from "../components/sistema/Filete.astro";
+import Ficha from "../components/sistema/Ficha.astro";
+import Cita from "../components/sistema/Cita.astro";
+import NotaFuente from "../components/sistema/NotaFuente.astro";
+import Pendiente from "../components/sistema/Pendiente.astro";
+import Estado from "../components/sistema/Estado.astro";
+import Logo from "../components/sistema/Logo.astro";
+import { getAllEditions, getAllSources } from "../lib/collections";
+import { dosCifras } from "../lib/formato";
+
+const ediciones = await getAllEditions();
+const fuentes = await getAllSources();
+
+const colores = [
+  { token: "--papel", hex: "#f4f0e6", uso: "Fondo de todo el sitio", contraste: "—" },
+  { token: "--papel-2", hex: "#ebe5d8", uso: "Recuadros discretos (bloque «pendiente»)", contraste: "tinta 15,3:1 · tinta-2 8,1:1" },
+  { token: "--tinta", hex: "#0f0f10", uso: "Texto, filetes de estructura, botón principal", contraste: "16,8:1" },
+  { token: "--tinta-2", hex: "#45413b", uso: "Texto secundario: metadatos, notas, entradillas", contraste: "8,9:1" },
+  { token: "--filete", hex: "#b8b2a5", uso: "Solo filetes divisorios finos. Nunca texto", contraste: "decorativo" },
+];
+
+const escala = [
+  { token: "--t-6", px: "44 → 120", uso: "Titular de portada", muestra: "Archivo de las Jornadas", clase: "tz-titular tz-titular--portada" },
+  { token: "--t-5", px: "40 → 76", uso: "Titular de página (h1)", muestra: "Ediciones", clase: "tz-titular" },
+  { token: "--t-logo", px: "40 → 80", uso: "Logotipo", muestra: "Talazbrágoles", clase: "tz-logo-nombre" },
+  { token: "--t-4", px: "38", uso: "Título de sección (h2, ≥ 768 px)", muestra: "Cronología", clase: "muestra-t4" },
+  { token: "--t-3", px: "28", uso: "Título de sección en móvil, cita", muestra: "Fuentes", clase: "muestra-t3" },
+  { token: "--t-2", px: "22", uso: "Entradilla, título de ficha, subtítulo", muestra: "Un archivo que solo crece con documentación.", clase: "muestra-t2" },
+  { token: "--t-1", px: "18 (19 ≥ 768)", uso: "Texto corrido", muestra: "Si no hay fuente, lo decimos. Si falta un dato, lo pedimos.", clase: "" },
+  { token: "--t-0", px: "16", uso: "Rótulos, metadatos, notas. MÍNIMO", muestra: "Archivo de las Jornadas", clase: "tz-rotulo" },
+];
+
+const espacios = [
+  ["--e-1", 4], ["--e-2", 8], ["--e-3", 12], ["--e-4", 16], ["--e-5", 24],
+  ["--e-6", 32], ["--e-7", 48], ["--e-8", 64], ["--e-9", 96], ["--e-10", 128],
+] as const;
+
+const fichaDe = (ed: (typeof ediciones)[number]) => ({
+  titulo: ed.data.title,
+  estado: ed.data.status,
+  datos: [
+    { etiqueta: "Año", valor: ed.data.year === "desconocida" ? null : ed.data.year },
+    { etiqueta: "Lugar", valor: ed.data.venue?.city ?? null },
+    { etiqueta: "Sede", valor: ed.data.venue?.name ?? null },
+    { etiqueta: "Fuentes", valor: ed.data.sourceIds.length },
+  ],
+  href: `/ediciones/${ed.id}`,
+});
+---
+
+<Layout
+  title="Sistema de diseño"
+  description="Muestrario interno del sistema de diseño de Talazbrágoles."
+  noindex
+>
+  <div class="tz-pagina">
+    <Encabezado
+      numero="00"
+      seccion="Página interna"
+      titulo="Sistema de diseño"
+      entradilla="Papel y tinta: blanco y negro sobrio, mucho aire, filetes finos y jerarquía por tamaño y peso. Todo lo que usa el sitio, en una sola página."
+    />
+
+    <!-- 1. LOGOTIPO -->
+    <section class="tz-seccion" aria-labelledby="s-logo">
+      <Titulo id="s-logo" numero="01">Logotipo</Titulo>
+      <div class="tz-con-margen">
+        <div>
+          <div class="muestra-logo"><Logo href="/diseno/" /></div>
+          <div class="muestra-logo muestra-logo--320" aria-hidden="true">
+            <span class="tz-logo"><span class="tz-logo-nombre">Talazbrágoles</span><span class="tz-logo-sub">Archivo de las Jornadas</span></span>
+          </div>
+        </div>
+        <aside class="tz-margen">
+          <p>«Talazbrágoles» en Source Serif 4 de peso fino (300), de 40 a 80 px. Debajo, «Archivo de las Jornadas» en Archivo de 16 px, mayúsculas espaciadas.</p>
+          <p>El segundo ejemplo está compuesto en una caja de 288 px, el hueco útil a 320 px de pantalla. Tinta sobre papel: 16,8:1.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 2. COLOR -->
+    <section class="tz-seccion" aria-labelledby="s-color">
+      <Titulo id="s-color" numero="02">Color</Titulo>
+      <p class="tz-medida">Papel y tinta, sin color de acento. Los estados (foco, sección actual, pulsado) se marcan con subrayado, peso o inversión. Contraste mínimo del texto: 7:1.</p>
+      <ul class="muestras-color">
+        {colores.map((c) => (
+          <li>
+            <span class="muestra-color" style={`background:${c.hex}`} aria-hidden="true"></span>
+            <strong>{c.token}</strong>
+            <span class="tz-num">{c.hex}</span>
+            <span class="tz-ref">{c.contraste}. {c.uso}.</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- 3. TIPOGRAFÍA -->
+    <section class="tz-seccion" aria-labelledby="s-tipo">
+      <Titulo id="s-tipo" numero="03">Tipografía del sistema</Titulo>
+      <div class="tz-reticula">
+        <div class="tz-col-6">
+          <p class="tz-rotulo">Titulares · Source Serif 4</p>
+          <p class="muestra-familia" style="font-family:var(--letra-titular);font-weight:300">Aa Ññ 1996</p>
+          <p class="tz-ref">Remates limpios, tamaño óptico automático. Solo logotipo, titulares, títulos de sección, fichas y citas. Peso 300 en grande, 400 en títulos.</p>
+        </div>
+        <div class="tz-col-6">
+          <p class="tz-rotulo">Texto e interfaz · Archivo</p>
+          <p class="muestra-familia" style="font-family:var(--letra-texto);font-weight:400">Aa Ññ 1996</p>
+          <p class="tz-ref">Sin remates. Texto corrido (400), menú y botones (500–600), rótulos en mayúsculas espaciadas (600).</p>
+        </div>
+      </div>
+
+      <h3 class="tz-subtitulo">Escala</h3>
+      <ol class="escala">
+        {escala.map((e) => (
+          <li>
+            <p class="escala-meta"><span class="tz-num">{e.token}</span> · {e.px} px · {e.uso}</p>
+            <p class:list={["escala-muestra", e.clase]}>{e.muestra}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- 4. ESPACIADO Y RETÍCULA -->
+    <section class="tz-seccion" aria-labelledby="s-reticula">
+      <Titulo id="s-reticula" numero="04">Espaciado y retícula</Titulo>
+      <p class="tz-medida">Base de 4 px. Caja de 1216 px con margen fluido de 20 a 56 px. Medida del texto: 40 rem, unos 70 caracteres. Desde 768 px, 12 columnas; desde 1024 px, texto con columna de notas al margen. Entre secciones, de 48 a 96 px de aire.</p>
+      <ul class="espacios">
+        {espacios.map(([t, px]) => (
+          <li><span class="tz-num">{t}</span><span class="espacio-barra" style={`width:${px}px`} aria-hidden="true"></span><span class="tz-num">{px} px</span></li>
+        ))}
+      </ul>
+      <div class="tz-reticula reticula-demo" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, i) => <span class="tz-num">{dosCifras(i + 1)}</span>)}
+      </div>
+      <div class="tz-con-margen" style="margin-top:var(--e-7)">
+        <div class="tz-prosa">
+          <p>Esta columna es la medida del texto. Al lado, en pantallas anchas, va la columna de notas al margen: fuentes, fechas de comprobación y avisos. En móvil la nota pasa debajo del texto.</p>
+          <p>Párrafos sin sangría, separados por una línea en blanco corta. Nada de justificar: bandera a la derecha.</p>
+        </div>
+        <aside class="tz-margen">
+          <p class="tz-rotulo">Nota al margen</p>
+          <p>Clase <code>tz-margen</code> dentro de <code>tz-con-margen</code>.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 5. FILETES Y NUMERACIÓN -->
+    <section class="tz-seccion" aria-labelledby="s-filetes">
+      <Titulo id="s-filetes" numero="05">Filetes y numeración</Titulo>
+      <div class="tz-medida">
+        <p class="tz-ref">Fino · 1 px de tinta (estructura: cabecera, títulos, pie)</p><Filete />
+        <p class="tz-ref">Suave · 1 px gris (divide filas: datos, índice, notas)</p><Filete tipo="suave" />
+        <p class="tz-ref">Medio · 2 px de tinta (abre cada ficha)</p><Filete tipo="medio" />
+        <p class="tz-ref">Corto · 2 px × 48 px (remate opcional)</p><Filete tipo="corto" />
+      </div>
+      <h3 class="tz-subtitulo">Numeración</h3>
+      <ol class="tz-lista-numerada tz-medida">
+        <li>Números de dos cifras con cifras tabulares, en tinta secundaria: 01, 02, 03.</li>
+        <li>El antetítulo lleva el número y el nombre de la sección.</li>
+        <li>Las fuentes se numeran en el orden en que se citan.</li>
+      </ol>
+    </section>
+
+    <!-- 6. TÍTULOS -->
+    <section class="tz-seccion" aria-labelledby="s-titulos">
+      <Titulo id="s-titulos" numero="06">Títulos</Titulo>
+      <p class="tz-medida">El encabezado de esta página es el modelo: antetítulo, titular en serif fino y entradilla en tinta secundaria (componente <code>Encabezado</code>); el filete de la primera sección hace de cierre. Los títulos de sección llevan número y filete fino encima (<code>Titulo</code>).</p>
+      <div class="muestra-caja">
+        <p class="tz-antetitulo"><span class="tz-num">02</span><span>Archivo</span></p>
+        <p class="tz-titular">Cronología</p>
+        <p class="tz-entradilla">Entradilla: una o dos frases que dicen qué hay en la página.</p>
+        <p class="tz-titulo" style="margin-top:var(--e-7)"><span class="tz-num">01</span><span>Título de sección</span></p>
+        <p class="tz-subtitulo" style="margin-top:0">Subtítulo en Archivo seminegra</p>
+        <p style="margin:0">Texto corrido de 18 px con interlineado 1,6.</p>
+      </div>
+    </section>
+
+    <!-- 7. FICHAS -->
+    <section class="tz-seccion" aria-labelledby="s-fichas">
+      <Titulo id="s-fichas" numero="07">Fichas</Titulo>
+      <p class="tz-medida">Ediciones, personas, sistemas y guías. Filete de 2 px arriba, número y estado, título en serif, datos en filas con filete suave y enlace de 48 px. Un dato vacío se muestra «pendiente»: nunca se omite en silencio. Datos reales de la colección de ediciones.</p>
+      <div class="tz-fichas" style="margin-top:var(--e-7)">
+        {ediciones.slice(0, 2).map((ed, i) => {
+          const f = fichaDe(ed);
+          return <Ficha numero={dosCifras(i + 1)} estado={f.estado} titulo={f.titulo} datos={f.datos} href={f.href} />;
+        })}
+      </div>
+      <h3 class="tz-subtitulo">Estado documental</h3>
+      <p class="estados"><Estado estado="documentada" /> <Estado estado="parcial" /> <Estado estado="pendiente" /></p>
+      <p class="tz-ref tz-medida">Círculo lleno, medio o vacío, siempre con la palabra al lado: el estado no depende solo de la forma.</p>
+    </section>
+
+    <!-- 8. CITAS -->
+    <section class="tz-seccion" aria-labelledby="s-citas">
+      <Titulo id="s-citas" numero="08">Citas</Titulo>
+      <p class="tz-medida">Serif fino grande entre comillas latinas y atribución obligatoria bajo un filete. Si no se sabe de dónde sale, se dice.</p>
+      <Cita
+        texto="Que lo unido por la fantasía no sea roto por la realidad."
+        autor="Lema de la portada anterior de talazbragoles.com"
+        origenPendiente
+      />
+    </section>
+
+    <!-- 9. NOTAS DE FUENTE -->
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero="09">Notas de fuente</Titulo>
+      <p class="tz-medida">Numeradas, con tipo, fecha y fecha de consulta; qué dice la fuente y con qué reservas. Ejemplos reales de la colección de fuentes.</p>
+      <ol class="tz-fuentes tz-medida" style="margin-top:var(--e-6)">
+        {fuentes.slice(0, 2).map((f, i) => <NotaFuente fuente={f} n={i + 1} />)}
+      </ol>
+      <p class="tz-ref tz-medida" style="margin-top:var(--e-5)">Referencia corta en línea (<code>tz-ref</code>): Fuente: <a href={fuentes[0]?.data.url}>{fuentes[0]?.data.title}</a>.</p>
+    </section>
+
+    <!-- 10. PENDIENTE -->
+    <section class="tz-seccion" aria-labelledby="s-pendiente">
+      <Titulo id="s-pendiente" numero="10">«Pendiente»</Titulo>
+      <p class="tz-medida">Lo que no sabemos se dice, sin dramatismo. En línea: la sede de esa edición está <Pendiente />. En bloque, para secciones sin contenido:</p>
+      <div class="tz-medida" style="margin-top:var(--e-6)">
+        <Pendiente
+          mensaje="Todavía no hay personas con fuente verificable en el archivo."
+          pide="¿Organizaste, jugaste o dirigiste partidas? Cuando haya un medio de contacto, aparecerá aquí."
+        />
+      </div>
+    </section>
+
+    <!-- 11. CONTROLES -->
+    <section class="tz-seccion" aria-labelledby="s-controles">
+      <Titulo id="s-controles" numero="11">Enlaces y botones</Titulo>
+      <p class="tz-medida">Enlaces subrayados con filete de 1 px; al pasar el ratón, 2 px. Foco: contorno de tinta de 3 px separado del elemento. Botones de 48 px de alto como mínimo, esquinas rectas.</p>
+      <p class="botones">
+        <a class="tz-boton tz-boton--tinta" href="/ediciones">Ver ediciones</a>
+        <a class="tz-boton" href="/fuentes">Ver fuentes</a>
+      </p>
+      <p class="tz-medida">Así va un <a class="tz-enlace" href="/cronologia">enlace en el texto</a>: subrayado y dentro de la frase.</p>
+    </section>
+
+    <!-- 12. CABECERA, ÍNDICE Y PIE -->
+    <section class="tz-seccion" aria-labelledby="s-marco">
+      <Titulo id="s-marco" numero="12">Cabecera, índice y pie</Titulo>
+      <ol class="tz-lista-numerada tz-medida">
+        <li>Cabecera: el logotipo, con aire alrededor y un filete fino debajo. Sin banda, sin lema, no se queda fija al hacer scroll.</li>
+        <li>Índice numerado en tres grupos: Inicio, Archivo y Comunidad. Por debajo de 1024 px es un botón «Menú» (con icono de tres rayas) hecho con <code>&lt;details&gt;</code>, sin JS, y a su lado «Estás en: …». Desde 1024 px, una fila con el rótulo de cada grupo. La sección actual va en seminegra y subrayada, también en sus subpáginas.</li>
+        <li>Pie: método, índice y tipografía en tres columnas (una en móvil), sobre filete fino.</li>
+      </ol>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .muestra-logo { padding: var(--e-6) 0; border-bottom: var(--f-fino) solid var(--filete); }
+  .muestra-logo--320 { width: min(100%, 288px); }
+  .muestra-logo--320 .tz-logo-nombre { font-size: min(2.5rem, 13vw); }
+  .muestras-color { list-style: none; margin: var(--e-6) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: var(--e-6) var(--medianil); }
+  .muestras-color li { display: flex; flex-direction: column; gap: var(--e-1); }
+  .muestras-color strong { font-weight: var(--p-semi); }
+  .muestra-color { display: block; height: 4.5rem; border: var(--f-fino) solid var(--tinta); margin-bottom: var(--e-3); }
+  .muestra-familia { margin: var(--e-3) 0; font-size: clamp(3rem, 2rem + 4vw, 5rem); line-height: 1; }
+  .escala { list-style: none; margin: 0; padding: 0; }
+  .escala li { padding-block: var(--e-5); border-top: var(--f-fino) solid var(--filete); }
+  .escala-meta { margin: 0 0 var(--e-2); font-size: var(--t-0); color: var(--tinta-2); }
+  .escala-muestra { margin: 0; }
+  .muestra-t4 { font-family: var(--letra-titular); font-size: var(--t-4); line-height: var(--il-titulo); }
+  .muestra-t3 { font-family: var(--letra-titular); font-size: var(--t-3); line-height: var(--il-titulo); }
+  .muestra-t2 { font-size: var(--t-2); line-height: 1.4; }
+  .espacios { list-style: none; margin: var(--e-6) 0; padding: 0; display: grid; gap: var(--e-2); }
+  .espacios li { display: grid; grid-template-columns: minmax(0, 4.5rem) minmax(0, 8rem) auto; align-items: center; gap: var(--e-3); color: var(--tinta-2); }
+  .espacio-barra { display: block; height: 0.75rem; background: var(--tinta); }
+  .reticula-demo { margin-top: var(--e-6); gap: var(--e-2) var(--medianil); }
+  .reticula-demo span { display: flex; align-items: flex-end; justify-content: center; min-height: 3rem; border-top: var(--f-medio) solid var(--tinta); background: var(--papel-2); color: var(--tinta-2); }
+  @media (max-width: 47.99rem) { .reticula-demo { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .muestra-caja { margin-top: var(--e-6); padding: var(--e-6) var(--e-5); border: var(--f-fino) solid var(--filete); }
+  .estados { display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6); margin: 0 0 var(--e-3); }
+  .botones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); margin-top: var(--e-6); }
+</style>

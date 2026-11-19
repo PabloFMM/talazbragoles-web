@@ -1,0 +1,39 @@
+---
+/**
+ * Ficha de archivo: cabeza (número + estado), título, datos (dl) y pie con enlace.
+ * Los datos sin valor se muestran como «pendiente», nunca se omiten en silencio.
+ */
+import Estado from "./Estado.astro";
+import Datos, { type Dato } from "./Datos.astro";
+import type { EstadoDocumental } from "../../lib/formato";
+
+interface Props {
+  titulo: string;
+  numero?: string;
+  estado?: EstadoDocumental;
+  datos?: Dato[];
+  href?: string;
+  enlace?: string;
+  nivel?: 2 | 3;
+}
+const { titulo, numero, estado, datos = [], href, enlace = "Ver ficha", nivel = 3 } = Astro.props;
+const Tag = nivel === 2 ? "h2" : "h3";
+---
+<article class="tz-ficha">
+  {(numero || estado) && (
+    <div class="tz-ficha-cabeza">
+      {numero ? <span class="tz-num">{numero}</span> : <span />}
+      {estado && <Estado estado={estado} />}
+    </div>
+  )}
+  <div class="tz-ficha-cuerpo">
+    <Tag class="tz-ficha-titulo">{href ? <a href={href}>{titulo}</a> : titulo}</Tag>
+    {datos.length > 0 && <Datos datos={datos} />}
+    <slot />
+  </div>
+  {href && (
+    <div class="tz-ficha-pie">
+      <a href={href} aria-label={`${enlace}: ${titulo}`}><span>{enlace}</span><span aria-hidden="true">›</span></a>
+    </div>
+  )}
+</article>

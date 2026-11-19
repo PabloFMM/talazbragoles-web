@@ -1,0 +1,21 @@
+---
+/**
+ * Lista de datos (dl): etiqueta y valor en filas con filete suave.
+ * Un valor vacío se muestra «pendiente»: nunca se omite en silencio.
+ */
+import Pendiente from "./Pendiente.astro";
+
+export interface Dato { etiqueta: string; valor?: string | number | null }
+interface Props {
+  datos: Dato[];
+  /** Clases extra (p. ej. "tz-medida" o "tz-datos--ancho"). */
+  class?: string;
+}
+const { datos, class: clase } = Astro.props;
+const vacio = (v: Dato["valor"]) => v === undefined || v === null || String(v).trim() === "";
+---
+<dl class:list={["tz-datos", clase]}>
+  {datos.map((d) => (
+    <div><dt>{d.etiqueta}</dt><dd>{vacio(d.valor) ? <Pendiente /> : d.valor}</dd></div>
+  ))}
+</dl>

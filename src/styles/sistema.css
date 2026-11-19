@@ -1,0 +1,1007 @@
+/*
+  Sistema de diseño «Papel y tinta» — Talazbrágoles.
+  Actual, limpio y elegante (PabloFM, 2026-11-15): blanco y negro sobrio,
+  mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso.
+  Nada de fotocopia, sellos, recortes ni texturas.
+  Documentación: proyecto/docs/diseno.md · Muestrario: /diseno/
+
+  Reglas fijas (no romper):
+  - Texto ≥ 16 px (1rem). Botones y campos ≥ 48 px. Contraste ≥ 7:1.
+  - Sin animaciones ni transiciones. Sin imágenes decorativas: solo tipografía.
+  - Prefijo de clases: tz-.
+*/
+
+/* ===== 1. Tipografías autoalojadas (SIL OFL 1.1; licencias en /fonts/) ===== */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("/fonts/archivo-wdth-wght.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-serif-4-opsz-wght.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-serif-4-opsz-wght-italic.woff2") format("woff2");
+}
+
+/* ===== 2. Tokens ===== */
+:root {
+  /* Color: papel y tinta. Contrastes medidos sobre --papel. */
+  --papel: #f4f0e6;      /* fondo */
+  --papel-2: #ebe5d8;    /* recuadros discretos (tinta 15,3:1 · tinta-2 8,1:1) */
+  --tinta: #0f0f10;      /* texto, filetes de estructura (16,8:1) */
+  --tinta-2: #45413b;    /* texto secundario (8,9:1). Nunca más claro */
+  --filete: #b8b2a5;     /* SOLO filetes divisorios finos, nunca texto */
+
+  /* Familias: texto e interfaz sin remates; titulares con remates limpios */
+  --letra-texto: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --letra-titular: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  /* Escala tipográfica (razón ≈ 1,25 sobre 18 px). Mínimo absoluto: --t-0 = 16 px */
+  --t-0: 1rem;          /* 16 · rótulos, metadatos, notas */
+  --t-1: 1.125rem;      /* 18 · texto corrido */
+  --t-2: 1.375rem;      /* 22 · entradilla, título de ficha */
+  --t-3: 1.75rem;       /* 28 · título de sección (móvil) */
+  --t-4: 2.375rem;      /* 38 · título de sección */
+  --t-5: clamp(2.5rem, 1.5rem + 4.4vw, 4.75rem);  /* 40→76 · titular de página */
+  --t-6: clamp(2.75rem, 1rem + 7.4vw, 7.5rem);    /* 44→120 · titular de portada */
+  --t-logo: clamp(2.5rem, 1.4rem + 4.2vw, 5rem);  /* 40→80 · logotipo */
+
+  /* Pesos */
+  --p-fino: 300;      /* logotipo y titulares grandes */
+  --p-normal: 400;
+  --p-medio: 500;
+  --p-semi: 600;
+
+  /* Interlineado */
+  --il-titular: 1.04;
+  --il-titulo: 1.18;
+  --il-texto: 1.6;
+
+  /* Espaciado: base 4 px, en rem */
+  --e-1: 0.25rem;  /*   4 */
+  --e-2: 0.5rem;   /*   8 */
+  --e-3: 0.75rem;  /*  12 */
+  --e-4: 1rem;     /*  16 */
+  --e-5: 1.5rem;   /*  24 */
+  --e-6: 2rem;     /*  32 */
+  --e-7: 3rem;     /*  48 */
+  --e-8: 4rem;     /*  64 */
+  --e-9: 6rem;     /*  96 */
+  --e-10: 8rem;    /* 128 */
+
+  /* Retícula */
+  --pagina: 76rem;                          /* 1216 px de caja */
+  --margen: clamp(1.25rem, 0.5rem + 3vw, 3.5rem);
+  --medianil: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  --medida: 40rem;                          /* ≈ 70 caracteres a 18 px */
+  --columna-margen: 15rem;                  /* notas al margen (≥ 1024 px) */
+  --aire: clamp(3rem, 2rem + 4vw, 6rem);    /* separación entre secciones */
+
+  /* Filetes */
+  --f-fino: 1px;
+  --f-medio: 2px;
+
+  /* Controles */
+  --toque: 3rem;  /* 48 px: alto mínimo de botones, campos y enlaces de menú */
+
+  /* Margen superior de los destinos de ancla (#s-…) */
+  --nav-offset: 1.5rem;
+}
+
+/* ===== 3. Base ===== */
+@layer base {
+  html {
+    background: var(--papel);
+    color: var(--tinta);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: auto;
+  }
+  body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--letra-texto);
+    font-size: var(--t-1);
+    line-height: var(--il-texto);
+    overflow-wrap: break-word;
+    font-kerning: normal;
+  }
+  @media (min-width: 48rem) {
+    body { font-size: 1.1875rem; } /* 19 px en pantallas grandes */
+  }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  ::selection { background: var(--tinta); color: var(--papel); }
+  :focus-visible {
+    outline: 3px solid var(--tinta);
+    outline-offset: 3px;
+  }
+  summary { cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+  section[id], h2[id], h3[id] { scroll-margin-top: var(--nav-offset); }
+}
+
+/* ===== 4. Componentes ===== */
+@layer components {
+
+  /* --- 4.1 Retícula --- */
+  .tz-pagina {
+    width: min(100% - 2 * var(--margen), var(--pagina));
+    margin-inline: auto;
+  }
+  .tz-medida { max-width: var(--medida); }
+  .tz-reticula {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-6) var(--medianil);
+  }
+  @media (min-width: 48rem) {
+    .tz-reticula { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .tz-col-4 { grid-column: span 4; }
+    .tz-col-6 { grid-column: span 6; }
+    .tz-col-8 { grid-column: span 8; }
+    .tz-col-12 { grid-column: 1 / -1; }
+  }
+  /* Texto con columna de notas al margen */
+  .tz-con-margen {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-6) var(--medianil);
+  }
+  @media (min-width: 64rem) {
+    .tz-con-margen { grid-template-columns: minmax(0, var(--medida)) var(--columna-margen); justify-content: space-between; }
+  }
+  .tz-margen {
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+    border-top: var(--f-fino) solid var(--tinta);
+    padding-top: var(--e-3);
+  }
+  .tz-margen p { margin: 0; }
+  .tz-margen p + p { margin-top: var(--e-2); }
+  .tz-seccion { padding-block: var(--aire); }
+  .tz-seccion + .tz-seccion { padding-top: 0; }
+  .tz-seccion > :last-child { margin-bottom: 0; }
+
+  /* --- 4.2 Rótulos y numeración --- */
+  .tz-rotulo {
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .tz-num {
+    font-family: var(--letra-texto);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .tz-lista-numerada { list-style: none; padding: 0; margin: 0; counter-reset: tz-n; }
+  .tz-lista-numerada > li {
+    counter-increment: tz-n;
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--e-3);
+    padding-block: var(--e-4);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-lista-numerada > li:first-child { border-top-color: var(--tinta); }
+  .tz-lista-numerada > li::before {
+    content: counter(tz-n, decimal-leading-zero);
+    color: var(--tinta-2);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Elemento con título, dato y texto (actividades, sesiones, juegos mencionados) */
+  .tz-item-titulo { margin: 0; font-weight: var(--p-semi); }
+  .tz-item-meta { margin: var(--e-1) 0 0; }
+  .tz-item-texto { margin: var(--e-2) 0 0; }
+
+  /* --- 4.3 Logotipo --- */
+  .tz-logo {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--e-2);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-logo-nombre {
+    font-family: var(--letra-titular);
+    /* Tope de 13vw: con el texto ampliado al 200 % en 320 px, la palabra (que no se puede partir)
+       cabe sin scroll horizontal; con el texto normal el tope no actúa (40 px < 41,6 px). */
+    font-size: min(var(--t-logo), 13vw);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.1; /* deja sitio al trazo bajo de la «g» sobre el subtítulo */
+    letter-spacing: -0.015em;
+  }
+  .tz-logo-sub {
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .tz-logo:hover .tz-logo-nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+
+  /* --- 4.4 Títulos --- */
+  .tz-antetitulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--e-1) var(--e-3);
+    margin: 0 0 var(--e-5);
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .tz-antetitulo .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
+  .tz-titular {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-5);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: var(--il-titular);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .tz-titular--portada { font-size: var(--t-6); letter-spacing: -0.02em; }
+  .tz-titulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--e-4);
+    margin: 0 0 var(--e-6);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+    font-family: var(--letra-titular);
+    font-size: var(--t-3);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: var(--il-titulo);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-titulo { font-size: var(--t-4); } }
+  /* Palabras largas («Talazbrágoles») con el texto al 200 % en 320 px: que partan en vez de desbordar */
+  .tz-titulo > span { min-width: 0; max-width: 100%; }
+  .tz-titulo .tz-num {
+    font-size: var(--t-0);
+    font-weight: var(--p-normal);
+    letter-spacing: 0.04em;
+    color: var(--tinta-2);
+  }
+  .tz-subtitulo {
+    margin: var(--e-7) 0 var(--e-3);
+    font-family: var(--letra-texto);
+    font-size: var(--t-2);
+    font-weight: var(--p-semi);
+    line-height: var(--il-titulo);
+    text-wrap: balance;
+  }
+  .tz-entradilla {
+    margin: var(--e-5) 0 0;
+    max-width: 38rem;
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    line-height: 1.5;
+    color: var(--tinta-2);
+    text-wrap: pretty;
+  }
+  @media (min-width: 48rem) { .tz-entradilla { font-size: 1.5rem; } }
+
+  /* Encabezado de página: antetítulo + titular + entradilla (cierra el aire de la primera sección) */
+  .tz-encabezado {
+    padding-block: var(--aire) 0;
+  }
+
+  /* --- 4.5 Filetes --- */
+  .tz-filete {
+    border: 0;
+    margin: var(--e-6) 0;
+    height: 0;
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-filete--suave { border-top-color: var(--filete); }
+  .tz-filete--medio { border-top-width: var(--f-medio); }
+  .tz-filete--corto { width: 3rem; border-top-width: var(--f-medio); }
+
+  /* --- 4.6 Prosa (texto corrido y Markdown) --- */
+  .tz-prosa { max-width: var(--medida); }
+  .tz-prosa > * { margin-block: 0; }
+  .tz-prosa > * + * { margin-top: var(--e-4); }
+  .tz-prosa p { text-wrap: pretty; }
+  .tz-prosa h2 {
+    margin: var(--e-8) 0 var(--e-4);
+    font-family: var(--letra-titular);
+    font-size: var(--t-3);
+    font-weight: var(--p-normal);
+    line-height: var(--il-titulo);
+  }
+  .tz-prosa h3 { margin: var(--e-6) 0 var(--e-2); font-size: var(--t-2); font-weight: var(--p-semi); line-height: var(--il-titulo); }
+  .tz-prosa ul, .tz-prosa ol { padding-left: 1.4em; }
+  .tz-prosa ul { list-style: disc; }
+  .tz-prosa ol { list-style: decimal; }
+  .tz-prosa li + li { margin-top: var(--e-2); }
+  .tz-prosa li::marker { color: var(--tinta-2); }
+  .tz-prosa strong { font-weight: var(--p-semi); }
+  .tz-prosa small, .tz-prosa sub, .tz-prosa sup { font-size: 1em; vertical-align: baseline; }
+
+  /* --- 4.7 Enlaces y botones --- */
+  .tz-enlace, .tz-prosa a, .tz-pie a, .tz-fuente a, .tz-cita a, .tz-hueco a, .tz-ref a {
+    color: var(--tinta);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+  .tz-enlace:hover, .tz-prosa a:hover, .tz-pie a:hover, .tz-fuente a:hover, .tz-cita a:hover, .tz-hueco a:hover, .tz-ref a:hover {
+    text-decoration-thickness: 2px;
+  }
+  .tz-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    min-width: var(--toque);
+    padding: var(--e-2) var(--e-5);
+    border: var(--f-fino) solid var(--tinta);
+    background: transparent;
+    color: var(--tinta);
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .tz-boton:hover { background: var(--tinta); color: var(--papel); }
+  .tz-boton--tinta { background: var(--tinta); color: var(--papel); }
+  .tz-boton--tinta:hover { background: var(--papel); color: var(--tinta); }
+
+  /* --- 4.8 Estado documental y «pendiente» --- */
+  .tz-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--letra-texto);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+  .tz-estado::before {
+    content: "";
+    flex: none;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: 50%;
+    border: var(--f-medio) solid var(--tinta);
+    box-sizing: border-box;
+  }
+  .tz-estado--documentada::before { background: var(--tinta); }
+  .tz-estado--parcial::before { box-shadow: inset 0.25em 0 0 var(--tinta); }
+  .tz-estado--pendiente::before { background: transparent; }
+
+  /* «pendiente» en línea: palabra en cursiva, gris tinta-2, subrayado de puntos */
+  .tz-pendiente {
+    font-style: italic;
+    color: var(--tinta-2);
+    text-decoration: underline dotted var(--tinta-2);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    white-space: nowrap;
+  }
+
+  /* Bloque «pendiente de documentar» (secciones sin datos) */
+  .tz-hueco {
+    padding: var(--e-6) var(--e-5);
+    background: var(--papel-2);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-hueco-rotulo { margin: 0 0 var(--e-3); color: var(--tinta-2); }
+  .tz-hueco p { margin: 0; max-width: var(--medida); }
+  .tz-hueco p + p { margin-top: var(--e-3); }
+  .tz-hueco .tz-hueco-pide { color: var(--tinta-2); }
+
+  /* --- 4.9 Ficha (ediciones, personas, sistemas, guías) --- */
+  .tz-ficha {
+    display: flex;
+    flex-direction: column;
+    border-top: var(--f-medio) solid var(--tinta);
+    padding-top: var(--e-4);
+  }
+  .tz-ficha-cabeza {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--e-1) var(--e-4);
+    margin-bottom: var(--e-3);
+    color: var(--tinta-2);
+    font-size: var(--t-0);
+  }
+  .tz-ficha-cabeza .tz-estado { color: var(--tinta); }
+  .tz-ficha-cuerpo { flex: 1; }
+  .tz-ficha-titulo {
+    margin: 0 0 var(--e-5);
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-ficha-titulo { font-size: 1.625rem; } }
+  .tz-ficha-titulo a { color: inherit; text-decoration: none; }
+  .tz-ficha-titulo a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .tz-datos { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+  .tz-datos > div { padding-block: var(--e-3); border-top: var(--f-fino) solid var(--filete); }
+  .tz-datos dt { font-size: var(--t-0); font-weight: var(--p-normal); color: var(--tinta-2); }
+  .tz-datos dd { margin: 0; }
+  @media (min-width: 30rem) {
+    /* La etiqueta no pasa del 40 % de la caja: con el texto al 200 % el dato sigue cabiendo */
+    .tz-datos > div { display: grid; grid-template-columns: min(7.5rem, 40%) minmax(0, 1fr); gap: var(--e-4); align-items: baseline; }
+  }
+  .tz-ficha-pie { margin-top: var(--e-3); }
+  .tz-ficha-pie a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    border-top: var(--f-fino) solid var(--tinta);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-ficha-pie a:hover span:first-child { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  .tz-fichas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: var(--e-8) var(--medianil);
+  }
+
+  /* --- 4.10 Cita --- */
+  .tz-cita {
+    margin: var(--e-7) 0;
+    max-width: 46rem;
+  }
+  .tz-cita blockquote { margin: 0; }
+  .tz-cita blockquote p {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-3);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-cita blockquote p { font-size: 2.25rem; } }
+  .tz-cita figcaption {
+    margin-top: var(--e-5);
+    padding-top: var(--e-3);
+    border-top: var(--f-fino) solid var(--tinta);
+    max-width: 24rem;
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+  }
+
+  /* --- 4.11 Nota de fuente --- */
+  .tz-fuentes { list-style: none; margin: 0; padding: 0; }
+  .tz-fuente {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--e-3);
+    padding-block: var(--e-5);
+    border-top: var(--f-fino) solid var(--filete);
+    font-size: var(--t-0);
+    line-height: 1.55;
+  }
+  .tz-fuente:first-child { border-top-color: var(--tinta); }
+  .tz-fuente-n { color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-fuente-titulo { margin: 0; font-size: var(--t-1); font-weight: var(--p-semi); line-height: 1.4; }
+  .tz-fuente-meta { margin: var(--e-1) 0 var(--e-3); color: var(--tinta-2); }
+  .tz-fuente p { margin: 0; }
+  .tz-fuente p + p { margin-top: var(--e-2); }
+  .tz-fuente-reserva { color: var(--tinta-2); }
+  .tz-fuente-etiqueta { font-weight: var(--p-semi); color: var(--tinta); }
+  .tz-fuente-caido { text-decoration: line-through; }
+  /* Referencia corta en línea: «Fuente: …» */
+  .tz-ref { font-size: var(--t-0); color: var(--tinta-2); }
+
+  /* --- 4.12 Cabecera del sitio --- */
+  .tz-cabecera { border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-cabecera-fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--e-5) var(--e-7);
+    padding-block: var(--e-6) var(--e-5);
+  }
+
+  /* --- 4.13 Navegación (sin JS) ---
+     Índice en grupos (lib/nav.ts): Inicio · Archivo (5) · Comunidad (2).
+     Móvil y tableta (< 1024 px): botón «Menú» (<details>) + «Estás en: …».
+     Escritorio: una fila con los grupos rotulados y separados por un filete.
+     Sección actual: aria-current ("page" o "true") → seminegra y subrayado de 2 px.
+     Criterios WCAG/APG que cumple: proyecto/docs/diseno.md §6. */
+  .tz-nav ul { list-style: none; margin: 0; padding: 0; }
+  .tz-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--e-2);
+    min-height: var(--toque);
+    color: var(--tinta);
+    text-decoration: none;
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+  }
+  .tz-nav a .tz-num { color: var(--tinta-2); font-weight: var(--p-normal); }
+  .tz-nav a:hover .tz-nav-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+  .tz-nav a[aria-current] .tz-nav-texto {
+    font-weight: var(--p-semi);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+  .tz-nav-grupo-titulo {
+    display: block;
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    color: var(--tinta-2);
+  }
+
+  /* Móvil y tableta: botón «Menú» con <details> */
+  .tz-nav-plegable { border-top: var(--f-fino) solid var(--tinta); }
+  .tz-nav-plegable > summary {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-2) var(--e-4);
+    min-height: var(--toque);
+    padding-block: var(--e-3);
+  }
+  .tz-nav-boton {
+    display: inline-flex;
+    align-items: center;
+    /* Relleno, hueco e icono con tope en px: con el texto al 200 % en 320 px el botón sigue cabiendo */
+    gap: min(var(--e-3), 12px);
+    min-height: var(--toque);
+    max-width: 100%;
+    padding: 0 min(var(--e-5), 24px) 0 min(var(--e-4), 16px);
+    border: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-1);
+    font-weight: var(--p-semi);
+    line-height: 1.2;
+  }
+  .tz-nav-plegable > summary:hover .tz-nav-boton { border-width: var(--f-medio); padding: 0 calc(min(var(--e-5), 24px) - 1px) 0 calc(min(var(--e-4), 16px) - 1px); }
+  .tz-nav-icono { flex: none; width: min(1.5rem, 32px); height: min(1.5rem, 32px); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+  .tz-nav-icono-cerrar { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-abrir { display: none; }
+  .tz-nav-plegable[open] .tz-nav-icono-cerrar { display: inline; }
+  /* Abierto: botón invertido (tinta sobre papel → papel sobre tinta), como el resto de estados del sistema */
+  .tz-nav-plegable[open] .tz-nav-boton { background: var(--tinta); color: var(--papel); }
+  .tz-nav-donde { font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-nav-donde strong { color: var(--tinta); font-weight: var(--p-semi); }
+  .tz-nav-plegable .tz-nav-grupos { padding-bottom: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo + .tz-nav-grupo { margin-top: var(--e-4); }
+  .tz-nav-plegable .tz-nav-grupo-titulo { padding-block: var(--e-2); }
+  .tz-nav-plegable .tz-nav-grupo ul {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: var(--medianil);
+  }
+  @media (min-width: 30rem) { .tz-nav-plegable .tz-nav-grupo ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-nav-plegable .tz-nav-grupo li { border-top: var(--f-fino) solid var(--filete); }
+  .tz-nav-plegable a .tz-num { min-width: 1.75rem; }
+
+  /* Escritorio (≥ 1024 px): una fila con los grupos rotulados */
+  .tz-nav-fila { display: none; }
+  @media (min-width: 64rem) {
+    .tz-nav-plegable { display: none; }
+    .tz-nav-fila { display: block; border-top: var(--f-fino) solid var(--filete); }
+    .tz-nav-fila .tz-nav-grupos { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0 var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo + .tz-nav-grupo { border-left: var(--f-fino) solid var(--filete); padding-left: var(--e-5); }
+    .tz-nav-fila .tz-nav-grupo-titulo { padding-top: var(--e-3); }
+    .tz-nav-fila .tz-nav-grupo ul { display: flex; flex-wrap: wrap; gap: 0 var(--e-4); }
+  }
+
+  /* --- 4.14 Pie --- */
+  .tz-pie {
+    margin-top: var(--aire);
+    border-top: var(--f-fino) solid var(--tinta);
+    padding-block: var(--e-7) var(--e-7);
+    font-size: var(--t-0);
+  }
+  .tz-pie-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-7) var(--medianil);
+  }
+  @media (min-width: 48rem) { .tz-pie-cols { grid-template-columns: 5fr 4fr; } }
+  @media (min-width: 64rem) { .tz-pie-cols { grid-template-columns: 5fr 4fr 3fr; } }
+  .tz-pie h2 {
+    margin: 0 0 var(--e-3);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .tz-pie p { margin: 0; max-width: 32rem; color: var(--tinta-2); }
+  .tz-pie p + p { margin-top: var(--e-3); }
+  .tz-pie-indice { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--e-4); }
+  .tz-pie-indice a { display: flex; align-items: center; min-height: var(--toque); }
+  .tz-pie-final {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--e-2) var(--e-5);
+    margin-top: var(--e-8);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--filete);
+    color: var(--tinta-2);
+  }
+
+  /* --- 4.15 Saltar al contenido --- */
+  .tz-saltar {
+    position: absolute;
+    left: var(--e-4);
+    top: -10rem;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--toque);
+    padding: var(--e-2) var(--e-5);
+    background: var(--tinta);
+    color: var(--papel);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-saltar:focus { top: var(--e-4); }
+
+  /* --- 4.16 Archivo (tarjeta 2/5): portada, migas, registro de ediciones, cronología --- */
+  /* Frase de portada: qué fueron las Jornadas (es el h1) */
+  .tz-portada-frase {
+    margin: 0;
+    max-width: 22em;
+    font-family: var(--letra-titular);
+    font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3.5rem);
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.16;
+    letter-spacing: -0.012em;
+    text-wrap: pretty;
+  }
+  .tz-portada-ref { margin: var(--e-5) 0 0; max-width: var(--medida); }
+
+  /* Migas: «Ediciones › 1996» (enlaces de 48 px) */
+  .tz-migas { margin: 0 0 var(--e-2); }
+  .tz-migas ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--e-3); }
+  .tz-migas li { display: flex; align-items: center; gap: var(--e-3); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-migas li + li::before { content: "›"; color: var(--tinta-2); }
+  .tz-migas a { display: inline-flex; align-items: center; min-height: var(--toque); min-width: var(--toque); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+  /* Enlace de bloque con flecha (48 px de alto), p. ej. «Ver ficha ›» fuera de una Ficha */
+  .tz-enlace-bloque {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--toque);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    text-decoration: none;
+  }
+  .tz-enlace-bloque span:first-child { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  .tz-enlace-bloque:hover span:first-child { text-decoration-thickness: 2px; }
+
+  /* Registro de ediciones por año: año grande a la izquierda, datos a la derecha */
+  .tz-registro { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-registro-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-2) var(--medianil);
+    padding-block: var(--e-5) var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-registro-ano {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+    font-weight: var(--p-fino);
+    font-variant-numeric: lining-nums;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .tz-registro-ano--pendiente {
+    font-family: var(--letra-texto);
+    font-size: var(--t-1);
+    font-weight: var(--p-normal);
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  .tz-registro-titulo {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  @media (min-width: 48rem) { .tz-registro-titulo { font-size: 1.75rem; } }
+  .tz-registro-titulo a { color: inherit; text-decoration: none; }
+  .tz-registro-titulo a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .tz-registro-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-1) var(--e-5);
+    margin: var(--e-3) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+  }
+  .tz-registro-meta .tz-estado { color: var(--tinta); }
+  .tz-registro-texto { margin: var(--e-3) 0 0; max-width: var(--medida); color: var(--tinta-2); font-size: var(--t-0); line-height: 1.55; }
+  .tz-registro-pie { margin-top: var(--e-2); }
+  @media (min-width: 48rem) {
+    .tz-registro-fila { grid-template-columns: 11rem minmax(0, 1fr); padding-block: var(--e-6) var(--e-4); }
+    .tz-registro-ano--pendiente { padding-top: var(--e-2); }
+  }
+
+  /* Cronología: fecha a la izquierda, hecho a la derecha */
+  .tz-crono { list-style: none; margin: 0; padding: 0; }
+  .tz-crono-entrada {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-2) var(--medianil);
+    padding-block: var(--e-5);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-crono-entrada:first-child { border-top-color: var(--tinta); }
+  .tz-crono-fecha { margin: 0; }
+  .tz-crono-ano {
+    display: block;
+    font-family: var(--letra-titular);
+    font-size: var(--t-4);
+    font-weight: var(--p-fino);
+    font-variant-numeric: lining-nums;
+    line-height: 1;
+  }
+  .tz-crono-dia { display: block; margin-top: var(--e-2); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-crono-titulo {
+    margin: var(--e-2) 0 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .tz-crono-cuerpo > p { margin: var(--e-3) 0 0; max-width: var(--medida); }
+  .tz-crono-cuerpo .tz-registro-meta { margin-top: 0; }
+  @media (min-width: 48rem) {
+    .tz-crono-entrada { grid-template-columns: 11rem minmax(0, 1fr); padding-block: var(--e-6); }
+  }
+
+  /* Resumen de secciones (portada, «Más del archivo»): menos peso que las ediciones */
+  .tz-resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--e-7) var(--medianil);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tz-resumen > li { display: flex; flex-direction: column; border-top: var(--f-fino) solid var(--tinta); padding-top: var(--e-3); }
+  .tz-resumen h3 { margin: 0; font-family: var(--letra-titular); font-size: var(--t-2); font-weight: var(--p-normal); line-height: 1.25; }
+  .tz-resumen p { flex: 1; margin: var(--e-2) 0 0; color: var(--tinta-2); font-size: var(--t-0); line-height: 1.55; }
+  .tz-resumen .tz-enlace-bloque { margin-top: var(--e-2); }
+
+  /* Recuento en línea y fila de botones */
+  .tz-recuento { margin: var(--e-5) 0 0; font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-acciones { display: flex; flex-wrap: wrap; gap: var(--e-4); margin-top: var(--e-7); }
+
+  /* --- 4.17 MMO y guías (tarjeta 3/5) --- */
+  /* Contenedor de consulta: las tablas se apilan según el ancho de su caja, no de la pantalla */
+  .tz-contenedor { container-type: inline-size; }
+  .tz-encabezado.tz-encabezado--tras-migas { padding-top: var(--e-5); }
+  .tz-lista-enlaces--una { grid-template-columns: minmax(0, 1fr); }
+
+  /* Tabla de datos. Las celdas llevan data-etiqueta (plugin rehype-guias / build-guias.py) */
+  .tz-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: var(--t-0);
+    line-height: 1.5;
+    border-top: var(--f-medio) solid var(--tinta);
+  }
+  .tz-tabla th, .tz-tabla td {
+    padding: var(--e-3) var(--e-4) var(--e-3) 0;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: break-word;
+  }
+  .tz-tabla th:last-child, .tz-tabla td:last-child { padding-right: 0; }
+  .tz-tabla th {
+    font-weight: var(--p-semi);
+    border-bottom: var(--f-fino) solid var(--tinta);
+  }
+  .tz-tabla td { border-bottom: var(--f-fino) solid var(--filete); }
+  .tz-tabla td:first-child { font-weight: var(--p-semi); }
+  /* Tabla que se queda como tabla en móvil (pocas columnas cortas): con el texto muy ampliado
+     se desplaza dentro de su caja, no la página entera (WCAG 1.4.10 exime las tablas de datos).
+     Chrome y Firefox dan foco de teclado a la caja solo cuando de verdad desborda. */
+  .tz-desplazable { overflow-x: auto; }
+  /* Caja estrecha: cada fila pasa a ser una ficha con la etiqueta de la columna encima */
+  @container (max-width: 44rem) {
+    .tz-tabla, .tz-tabla thead, .tz-tabla tbody, .tz-tabla tr, .tz-tabla th, .tz-tabla td { display: block; }
+    .tz-tabla thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .tz-tabla { border-top: 0; }
+    .tz-tabla tr { padding-block: var(--e-4); border-top: var(--f-fino) solid var(--filete); }
+    .tz-tabla tr:first-child { border-top: var(--f-medio) solid var(--tinta); }
+    .tz-tabla tr:last-child { border-bottom: var(--f-fino) solid var(--tinta); }
+    .tz-tabla td { padding: 0; border: 0; }
+    .tz-tabla td + td { margin-top: var(--e-3); }
+    .tz-tabla td[data-etiqueta]::before {
+      content: attr(data-etiqueta);
+      display: block;
+      color: var(--tinta-2);
+      font-weight: var(--p-normal);
+      font-size: var(--t-0);
+    }
+    .tz-tabla td:first-child { font-size: var(--t-1); }
+  }
+  @container (min-width: 30rem) and (max-width: 44rem) {
+    .tz-tabla td[data-etiqueta] { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--e-4); }
+  }
+
+  /* Lista de enlaces de fila (guías, accesos): nombre en serif, detalle debajo, flecha a la derecha */
+  .tz-lista-enlaces {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    column-gap: var(--medianil);
+  }
+  .tz-lista-enlaces > li { border-top: var(--f-fino) solid var(--tinta); }
+  .tz-lista-enlaces a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--e-1) var(--e-4);
+    min-height: var(--toque);
+    padding-block: var(--e-4);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-lista-enlaces-nombre {
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    font-optical-sizing: auto;
+    line-height: 1.25;
+  }
+  .tz-lista-enlaces-detalle { grid-column: 1; font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-lista-enlaces-flecha { grid-column: 2; grid-row: 1 / span 2; font-size: var(--t-2); }
+  .tz-lista-enlaces a:hover .tz-lista-enlaces-nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+
+  /* Nota de lectura (no es «pendiente»: explica cómo leer lo que sigue) */
+  .tz-nota {
+    padding: var(--e-5);
+    background: var(--papel-2);
+    border-top: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-0);
+    line-height: 1.55;
+  }
+  .tz-nota p { margin: 0; max-width: var(--medida); }
+  .tz-nota p + p { margin-top: var(--e-3); }
+  .tz-nota .tz-rotulo { margin-bottom: var(--e-3); }
+
+  /* Datos con etiqueta ancha (nombres de personaje) */
+  @media (min-width: 30rem) {
+    .tz-datos--ancho > div { grid-template-columns: min(11rem, 40%) minmax(0, 1fr); }
+  }
+
+  /* Página de guía: índice y nota al margen (antes del texto en móvil; a la derecha desde 1024 px) */
+  .tz-guia-reticula {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "margen" "texto";
+    gap: var(--e-7) var(--medianil);
+  }
+  .tz-guia-reticula > .tz-guia { grid-area: texto; }
+  .tz-guia-reticula > .tz-guia-margen { grid-area: margen; }
+  @media (min-width: 64rem) {
+    .tz-guia-reticula {
+      grid-template-columns: minmax(0, 1fr) var(--columna-margen);
+      grid-template-areas: "texto margen";
+      column-gap: var(--e-8);
+    }
+  }
+  .tz-guia-margen > * + * { margin-top: var(--e-6); }
+  .tz-indice-guia { border-top: var(--f-fino) solid var(--tinta); padding-top: var(--e-3); }
+  .tz-indice-guia ol { list-style: none; margin: var(--e-2) 0 0; padding: 0; counter-reset: tz-g; }
+  .tz-indice-guia li { counter-increment: tz-g; border-top: var(--f-fino) solid var(--filete); }
+  .tz-indice-guia li:first-child { border-top: 0; }
+  .tz-indice-guia a {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    align-items: center;
+    min-height: var(--toque);
+    padding-block: var(--e-1);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    line-height: 1.35;
+    text-decoration: none;
+  }
+  .tz-indice-guia a::before { content: counter(tz-g, decimal-leading-zero); color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-indice-guia a:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+  /* Texto de la guía (Markdown): la prosa a su medida; las tablas usan todo el ancho */
+  .tz-guia.tz-prosa { max-width: none; }
+  .tz-guia > p, .tz-guia > ul, .tz-guia > ol, .tz-guia > h3 { max-width: var(--medida); }
+  .tz-guia > h2 {
+    margin-top: var(--e-9);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  @media (min-width: 48rem) { .tz-guia > h2 { font-size: var(--t-4); } }
+  .tz-guia > h2:first-child { margin-top: 0; }
+  .tz-guia > .tz-tabla { margin-block: var(--e-5); }
+
+  /* --- 4.18 Impresión ---
+     Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice
+     y el índice del pie; las migas se quedan como texto (dicen dónde estaba la página).
+     Los enlaces externos del contenido llevan su dirección detrás, entre paréntesis. */
+  @media print {
+    html, body { background: #fff; color: #000; }
+    .tz-saltar, .tz-nav, .tz-pie nav { display: none; }
+    .tz-cabecera { border-bottom-color: #000; }
+    .tz-cabecera-fila { padding-block: var(--e-2) var(--e-3); }
+    .tz-logo-nombre { font-size: 2rem; }
+    .tz-migas a { min-height: 0; text-decoration: none; }
+    .tz-pie { margin-top: var(--e-6); padding-block: var(--e-4) 0; }
+    .tz-pie-final { margin-top: var(--e-4); }
+    main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: var(--t-0); overflow-wrap: anywhere; }
+    h1, h2, h3 { break-after: avoid; }
+    tr, .tz-ficha { break-inside: avoid; }
+  }
+}

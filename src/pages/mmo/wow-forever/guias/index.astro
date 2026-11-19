@@ -1,0 +1,48 @@
+---
+/** Índice de guías de profesiones (sistema «Papel y tinta», tarjeta 3/5). */
+import Layout from "../../../../layouts/Layout.astro";
+import Encabezado from "../../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../../components/sistema/Titulo.astro";
+import { getAllGuides } from "../../../../lib/collections";
+import { fechaLarga } from "../../../../lib/formato";
+import { numeroSeccion } from "../../../../lib/nav";
+
+const guides = await getAllGuides();
+---
+
+<Layout
+  title="Guías de profesiones · WoW Forever"
+  description="Guías de las profesiones de World of Warcraft: Forever para la hermandad La Barbarie. Cada dato con su fuente."
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "MMO", href: "/mmo" }, { texto: "La Barbarie", href: "/mmo/wow-forever" }, { texto: "Guías" }]}
+      numero={numeroSeccion("/mmo")}
+      seccion="MMO · World of Warcraft: Forever"
+      titulo="Guías de profesiones"
+      entradilla="Una guía por profesión. Están redactadas a partir de páginas públicas, no de pruebas en el juego."
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-guias">
+      <Titulo id="s-guias" numero="01">Profesiones</Titulo>
+      <div class="tz-nota tz-medida" style="margin-bottom:var(--e-7)">
+        <p class="tz-rotulo">Cómo leerlas</p>
+        <p>Cada dato dice de qué sitio sale. Lo que las fuentes no aclaran está marcado como duda o pendiente.</p>
+      </div>
+      <ul class="tz-lista-enlaces">
+        {guides.map((g) => (
+          <li>
+            <a href={`/mmo/wow-forever/guias/${g.id}`}>
+              <span class="tz-lista-enlaces-nombre">{g.data.profesion}</span>
+              <span class="tz-lista-enlaces-detalle">{g.data.tipo} · comprobada el {fechaLarga(g.data.comprobado)}</span>
+              <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="tz-acciones">
+        <a class="tz-boton" href="/mmo/wow-forever/asesor/">Abrir el asesor</a>
+      </div>
+    </section>
+  </div>
+</Layout>

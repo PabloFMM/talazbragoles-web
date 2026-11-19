@@ -1,5 +1,8 @@
 import { getCollection } from "astro:content";
 
+const porNombre = (a: { data: { name: string } }, b: { data: { name: string } }) =>
+  a.data.name.localeCompare(b.data.name, "es");
+
 /** Fuentes ordenadas por fecha (más recientes al final). */
 export async function getAllSources() {
   const all = await getCollection("sources");
@@ -16,24 +19,30 @@ export async function getAllEditions() {
   });
 }
 
-/** Ediciones con al menos un dato verificado. */
-export async function getVerifiedEditions() {
-  const all = await getAllEditions();
-  return all.filter((e) => e.data.verified || e.data.status !== "pendiente");
-}
-
-/** Personas publicadas (no draft). */
+/** Personas publicadas (no draft), por orden alfabético. */
 export async function getAllPeople() {
-  return getCollection("people", ({ data }) => !data.draft);
+  return (await getCollection("people", ({ data }) => !data.draft)).sort(porNombre);
 }
 
-/** Sistemas publicados (no draft). */
+/** Sistemas publicados (no draft), por orden alfabético. */
 export async function getAllSystems() {
-  return getCollection("systems", ({ data }) => !data.draft);
+  return (await getCollection("systems", ({ data }) => !data.draft)).sort(porNombre);
 }
 
 /** Entradas de cronología ordenadas por fecha. */
 export async function getAllTimeline() {
   const all = await getCollection("timeline");
   return all.sort((a, b) => a.data.date.localeCompare(b.data.date));
+}
+
+/** Guías de la sección MMO, por orden alfabético de profesión. */
+export async function getAllGuides() {
+  const all = await getCollection("guides");
+  return all.sort((a, b) => a.data.profesion.localeCompare(b.data.profesion, "es"));
+}
+
+/** Campañas actuales del grupo (sección /rol/), sin borradores, por título. */
+export async function getAllCampaigns() {
+  const all = await getCollection("campaigns", ({ data }) => !data.draft);
+  return all.sort((a, b) => a.data.title.localeCompare(b.data.title, "es"));
 }
