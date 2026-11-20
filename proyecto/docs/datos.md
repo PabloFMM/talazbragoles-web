@@ -110,3 +110,8 @@
 - Copia: `data/subastas/2026-11-17_1818UTC_recibida.csv`. 4.514 filas, 0 malas. «Elixir de fuerza menor» repetido (se deja). 0 filas propias. Hora de exportación: pendiente.
 - `AHB=[AH0,AH1,AH2,AH3,AH4,AH5]`. Casi dos días después de AH4: 1.537 cambios ≥15 % (937 bajan, 600 suben); 2.253 nombres desaparecen y 2.012 son nuevos.
 - Precios clave (cobre por unidad, a la venta entre paréntesis): mineral de cobre 140 (599); lingote de cobre 100 (1.260); mineral de estaño 148 (572); lingote de estaño 174 (333); lingote de bronce 174 (2.262); piedra basta 11 (3.031); pólvora férrea 75 (1.062); paño de lino 38 (6.143); puñado de tornillos de cobre 183 (59).
+
+## AH6 — 2026-11-20 22:20 UTC (hora de recepción)
+- Copia: `data/subastas/2026-11-20_2220UTC_recibida.csv` → `web/datos/subasta-s6-048c11b2b5.json`. 5.456 filas. «Elixir de fuerza menor» repetido (se deja). 10 filas propias. Hora de exportación: pendiente.
+- `AHB=[AH0,…,AH6]`. Tres días después de AH5.
+- Precios clave (cobre, a la venta): mineral de cobre 97 (2.380); lingote de cobre 90 (1.533); mineral de estaño 155 (912); lingote de estaño 175 (597); lingote de bronce 170 (1.905); lingote de plata 455 (495); piedra basta 4 (3.993); pólvora férrea 25 (1.543); pólvora burda 33 (525); puñado de tornillos de cobre 299 (84); contacto de plata 40 (405); tubo de bronce 573 (39); paño de lino 22 (4.796).

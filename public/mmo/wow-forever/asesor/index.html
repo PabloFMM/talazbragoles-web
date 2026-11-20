@@ -1208,10 +1208,15 @@ var AH4={id:'s4',ts:Date.parse('2026-11-15T21:36:00Z'),por:'PabloFM (CSV complet
 var AH5={id:'s5',ts:Date.parse('2026-11-17T18:18:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:4514,base:true,
  src:'subasta-s5-892c8b01e4.json'};
 
+/* Subida completa recibida por chat el 2026-11-20 22:20 UTC (hora de exportación del juego: pendiente).
+   Copia literal: data/subastas/2026-11-20_2220UTC_recibida.csv. 5.456 filas, 0 malas. */
+var AH6={id:'s6',ts:Date.parse('2026-11-20T22:20:00Z'),por:'PabloFM (CSV completo, hora de recepción)',n:5456,base:true,
+ src:'subasta-s6-048c11b2b5.json'};
+
 /* Subidas incluidas en la web (no se pueden quitar), de más antigua a más reciente.
    Las completas (src) viven en datos/<src> y se cargan al arrancar (cargaSubidas). El nombre lleva un
    resumen del contenido: si cambia el contenido, cambia el nombre (así el navegador las guarda sin caducar). */
-var AHB=[AH0,AH1,AH2,AH3,AH4,AH5];
+var AHB=[AH0,AH1,AH2,AH3,AH4,AH5,AH6];
 var AH_DIR='/mmo/wow-forever/asesor/datos/';
 /* listo: ya se ha intentado cargar todo; fallan: subidas que no han llegado (se quitan de AHB). */
 var DATOS={listo:false,fallan:[]};
