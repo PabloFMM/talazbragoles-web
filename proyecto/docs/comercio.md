@@ -101,6 +101,10 @@
 - Regresión (estado limpio): 159 pólvoras férreas (compra 159 piedras bastas por 17 pl. 49; cobra 1 o. 13 pl. 29; ganancia 95 pl. 80) y 7 puñados de tornillos (coste 7 pl.; ganancia 5 pl. 17). Sobran 51 cobres.
 - Ojo: esa ganancia sale de que la pólvora férrea pasó de 15 a 75 cobres (es el precio más bajo, con 1.062 a la venta). No está asegurado que se vendan 159 más a ese precio.
 
+## Resultado con AH6 (5.456 objetos, 2026-11-20 22:20 UTC), valores por defecto y 25 de plata
+- Regresión (estado limpio): 231 pólvoras férreas (231 piedras bastas, 9 pl. 24; ganancia 45 pl. 62), 12 puñados de tornillos (12 lingotes de cobre, 10 pl. 80; ganancia 23 pl. 29), 2 lingotes de bronce (ganancia 58 cobre) y 1 lingote de estaño (11 cobre). Invierte 24 pl. 24, recupera 93 pl. 84, ganancia 69 pl. 60. Sobran 76 cobres.
+- La pólvora férrea bajó de 75 a 25 cobres y hay 1.543 a la venta: el margen es real, pero vender 231 lleva tiempo.
+
 ## Cambios entre subidas
 - Solo objetos con 20 o más a la venta en las dos subidas.
 - Solo cambios del 15 % o más.

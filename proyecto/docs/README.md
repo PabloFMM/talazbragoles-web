@@ -135,7 +135,8 @@ Documento índice. Pensado para IAs y personas que operen o mantengan la web.
 - Integrada (2026-11-13) una subida completa de 3.823 objetos (AH1, recibida a las 21:27 UTC; hora de exportación pendiente). Ver `datos.md`.
 - Integrada (2026-11-15) una subida completa de 4.634 objetos (AH2, recibida a las 17:44 UTC; hora de exportación pendiente). Ver `datos.md`.
 - Integrada (2026-11-15) AH3, 4.731 objetos, recibida a las 21:15 UTC.
-- Integrada (2026-11-17) AH5, 4.514 objetos, recibida a las 18:18 UTC. Es la que usa la web por defecto. Auditoría: 0 fallos en 1.008 vistas, 0 errores de JS.
+- Integrada (2026-11-17) AH5, 4.514 objetos, recibida a las 18:18 UTC.
+- Integrada (2026-11-20) AH6, 5.456 objetos, recibida a las 22:20 UTC. Es la que usa la web por defecto. Auditoría: 0 fallos en 1.008 vistas, 0 errores de JS.
 - 2026-11-17 (revisión de código 3/3, `t_a628d739`): AH1…AH5 salen del HTML a `web/datos/` (`index.html` 1.242.608 → 130.522 bytes). Nuevas subidas: `scripts/add-subasta.py` del skill `talazbragoles-web` ya escribe en ese formato. Mientras cargan, lo que depende de precios dice «Cargando los precios de la subasta…»; si falta un archivo, aviso arriba y se calcula con el resto. Un error de JS inesperado se avisa una vez en pantalla (`#aviso-error`). Regresión del plan con AH5 y estado limpio: texto idéntico (y el de las 14 pestañas). Auditoría: 0 fallos en 1.008 vistas, 0 errores de JS. Copia previa: `web/index-antes-revision.html`.
 - La base de datos compartida (`db`) del artifact no está conectada en el prototipo: los CSV se guardan solo en este navegador (máximo 6).
 - La ficha de personajes del artifact (capturas base64) no está portada: campo `img` reservado en el estado.
