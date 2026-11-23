@@ -79,6 +79,59 @@ export const papelPersona: Record<Campo<"people", "roles">[number], string> = {
   otro: "Otro",
 };
 
+// ─── Sección Rol (fase 1) ─────────────────────────────────────────────
+
+type CampoRol<C extends "juegos" | "systems" | "licencias", K extends keyof CollectionEntry<C>["data"]> =
+  CollectionEntry<C>["data"][K];
+
+export const generoRol: Record<CampoRol<"juegos", "generos">[number], string> = {
+  fantasia: "Fantasía",
+  "ciencia-ficcion": "Ciencia ficción",
+  terror: "Terror",
+  misterio: "Misterio",
+  historico: "Histórico",
+  contemporaneo: "Contemporáneo",
+  universal: "Universal",
+  otro: "Otro",
+};
+
+export const modoJuego: Record<CampoRol<"juegos", "modo">[number], string> = {
+  "con-dj": "Con quien dirige",
+  "sin-dj": "Sin quien dirija",
+  solitario: "En solitario",
+};
+
+export const formatoPartida: Record<CampoRol<"juegos", "formato">[number], string> = {
+  "una-sesion": "Partida de una sesión",
+  campana: "Campaña",
+};
+
+export const tipoLicencia: Record<CampoRol<"licencias", "tipo">, string> = {
+  cc: "Creative Commons",
+  orc: "Licencia ORC",
+  "abierta-propia": "Licencia abierta propia",
+  "politica-de-uso": "Política de uso (no es una licencia)",
+  fans: "Solo material de fans, no comercial",
+  cerrada: "Cerrada",
+};
+
+export const dondeSeJugo: Record<CampoRol<"systems", "jugadoEn">[number], string> = {
+  jornadas: "Jornadas Talazbrágoles",
+  grupo: "Nuestras mesas",
+};
+
+export const permisoPortada: Record<NonNullable<CampoRol<"juegos", "portada">>["permiso"], string> = {
+  cita: "Cita",
+  licencia: "Licencia",
+  "permiso-editor": "Permiso de la editorial",
+  "foto-propia": "Foto de nuestro ejemplar",
+};
+
+export const idiomaEdicion: Record<CampoRol<"juegos", "ediciones">[number]["idioma"], string> = {
+  en: "Inglés",
+  es: "Castellano",
+};
+
 /** «2026-11-14» → «14 de noviembre de 2026». Si no es una fecha completa, la devuelve tal cual. */
 export function fechaLarga(iso: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);

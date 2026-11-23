@@ -36,8 +36,12 @@ src/
 │   ├── sources/            # Fuentes documentales (.json)
 │   ├── editions/           # Ediciones de las jornadas (.json)
 │   ├── people/             # Personas relevantes (.md / .mdx)
-│   ├── systems/            # Sistemas de rol (.md / .mdx)
-│   └── timeline/           # Eventos cronológicos (.json)
+│   ├── systems/            # Sistemas de rol, de las Jornadas y del grupo (.md / .mdx)
+│   ├── timeline/           # Eventos cronológicos (.json)
+│   ├── juegos/             # Rol: un .md por juego que juega el grupo
+│   ├── licencias/          # Rol: qué permite cada licencia
+│   ├── autoria/            # Rol: personas autoras de juegos
+│   └── editoriales/        # Rol: editoriales originales y en castellano
 ├── components/
 │   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
 │   ├── archivo/            # RegistroEdiciones (ediciones por año), Migas
@@ -96,9 +100,22 @@ Campos frontmatter: `name`, `roles[]`, `active`, `links[]`, `editionIds[]`, `sou
 
 ### `systems` — Sistemas de rol
 
-Archivos Markdown en `src/content/systems/`. El cuerpo es la descripción del sistema.
+Archivos Markdown en `src/content/systems/`. El cuerpo es la descripción del sistema. Colección ÚNICA para las Jornadas y para el grupo actual.
 
-Campos frontmatter: `name`, `publisher`, `year`, `genre[]`, `editions[]`, `playedAtEditionIds[]`, `draft`.
+- `jugadoEn`: `["jornadas"]` (valor por defecto; sale en `/sistemas/`, Archivo, vía `getSistemasJornadas()`) o `["grupo"]` (sección Rol, vía `getSistemasRol()`).
+- Campos de las Jornadas (en inglés): `name`, `publisher`, `year`, `genre[]`, `editions[]`, `playedAtEditionIds[]`, `draft`.
+- Campos de Rol (en castellano): `nombreCorto`, `familia` (sistema padre, `reference("systems")`), `origen`, `ano`, `autoria[]`, `editorial[]`, `licencia` (licencia del sistema), `srd` (`nombre`, `url`, `alcance`), `enlaces[]`, `dudas[]`, `fuentes[]`.
+
+### Sección Rol: `juegos`, `licencias`, `autoria`, `editoriales` (fase 1, 2026-11-23)
+
+Markdown en `src/content/<colección>/<slug>.md`. Se enlazan con `reference()`; `tests/rol-referencias.test.mjs` comprueba que cada slug existe (Astro no lo hace ni en `astro check` ni en el build).
+
+- **Fuentes por dato**: cada ficha lleva `fuentes: [{ datos: [campos], url, afirma, consultado, secundaria? }]`. El esquema (`exigeFuentes()` en `content.config.ts`) RECHAZA un campo con valor si ninguna fuente lo nombra en `datos`. Sin fuente → campo vacío → la página pinta «pendiente». `secundaria: true` = Wikipedia, prensa o reseñas (no la editorial ni el autor).
+- `juegos`: `titulo`, `tituloCastellano`, `edicion` (la que juega el grupo), `ano`, `ediciones[]` (`nombre`, `ano`, `idioma`), `autoria[]`, `editorial[]`, `editorialCastellano[]`, `sistema`, `licenciaJuego[]` (`licencia`, `alcance`; distinta de la del sistema), `generos[]`, `modo[]` (`con-dj`, `sin-dj`, `solitario`), `formato[]`, `jugadores` (`min`, `max`, `nota`), `jugado` (`nosotros`, `ultima`; lo dice PabloFM, sin fuente web), `portada` (opcional, con `credito` y `permiso`; hoy ninguna), `enlaces[]`, `dudas[]` (preguntas abiertas), `fuentes[]`, `draft`. Cuerpo: 2-4 frases propias de qué es el juego.
+- `licencias`: `nombre`, `nombreCorto`, `tipo` (`cc`, `orc`, `abierta-propia` = abiertas; `politica-de-uso`, `fans`, `cerrada`), `url`, `permite` (`comercial`, `adaptar`, `atribucion`, `compartirIgual`), `fuentes[]`. Cuerpo: qué permite, en castellano llano.
+- `autoria` y `editoriales`: `nombre`, `web`, `fuentes[]`. `autoria` es distinta de `people` (personas de las Jornadas).
+- Helpers en `lib/collections.ts`: `getAllJuegos()`, `getSistemasRol()`, `getAllLicencias()`, `getAllAutoria()`, `getAllEditoriales()`, `resuelveJuego()` (resuelve referencias y calcula `abierto`: licencia del juego O del sistema), `juegosDeSistema()`, `juegosDeLicencia()`, `juegosDePersona()`, `juegosDeEditorial()`, `esAbierta()`. Etiquetas de los enums en `lib/formato.ts` (`generoRol`, `modoJuego`, `formatoPartida`, `tipoLicencia`, `dondeSeJugo`…).
+- Estado de los datos y pendientes por juego: `proyecto/docs/rol/datos-fase1.md`.
 
 ### `guides` — Guías de juego (sección MMO)
 
