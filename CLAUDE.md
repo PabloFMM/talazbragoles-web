@@ -21,7 +21,7 @@ Filosofía central: **rigor documental**. Solo se publica lo que tiene fuente ve
 | CSS propio | — | `reset.css` + `sistema.css` («Papel y tinta»), sin framework (Tailwind retirado el 2026-11-17) |
 | `@astrojs/sitemap` | latest | Sitemap automático |
 | TypeScript | strict | Tipado completo |
-| Vercel | — | Despliegue (push a `main` = deploy automático) |
+| Cloudflare Workers | — | Despliegue (archivos estáticos de `dist/`; cada cambio en `main` se construye solo) |
 
 **No hay JS en cliente**, con una única excepción documentada: `public/mmo/wow-forever/asesor/index.html` (el asesor de La Barbarie, ver «Sección MMO»). Todo lo demás es HTML estático generado en build. No hay backend, base de datos ni API.
 
@@ -224,7 +224,7 @@ npm run preview   # Preview del build
 
 ## Despliegue
 
-El repo está en GitHub (`PabloFMM/talazbragoles-web`). Vercel está conectado al branch `main`. Un `git push origin main` despliega automáticamente.
+El repo está en GitHub (`PabloFMM/talazbragoles-web`). Cloudflare Workers (proyecto `talazbragoles-web`, config en `wrangler.jsonc`) construye y publica cada cambio en `main`: `npm run build` + `npx wrangler deploy`. Para que se dispare, la app de GitHub «Cloudflare Workers and Pages» de la cuenta PabloFMM debe tener este repositorio en «Repository access» (añadido el 2026-11-23). Tras fusionar, comprobar que aparece el check de Cloudflare en el commit. Pasos de la migración: `proyecto/docs/cloudflare.md`.
 
 ---
 
