@@ -6,6 +6,7 @@ Quien trabaje en el proyecto (persona o IA) lee esto primero y después `README.
 ## 1. Decisiones tomadas
 | Tema | Decisión | Quién y cuándo |
 |---|---|---|
+| Folleto de 1997 (documento de época) | Se publican las 4 caras escaneadas y su texto literal en la ficha de la edición: el folleto es material propio de las Jornadas y hay permiso. Excepción a «no se copian textos ni imágenes ajenos» y a «solo tipografía» (componente `.tz-documento`). Original y restauración en `documentos-historicos/1997-04-folleto-vi-jornadas/` | PabloFM, 2026-11-23 |
 | Dominio canónico | `https://www.talazbragoles.com` (el dominio sin www ya redirige a www) | PabloFM delega; coordinación, 2026-11-14 |
 | Fuentes nuevas del Archivo | Se publican como enlace + resumen propio. No se copian textos ni imágenes ajenos (no son de dominio público) | PabloFM (condición) + coordinación, 2026-11-14 |
 | Guías de profesiones | Sí: todas las profesiones de WoW Forever, una guía por profesión | PabloFM, 2026-11-14 |

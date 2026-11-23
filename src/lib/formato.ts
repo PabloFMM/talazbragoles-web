@@ -54,6 +54,7 @@ export const tipoFuente: Record<Campo<"sources", "type">, string> = {
   testimonio: "Testimonio",
   prensa: "Prensa",
   "documento-oficial": "Documento oficial",
+  "documento-de-epoca": "Documento de época",
   "web-archivo": "Web archivada",
   foto: "Foto",
   video: "Vídeo",

@@ -60,6 +60,16 @@
     if (r.height < 47.5 || (r.width < 47.5 && !el.matches('summary'))) add(`control ${Math.round(r.width)}×${Math.round(r.height)}: <${el.tagName.toLowerCase()} class="${tz(el)}"> «${el.textContent.trim().slice(0, 30)}»`);
   }
   if (document.querySelector('script:not([type="application/ld+json"])')) add('hay <script> (prohibido fuera del asesor)');
-  for (const img of document.images) if (visible(img)) add(`imagen visible: ${img.getAttribute('src')}`);
+  for (const img of document.images) {
+    if (!visible(img)) continue;
+    // Excepción (2026-11-23): reproducción de un documento de época (fuente primaria) en su ficha.
+    if (img.closest('.tz-documento-imagen')) {
+      if (!img.alt || img.alt.length < 20) add(`documento sin alt descriptivo: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`documento sin width/height: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`documento desborda: ${img.getAttribute('src')}`);
+      continue;
+    }
+    add(`imagen visible: ${img.getAttribute('src')}`);
+  }
   return JSON.stringify({ w: W, sw: SW, issues });
 })()

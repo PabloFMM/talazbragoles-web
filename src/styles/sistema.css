@@ -1161,6 +1161,37 @@
     white-space: nowrap;
   }
 
+  /* --- 4.17 quater Archivo: documentos de época (folletos, programas) ---
+     Cada cara: imagen (enlace a la imagen sola) y su texto copiado al lado.
+     Una columna en móvil; imagen y texto en dos desde 48rem. */
+  .tz-documento { list-style: none; margin: var(--e-6) 0 0; padding: 0; }
+  .tz-documento-cara {
+    display: grid;
+    gap: var(--e-5);
+    padding-block: var(--e-6);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-documento-cara:first-child { border-top-color: var(--tinta); }
+  @media (min-width: 48rem) {
+    .tz-documento-cara { grid-template-columns: minmax(0, min(22rem, 40%)) minmax(0, 1fr); gap: var(--medianil); align-items: start; }
+  }
+  .tz-documento-imagen { display: block; border: var(--f-fino) solid var(--tinta); }
+  .tz-documento-imagen img { display: block; width: 100%; height: auto; }
+  .tz-documento-texto { min-width: 0; }
+  .tz-documento-texto h3 { margin: 0 0 var(--e-4); }
+  .tz-documento-literal {
+    margin: 0;
+    padding-left: var(--e-4);
+    border-left: var(--f-medio) solid var(--tinta);
+    font-size: var(--t-1);
+    line-height: var(--il-texto);
+    overflow-wrap: break-word;
+  }
+  .tz-documento-literal p { margin: 0 0 var(--e-3); }
+  .tz-documento-literal p:last-child { margin-bottom: 0; }
+  .tz-documento-nota { margin: var(--e-4) 0 0; font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-documento-ver { margin: var(--e-4) 0 0; }
+
   /* --- 4.18 Impresión ---
      Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice
      y el índice del pie; las migas se quedan como texto (dicen dónde estaba la página).
@@ -1176,6 +1207,6 @@
     .tz-pie-final { margin-top: var(--e-4); }
     main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: var(--t-0); overflow-wrap: anywhere; }
     h1, h2, h3 { break-after: avoid; }
-    tr, .tz-ficha { break-inside: avoid; }
+    tr, .tz-ficha, .tz-documento-cara { break-inside: avoid; }
   }
 }
