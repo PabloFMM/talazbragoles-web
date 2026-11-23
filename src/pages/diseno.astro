@@ -19,7 +19,7 @@ import PortadaJuego from "../components/sistema/PortadaJuego.astro";
 import CreditoPortada from "../components/sistema/CreditoPortada.astro";
 import Filtros from "../components/sistema/Filtros.astro";
 import { filtrosRol } from "../lib/rol-filtros";
-import { getAllEditions, getAllSources, getAllJuegos, resuelveJuego } from "../lib/collections";
+import { getAllEditions, getAllSources, getAllJuegos, resuelveJuego, hrefEdicion } from "../lib/collections";
 import { dosCifras } from "../lib/formato";
 
 const ediciones = await getAllEditions();
@@ -65,7 +65,7 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
     { etiqueta: "Sede", valor: ed.data.venue?.name ?? null },
     { etiqueta: "Fuentes", valor: ed.data.sourceIds.length },
   ],
-  href: `/ediciones/${ed.id}`,
+  href: hrefEdicion(ed.id),
 });
 ---
 

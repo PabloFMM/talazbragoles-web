@@ -70,6 +70,16 @@ export const tipoActividad: Record<Campo<"editions", "activities">[number]["type
   otro: "Otra",
 };
 
+/** Apartado de un documento de edición (bloque 05), en el orden en que se pintan. */
+export type ApartadoDocumento = Campo<"editions", "documentos">[number]["apartado"];
+export const APARTADOS: ApartadoDocumento[] = ["papeles", "prensa", "fotos", "recuerdos"];
+export const apartadoDocumento: Record<ApartadoDocumento, string> = {
+  papeles: "Papeles",
+  prensa: "Prensa",
+  fotos: "Fotos",
+  recuerdos: "Recuerdos",
+};
+
 export const papelPersona: Record<Campo<"people", "roles">[number], string> = {
   organizador: "Organización",
   autor: "Autoría",

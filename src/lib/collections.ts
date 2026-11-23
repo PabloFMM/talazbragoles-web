@@ -9,15 +9,20 @@ export async function getAllSources() {
   return all.sort((a, b) => (a.data.date ?? "").localeCompare(b.data.date ?? ""));
 }
 
-/** Ediciones ordenadas cronológicamente. Las de año desconocido van al final. */
+/** Ediciones de la MÁS RECIENTE a la MÁS ANTIGUA; año desconocido al final. */
 export async function getAllEditions() {
   const all = await getCollection("editions");
   return all.sort((a, b) => {
-    const ya = a.data.year === "desconocida" ? 9999 : a.data.year;
-    const yb = b.data.year === "desconocida" ? 9999 : b.data.year;
-    return ya - yb;
+    const ya = a.data.year === "desconocida" ? -1 : a.data.year;
+    const yb = b.data.year === "desconocida" ? -1 : b.data.year;
+    return yb - ya;
   });
 }
+
+/** Ruta de una edición: el id del archivo es el año («1997») o «sin-fecha». */
+export const hrefEdicion = (id: string) => `/ediciones/${id}/`;
+/** Ruta de un documento con caras de una edición. */
+export const hrefDocumento = (edicionId: string, slug: string) => `/ediciones/${edicionId}/${slug}/`;
 
 /** Personas publicadas (no draft), por orden alfabético. */
 export async function getAllPeople() {

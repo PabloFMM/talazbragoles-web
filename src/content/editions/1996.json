@@ -1,0 +1,24 @@
+{
+  "year": 1996,
+  "title": "Talazbrágoles — 5ª edición (13 y 14 de abril)",
+  "numero": { "romano": "V", "entero": 5 },
+  "anioEstado": {
+    "estado": "deducido",
+    "sourceIds": ["rol-de-los-90-la-runa-2018", "folleto-vi-jornadas-1997"],
+    "nota": "Dos indicios que coinciden: la crónica salió en La Runa, cuyos números son de abril y mayo de 1996, y el folleto de 1997 presenta la VI edición como el «sexto año consecutivo». Ninguna fuente escribe el año junto a los días."
+  },
+  "verified": false,
+  "status": "parcial",
+  "fechas": "13 y 14 de abril (sábado y domingo en 1996)",
+  "asistencia": "Unas 700 personas, según la crónica de La Runa (vía Rol de los 90)",
+  "venue": { "city": "Las Rozas" },
+  "description": "Según la crónica del periódico La Runa que reseña el blog Rol de los 90: jornadas gratuitas, 130 mesas, campeonatos de Magic y SATM, partida de Doom en red, charlas y mesas redondas; unas 700 personas. Fuente secundaria; el año 1996 es deducido.",
+  "sourceIds": ["rol-de-los-90-la-runa-2018", "folleto-vi-jornadas-1997"],
+  "peopleIds": [],
+  "activities": [
+    { "type": "partida-rol", "name": "130 mesas para partidas de rol", "description": "Según la crónica de La Runa, vía Rol de los 90." },
+    { "type": "torneo", "name": "Campeonatos de Magic y SATM", "description": "Según la crónica de La Runa, vía Rol de los 90." },
+    { "type": "otro", "name": "Partida de Doom en red", "description": "Según la crónica de La Runa, vía Rol de los 90." },
+    { "type": "charla", "name": "Charlas y mesas redondas", "description": "Según la crónica de La Runa, vía Rol de los 90. No dice temas ni ponentes." }
+  ]
+}

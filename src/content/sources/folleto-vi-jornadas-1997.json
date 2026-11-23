@@ -1,6 +1,6 @@
 {
   "title": "Folleto «Talazbrágoles'97 — VI Jornadas de Juegos de Rol, Estrategia y Simulación» (díptico, 4 caras)",
-  "url": "https://www.talazbragoles.com/ediciones/talazbragoles-1997-sexta#folleto",
+  "url": "https://www.talazbragoles.com/ediciones/1997/folleto/",
   "asserts": "Folleto impreso de la edición. Anuncia las VI Jornadas de Juegos de Rol, Estrategia y Simulación los días 19 y 20 de abril («Talazbrágoles'97») en el Pabellón Multifuncional de Las Matas, con horario de 10:00 a 21:00 el sábado y de 10:00 a 19:00 el domingo. Dice que es el «sexto año consecutivo», que las jornadas están «organizadas por y para aficionados», con patrocinio de editoriales y tiendas y apoyo del Ayuntamiento de Las Rozas; la portada lleva el logotipo de la Concejalía de Juventud. Lista 14 patrocinadores y colaboradores y las actividades previstas: más de cien partidas de rol, torneos de AD&D, La llamada de Cthulhu y El Señor de los Anillos, liga de Blood Bowl, campeonatos de cartas (El Señor de los Anillos, Magic, Doomtrooper), demostraciones de Dice Master, wargames, torneos de juegos en red, demostraciones de internet, cine fórum, mesas redondas, charlas, exposiciones de merchandising y concursos de disfraces y de pintado de figuras. Incluye plano de Las Matas, cómo llegar (autobús 622 desde Moncloa, Cercanías hasta Las Matas), teléfono y fax de información y una dirección web en el servidor de Interlink.",
   "caveat": "Es un programa anunciado: no prueba que todas las actividades se celebraran ni dice cuánta gente fue. No nombra a ningún organizador ni asociación, ni el precio de entrada, ni quién dibujó la ilustración. La dirección web sale impresa con espacios («http:/ / www.interlink.es/ talazbrágoles»): la exacta queda pendiente. Reproducido a partir de fotos de un ejemplar en papel (2026-11-23).",
   "type": "documento-de-epoca",
@@ -8,6 +8,6 @@
   "accessDate": "2026-11-23",
   "broken": false,
   "tags": ["fuente primaria", "folleto", "Las Matas", "Las Rozas", "1997"],
-  "relatedEditions": ["talazbragoles-1997-sexta"],
+  "relatedEditions": ["1997", "1996", "1995", "1994", "1993", "1992"],
   "relatedPeople": []
 }

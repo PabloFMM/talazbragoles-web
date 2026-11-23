@@ -1,0 +1,9 @@
+# Cloudflare Workers (archivos estáticos): redirecciones. Se aplican antes de
+# buscar el archivo. Rutas viejas de Ediciones (hasta 2026-11-23) → una página por año.
+# Lo comprueba tests/ediciones.test.mjs.
+/ediciones/talazbragoles-1997-sexta /ediciones/1997/ 301
+/ediciones/talazbragoles-1997-sexta/ /ediciones/1997/ 301
+/ediciones/talazbragoles-1996-quinta /ediciones/1996/ 301
+/ediciones/talazbragoles-1996-quinta/ /ediciones/1996/ 301
+/ediciones/talazbragoles-sin-fecha-1 /ediciones/sin-fecha/ 301
+/ediciones/talazbragoles-sin-fecha-1/ /ediciones/sin-fecha/ 301

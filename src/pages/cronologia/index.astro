@@ -5,7 +5,7 @@ import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
-import { getAllTimeline } from "../../lib/collections";
+import { getAllTimeline, hrefEdicion } from "../../lib/collections";
 import { anclaFuente, categoriaCronologia, partesFecha } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
@@ -58,7 +58,7 @@ const edicion = (id?: string) => (id ? ediciones.find((e) => e.id === id) : unde
                     ) : (
                       <>Fuente: <Pendiente />.</>
                     )}
-                    {ed && <> Edición: <a href={`/ediciones/${ed.id}`}>{ed.data.title}</a>.</>}
+                    {ed && <> Edición: <a href={hrefEdicion(ed.id)}>{ed.data.title}</a>.</>}
                   </p>
                 </div>
               </li>

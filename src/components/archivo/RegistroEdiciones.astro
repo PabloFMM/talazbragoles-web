@@ -9,6 +9,7 @@ import type { CollectionEntry } from "astro:content";
 import Estado from "../sistema/Estado.astro";
 import Pendiente from "../sistema/Pendiente.astro";
 import { plural } from "../../lib/formato";
+import { hrefEdicion } from "../../lib/collections";
 
 interface Props {
   ediciones: CollectionEntry<"editions">[];
@@ -22,7 +23,7 @@ const Tag = nivel === 2 ? "h2" : "h3";
 <ol class="tz-registro">
   {ediciones.map((e) => {
     const { year, title, status, venue, sourceIds, description } = e.data;
-    const href = `/ediciones/${e.id}`;
+    const href = hrefEdicion(e.id);
     const sede = [venue?.name, venue?.city].filter(Boolean).join(", ");
     return (
       <li class="tz-registro-fila">
