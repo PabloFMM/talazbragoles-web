@@ -31,7 +31,7 @@ Numinia: ficha y página propia con estado «En construcción»; sin mencionar r
 ## Ediciones, descargas y material (PabloFM, 2026-11-23)
 - Ediciones = dato de primera clase: `juegos.ediciones[]` (nombre, año, editorial, idioma, traducción de, licencia por edición, la jugamos, descarga, fuentes).
 - Descarga solo si la licencia de esa edición lo permite; enlace a la descarga OFICIAL, sin alojar archivos. Filtro «Se puede descargar».
-- Idea futura, NO ahora: zona de material adicional (imprimibles 2D/3D, artefactos). Ediciones de D&D, Star Trek Adventures y La llamada de Cthulhu: sin respuesta → «pendiente».
+- Idea futura, NO ahora: zona de material adicional (imprimibles 2D/3D, artefactos). Ediciones jugadas: ver arriba (D&D 5.ª con subedición pendiente; Cthulhu 7.ª; STA 2.ª). Esquema y estado de datos tras Rol 1b: `docs/rol/datos-fase1.md`.
 Fuentes de licencia ya verificadas: tabla §4 de la propuesta (Trophy SRD CC BY 4.0 en trophyrpg.com/system; Dungeon World CC BY 3.0 en dungeonworldsrd.com/more-info; Ironsworn CC BY-NC-SA 4.0 libro + CC BY 4.0 SRD en tomkinpress.com/pages/licensing; SRD 5.1 CC BY 4.0 desde 27-1-2023; BRP bajo ORC en chaosium.com/orc-license; Cypher Open License; Blades SRD CC BY 3.0; Delta Green publishing guidelines; Root licencia oficial Leder→Magpie). Public Access: la licencia abierta de Carved from Brindlewood solo la cita un blog → buscar el texto oficial o dejar «por verificar».
 
 ## Reglas no negociables
