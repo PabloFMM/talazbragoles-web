@@ -1,0 +1,94 @@
+---
+/** /rol/editoriales/<slug>/: una editorial: web, juegos (con su papel: original, edición, castellano), sistemas y fuentes. */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Datos, { type Dato } from "../../../components/sistema/Datos.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import FuenteDato from "../../../components/sistema/FuenteDato.astro";
+import { getAllEditoriales, juegosDeEditorial, papelesDeEditorial, sistemasDeEditorial } from "../../../lib/collections";
+import { hrefJuego, hrefSistema } from "../../../lib/rol-rutas";
+import { numeroSeccion } from "../../../lib/nav";
+
+export async function getStaticPaths() {
+  return (await getAllEditoriales()).map((e) => ({ params: { slug: e.id }, props: { editorial: e } }));
+}
+
+const { editorial } = Astro.props;
+const d = editorial.data;
+const juegos = (await juegosDeEditorial(editorial.id)).map((j) => ({ j, papeles: papelesDeEditorial(j, editorial.id) }));
+const sistemas = await sistemasDeEditorial(editorial.id);
+const datos: Dato[] = [
+  { etiqueta: "Web", enlaces: d.web ? [{ texto: new URL(d.web).hostname.replace(/^www\./, ""), href: d.web }] : [] },
+  { etiqueta: "Juegos en el registro", valor: String(juegos.length) },
+  { etiqueta: "Sistemas en el registro", valor: String(sistemas.length) },
+];
+---
+
+<Layout
+  title={`${d.nombre} (editorial de rol)`}
+  description={`${d.nombre}: juegos de rol suyos que jugamos y qué publica de cada uno.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Editoriales", href: "/rol/editoriales" }, { texto: d.nombre }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Editorial"
+      titulo={d.nombre}
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <Datos datos={datos} class="tz-medida tz-datos--ancho" />
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-juegos">
+      <Titulo id="s-juegos" numero="02">Juegos</Titulo>
+      {juegos.length > 0 ? (
+        <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+          {juegos.map(({ j, papeles }) => (
+            <li>
+              <a href={hrefJuego(j.id)}>
+                <span class="tz-lista-enlaces-nombre">{j.data.titulo}</span>
+                <span class="tz-lista-enlaces-detalle">{papeles.join(" · ")}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="tz-medida" style="margin:0">Ningún juego del registro sale de esta editorial{sistemas.length > 0 ? "; sí algún sistema (abajo)" : ""}.</p>
+      )}
+    </section>
+
+    {sistemas.length > 0 && (
+      <section class="tz-seccion" aria-labelledby="s-sistemas">
+        <Titulo id="s-sistemas" numero="03">Sistemas</Titulo>
+        <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+          {sistemas.map((s) => (
+            <li>
+              <a href={hrefSistema(s.id)}>
+                <span class="tz-lista-enlaces-nombre">{s.data.name}</span>
+                <span class="tz-lista-enlaces-detalle">{s.data.origen ? `Origen: ${s.data.origen}` : "Sistema de reglas"}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero={sistemas.length > 0 ? "04" : "03"}>Fuentes</Titulo>
+      {d.fuentes.length > 0 ? (
+        <ol class="tz-fuentes tz-medida">{d.fuentes.map((f, i) => <FuenteDato fuente={f} n={i + 1} />)}</ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Esta ficha no tiene fuentes propias: la editorial sale de las fuentes de cada juego o sistema." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol/editoriales"><span aria-hidden="true">‹</span> Todas las editoriales</a>
+    </div>
+  </div>
+</Layout>

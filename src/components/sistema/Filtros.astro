@@ -1,0 +1,39 @@
+---
+/**
+ * Bloque «Filtrar» del catálogo de juegos de rol (sin JavaScript): cada opción
+ * es un enlace a una página ya filtrada, con su recuento. La opción activa lleva
+ * aria-current="page" y se pinta invertida (tinta de fondo). Un filtro cada vez.
+ */
+import type { GrupoFiltro } from "../../lib/rol-filtros";
+import { hrefFiltro } from "../../lib/rol-filtros";
+
+interface Props {
+  grupos: GrupoFiltro[];
+  /** Ruta del filtro activo («licencia/abierta»), si lo hay. */
+  activa?: string;
+  total: number;
+}
+const { grupos, activa, total } = Astro.props;
+---
+<nav class="tz-filtros" aria-label="Filtrar juegos">
+  {activa && (
+    <p class="tz-filtros-quitar">
+      <a class="tz-enlace-bloque" href="/rol/juegos"><span>Quitar filtro: ver los {total} juegos</span><span aria-hidden="true">›</span></a>
+    </p>
+  )}
+  {grupos.map((g) => (
+    <div class="tz-filtros-grupo">
+      <h3 class="tz-filtros-titulo tz-rotulo" id={`filtro-${g.id}`}>{g.titulo}</h3>
+      <ul class="tz-filtros-lista" aria-labelledby={`filtro-${g.id}`}>
+        {g.opciones.map((o) => (
+          <li>
+            <a class="tz-filtro" href={hrefFiltro(o.ruta)} aria-current={o.ruta === activa ? "page" : undefined}>
+              <span class="tz-filtro-texto">{o.etiqueta}</span>
+              <span class="tz-filtro-n tz-num">{o.juegos.length}<span class="tz-sr"> {o.juegos.length === 1 ? "juego" : "juegos"}</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</nav>

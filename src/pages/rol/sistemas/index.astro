@@ -1,0 +1,75 @@
+---
+/**
+ * /rol/sistemas/: motores de reglas de los juegos que jugamos (colección
+ * «systems» con jugadoEn: grupo). Cada familia seguida de sus derivados
+ * (PbtA → Carved from Brindlewood). Lo de las Jornadas sigue en /sistemas/.
+ */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import { getAllSystems, getSistemasRol, juegosDeSistema, linajeSistema } from "../../../lib/collections";
+import { getEntry } from "astro:content";
+import { hrefSistema } from "../../../lib/rol-rutas";
+import { numeroSeccion } from "../../../lib/nav";
+
+const sistemas = await getSistemasRol();
+const todos = new Map((await getAllSystems()).map((s) => [s.id, s]));
+// Orden de árbol: cada raíz y, detrás, sus derivados (por la cadena de familias).
+const raiz = (id: string) => linajeSistema(id, todos).at(-1)!.id;
+const ordenados = [...sistemas].sort((a, b) => {
+  const ra = todos.get(raiz(a.id))!.data.name, rb = todos.get(raiz(b.id))!.data.name;
+  if (ra !== rb) return ra.localeCompare(rb, "es");
+  return linajeSistema(a.id, todos).length - linajeSistema(b.id, todos).length || a.data.name.localeCompare(b.data.name, "es");
+});
+const filas = await Promise.all(
+  ordenados.map(async (s) => {
+    const juegos = await juegosDeSistema(s.id);
+    const licencia = s.data.licencia ? await getEntry(s.data.licencia) : undefined;
+    const padre = s.data.familia ? todos.get(s.data.familia.id) : undefined;
+    const partes = [
+      padre ? `De la familia ${padre.data.nombreCorto ?? padre.data.name}` : undefined,
+      `Licencia: ${licencia ? licencia.data.nombreCorto : "pendiente"}`,
+      `${juegos.length} ${juegos.length === 1 ? "juego" : "juegos"}`,
+    ];
+    return { s, detalle: partes.filter(Boolean).join(" · "), hijo: Boolean(padre) };
+  })
+);
+---
+
+<Layout
+  title="Sistemas de rol"
+  description={`Los ${sistemas.length} sistemas de reglas de los juegos de rol que jugamos: familia, licencia, reglas abiertas (SRD) y juegos que los usan.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Sistemas" }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Sistemas"
+      entradilla="Las reglas que hay debajo de los juegos que jugamos: de dónde salen, qué familia forman, con qué licencia se publican y qué juegos las usan."
+    >
+      <p class="tz-recuento">{sistemas.length} sistemas. Cada familia va seguida de sus derivados.</p>
+    </Encabezado>
+
+    <section class="tz-seccion" aria-labelledby="s-sistemas">
+      <Titulo id="s-sistemas" numero="01">Todos los sistemas</Titulo>
+      <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+        {filas.map(({ s, detalle, hijo }) => (
+          <li>
+            <a href={hrefSistema(s.id)}>
+              <span class="tz-lista-enlaces-nombre">{hijo && <span aria-hidden="true">↳ </span>}{s.data.name}{s.data.nombreCorto && ` (${s.data.nombreCorto})`}</span>
+              <span class="tz-lista-enlaces-detalle">{detalle}</span>
+              <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">La licencia de un sistema es la de sus reglas; la del juego puede ser otra. Lo que se jugó en las Jornadas de los noventa está en <a href="/sistemas">Sistemas de las Jornadas</a>, en el Archivo.</p>
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Portada de Rol</a>
+      <a class="tz-boton" href="/rol/juegos">Catálogo de juegos</a>
+    </div>
+  </div>
+</Layout>

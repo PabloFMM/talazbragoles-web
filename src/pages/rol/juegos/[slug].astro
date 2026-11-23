@@ -22,6 +22,9 @@ import {
   dosCifras, estadoJuego, fechaLarga, formatoPartida, generoRol, idiomaEdicion, listaY, modoJuego, tipoLicencia,
 } from "../../../lib/formato";
 import { numeroSeccion } from "../../../lib/nav";
+import { hrefAutoria, hrefEditorial, hrefLicencia, hrefSistema } from "../../../lib/rol-rutas";
+import { hrefFiltro } from "../../../lib/rol-filtros";
+import type { Dato } from "../../../components/sistema/Datos.astro";
 
 export async function getStaticPaths() {
   const juegos = await getAllJuegos();
@@ -37,7 +40,6 @@ const enConstruccion = r.estado === "en-construccion";
 
 const nombreSistema = r.sistema ? (r.sistema.data.nombreCorto ? `${r.sistema.data.name} (${r.sistema.data.nombreCorto})` : r.sistema.data.name) : undefined;
 const corto = (s?: typeof r.sistema) => s?.data.nombreCorto ?? s?.data.name;
-const nombres = (xs: { data: { nombre: string } }[]) => (xs.length ? listaY(xs.map((x) => x.data.nombre)) : undefined);
 // Juego escrito en castellano (edición en castellano que no es traducción): su título y editorial ya son los de aquí.
 const originalEs = r.ediciones.find((e) => e.idioma === "es" && !e.traduccionDe);
 // «El texto del juego.» → «el texto del juego» (va entre paréntesis o tras dos puntos).
@@ -51,28 +53,41 @@ const jugadores = d.jugadores
   ? `${d.jugadores.min === d.jugadores.max ? d.jugadores.min : `De ${d.jugadores.min} a ${d.jugadores.max}`}${d.jugadores.nota ? `. ${d.jugadores.nota}` : ""}`
   : undefined;
 
-const datos = [
+// Enlaces cruzados (Rol 3/4): autoría, sistema, licencias, editoriales y los filtros del catálogo.
+type Ref = { id: string; data: { nombre: string } };
+const aAutoria = (xs: Ref[]) => xs.map((x) => ({ texto: x.data.nombre, href: hrefAutoria(x.id) }));
+const aEditorial = (xs: Ref[]) => xs.map((x) => ({ texto: x.data.nombre, href: hrefEditorial(x.id) }));
+const editorialEs = r.editorialCastellano.length ? r.editorialCastellano : originalEs?.editorial ? [originalEs.editorial] : [];
+const datos: Dato[] = [
   { etiqueta: "Título en castellano", valor: d.tituloCastellano ?? (originalEs ? d.titulo : undefined) },
-  { etiqueta: "Autoría", valor: nombres(r.autoria) },
-  { etiqueta: "Sistema", valor: nombreSistema },
+  { etiqueta: "Autoría", enlaces: aAutoria(r.autoria) },
+  { etiqueta: "Sistema", enlaces: r.sistema && nombreSistema ? [{ texto: nombreSistema, href: hrefSistema(r.sistema.id) }] : [] },
   {
     etiqueta: "Licencia del juego",
-    valor: r.licenciasJuego.length
-      ? r.licenciasJuego.map((l) => `${l.licencia.data.nombreCorto}${l.alcance ? ` (${minuscula(l.alcance)})` : ""}`).join("; ")
-      : undefined,
+    separador: ";",
+    enlaces: r.licenciasJuego.map((l) => ({
+      texto: l.licencia.data.nombreCorto,
+      href: hrefLicencia(l.licencia.id),
+      detalle: l.alcance ? ` (${minuscula(l.alcance)})` : undefined,
+    })),
   },
-  { etiqueta: "Licencia del sistema", valor: r.licenciaSistema?.data.nombreCorto },
-  { etiqueta: "Editorial", valor: nombres(r.editorial) },
-  { etiqueta: "Editorial en castellano", valor: nombres(r.editorialCastellano) ?? originalEs?.editorial?.data.nombre },
+  { etiqueta: "Licencia del sistema", enlaces: r.licenciaSistema ? [{ texto: r.licenciaSistema.data.nombreCorto, href: hrefLicencia(r.licenciaSistema.id) }] : [] },
+  { etiqueta: "Editorial", enlaces: aEditorial(r.editorial) },
+  { etiqueta: "Editorial en castellano", enlaces: aEditorial(editorialEs) },
   { etiqueta: "Año", valor: d.ano },
   { etiqueta: "Jugadores", valor: jugadores },
   { etiqueta: "Idiomas", valor: idiomas.length ? listaY(idiomas) : undefined },
-  { etiqueta: "Género", valor: d.generos.length ? listaY(d.generos.map((g) => generoRol[g])) : undefined },
-  { etiqueta: "Cómo se juega", valor: d.modo.length ? listaY(d.modo.map((m) => modoJuego[m])) : undefined },
-  ...(d.formato.length ? [{ etiqueta: "Formato", valor: listaY(d.formato.map((f) => formatoPartida[f])) }] : []),
+  { etiqueta: "Género", enlaces: d.generos.map((g) => ({ texto: generoRol[g], href: hrefFiltro(`genero/${g}`) })) },
+  { etiqueta: "Cómo se juega", enlaces: d.modo.map((m) => ({ texto: modoJuego[m], href: hrefFiltro(`modo/${m}`) })) },
+  ...(d.formato.length ? [{ etiqueta: "Formato", enlaces: d.formato.map((f) => ({ texto: formatoPartida[f], href: hrefFiltro(`formato/${f}`) })) }] : []),
   { etiqueta: "Lo jugamos", valor: d.jugado.nosotros ? (d.jugado.ultima ? `Sí; la última vez, ${fechaLarga(d.jugado.ultima)}` : "Sí") : undefined },
   { etiqueta: "Edición que jugamos", valor: r.edicionJugadaTexto },
-  { etiqueta: "Descarga oficial", valor: r.descargable ? "Sí: enlaces en «Ediciones» y «Dónde conseguirlo»" : "No hay ninguna registrada" },
+  {
+    etiqueta: "Descarga oficial",
+    valor: r.descargaJuego
+      ? "Sí: enlaces en «Ediciones» y «Dónde conseguirlo»"
+      : r.descargable ? "Solo las reglas del sistema (SRD): enlace en «Dónde conseguirlo»" : "No hay ninguna registrada",
+  },
 ];
 
 // Aparato de notas: primero las fuentes de la ficha, luego las de cada edición.
@@ -82,11 +97,11 @@ const notasEdicion = r.ediciones.map((e) => e.fuentes.map((f) => ({ fuente: f, n
 const notas = [...notasFicha, ...notasEdicion.flat()];
 
 const algunaJugada = r.edicionesJugadas.length > 0;
-const datosEdicion = (e: (typeof r.ediciones)[number]) => [
+const datosEdicion = (e: (typeof r.ediciones)[number]): Dato[] => [
   { etiqueta: "Año", valor: e.ano },
-  { etiqueta: "Editorial", valor: e.editorial?.data.nombre },
+  { etiqueta: "Editorial", enlaces: e.editorial ? aEditorial([e.editorial]) : [] },
   { etiqueta: "Idioma", valor: idiomaEdicion[e.idioma] + (e.traduccionDe ? `; traducción de «${e.traduccionDe}»` : "") },
-  { etiqueta: "Licencia", valor: e.licencia?.data.nombreCorto },
+  { etiqueta: "Licencia", enlaces: e.licencia ? [{ texto: e.licencia.data.nombreCorto, href: hrefLicencia(e.licencia.id) }] : [] },
   // Dato del grupo: si ninguna edición está marcada, no sabemos cuál («pendiente»).
   { etiqueta: "La jugamos", valor: e.jugadaPorNosotros ? "Sí" : algunaJugada ? "No" : undefined },
 ];
@@ -192,9 +207,12 @@ const sistemasDe = new Map(
               <h3 class="tz-subtitulo">{licencia.data.nombre}</h3>
               <p class="tz-ref" style="margin:0 0 var(--e-3)">{tipoLicencia[licencia.data.tipo]} · {usos.join(" · ")}</p>
               <div class="tz-prosa"><Cuerpo /></div>
-              {licencia.data.url && (
-                <p style="margin:var(--e-3) 0 0"><a class="tz-enlace" href={licencia.data.url} rel="noreferrer">Texto oficial de la licencia</a></p>
-              )}
+              <p style="margin:var(--e-3) 0 0" class="tz-acciones">
+                <a class="tz-enlace-bloque" href={hrefLicencia(licencia.id)}><span>Qué juegos y sistemas usan {licencia.data.nombreCorto}</span><span aria-hidden="true">›</span></a>
+                {licencia.data.url && (
+                  <a class="tz-enlace-bloque" href={licencia.data.url} rel="noreferrer"><span>Texto oficial de la licencia</span><span aria-hidden="true">›</span></a>
+                )}
+              </p>
             </div>
           ))}
         </div>

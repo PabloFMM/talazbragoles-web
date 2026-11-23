@@ -5,7 +5,7 @@
  * y las crónicas de mesa (fase 2, colección «campaigns», hoy vacía: se anuncian
  * «en preparación»; no inventar campañas ni personajes). Lo jugado en las
  * Jornadas históricas está en /sistemas/ (Archivo).
- * Sistemas y Licencias se enlazan cuando existan sus páginas (Rol 3/4).
+ * Accesos a Juegos (con filtros), Sistemas, Licencias, Autoría y Editoriales.
  */
 import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
@@ -77,12 +77,18 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
         <li>
           <h3>Sistemas</h3>
           <p>Los {nSistemas} motores de reglas de esos juegos y sus familias.</p>
-          <p><Pendiente etiqueta="en preparación" /></p>
+          <a class="tz-enlace-bloque" href="/rol/sistemas"><span>Ver los sistemas</span><span aria-hidden="true">›</span></a>
         </li>
         <li>
           <h3>Licencias</h3>
           <p>Qué permite cada una de las {nLicencias} licencias, en castellano llano: copiar, adaptar, vender.</p>
-          <p><Pendiente etiqueta="en preparación" /></p>
+          <a class="tz-enlace-bloque" href="/rol/licencias"><span>Ver las licencias</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Autoría y editoriales</h3>
+          <p>Quién escribió y quién publica cada juego, también en castellano.</p>
+          <a class="tz-enlace-bloque" href="/rol/autoria"><span>Ver la autoría</span><span aria-hidden="true">›</span></a>
+          <a class="tz-enlace-bloque" href="/rol/editoriales"><span>Ver las editoriales</span><span aria-hidden="true">›</span></a>
         </li>
       </ul>
     </section>

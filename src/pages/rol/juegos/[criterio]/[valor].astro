@@ -1,0 +1,20 @@
+---
+/**
+ * /rol/juegos/<criterio>/<valor>/: catálogo filtrado por licencia, sistema,
+ * género, modo o formato. Solo se generan las opciones con algún juego.
+ */
+import CatalogoRol from "../../../../components/sistema/CatalogoRol.astro";
+import { filtrosRol } from "../../../../lib/rol-filtros";
+
+export async function getStaticPaths() {
+  const { opciones } = await filtrosRol();
+  return opciones
+    .filter((o) => o.ruta.includes("/"))
+    .map((o) => {
+      const [criterio, valor] = o.ruta.split("/");
+      return { params: { criterio, valor } };
+    });
+}
+const { criterio, valor } = Astro.params;
+---
+<CatalogoRol ruta={`${criterio}/${valor}`} />

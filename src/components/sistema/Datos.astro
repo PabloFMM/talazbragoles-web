@@ -2,10 +2,15 @@
 /**
  * Lista de datos (dl): etiqueta y valor en filas con filete suave.
  * Un valor vacío se muestra «pendiente»: nunca se omite en silencio.
+ *
+ * `enlaces` (opcional) sustituye a `valor` cuando el dato apunta a otras páginas
+ * (autoría, sistema, licencia…): cada uno con su texto, su href (si lo hay) y un
+ * detalle tras el enlace. Se unen con «, » y « y » (o con «; » si `separador` = ";").
  */
 import Pendiente from "./Pendiente.astro";
 
-export interface Dato { etiqueta: string; valor?: string | number | null }
+export interface EnlaceDato { texto: string; href?: string; detalle?: string }
+export interface Dato { etiqueta: string; valor?: string | number | null; enlaces?: EnlaceDato[]; separador?: "y" | ";" }
 interface Props {
   datos: Dato[];
   /** Clases extra (p. ej. "tz-medida" o "tz-datos--ancho"). */
@@ -13,9 +18,20 @@ interface Props {
 }
 const { datos, class: clase } = Astro.props;
 const vacio = (v: Dato["valor"]) => v === undefined || v === null || String(v).trim() === "";
+const sep = (i: number, total: number, s: Dato["separador"]) =>
+  i === 0 ? "" : s === ";" ? "; " : i === total - 1 ? " y " : ", ";
 ---
 <dl class:list={["tz-datos", clase]}>
   {datos.map((d) => (
-    <div><dt>{d.etiqueta}</dt><dd>{vacio(d.valor) ? <Pendiente /> : d.valor}</dd></div>
+    <div>
+      <dt>{d.etiqueta}</dt>
+      <dd>
+        {d.enlaces && d.enlaces.length > 0
+          ? d.enlaces.map((e, i, xs) => (
+              <>{sep(i, xs.length, d.separador)}{e.href ? <a href={e.href}>{e.texto}</a> : e.texto}{e.detalle}</>
+            ))
+          : vacio(d.valor) ? <Pendiente /> : d.valor}
+      </dd>
+    </div>
   ))}
 </dl>

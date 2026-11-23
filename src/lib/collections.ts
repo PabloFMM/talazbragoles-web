@@ -99,9 +99,20 @@ export async function resuelveJuego(juego: CollectionEntry<"juegos">) {
       ? [{ nombre: sistema.data.srd.nombre, url: sistema.data.srd.url, formato: "SRD del sistema", licencia: licenciaSistema }]
       : []),
   ];
+  // Todas las licencias que tocan al juego, sin repetir: la del juego, la del
+  // sistema, la de cada edición y la de cada descarga (filtros de licencia).
+  const todas = new Map<string, CollectionEntry<"licencias">>();
+  for (const l of [
+    ...licenciasJuego.map((x) => x.licencia),
+    licenciaSistema,
+    ...ediciones.flatMap((e) => [e.licencia, e.descarga?.licencia]),
+  ])
+    if (l) todas.set(l.id, l);
+  const licencias = [...todas.values()];
   return {
     juego,
     estado: d.estado ?? "publicado",
+    licencias,
     sistema,
     licenciaSistema,
     licenciasJuego,
@@ -114,22 +125,97 @@ export async function resuelveJuego(juego: CollectionEntry<"juegos">) {
     edicionesJugadas: jugadas,
     edicionJugadaTexto: jugadas.length ? jugadas.map((e) => e.nombre).join(" · ") : d.edicion,
     descargas,
-    // Filtro «Abierta»: mira la licencia del juego Y la del sistema (decisión 6).
-    abierto: licenciasJuego.some((l) => esAbierta(l.licencia)) || (licenciaSistema ? esAbierta(licenciaSistema) : false),
+    // Filtro «Abierta»: mira la licencia del juego Y la del sistema (decisión 6)
+    // y también la de cada edición (la licencia se evalúa por edición, 2026-11-23).
+    abierto: licencias.some(esAbierta),
     enCastellano: d.editorialCastellano.length > 0 || d.ediciones.some((e) => e.idioma === "es"),
     descargable: descargas.length > 0,
+    // Filtro «Se puede descargar»: alguna EDICIÓN del juego tiene descarga oficial
+    // (su licencia lo permite). El SRD del sistema solo trae las reglas, no el juego.
+    descargaJuego: ediciones.some((e) => e.descarga),
   };
 }
 
-/** Juegos con alguna descarga oficial (de una edición o del SRD de su sistema): filtro «Se puede descargar». */
+export type JuegoResuelto = Awaited<ReturnType<typeof resuelveJuego>>;
+
+/** Juegos con alguna edición descargable de la web oficial: filtro «Se puede descargar». */
 export async function juegosDescargables() {
   const fichas = await Promise.all((await getAllJuegos()).map(resuelveJuego));
-  return fichas.filter((f) => f.descargable).map((f) => f.juego);
+  return fichas.filter((f) => f.descargaJuego).map((f) => f.juego);
 }
 
-/** Juegos que usan un sistema (directamente). */
+/**
+ * Cadena de familias de un sistema, de él hacia arriba: Carved from Brindlewood →
+ * [Carved from Brindlewood, Powered by the Apocalypse].
+ */
+export function linajeSistema(id: string, sistemas: Map<string, CollectionEntry<"systems">>) {
+  const cadena: CollectionEntry<"systems">[] = [];
+  const vistos = new Set<string>();
+  let actual = sistemas.get(id);
+  while (actual && !vistos.has(actual.id)) {
+    vistos.add(actual.id);
+    cadena.push(actual);
+    actual = actual.data.familia ? sistemas.get(actual.data.familia.id) : undefined;
+  }
+  return cadena;
+}
+
+/**
+ * Juegos que usan un sistema: directamente o a través de un sistema de su familia
+ * (Public Access usa Carved from Brindlewood, que es de la familia PbtA).
+ * `via` = el sistema hijo por el que entra, si no es directo.
+ */
 export async function juegosDeSistema(sistemaId: string) {
-  return (await getAllJuegos()).filter((j) => j.data.sistema?.id === sistemaId);
+  const sistemas = new Map((await getAllSystems()).map((s) => [s.id, s]));
+  return (await getAllJuegos()).flatMap((j) => {
+    if (!j.data.sistema) return [];
+    const cadena = linajeSistema(j.data.sistema.id, sistemas);
+    if (!cadena.some((s) => s.id === sistemaId)) return [];
+    return [{ juego: j, via: cadena[0].id === sistemaId ? undefined : cadena[0] }];
+  });
+}
+
+/** Sistemas hijos directos de un sistema (los que lo tienen como familia). */
+export async function derivadosDeSistema(sistemaId: string) {
+  return (await getSistemasRol()).filter((s) => s.data.familia?.id === sistemaId);
+}
+
+/** Sistemas del grupo que usan una licencia. */
+export async function sistemasDeLicencia(licenciaId: string) {
+  return (await getSistemasRol()).filter((s) => s.data.licencia?.id === licenciaId);
+}
+
+/**
+ * Para qué usa un juego una licencia, en texto: «licencia del juego», «licencia
+ * del sistema Trophy», «edición “Manual v0.6.0”», «descarga de …». Vacío = no la usa.
+ */
+export function usosDeLicencia(f: JuegoResuelto, licenciaId: string) {
+  const usos: string[] = [];
+  if (f.licenciasJuego.some((l) => l.licencia.id === licenciaId)) usos.push("Licencia del juego");
+  if (f.licenciaSistema?.id === licenciaId) usos.push(`Licencia del sistema ${f.sistema?.data.nombreCorto ?? f.sistema?.data.name ?? ""}`.trim());
+  for (const e of f.ediciones) {
+    if (e.licencia?.id === licenciaId) usos.push(`Edición «${e.nombre}»`);
+    else if (e.descarga?.licencia.id === licenciaId) usos.push(`Descarga de «${e.nombre}»`);
+  }
+  return usos;
+}
+
+/** Sistemas del grupo en los que aparece una persona o editorial. */
+export async function sistemasDeAutoria(personaId: string) {
+  return (await getSistemasRol()).filter((s) => s.data.autoria.some((a) => a.id === personaId));
+}
+export async function sistemasDeEditorial(editorialId: string) {
+  return (await getSistemasRol()).filter((s) => s.data.editorial.some((e) => e.id === editorialId));
+}
+
+/** Qué papel tiene una editorial en un juego: original, en castellano, o editorial de alguna edición. */
+export function papelesDeEditorial(j: CollectionEntry<"juegos">, editorialId: string) {
+  const papeles: string[] = [];
+  if (j.data.editorial.some((e) => e.id === editorialId)) papeles.push("Editorial original");
+  if (j.data.editorialCastellano.some((e) => e.id === editorialId)) papeles.push("Edición en castellano");
+  for (const e of j.data.ediciones)
+    if (e.editorial?.id === editorialId && !papeles.includes(`Edición «${e.nombre}»`)) papeles.push(`Edición «${e.nombre}»`);
+  return papeles;
 }
 
 /** Juegos con una licencia: la del juego o la de su sistema. */

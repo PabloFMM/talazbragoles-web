@@ -1082,6 +1082,69 @@
   .tz-descarga .tz-ref { margin: var(--e-2) 0 0; }
   .tz-licencia + .tz-licencia { margin-top: var(--e-7); }
   .tz-licencia .tz-subtitulo { margin-top: 0; }
+
+  /* --- 4.17 ter Rol: filtros sin JS, enlaces dentro de datos, permisos de licencia --- */
+  /* Bloque «Filtrar»: un grupo por criterio (rótulo + opciones). Cada opción es un enlace
+     ≥ 48 px con su recuento; la activa (aria-current) se invierte: tinta de fondo. */
+  .tz-filtros { display: grid; gap: var(--e-5); }
+  .tz-filtros-quitar { margin: 0; }
+  .tz-filtros-grupo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-3) var(--medianil);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  @media (min-width: 48rem) {
+    .tz-filtros-grupo { grid-template-columns: min(11rem, 30%) minmax(0, 1fr); align-items: start; }
+    .tz-filtros-titulo { padding-top: var(--e-3); }
+  }
+  .tz-filtros-titulo { margin: 0; }
+  .tz-filtros-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--e-2); min-width: 0; }
+  .tz-filtros-lista > li { min-width: 0; max-width: 100%; }
+  .tz-filtro {
+    display: flex;
+    align-items: baseline;
+    gap: var(--e-3);
+    box-sizing: border-box;
+    min-height: var(--toque);
+    min-width: var(--toque);
+    max-width: 100%;
+    padding: var(--e-3) var(--e-4);
+    border: var(--f-fino) solid var(--tinta);
+    background: var(--papel);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    line-height: 1.35;
+    text-decoration: none;
+  }
+  .tz-filtro-texto { min-width: 0; overflow-wrap: break-word; }
+  .tz-filtro-n { color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-filtro:hover .tz-filtro-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tz-filtro[aria-current] { background: var(--tinta); color: var(--papel); font-weight: var(--p-semi); }
+  .tz-filtro[aria-current] .tz-filtro-n { color: var(--papel); }
+
+  /* Enlaces dentro de una lista de datos (ficha de juego, sistema, licencia…): el área
+     de pulsación llega a 48 px de alto con relleno, y el margen negativo lo compensa
+     para no mover la línea. */
+  .tz-datos dd a {
+    display: inline-block;
+    min-width: var(--toque);
+    padding-block: var(--e-3);
+    margin-block: calc(-1 * var(--e-3));
+    color: var(--tinta);
+  }
+
+  /* Qué permite una licencia: lista de sí / no, sin color (la palabra lo dice). */
+  .tz-permisos { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--filete); }
+  .tz-permisos li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--e-4);
+    padding-block: var(--e-3);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-permisos-valor { font-weight: var(--p-semi); }
   /* Texto solo para lectores de pantalla (completa el nombre de un botón corto) */
   .tz-sr {
     position: absolute;

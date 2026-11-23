@@ -1,0 +1,60 @@
+---
+/** /rol/autoria/: personas que diseñaron o escribieron los juegos y sistemas que jugamos. */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import { getAllAutoria, juegosDePersona, sistemasDeAutoria } from "../../../lib/collections";
+import { listaY } from "../../../lib/formato";
+import { hrefAutoria } from "../../../lib/rol-rutas";
+import { numeroSeccion } from "../../../lib/nav";
+
+const personas = await getAllAutoria();
+const filas = await Promise.all(
+  personas.map(async (p) => {
+    const juegos = await juegosDePersona(p.id);
+    const sistemas = await sistemasDeAutoria(p.id);
+    const partes = [
+      juegos.length ? `${juegos.length === 1 ? "Juego" : "Juegos"}: ${listaY(juegos.map((j) => j.data.titulo))}` : undefined,
+      sistemas.length ? `${sistemas.length === 1 ? "Sistema" : "Sistemas"}: ${listaY(sistemas.map((s) => s.data.name))}` : undefined,
+    ];
+    return { p, detalle: partes.filter(Boolean).join(" · ") };
+  })
+);
+---
+
+<Layout
+  title="Autoría de los juegos de rol"
+  description={`Las ${personas.length} personas que diseñaron o escribieron los juegos y sistemas de rol que jugamos, con sus juegos.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Autoría" }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Autoría"
+      entradilla="Quién diseñó o escribió los juegos y sistemas que jugamos, y qué más hay suyo en el registro."
+    >
+      <p class="tz-recuento">{personas.length} personas, por orden alfabético del nombre.</p>
+    </Encabezado>
+
+    <section class="tz-seccion" aria-labelledby="s-autoria">
+      <Titulo id="s-autoria" numero="01">Todas las personas</Titulo>
+      <ul class="tz-lista-enlaces">
+        {filas.map(({ p, detalle }) => (
+          <li>
+            <a href={hrefAutoria(p.id)}>
+              <span class="tz-lista-enlaces-nombre">{p.data.nombre}</span>
+              <span class="tz-lista-enlaces-detalle">{detalle || "Sin juegos en el registro"}</span>
+              <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Portada de Rol</a>
+      <a class="tz-boton" href="/rol/editoriales">Editoriales</a>
+    </div>
+  </div>
+</Layout>
