@@ -9,11 +9,11 @@ import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
-import { getAllSystems, getAllSources } from "../../lib/collections";
+import { getSistemasJornadas, getAllSources } from "../../lib/collections";
 import { anclaFuente, dosCifras } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
-const sistemas = await getAllSystems();
+const sistemas = await getSistemasJornadas();
 const fuentes = await getAllSources();
 const titulo = (id: string) => fuentes.find((f) => f.id === id)?.data.title ?? id;
 

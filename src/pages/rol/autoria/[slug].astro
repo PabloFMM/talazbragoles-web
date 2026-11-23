@@ -1,0 +1,94 @@
+---
+/** /rol/autoria/<slug>/: una persona autora: web, juegos y sistemas suyos del registro, y fuentes. */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Datos, { type Dato } from "../../../components/sistema/Datos.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import PortadaTipografica from "../../../components/sistema/PortadaTipografica.astro";
+import FuenteDato from "../../../components/sistema/FuenteDato.astro";
+import { getAllAutoria, juegosDePersona, resuelveJuego, sistemasDeAutoria } from "../../../lib/collections";
+import { hrefJuego, hrefSistema } from "../../../lib/rol-rutas";
+import { numeroSeccion } from "../../../lib/nav";
+
+export async function getStaticPaths() {
+  return (await getAllAutoria()).map((p) => ({ params: { slug: p.id }, props: { persona: p } }));
+}
+
+const { persona } = Astro.props;
+const d = persona.data;
+const juegos = await Promise.all((await juegosDePersona(persona.id)).map(resuelveJuego));
+const sistemas = await sistemasDeAutoria(persona.id);
+const datos: Dato[] = [
+  { etiqueta: "Web", enlaces: d.web ? [{ texto: new URL(d.web).hostname.replace(/^www\./, ""), href: d.web }] : [] },
+  { etiqueta: "Juegos en el registro", valor: String(juegos.length) },
+  { etiqueta: "Sistemas en el registro", valor: String(sistemas.length) },
+];
+---
+
+<Layout
+  title={`${d.nombre} (autoría de juegos de rol)`}
+  description={`${d.nombre}: juegos y sistemas de rol suyos que jugamos.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Autoría", href: "/rol/autoria" }, { texto: d.nombre }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Autoría"
+      titulo={d.nombre}
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <Datos datos={datos} class="tz-medida tz-datos--ancho" />
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-juegos">
+      <Titulo id="s-juegos" numero="02">Juegos</Titulo>
+      {juegos.length > 0 ? (
+        <ul class="tz-portadas">
+          {juegos.map((f) => (
+            <li>
+              <a href={hrefJuego(f.juego.id)}>
+                <PortadaTipografica titulo={f.juego.data.titulo} sistema={f.sistema?.data.nombreCorto ?? f.sistema?.data.name} pie={f.juego.data.ano ? String(f.juego.data.ano) : undefined} />
+                <span class="tz-portadas-nota">{f.juego.data.jugado.nosotros ? "Lo jugamos" : "En el registro"}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="tz-medida" style="margin:0">Ningún juego del registro lleva su firma{sistemas.length > 0 ? "; sí algún sistema (abajo)" : ""}.</p>
+      )}
+    </section>
+
+    {sistemas.length > 0 && (
+      <section class="tz-seccion" aria-labelledby="s-sistemas">
+        <Titulo id="s-sistemas" numero="03">Sistemas</Titulo>
+        <ul class="tz-lista-enlaces">
+          {sistemas.map((s) => (
+            <li>
+              <a href={hrefSistema(s.id)}>
+                <span class="tz-lista-enlaces-nombre">{s.data.name}</span>
+                <span class="tz-lista-enlaces-detalle">{s.data.origen ? `Origen: ${s.data.origen}` : "Sistema de reglas"}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero={sistemas.length > 0 ? "04" : "03"}>Fuentes</Titulo>
+      {d.fuentes.length > 0 ? (
+        <ol class="tz-fuentes tz-medida">{d.fuentes.map((f, i) => <FuenteDato fuente={f} n={i + 1} />)}</ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Esta ficha no tiene fuentes propias: la autoría sale de las fuentes de cada juego o sistema." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol/autoria"><span aria-hidden="true">‹</span> Toda la autoría</a>
+    </div>
+  </div>
+</Layout>

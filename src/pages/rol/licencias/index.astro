@@ -1,0 +1,75 @@
+---
+/**
+ * /rol/licencias/: las licencias de los juegos y sistemas que jugamos, en dos
+ * bloques: abiertas (CC, ORC, abierta propia, dominio público) y el resto
+ * (políticas de uso, de fans, con aprobación, cerradas). Con cuántos juegos y
+ * sistemas usan cada una.
+ */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import { esAbierta, getAllJuegos, getAllLicencias, resuelveJuego, sistemasDeLicencia, usosDeLicencia } from "../../../lib/collections";
+import { tipoLicencia } from "../../../lib/formato";
+import { hrefLicencia } from "../../../lib/rol-rutas";
+import { numeroSeccion } from "../../../lib/nav";
+
+const licencias = await getAllLicencias();
+const fichas = await Promise.all((await getAllJuegos()).map(resuelveJuego));
+const filas = await Promise.all(
+  licencias.map(async (l) => {
+    const juegos = fichas.filter((f) => usosDeLicencia(f, l.id).length > 0).length;
+    const sistemas = (await sistemasDeLicencia(l.id)).length;
+    const cuenta = [
+      `${juegos} ${juegos === 1 ? "juego" : "juegos"}`,
+      sistemas ? `${sistemas} ${sistemas === 1 ? "sistema" : "sistemas"}` : undefined,
+    ].filter(Boolean).join(" y ");
+    return { l, detalle: `${l.data.nombreCorto} · ${tipoLicencia[l.data.tipo]} · ${cuenta}` };
+  })
+);
+const bloques = [
+  { id: "s-abiertas", titulo: "Abiertas", nota: "Dejan copiar y adaptar sin pedir permiso, con las condiciones de cada una.", filas: filas.filter((x) => esAbierta(x.l)) },
+  { id: "s-otras", titulo: "No abiertas", nota: "Todos los derechos reservados, o solo una política de uso, para fans o con aprobación de la editorial.", filas: filas.filter((x) => !esAbierta(x.l)) },
+];
+---
+
+<Layout
+  title="Licencias de los juegos de rol"
+  description={`Qué permite cada una de las ${licencias.length} licencias de los juegos y sistemas de rol que jugamos, en castellano llano, y quién las usa.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Licencias" }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Licencias"
+      entradilla="Qué te deja hacer cada licencia (copiar, adaptar, vender) en castellano llano, comprobado en su texto oficial, y qué juegos y sistemas la usan."
+    >
+      <p class="tz-recuento">{licencias.length} licencias y políticas de uso.</p>
+    </Encabezado>
+
+    {bloques.map((b, i) => (
+      <section class="tz-seccion" aria-labelledby={b.id}>
+        <Titulo id={b.id} numero={String(i + 1).padStart(2, "0")}>{b.titulo}</Titulo>
+        <p class="tz-medida" style="margin:0 0 var(--e-5)">{b.nota}</p>
+        <ul class="tz-lista-enlaces">
+          {b.filas.map(({ l, detalle }) => (
+            <li>
+              <a href={hrefLicencia(l.id)}>
+                <span class="tz-lista-enlaces-nombre">{l.data.nombre}</span>
+                <span class="tz-lista-enlaces-detalle">{detalle}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <p class="tz-ref tz-medida" style="margin:0">Esto es un resumen para orientarse, no asesoría legal: lo que vale es el texto oficial de cada licencia, enlazado en su ficha.</p>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Portada de Rol</a>
+      <a class="tz-boton" href="/rol/juegos/licencia/abierta">Juegos con licencia abierta</a>
+    </div>
+  </div>
+</Layout>

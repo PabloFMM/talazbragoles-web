@@ -1,0 +1,36 @@
+---
+/**
+ * Nota de fuente de un dato (sección Rol): dónde se comprobó, qué datos respalda,
+ * qué afirma y cuándo se consultó. Mismo aspecto que NotaFuente, pero recibe
+ * una entrada de `fuentes[]` de las colecciones de Rol (no de «sources»).
+ * Usar dentro de <ol class="tz-fuentes">. Lleva id="f-<n>" para enlazarla.
+ */
+import { dosCifras, etiquetaCampo, fechaLarga } from "../../lib/formato";
+
+interface Props {
+  fuente: { datos: string[]; url: string; afirma: string; consultado: string; secundaria?: boolean };
+  n: number;
+  /** A qué se refiere, si no es la ficha entera (p. ej. «Edición “Manual v0.6.0”»). */
+  ambito?: string;
+}
+const { fuente, n, ambito } = Astro.props;
+const web = (() => {
+  try {
+    const u = new URL(fuente.url);
+    return u.hostname.replace(/^www\./, "") + u.pathname.replace(/\/$/, "");
+  } catch {
+    return fuente.url;
+  }
+})();
+const respalda = fuente.datos.map(etiquetaCampo).join(", ");
+const meta = [fuente.secundaria ? "Fuente secundaria" : "Fuente directa", `consultada el ${fechaLarga(fuente.consultado)}`].join(" · ");
+---
+<li class="tz-fuente" id={`f-${n}`}>
+  <span class="tz-fuente-n tz-num" aria-hidden="true">{dosCifras(n)}</span>
+  <div>
+    <p class="tz-fuente-titulo"><a href={fuente.url} rel="noreferrer">{web}</a></p>
+    <p class="tz-fuente-meta">{meta}</p>
+    <p><span class="tz-fuente-etiqueta">Respalda:</span> {ambito ? `${ambito}: ` : ""}{respalda}.</p>
+    <p><span class="tz-fuente-etiqueta">Dice:</span> {fuente.afirma}</p>
+  </div>
+</li>

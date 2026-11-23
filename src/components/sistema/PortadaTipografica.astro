@@ -1,0 +1,27 @@
+---
+/**
+ * Portada tipográfica: hueco con la proporción de una portada (3:4) que lleva
+ * el título del juego y su sistema, separados por un filete. Sin imágenes ni
+ * color (decisión 2026-11-23: no publicamos portadas sin permiso).
+ *
+ * - tamano "normal": rejillas y listas; "grande": ficha del juego.
+ * - decorativa: aria-hidden cuando el título ya está en la página (ficha, catálogo).
+ *   Dentro de un enlace NO debe ser decorativa: su texto es el nombre del enlace.
+ */
+interface Props {
+  titulo: string;
+  /** Línea bajo el filete: sistema (o «Sistema pendiente»). */
+  sistema?: string;
+  /** Línea al pie: año, editorial… opcional. */
+  pie?: string;
+  tamano?: "normal" | "grande";
+  decorativa?: boolean;
+}
+const { titulo, sistema, pie, tamano = "normal", decorativa = false } = Astro.props;
+---
+<div class:list={["tz-portada", { "tz-portada--grande": tamano === "grande" }]} aria-hidden={decorativa ? "true" : undefined}>
+  <span class="tz-portada-titulo">{titulo}</span>
+  <span class="tz-portada-filete"></span>
+  <span class="tz-portada-sistema">{sistema ?? "Sistema pendiente"}</span>
+  {pie && <span class="tz-portada-pie">{pie}</span>}
+</div>

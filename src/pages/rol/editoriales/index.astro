@@ -1,0 +1,60 @@
+---
+/** /rol/editoriales/: editoriales de los juegos y sistemas que jugamos (originales, de ediciones y en castellano). */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import { getAllEditoriales, juegosDeEditorial, sistemasDeEditorial } from "../../../lib/collections";
+import { listaY } from "../../../lib/formato";
+import { hrefEditorial } from "../../../lib/rol-rutas";
+import { numeroSeccion } from "../../../lib/nav";
+
+const editoriales = await getAllEditoriales();
+const filas = await Promise.all(
+  editoriales.map(async (e) => {
+    const juegos = await juegosDeEditorial(e.id);
+    const sistemas = await sistemasDeEditorial(e.id);
+    const partes = [
+      juegos.length ? `${juegos.length === 1 ? "Juego" : "Juegos"}: ${listaY(juegos.map((j) => j.data.titulo))}` : undefined,
+      sistemas.length ? `${sistemas.length === 1 ? "Sistema" : "Sistemas"}: ${listaY(sistemas.map((s) => s.data.name))}` : undefined,
+    ];
+    return { e, detalle: partes.filter(Boolean).join(" · ") };
+  })
+);
+---
+
+<Layout
+  title="Editoriales de los juegos de rol"
+  description={`Las ${editoriales.length} editoriales de los juegos de rol que jugamos, en el original y en castellano, con sus juegos.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Editoriales" }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Editoriales"
+      entradilla="Quién publica los juegos que jugamos: la editorial original, la de cada edición y la de la edición en castellano."
+    >
+      <p class="tz-recuento">{editoriales.length} editoriales, por orden alfabético.</p>
+    </Encabezado>
+
+    <section class="tz-seccion" aria-labelledby="s-editoriales">
+      <Titulo id="s-editoriales" numero="01">Todas las editoriales</Titulo>
+      <ul class="tz-lista-enlaces">
+        {filas.map(({ e, detalle }) => (
+          <li>
+            <a href={hrefEditorial(e.id)}>
+              <span class="tz-lista-enlaces-nombre">{e.data.nombre}</span>
+              <span class="tz-lista-enlaces-detalle">{detalle || "Sin juegos en el registro"}</span>
+              <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Portada de Rol</a>
+      <a class="tz-boton" href="/rol/autoria">Autoría</a>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,129 @@
+---
+/**
+ * Página de catálogo de juegos de rol: la completa (/rol/juegos/) o una ya
+ * filtrada (/rol/juegos/<ruta>/). Sin JavaScript: el buscador son enlaces a
+ * páginas generadas en el build (lib/rol-filtros.ts).
+ *
+ * - Sin filtro: «Filtrar» arriba y todos los juegos debajo.
+ * - Con filtro: recuento y «Quitar filtro» en el encabezado, resultados primero
+ *   y el bloque de filtros después (con aria-current en el activo).
+ */
+import Layout from "../../layouts/Layout.astro";
+import Encabezado from "./Encabezado.astro";
+import Titulo from "./Titulo.astro";
+import Datos from "./Datos.astro";
+import Estado from "./Estado.astro";
+import Filtros from "./Filtros.astro";
+import PortadaTipografica from "./PortadaTipografica.astro";
+import { filtrosRol } from "../../lib/rol-filtros";
+import type { JuegoResuelto } from "../../lib/collections";
+import { estadoJuego, listaY } from "../../lib/formato";
+import { numeroSeccion } from "../../lib/nav";
+
+interface Props {
+  /** Ruta del filtro («licencia/abierta»); sin ella, el catálogo completo. */
+  ruta?: string;
+}
+const { ruta } = Astro.props;
+const { fichas, grupos, opciones } = await filtrosRol();
+const activa = ruta ? opciones.find((o) => o.ruta === ruta) : undefined;
+if (ruta && !activa) throw new Error(`Filtro desconocido: ${ruta}`);
+const lista = activa ? activa.juegos : fichas;
+
+const corto = (s: JuegoResuelto["sistema"]) => s?.data.nombreCorto ?? s?.data.name;
+const licencia = (f: JuegoResuelto) => {
+  const juego = [...new Set(f.licenciasJuego.map((l) => l.licencia.data.nombreCorto))];
+  const partes = [juego.length ? `${listaY(juego)}` : undefined, f.licenciaSistema ? `sistema: ${f.licenciaSistema.data.nombreCorto}` : undefined];
+  return partes.filter(Boolean).join("; ") || undefined;
+};
+const descarga = (f: JuegoResuelto) =>
+  f.descargaJuego ? "Sí, de la web oficial" : f.descargable ? "Solo las reglas del sistema (SRD)" : "No hay ninguna registrada";
+const n = (x: number) => `${x} ${x === 1 ? "juego" : "juegos"}`;
+---
+
+<Layout
+  title={activa ? `${activa.titulo} (catálogo de rol)` : "Catálogo de juegos de rol"}
+  description={activa
+    ? `${activa.titulo}: ${n(lista.length)} de los ${fichas.length} que jugamos. ${activa.explica}`
+    : `Los ${fichas.length} juegos de rol que jugamos: sistema, licencia, autoría, edición que jugamos y descarga oficial cuando la hay. Con filtros por licencia, sistema, género y forma de jugar.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={activa
+        ? [{ texto: "Rol", href: "/rol" }, { texto: "Juegos", href: "/rol/juegos" }, { texto: activa.etiqueta }]
+        : [{ texto: "Rol", href: "/rol" }, { texto: "Juegos" }]}
+      numero={numeroSeccion("/rol")}
+      seccion={activa ? "Rol · Juegos filtrados" : "Rol"}
+      titulo={activa ? activa.titulo : "Juegos"}
+      entradilla={activa ? activa.explica : "Los juegos de rol que jugamos: con qué reglas, quién los escribió, qué licencia tienen y qué edición jugamos."}
+    >
+      {activa ? (
+        <>
+          <p class="tz-recuento">{n(lista.length)} de {fichas.length}, por orden alfabético. Filtro: «{activa.etiqueta}».</p>
+          <p class="tz-acciones" style="margin-top:var(--e-4)">
+            <a class="tz-boton" href="/rol/juegos">Quitar filtro</a>
+            <a class="tz-boton" href="#s-filtrar">Cambiar de filtro</a>
+          </p>
+        </>
+      ) : (
+        <p class="tz-recuento">{fichas.length} juegos, por orden alfabético.</p>
+      )}
+    </Encabezado>
+
+    {!activa && (
+      <section class="tz-seccion" aria-labelledby="s-filtrar">
+        <Titulo id="s-filtrar" numero="01">Filtrar</Titulo>
+        <p class="tz-medida" style="margin:0 0 var(--e-6)">Elige un criterio: cada uno abre una página con los juegos que lo cumplen. El número es cuántos hay. Solo hay filtros para datos con fuente.</p>
+        <Filtros grupos={grupos} total={fichas.length} />
+      </section>
+    )}
+
+    <section class="tz-seccion" aria-labelledby="s-juegos">
+      <Titulo id="s-juegos" numero={activa ? "01" : "02"}>{activa ? "Resultados" : "Todos los juegos"}</Titulo>
+      <div class="tz-nota tz-medida" style="margin-bottom:var(--e-6)">
+        <p>La licencia del juego y la de su sistema pueden ser distintas: el texto de un juego puede estar cerrado aunque sus reglas sean libres. Un dato sin fuente aparece «pendiente».</p>
+      </div>
+      <ol class="tz-catalogo">
+        {lista.map((f) => {
+          const d = f.juego.data;
+          const nota = activa?.notas.get(f.juego.id);
+          return (
+            <li class="tz-catalogo-fila">
+              <PortadaTipografica titulo={d.titulo} sistema={corto(f.sistema)} decorativa />
+              <div>
+                <h3 class="tz-registro-titulo"><a href={`/rol/juegos/${f.juego.id}`}>{d.titulo}</a></h3>
+                {f.estado === "en-construccion" && (
+                  <p class="tz-recuento" style="margin-top:var(--e-2)"><Estado estado="parcial" texto={estadoJuego["en-construccion"]} /></p>
+                )}
+                {nota && <p class="tz-recuento" style="margin-top:var(--e-2)">{nota}</p>}
+                <Datos
+                  class="tz-datos--ancho"
+                  datos={[
+                    { etiqueta: "Autoría", valor: f.autoria.length ? listaY(f.autoria.map((a) => a.data.nombre)) : undefined },
+                    { etiqueta: "Sistema", valor: corto(f.sistema) },
+                    { etiqueta: "Licencia", valor: licencia(f) },
+                    { etiqueta: "Edición que jugamos", valor: f.edicionJugadaTexto },
+                    { etiqueta: "Descarga oficial", valor: descarga(f) },
+                  ]}
+                />
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+
+    {activa && (
+      <section class="tz-seccion" aria-labelledby="s-filtrar">
+        <Titulo id="s-filtrar" numero="02">Cambiar de filtro</Titulo>
+        <Filtros grupos={grupos} activa={activa.ruta} total={fichas.length} />
+      </section>
+    )}
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      {activa
+        ? <a class="tz-boton" href="/rol/juegos"><span aria-hidden="true">‹</span> Todos los juegos</a>
+        : <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Portada de Rol</a>}
+    </div>
+  </div>
+</Layout>

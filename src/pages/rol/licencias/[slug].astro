@@ -1,0 +1,149 @@
+---
+/**
+ * /rol/licencias/<slug>/: qué permite una licencia, en castellano llano (cuerpo
+ * del .md, comprobado en el texto oficial), sus permisos uno a uno, y qué juegos
+ * (por juego, sistema o edición) y sistemas la usan. El slug puede llevar puntos
+ * («cc-by-3.0»): ver generateId de «licencias» en content.config.ts.
+ */
+import { render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Datos, { type Dato } from "../../../components/sistema/Datos.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import FuenteDato from "../../../components/sistema/FuenteDato.astro";
+import {
+  esAbierta, getAllJuegos, getAllLicencias, resuelveJuego, sistemasDeLicencia, usosDeLicencia,
+} from "../../../lib/collections";
+import { tipoLicencia } from "../../../lib/formato";
+import { hrefJuego, hrefSistema } from "../../../lib/rol-rutas";
+import { hrefFiltro } from "../../../lib/rol-filtros";
+import { numeroSeccion } from "../../../lib/nav";
+
+export async function getStaticPaths() {
+  return (await getAllLicencias()).map((l) => ({ params: { slug: l.id }, props: { licencia: l } }));
+}
+
+const { licencia } = Astro.props;
+const d = licencia.data;
+const { Content } = await render(licencia);
+const abierta = esAbierta(licencia);
+const fichas = await Promise.all((await getAllJuegos()).map(resuelveJuego));
+const juegos = fichas.map((f) => ({ f, usos: usosDeLicencia(f, licencia.id) })).filter((x) => x.usos.length > 0);
+const sistemas = await sistemasDeLicencia(licencia.id);
+
+const datos: Dato[] = [
+  { etiqueta: "Nombre corto", valor: d.nombreCorto },
+  { etiqueta: "Tipo", valor: tipoLicencia[d.tipo] },
+  { etiqueta: "¿Es abierta?", valor: abierta ? "Sí" : "No" },
+  // «Dominio público» y «Todos los derechos reservados» no tienen un texto de licencia.
+  ...(d.url || !["dominio-publico", "cerrada"].includes(d.tipo)
+    ? [{ etiqueta: "Texto oficial", enlaces: d.url ? [{ texto: new URL(d.url).hostname.replace(/^www\./, ""), href: d.url }] : [] }]
+    : []),
+];
+
+// Permisos uno a uno: solo si la ficha trae alguno (con fuente). Lo que falte, «pendiente».
+const p = d.permite;
+const hayPermisos = [p.comercial, p.adaptar, p.atribucion, p.compartirIgual].some((x) => x !== undefined);
+const permisos = [
+  { que: "Usarlo para vender (uso comercial)", v: p.comercial },
+  { que: "Adaptarlo y publicar obras derivadas", v: p.adaptar },
+  { que: "Hay que citar la autoría y la licencia", v: p.atribucion },
+  { que: "Lo derivado debe llevar la misma licencia", v: p.compartirIgual },
+];
+// Página del catálogo filtrado que le corresponde.
+const filtro = d.tipo === "cc" ? "licencia/creative-commons" : abierta ? "licencia/abierta" : "licencia/sin-licencia-abierta";
+---
+
+<Layout
+  title={`${d.nombreCorto}: qué permite (licencia)`}
+  description={`${d.nombre}: qué permite en castellano llano y qué juegos y sistemas de rol de los que jugamos la usan.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Licencias", href: "/rol/licencias" }, { texto: d.nombreCorto }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Licencia"
+      titulo={d.nombre}
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Qué permite</Titulo>
+      <div class="tz-medida">
+        <Datos datos={datos} class="tz-datos--ancho" />
+        <div class="tz-prosa" style="margin-top:var(--e-6)">
+          {licencia.body?.trim() ? <Content /> : <Pendiente mensaje="Falta explicar qué permite esta licencia." />}
+        </div>
+        {hayPermisos && (
+          <>
+            <h3 class="tz-subtitulo">Punto por punto</h3>
+            <ul class="tz-permisos">
+              {permisos.map((x) => (
+                <li><span>{x.que}</span><span class="tz-permisos-valor">{x.v === undefined ? <Pendiente /> : x.v ? "Sí" : "No"}</span></li>
+              ))}
+            </ul>
+          </>
+        )}
+        <p class="tz-ref" style="margin:var(--e-5) 0 0">Resumen para orientarse, no asesoría legal: manda el texto oficial de la licencia.</p>
+      </div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-juegos">
+      <Titulo id="s-juegos" numero="02">Juegos que la usan</Titulo>
+      {juegos.length > 0 ? (
+        <>
+          <ul class="tz-lista-enlaces">
+            {juegos.map(({ f, usos }) => (
+              <li>
+                <a href={hrefJuego(f.juego.id)}>
+                  <span class="tz-lista-enlaces-nombre">{f.juego.data.titulo}</span>
+                  <span class="tz-lista-enlaces-detalle">{usos.join(" · ")}</span>
+                  <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p style="margin:var(--e-5) 0 0">
+            <a class="tz-enlace-bloque" href={hrefFiltro(filtro)}><span>{abierta ? "Ver todos los juegos con licencia abierta" : "Ver todos los juegos sin licencia abierta"}{d.tipo === "cc" ? " Creative Commons" : ""}</span><span aria-hidden="true">›</span></a>
+          </p>
+        </>
+      ) : (
+        <p class="tz-medida" style="margin:0">Ningún juego del registro usa esta licencia directamente.</p>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-sistemas">
+      <Titulo id="s-sistemas" numero="03">Sistemas que la usan</Titulo>
+      {sistemas.length > 0 ? (
+        <ul class="tz-lista-enlaces">
+          {sistemas.map((s) => (
+            <li>
+              <a href={hrefSistema(s.id)}>
+                <span class="tz-lista-enlaces-nombre">{s.data.name}</span>
+                <span class="tz-lista-enlaces-detalle">{s.data.srd ? `Reglas abiertas: ${s.data.srd.nombre}` : "Licencia del sistema"}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="tz-medida" style="margin:0">Ningún sistema del registro usa esta licencia.</p>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero="04">Fuentes</Titulo>
+      {d.fuentes.length > 0 ? (
+        <ol class="tz-fuentes tz-medida">
+          {d.fuentes.map((f, i) => <FuenteDato fuente={f} n={i + 1} />)}
+        </ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Esta ficha no tiene ninguna fuente todavía." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol/licencias"><span aria-hidden="true">‹</span> Todas las licencias</a>
+    </div>
+  </div>
+</Layout>

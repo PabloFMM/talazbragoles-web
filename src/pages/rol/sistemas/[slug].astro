@@ -1,0 +1,176 @@
+---
+/**
+ * /rol/sistemas/<slug>/: ficha de un sistema de reglas del grupo (colección
+ * «systems», jugadoEn: grupo). Datos con enlaces (familia, derivados, autoría,
+ * editorial, licencia), cómo funciona, juegos que lo usan (también vía un
+ * sistema derivado), qué permite su licencia, dónde están las reglas y fuentes.
+ */
+import { getEntry, getEntries, render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Datos, { type Dato } from "../../../components/sistema/Datos.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import PortadaTipografica from "../../../components/sistema/PortadaTipografica.astro";
+import FuenteDato from "../../../components/sistema/FuenteDato.astro";
+import { derivadosDeSistema, getSistemasRol, juegosDeSistema } from "../../../lib/collections";
+import { dondeSeJugo, listaY, tipoLicencia } from "../../../lib/formato";
+import { hrefAutoria, hrefEditorial, hrefJuego, hrefLicencia, hrefSistema } from "../../../lib/rol-rutas";
+import { hrefFiltro } from "../../../lib/rol-filtros";
+import { numeroSeccion } from "../../../lib/nav";
+
+export async function getStaticPaths() {
+  return (await getSistemasRol()).map((s) => ({ params: { slug: s.id }, props: { sistema: s } }));
+}
+
+const { sistema } = Astro.props;
+const d = sistema.data;
+const { Content } = await render(sistema);
+const corto = d.nombreCorto ?? d.name;
+const familia = d.familia ? await getEntry(d.familia) : undefined;
+const derivados = await derivadosDeSistema(sistema.id);
+const autoria = await getEntries(d.autoria);
+const editorial = await getEntries(d.editorial);
+const licencia = d.licencia ? await getEntry(d.licencia) : undefined;
+const Licencia = licencia ? (await render(licencia)).Content : undefined;
+const juegos = await juegosDeSistema(sistema.id);
+const sistemaDe = new Map(
+  await Promise.all(juegos.map(async ({ juego }) => {
+    const s = juego.data.sistema ? await getEntry(juego.data.sistema) : undefined;
+    return [juego.id, s ? s.data.nombreCorto ?? s.data.name : undefined] as const;
+  }))
+);
+
+const datos: Dato[] = [
+  { etiqueta: "Nombre corto", valor: d.nombreCorto },
+  ...(familia ? [{ etiqueta: "Familia", enlaces: [{ texto: familia.data.name, href: hrefSistema(familia.id), detalle: familia.data.nombreCorto ? ` (${familia.data.nombreCorto})` : undefined }] }] : []),
+  ...(derivados.length ? [{ etiqueta: "Sistemas derivados", enlaces: derivados.map((x) => ({ texto: x.data.name, href: hrefSistema(x.id) })) }] : []),
+  { etiqueta: "Origen", valor: d.origen },
+  { etiqueta: "Año", valor: d.ano },
+  { etiqueta: "Autoría", enlaces: autoria.map((a) => ({ texto: a.data.nombre, href: hrefAutoria(a.id) })) },
+  { etiqueta: "Editorial", enlaces: editorial.map((e) => ({ texto: e.data.nombre, href: hrefEditorial(e.id) })) },
+  { etiqueta: "Licencia del sistema", enlaces: licencia ? [{ texto: licencia.data.nombreCorto, href: hrefLicencia(licencia.id) }] : [] },
+  { etiqueta: "Reglas abiertas (SRD)", valor: d.srd ? `${d.srd.nombre}: enlace en «Dónde están las reglas»` : undefined },
+  { etiqueta: "Dónde se jugó", valor: listaY(d.jugadoEn.map((x) => dondeSeJugo[x])) },
+];
+---
+
+<Layout
+  title={`${d.name} (sistema de rol)`}
+  description={`${d.name}: sistema de reglas de juegos de rol que jugamos. Familia, licencia, reglas abiertas y los ${juegos.length} juegos que lo usan.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Sistemas", href: "/rol/sistemas" }, { texto: corto }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Sistema de rol"
+      titulo={d.name}
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <div class="tz-medida">
+        <Datos datos={datos} class="tz-datos--ancho" />
+        {d.dudas.length > 0 && (
+          <div style="margin-top:var(--e-6)">
+            <Pendiente etiqueta="Preguntas abiertas">
+              <ul class="tz-juego-lista">{d.dudas.map((q) => <li>{q}</li>)}</ul>
+            </Pendiente>
+          </div>
+        )}
+        <p class="tz-ref" style="margin:var(--e-5) 0 0">Cada dato sale de las fuentes del final de la página. Si ninguna lo dice, aparece «pendiente».</p>
+      </div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-como">
+      <Titulo id="s-como" numero="02">Cómo funciona</Titulo>
+      {sistema.body?.trim() ? (
+        <div class="tz-prosa"><Content /></div>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Falta el resumen de cómo funciona el sistema." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-juegos">
+      <Titulo id="s-juegos" numero="03">Juegos con este sistema</Titulo>
+      {juegos.length > 0 ? (
+        <>
+          <ul class="tz-portadas">
+            {juegos.map(({ juego, via }) => (
+              <li>
+                <a href={hrefJuego(juego.id)}>
+                  <PortadaTipografica titulo={juego.data.titulo} sistema={sistemaDe.get(juego.id)} pie={juego.data.ano ? String(juego.data.ano) : undefined} />
+                  <span class="tz-portadas-nota">{via ? `Vía ${via.data.name}` : "Directamente"}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p style="margin:var(--e-6) 0 0">
+            <a class="tz-enlace-bloque" href={hrefFiltro(`sistema/${sistema.id}`)}><span>Ver estos juegos en el catálogo, con sus datos</span><span aria-hidden="true">›</span></a>
+          </p>
+        </>
+      ) : (
+        <p class="tz-medida" style="margin:0">Ningún juego del registro usa este sistema.</p>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-licencia">
+      <Titulo id="s-licencia" numero="04">Qué te deja hacer su licencia</Titulo>
+      {licencia && Licencia ? (
+        <div class="tz-medida tz-licencia">
+          <h3 class="tz-subtitulo">{licencia.data.nombre}</h3>
+          <p class="tz-ref" style="margin:0 0 var(--e-3)">{tipoLicencia[licencia.data.tipo]}</p>
+          <div class="tz-prosa"><Licencia /></div>
+          <p style="margin:var(--e-3) 0 0">
+            <a class="tz-enlace-bloque" href={hrefLicencia(licencia.id)}><span>Más sobre {licencia.data.nombreCorto} y quién la usa</span><span aria-hidden="true">›</span></a>
+          </p>
+        </div>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="No sabemos con qué licencia se publican las reglas de este sistema." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-reglas">
+      <Titulo id="s-reglas" numero="05">Dónde están las reglas</Titulo>
+      {d.srd || d.enlaces.length > 0 ? (
+        <ul class="tz-lista-enlaces">
+          {d.srd && (
+            <li>
+              <a href={d.srd.url} rel="noreferrer">
+                <span class="tz-lista-enlaces-nombre">{d.srd.nombre}</span>
+                <span class="tz-lista-enlaces-detalle">Reglas del sistema{licencia ? `, ${licencia.data.nombreCorto}` : ""}{d.srd.alcance ? `. ${d.srd.alcance}` : ""}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          )}
+          {d.enlaces.map((e) => (
+            <li>
+              <a href={e.url} rel="noreferrer">
+                <span class="tz-lista-enlaces-nombre">{e.etiqueta}</span>
+                <span class="tz-lista-enlaces-detalle">{new URL(e.url).hostname.replace(/^www\./, "")}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="No tenemos un enlace oficial a las reglas de este sistema." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero="06">Fuentes</Titulo>
+      {d.fuentes.length > 0 ? (
+        <ol class="tz-fuentes tz-medida">
+          {d.fuentes.map((f, i) => <FuenteDato fuente={f} n={i + 1} />)}
+        </ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Esta ficha no tiene ninguna fuente todavía." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol/sistemas"><span aria-hidden="true">‹</span> Todos los sistemas</a>
+    </div>
+  </div>
+</Layout>

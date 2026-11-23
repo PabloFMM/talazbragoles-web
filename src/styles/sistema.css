@@ -987,6 +987,180 @@
   .tz-guia > h2:first-child { margin-top: 0; }
   .tz-guia > .tz-tabla { margin-block: var(--e-5); }
 
+  /* --- 4.17 bis Rol (2026-11-23): portada tipográfica, catálogo y ficha de juego --- */
+  /* Portada tipográfica: hueco 3:4 con título, filete corto y sistema. Sin imagen ni color.
+     El tamaño del título sigue al ancho de la portada (cqi) y nunca baja de 16 px. */
+  .tz-portada {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    aspect-ratio: 3 / 4;
+    padding: var(--e-3);
+    border: var(--f-medio) solid var(--tinta);
+    background: var(--papel);
+    color: var(--tinta);
+  }
+  .tz-portada--grande { padding: var(--e-5); }
+  .tz-portada-titulo {
+    font-family: var(--letra-titular);
+    font-size: max(var(--t-0), min(14cqi, 2.75rem));
+    font-weight: var(--p-fino);
+    font-optical-sizing: auto;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    overflow-wrap: break-word;
+    hyphens: manual;
+    text-wrap: pretty;
+  }
+  .tz-portada-filete {
+    display: block;
+    flex: none;
+    width: min(3rem, 40%);
+    margin: auto 0 var(--e-2);
+    padding-top: var(--e-4);
+    border-bottom: var(--f-medio) solid currentColor;
+  }
+  .tz-portada-sistema {
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+  }
+  .tz-portada-pie { margin-top: var(--e-1); font-size: var(--t-0); line-height: 1.3; }
+
+  /* Rejilla de portadas enlazadas (portada de /rol/, juegos parecidos).
+     Al pasar el ratón la portada se invierte: tinta de fondo, papel de letra. */
+  .tz-portadas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 8rem), 1fr));
+    gap: var(--e-6) var(--medianil);
+  }
+  @media (min-width: 48rem) {
+    .tz-portadas { grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
+  }
+  .tz-portadas > li { min-width: 0; }
+  .tz-portadas a { display: block; color: var(--tinta); text-decoration: none; }
+  .tz-portadas a:hover .tz-portada { background: var(--tinta); color: var(--papel); }
+  .tz-portadas-nota { display: block; margin-top: var(--e-2); font-size: var(--t-0); color: var(--tinta-2); line-height: 1.4; }
+  .tz-portadas a:hover .tz-portadas-nota { color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+
+  /* Catálogo de juegos: portada pequeña a la izquierda (≥ 40rem) y datos a la derecha.
+     Desde 40rem y no 30rem: con el texto al 200 % a 480-540 px, la portada dejaba sin sitio a los datos. */
+  .tz-catalogo { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-catalogo-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-3) var(--medianil);
+    padding-block: var(--e-5);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  .tz-catalogo-fila > .tz-portada { display: none; }
+  @media (min-width: 40rem) {
+    .tz-catalogo-fila { grid-template-columns: 7rem minmax(0, 1fr); align-items: start; }
+    .tz-catalogo-fila > .tz-portada { display: flex; }
+  }
+  @media (min-width: 48rem) {
+    .tz-catalogo-fila { grid-template-columns: 9rem minmax(0, 1fr); }
+  }
+  .tz-catalogo-fila .tz-datos { margin-top: var(--e-3); max-width: var(--medida); }
+  .tz-catalogo-fila .tz-estado { white-space: normal; }
+
+  /* Ficha de juego: portada grande y datos */
+  .tz-juego { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-6) var(--e-8); }
+  .tz-juego > .tz-portada { width: min(100%, 14rem); }
+  @media (min-width: 48rem) {
+    .tz-juego { grid-template-columns: minmax(0, 15rem) minmax(0, var(--medida)); }
+    .tz-juego > .tz-portada { width: 100%; }
+  }
+  .tz-juego-lista { margin: 0; padding: 0; list-style: none; }
+  .tz-juego-lista li + li { margin-top: var(--e-1); }
+  .tz-descarga { margin-top: var(--e-4); }
+  .tz-descarga .tz-ref { margin: var(--e-2) 0 0; }
+  .tz-licencia + .tz-licencia { margin-top: var(--e-7); }
+  .tz-licencia .tz-subtitulo { margin-top: 0; }
+
+  /* --- 4.17 ter Rol: filtros sin JS, enlaces dentro de datos, permisos de licencia --- */
+  /* Bloque «Filtrar»: un grupo por criterio (rótulo + opciones). Cada opción es un enlace
+     ≥ 48 px con su recuento; la activa (aria-current) se invierte: tinta de fondo. */
+  .tz-filtros { display: grid; gap: var(--e-5); }
+  .tz-filtros-quitar { margin: 0; }
+  .tz-filtros-grupo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-3) var(--medianil);
+    padding-top: var(--e-4);
+    border-top: var(--f-fino) solid var(--tinta);
+  }
+  @media (min-width: 48rem) {
+    .tz-filtros-grupo { grid-template-columns: min(11rem, 30%) minmax(0, 1fr); align-items: start; }
+    .tz-filtros-titulo { padding-top: var(--e-3); }
+  }
+  .tz-filtros-titulo { margin: 0; }
+  .tz-filtros-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--e-2); min-width: 0; }
+  .tz-filtros-lista > li { min-width: 0; max-width: 100%; }
+  .tz-filtro {
+    display: flex;
+    align-items: baseline;
+    gap: var(--e-3);
+    box-sizing: border-box;
+    min-height: var(--toque);
+    min-width: var(--toque);
+    max-width: 100%;
+    padding: var(--e-3) var(--e-4);
+    border: var(--f-fino) solid var(--tinta);
+    background: var(--papel);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    line-height: 1.35;
+    text-decoration: none;
+  }
+  .tz-filtro-texto { min-width: 0; overflow-wrap: break-word; }
+  .tz-filtro-n { color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-filtro:hover .tz-filtro-texto { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tz-filtro[aria-current] { background: var(--tinta); color: var(--papel); font-weight: var(--p-semi); }
+  .tz-filtro[aria-current] .tz-filtro-n { color: var(--papel); }
+
+  /* Enlaces dentro de una lista de datos (ficha de juego, sistema, licencia…): el área
+     de pulsación llega a 48 px de alto con relleno, y el margen negativo lo compensa
+     para no mover la línea. */
+  .tz-datos dd a {
+    display: inline-block;
+    min-width: var(--toque);
+    padding-block: var(--e-3);
+    margin-block: calc(-1 * var(--e-3));
+    color: var(--tinta);
+    overflow-wrap: anywhere; /* dominios largos (tuesdayknightgames.zendesk.com) */
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+  .tz-datos dd a:hover { text-decoration-thickness: 2px; }
+
+  /* Qué permite una licencia: lista de sí / no, sin color (la palabra lo dice). */
+  .tz-permisos { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--filete); }
+  .tz-permisos li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--e-4);
+    padding-block: var(--e-3);
+    border-top: var(--f-fino) solid var(--filete);
+  }
+  .tz-permisos-valor { font-weight: var(--p-semi); }
+  /* Texto solo para lectores de pantalla (completa el nombre de un botón corto) */
+  .tz-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   /* --- 4.18 Impresión ---
      Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice
      y el índice del pie; las migas se quedan como texto (dicen dónde estaba la página).

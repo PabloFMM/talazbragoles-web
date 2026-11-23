@@ -1,42 +1,107 @@
 ---
 /**
- * /rol/: partidas y campañas ACTUALES del grupo, con resúmenes de sesión y
- * personajes (PabloFM, 2026-11-15). Colección «campaigns». Lo jugado en las
- * Jornadas históricas está en /sistemas/. No inventar campañas ni personajes.
+ * /rol/: portada de la sección Rol (fase 1, 2026-11-23). Lo que jugamos ahora:
+ * portadas tipográficas de los juegos, accesos a Juegos / Sistemas / Licencias
+ * y las crónicas de mesa (fase 2, colección «campaigns», hoy vacía: se anuncian
+ * «en preparación»; no inventar campañas ni personajes). Lo jugado en las
+ * Jornadas históricas está en /sistemas/ (Archivo).
+ * Accesos a Juegos (con filtros), Sistemas, Licencias, Autoría y Editoriales.
  */
 import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
+import Estado from "../../components/sistema/Estado.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
-import { getAllCampaigns } from "../../lib/collections";
-import { dosCifras, estadoCampana } from "../../lib/formato";
+import PortadaTipografica from "../../components/sistema/PortadaTipografica.astro";
+import { getAllCampaigns, getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego } from "../../lib/collections";
+import { dosCifras, estadoCampana, estadoJuego } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
 const campanas = await getAllCampaigns();
+const juegos = await getAllJuegos();
+const jugados = await Promise.all(juegos.filter((j) => j.data.jugado.nosotros).map(resuelveJuego));
+const nSistemas = (await getSistemasRol()).length;
+const nLicencias = (await getAllLicencias()).length;
+const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ?? s?.data.name;
 ---
 
 <Layout
   title="Juegos de rol"
-  description="Partidas y campañas de rol que juega ahora el grupo: resúmenes de sesión y personajes."
+  description="Los juegos de rol que jugamos ahora: con qué reglas, quién los escribió, qué licencia tienen y qué edición jugamos."
 >
   <div class="tz-pagina">
     <Encabezado
       numero={numeroSeccion("/rol")}
       seccion="Rol"
       titulo="Juegos de rol"
-      entradilla="Las partidas y campañas que juega ahora el grupo: de qué van, qué pasó en cada sesión y quién lleva qué personaje."
+      entradilla="Lo que jugamos ahora: con qué reglas, quién lo escribió y qué licencia tiene. Cada dato, con su fuente."
     />
 
-    <section class="tz-seccion" aria-labelledby="s-campanas">
-      <Titulo id="s-campanas" numero="01">Campañas</Titulo>
+    <section class="tz-seccion" aria-labelledby="s-jugado">
+      <Titulo id="s-jugado" numero="01">Lo que hemos jugado</Titulo>
+      {jugados.length > 0 ? (
+        <>
+          <ul class="tz-portadas">
+            {jugados.map((f) => (
+              <li>
+                <a href={`/rol/juegos/${f.juego.id}`}>
+                  <PortadaTipografica titulo={f.juego.data.titulo} sistema={corto(f.sistema)} />
+                  <span class="tz-portadas-nota">
+                    {f.estado === "en-construccion"
+                      ? <Estado estado="parcial" texto={estadoJuego["en-construccion"]} />
+                      : f.edicionJugadaTexto ?? <>Edición: <Pendiente /></>}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p style="margin:var(--e-6) 0 0">
+            <a class="tz-enlace-bloque" href="/rol/juegos"><span>Ver los {juegos.length} juegos con sus datos</span><span aria-hidden="true">›</span></a>
+          </p>
+        </>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ningún juego registrado." /></div>
+      )}
+      <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">Sin imágenes de portada: no publicamos portadas sin permiso de quien las tiene. Debajo de cada una, la edición que jugamos.</p>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-accesos">
+      <Titulo id="s-accesos" numero="02">Por dónde seguir</Titulo>
+      <ul class="tz-resumen">
+        <li>
+          <h3>Juegos</h3>
+          <p>Catálogo de los {juegos.length} juegos: sistema, licencia del juego y del sistema, ediciones y descargas oficiales.</p>
+          <a class="tz-enlace-bloque" href="/rol/juegos"><span>Ver el catálogo</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Sistemas</h3>
+          <p>Los {nSistemas} motores de reglas de esos juegos y sus familias.</p>
+          <a class="tz-enlace-bloque" href="/rol/sistemas"><span>Ver los sistemas</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Licencias</h3>
+          <p>Qué permite cada una de las {nLicencias} licencias, en castellano llano: copiar, adaptar, vender.</p>
+          <a class="tz-enlace-bloque" href="/rol/licencias"><span>Ver las licencias</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Autoría y editoriales</h3>
+          <p>Quién escribió y quién publica cada juego, también en castellano.</p>
+          <a class="tz-enlace-bloque" href="/rol/autoria"><span>Ver la autoría</span><span aria-hidden="true">›</span></a>
+          <a class="tz-enlace-bloque" href="/rol/editoriales"><span>Ver las editoriales</span><span aria-hidden="true">›</span></a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-cronicas">
+      <Titulo id="s-cronicas" numero="03">Crónicas de mesa</Titulo>
       {campanas.length > 0 ? (
         <div class="tz-fichas">
           {campanas.map((c, i) => (
             <Ficha
               numero={dosCifras(i + 1)}
               titulo={c.data.title}
-              href={`/rol/${c.id}`}
+              href={`/rol/campanas/${c.id}`}
               enlace="Ver campaña"
               datos={[
                 { etiqueta: "Sistema", valor: c.data.system },
@@ -50,8 +115,8 @@ const campanas = await getAllCampaigns();
       ) : (
         <div class="tz-medida">
           <Pendiente
-            etiqueta="Sección en preparación"
-            mensaje="Todavía no hay ninguna campaña registrada."
+            etiqueta="En preparación"
+            mensaje="Las crónicas de nuestras mesas: campañas en curso, la última sesión jugada y el mundo que va saliendo."
             pide="Cada campaña tendrá su ficha: sistema, estado, resumen de cada sesión y personajes."
           />
         </div>
@@ -59,7 +124,7 @@ const campanas = await getAllCampaigns();
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-jornadas">
-      <Titulo id="s-jornadas" numero="02">Y en las Jornadas</Titulo>
+      <Titulo id="s-jornadas" numero="04">Y en las Jornadas</Titulo>
       <p class="tz-medida" style="margin:0">
         Lo que se jugó en las Jornadas Talazbrágoles, en los años noventa, es otra cosa: está en el Archivo.
       </p>

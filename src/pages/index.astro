@@ -11,7 +11,7 @@ import Titulo from "../components/sistema/Titulo.astro";
 import Pendiente from "../components/sistema/Pendiente.astro";
 import RegistroEdiciones from "../components/archivo/RegistroEdiciones.astro";
 import {
-  getAllEditions, getAllSources, getAllTimeline, getAllPeople, getAllSystems,
+  getAllEditions, getAllSources, getAllTimeline, getAllPeople, getSistemasJornadas,
 } from "../lib/collections";
 import { anclaFuente, plural } from "../lib/formato";
 
@@ -19,7 +19,7 @@ const ediciones = await getAllEditions();
 const fuentes = await getAllSources();
 const cronologia = await getAllTimeline();
 const personas = await getAllPeople();
-const sistemas = await getAllSystems();
+const sistemas = await getSistemasJornadas();
 
 // La frase de portada sale de esta fuente (reseña de La Runa en Rol de los 90).
 const FUENTE_FRASE = "rol-de-los-90-la-runa-2018";

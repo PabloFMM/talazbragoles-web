@@ -2,11 +2,14 @@
 /**
  * Estado documental (mismos valores que el esquema de ediciones).
  * Círculo lleno = documentada, medio = parcial, vacío = pendiente; siempre con texto.
+ * `texto` cambia la palabra y deja la forma: un juego «En construcción» usa la
+ * forma de «parcial» (sección Rol, 2026-11-23).
  */
 import { estadoDocumental, type EstadoDocumental } from "../../lib/formato";
 interface Props {
   estado: EstadoDocumental;
+  texto?: string;
 }
-const { estado } = Astro.props;
+const { estado, texto } = Astro.props;
 ---
-<span class:list={["tz-estado", `tz-estado--${estado}`]}>{estadoDocumental[estado]}</span>
+<span class:list={["tz-estado", `tz-estado--${estado}`]}>{texto ?? estadoDocumental[estado]}</span>

@@ -1,0 +1,286 @@
+---
+/**
+ * /rol/juegos/<slug>/: ficha de un juego de rol (colección «juegos»).
+ * Portada tipográfica, datos (vacíos = «pendiente»), qué es, ediciones (con la
+ * descarga oficial si su licencia lo permite), qué deja hacer la licencia,
+ * dónde conseguirlo, fuentes por dato y juegos parecidos.
+ * Nunca se nombra a quien dio los datos: lo que afirma el grupo es dato del grupo.
+ * Los enlaces a sistema, licencia, autoría y editorial llegan con Rol 3/4.
+ */
+import { render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Datos from "../../../components/sistema/Datos.astro";
+import Ficha from "../../../components/sistema/Ficha.astro";
+import Estado from "../../../components/sistema/Estado.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import PortadaTipografica from "../../../components/sistema/PortadaTipografica.astro";
+import FuenteDato from "../../../components/sistema/FuenteDato.astro";
+import { getAllJuegos, resuelveJuego, juegosParecidos } from "../../../lib/collections";
+import {
+  dosCifras, estadoJuego, fechaLarga, formatoPartida, generoRol, idiomaEdicion, listaY, modoJuego, tipoLicencia,
+} from "../../../lib/formato";
+import { numeroSeccion } from "../../../lib/nav";
+import { hrefAutoria, hrefEditorial, hrefLicencia, hrefSistema } from "../../../lib/rol-rutas";
+import { hrefFiltro } from "../../../lib/rol-filtros";
+import type { Dato } from "../../../components/sistema/Datos.astro";
+
+export async function getStaticPaths() {
+  const juegos = await getAllJuegos();
+  return juegos.map((j) => ({ params: { slug: j.id }, props: { juego: j } }));
+}
+
+const { juego } = Astro.props;
+const d = juego.data;
+const r = await resuelveJuego(juego);
+const { Content } = await render(juego);
+const parecidos = await juegosParecidos(juego);
+const enConstruccion = r.estado === "en-construccion";
+
+const nombreSistema = r.sistema ? (r.sistema.data.nombreCorto ? `${r.sistema.data.name} (${r.sistema.data.nombreCorto})` : r.sistema.data.name) : undefined;
+const corto = (s?: typeof r.sistema) => s?.data.nombreCorto ?? s?.data.name;
+// Juego escrito en castellano (edición en castellano que no es traducción): su título y editorial ya son los de aquí.
+const originalEs = r.ediciones.find((e) => e.idioma === "es" && !e.traduccionDe);
+// «El texto del juego.» → «el texto del juego» (va entre paréntesis o tras dos puntos).
+// Si empieza por un nombre propio de dos palabras («Free League …»), se deja.
+const minuscula = (s: string) => {
+  const t = s.replace(/\.$/, "");
+  return /^\S+ \p{Lu}/u.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1);
+};
+const idiomas = [...new Set(r.ediciones.map((e) => idiomaEdicion[e.idioma]))].map((x, i) => (i ? x.toLowerCase() : x));
+const jugadores = d.jugadores
+  ? `${d.jugadores.min === d.jugadores.max ? d.jugadores.min : `De ${d.jugadores.min} a ${d.jugadores.max}`}${d.jugadores.nota ? `. ${d.jugadores.nota}` : ""}`
+  : undefined;
+
+// Enlaces cruzados (Rol 3/4): autoría, sistema, licencias, editoriales y los filtros del catálogo.
+type Ref = { id: string; data: { nombre: string } };
+const aAutoria = (xs: Ref[]) => xs.map((x) => ({ texto: x.data.nombre, href: hrefAutoria(x.id) }));
+const aEditorial = (xs: Ref[]) => xs.map((x) => ({ texto: x.data.nombre, href: hrefEditorial(x.id) }));
+const editorialEs = r.editorialCastellano.length ? r.editorialCastellano : originalEs?.editorial ? [originalEs.editorial] : [];
+const datos: Dato[] = [
+  { etiqueta: "Título en castellano", valor: d.tituloCastellano ?? (originalEs ? d.titulo : undefined) },
+  { etiqueta: "Autoría", enlaces: aAutoria(r.autoria) },
+  { etiqueta: "Sistema", enlaces: r.sistema && nombreSistema ? [{ texto: nombreSistema, href: hrefSistema(r.sistema.id) }] : [] },
+  {
+    etiqueta: "Licencia del juego",
+    separador: ";",
+    enlaces: r.licenciasJuego.map((l) => ({
+      texto: l.licencia.data.nombreCorto,
+      href: hrefLicencia(l.licencia.id),
+      detalle: l.alcance ? ` (${minuscula(l.alcance)})` : undefined,
+    })),
+  },
+  { etiqueta: "Licencia del sistema", enlaces: r.licenciaSistema ? [{ texto: r.licenciaSistema.data.nombreCorto, href: hrefLicencia(r.licenciaSistema.id) }] : [] },
+  { etiqueta: "Editorial", enlaces: aEditorial(r.editorial) },
+  { etiqueta: "Editorial en castellano", enlaces: aEditorial(editorialEs) },
+  { etiqueta: "Año", valor: d.ano },
+  { etiqueta: "Jugadores", valor: jugadores },
+  { etiqueta: "Idiomas", valor: idiomas.length ? listaY(idiomas) : undefined },
+  { etiqueta: "Género", enlaces: d.generos.map((g) => ({ texto: generoRol[g], href: hrefFiltro(`genero/${g}`) })) },
+  { etiqueta: "Cómo se juega", enlaces: d.modo.map((m) => ({ texto: modoJuego[m], href: hrefFiltro(`modo/${m}`) })) },
+  ...(d.formato.length ? [{ etiqueta: "Formato", enlaces: d.formato.map((f) => ({ texto: formatoPartida[f], href: hrefFiltro(`formato/${f}`) })) }] : []),
+  { etiqueta: "Lo jugamos", valor: d.jugado.nosotros ? (d.jugado.ultima ? `Sí; la última vez, ${fechaLarga(d.jugado.ultima)}` : "Sí") : undefined },
+  { etiqueta: "Edición que jugamos", valor: r.edicionJugadaTexto },
+  {
+    etiqueta: "Descarga oficial",
+    valor: r.descargaJuego
+      ? "Sí: enlaces en «Ediciones» y «Dónde conseguirlo»"
+      : r.descargable ? "Solo las reglas del sistema (SRD): enlace en «Dónde conseguirlo»" : "No hay ninguna registrada",
+  },
+];
+
+// Aparato de notas: primero las fuentes de la ficha, luego las de cada edición.
+let n = 0;
+const notasFicha = d.fuentes.map((f) => ({ fuente: f, n: ++n, ambito: undefined as string | undefined }));
+const notasEdicion = r.ediciones.map((e) => e.fuentes.map((f) => ({ fuente: f, n: ++n, ambito: `Edición «${e.nombre}»` })));
+const notas = [...notasFicha, ...notasEdicion.flat()];
+
+const algunaJugada = r.edicionesJugadas.length > 0;
+const datosEdicion = (e: (typeof r.ediciones)[number]): Dato[] => [
+  { etiqueta: "Año", valor: e.ano },
+  { etiqueta: "Editorial", enlaces: e.editorial ? aEditorial([e.editorial]) : [] },
+  { etiqueta: "Idioma", valor: idiomaEdicion[e.idioma] + (e.traduccionDe ? `; traducción de «${e.traduccionDe}»` : "") },
+  { etiqueta: "Licencia", enlaces: e.licencia ? [{ texto: e.licencia.data.nombreCorto, href: hrefLicencia(e.licencia.id) }] : [] },
+  // Dato del grupo: si ninguna edición está marcada, no sabemos cuál («pendiente»).
+  { etiqueta: "La jugamos", valor: e.jugadaPorNosotros ? "Sí" : algunaJugada ? "No" : undefined },
+];
+
+// Qué deja hacer cada licencia (juego, sistema y ediciones), sin repetir.
+type Uso = { licencia: NonNullable<typeof r.licenciaSistema>; usos: string[] };
+const usos = new Map<string, Uso>();
+const anade = (l: Uso["licencia"] | undefined, uso: string) => {
+  if (!l) return;
+  const u = usos.get(l.id) ?? { licencia: l, usos: [] };
+  if (!u.usos.includes(uso)) u.usos.push(uso);
+  usos.set(l.id, u);
+};
+r.licenciasJuego.forEach((l) => anade(l.licencia, l.alcance ? `Licencia del juego: ${minuscula(l.alcance)}` : "Licencia del juego"));
+anade(r.licenciaSistema, `Licencia del sistema${corto(r.sistema) ? ` ${corto(r.sistema)}` : ""}`);
+r.ediciones.forEach((e) => anade(e.licencia, `Edición «${e.nombre}»`));
+const licencias = await Promise.all(
+  [...usos.values()].map(async (u) => ({ ...u, Cuerpo: (await render(u.licencia)).Content }))
+);
+
+const srd = r.sistema?.data.srd;
+const pieDe = (j: (typeof parecidos)[number]["juego"]) => j.data.ano ? String(j.data.ano) : undefined;
+const sistemasDe = new Map(
+  await Promise.all(parecidos.map(async (p) => [p.juego.id, corto((await resuelveJuego(p.juego)).sistema)] as const))
+);
+---
+
+<Layout
+  title={`${d.titulo} (juego de rol)`}
+  description={`${d.titulo}: ficha del juego de rol que jugamos, con su sistema, licencia, autoría, ediciones y fuentes.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Juegos", href: "/rol/juegos" }, { texto: d.titulo }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Juego de rol"
+      titulo={d.titulo}
+    >
+      {enConstruccion && (
+        <p class="tz-recuento"><Estado estado="parcial" texto={estadoJuego["en-construccion"]} /> · el juego aún se está escribiendo</p>
+      )}
+    </Encabezado>
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <div class="tz-juego">
+        <PortadaTipografica titulo={d.titulo} sistema={corto(r.sistema)} pie={d.ano ? String(d.ano) : undefined} tamano="grande" decorativa />
+        <div>
+          <Datos datos={datos} class="tz-datos--ancho" />
+          {d.dudas.length > 0 && (
+            <div style="margin-top:var(--e-6)">
+              <Pendiente etiqueta="Preguntas abiertas">
+                <ul class="tz-juego-lista">
+                  {d.dudas.map((q) => <li>{q}</li>)}
+                </ul>
+              </Pendiente>
+            </div>
+          )}
+          <p class="tz-ref" style="margin:var(--e-5) 0 0">Cada dato sale de las fuentes del final de la página. Si ninguna lo dice, aparece «pendiente». Que lo jugamos y qué edición es dato nuestro.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-que-es">
+      <Titulo id="s-que-es" numero="02">Qué es</Titulo>
+      {juego.body?.trim() ? (
+        <div class="tz-prosa"><Content /></div>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Falta el resumen de qué es el juego." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-ediciones">
+      <Titulo id="s-ediciones" numero="03">Ediciones</Titulo>
+      {r.ediciones.length > 0 ? (
+        <div class="tz-fichas">
+          {r.ediciones.map((e, i) => (
+            <Ficha titulo={e.nombre} numero={dosCifras(i + 1)} datos={datosEdicion(e)}>
+              {e.descarga && (
+                <div class="tz-descarga">
+                  <a class="tz-boton tz-boton--tinta" href={e.descarga.url} rel="noreferrer">Descargar <span class="tz-sr">«{e.nombre}» desde la web oficial</span></a>
+                  <p class="tz-ref">{e.descarga.formato}. Licencia de la descarga: {e.descarga.licencia.data.nombreCorto}. Enlace a la web oficial: no alojamos archivos.</p>
+                </div>
+              )}
+              <p class="tz-ref" style="margin:var(--e-3) 0 0">
+                {notasEdicion[i].length === 1 ? "Fuente: " : "Fuentes: "}
+                {notasEdicion[i].map((x, k) => <>{k > 0 && ", "}<a href={`#f-${x.n}`}>nota {dosCifras(x.n)}</a></>)}
+              </p>
+            </Ficha>
+          ))}
+        </div>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="No hay ninguna edición registrada todavía." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-licencia">
+      <Titulo id="s-licencia" numero="04">Qué te deja hacer la licencia</Titulo>
+      {licencias.length > 0 ? (
+        <div class="tz-medida">
+          {licencias.map(({ licencia, usos, Cuerpo }) => (
+            <div class="tz-licencia">
+              <h3 class="tz-subtitulo">{licencia.data.nombre}</h3>
+              <p class="tz-ref" style="margin:0 0 var(--e-3)">{tipoLicencia[licencia.data.tipo]} · {usos.join(" · ")}</p>
+              <div class="tz-prosa"><Cuerpo /></div>
+              <p style="margin:var(--e-3) 0 0" class="tz-acciones">
+                <a class="tz-enlace-bloque" href={hrefLicencia(licencia.id)}><span>Qué juegos y sistemas usan {licencia.data.nombreCorto}</span><span aria-hidden="true">›</span></a>
+                {licencia.data.url && (
+                  <a class="tz-enlace-bloque" href={licencia.data.url} rel="noreferrer"><span>Texto oficial de la licencia</span><span aria-hidden="true">›</span></a>
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="No sabemos con qué licencia se publica este juego." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-conseguir">
+      <Titulo id="s-conseguir" numero="05">Dónde conseguirlo</Titulo>
+      {d.enlaces.length > 0 || srd ? (
+        <ul class="tz-lista-enlaces">
+          {d.enlaces.map((e) => (
+            <li>
+              <a href={e.url} rel="noreferrer">
+                <span class="tz-lista-enlaces-nombre">{e.etiqueta}</span>
+                <span class="tz-lista-enlaces-detalle">{new URL(e.url).hostname.replace(/^www\./, "")}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+          {srd && (
+            <li>
+              <a href={srd.url} rel="noreferrer">
+                <span class="tz-lista-enlaces-nombre">{srd.nombre}</span>
+                <span class="tz-lista-enlaces-detalle">Reglas del sistema{r.licenciaSistema ? `, ${r.licenciaSistema.data.nombreCorto}` : ""}{srd.alcance ? `. ${srd.alcance}` : ""}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          )}
+        </ul>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Faltan los enlaces oficiales." /></div>
+      )}
+      <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">Solo enlaces oficiales (editorial, autoría, texto de referencia). Sin tiendas.</p>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero="06">Fuentes</Titulo>
+      {notas.length > 0 ? (
+        <ol class="tz-fuentes tz-medida">
+          {notas.map((x) => <FuenteDato fuente={x.fuente} n={x.n} ambito={x.ambito} />)}
+        </ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Esta ficha no tiene ninguna fuente todavía." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-parecidos">
+      <Titulo id="s-parecidos" numero="07">Juegos parecidos</Titulo>
+      {parecidos.length > 0 ? (
+        <ul class="tz-portadas">
+          {parecidos.map((p) => (
+            <li>
+              <a href={`/rol/juegos/${p.juego.id}`}>
+                <PortadaTipografica titulo={p.juego.data.titulo} sistema={sistemasDe.get(p.juego.id)} pie={pieDe(p.juego)} />
+                <span class="tz-portadas-nota">{p.motivos.join(" · ")}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="tz-medida" style="margin:0">Ningún otro juego del registro comparte con este sistema, autoría ni licencia (sin contar «todos los derechos reservados»).</p>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol/juegos"><span aria-hidden="true">‹</span> Todos los juegos</a>
+    </div>
+  </div>
+</Layout>

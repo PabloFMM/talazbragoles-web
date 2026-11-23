@@ -36,8 +36,12 @@ src/
 │   ├── sources/            # Fuentes documentales (.json)
 │   ├── editions/           # Ediciones de las jornadas (.json)
 │   ├── people/             # Personas relevantes (.md / .mdx)
-│   ├── systems/            # Sistemas de rol (.md / .mdx)
-│   └── timeline/           # Eventos cronológicos (.json)
+│   ├── systems/            # Sistemas de rol, de las Jornadas y del grupo (.md / .mdx)
+│   ├── timeline/           # Eventos cronológicos (.json)
+│   ├── juegos/             # Rol: un .md por juego que juega el grupo
+│   ├── licencias/          # Rol: qué permite cada licencia
+│   ├── autoria/            # Rol: personas autoras de juegos
+│   └── editoriales/        # Rol: editoriales originales y en castellano
 ├── components/
 │   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
 │   ├── archivo/            # RegistroEdiciones (ediciones por año), Migas
@@ -61,8 +65,15 @@ src/
 │   ├── personas/
 │   │   └── index.astro     # Directorio de personas
 │   ├── rol/
-│   │   ├── index.astro     # Juegos de rol: campañas ACTUALES del grupo (colección campaigns)
-│   │   └── [slug].astro    # Ficha de campaña: sesiones y personajes
+│   │   ├── index.astro     # Portada de Rol: lo que hemos jugado (PortadaTipografica), accesos, crónicas (fase 2)
+│   │   ├── juegos/index.astro   # Catálogo de juegos con bloque «Filtrar» (componente CatalogoRol)
+│   │   ├── juegos/[slug].astro  # Ficha de juego: datos con enlaces cruzados, ediciones y descargas, licencia, fuentes, parecidos
+│   │   ├── juegos/descargables.astro, en-castellano.astro, [criterio]/[valor].astro
+│   │   │                        # Páginas ya filtradas (sin JS): licencia/, sistema/, genero/, modo/, formato/ (lib/rol-filtros.ts)
+│   │   ├── sistemas/            # index (familias y derivados) y [slug] (ficha, juegos también vía derivados)
+│   │   ├── licencias/           # index (abiertas / no abiertas) y [slug] (qué permite, punto por punto, quién la usa; slug con puntos)
+│   │   ├── autoria/ y editoriales/  # index y [slug]: juegos y sistemas de cada persona o editorial
+│   │   └── campanas/[slug].astro # Ficha de campaña (colección campaigns, hoy vacía: no genera páginas)
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
     ├── global.css          # Punto de entrada: importa reset.css y sistema.css
@@ -96,9 +107,26 @@ Campos frontmatter: `name`, `roles[]`, `active`, `links[]`, `editionIds[]`, `sou
 
 ### `systems` — Sistemas de rol
 
-Archivos Markdown en `src/content/systems/`. El cuerpo es la descripción del sistema.
+Archivos Markdown en `src/content/systems/`. El cuerpo es la descripción del sistema. Colección ÚNICA para las Jornadas y para el grupo actual.
 
-Campos frontmatter: `name`, `publisher`, `year`, `genre[]`, `editions[]`, `playedAtEditionIds[]`, `draft`.
+- `jugadoEn`: `["jornadas"]` (valor por defecto; sale en `/sistemas/`, Archivo, vía `getSistemasJornadas()`) o `["grupo"]` (sección Rol, vía `getSistemasRol()`).
+- Campos de las Jornadas (en inglés): `name`, `publisher`, `year`, `genre[]`, `editions[]`, `playedAtEditionIds[]`, `draft`.
+- Campos de Rol (en castellano): `nombreCorto`, `familia` (sistema padre, `reference("systems")`), `origen`, `ano`, `autoria[]`, `editorial[]`, `licencia` (licencia del sistema), `srd` (`nombre`, `url`, `alcance`), `enlaces[]`, `dudas[]`, `fuentes[]`.
+
+### Sección Rol: `juegos`, `licencias`, `autoria`, `editoriales` (fase 1, 2026-11-23)
+
+Markdown en `src/content/<colección>/<slug>.md`. Se enlazan con `reference()`; `tests/rol-referencias.test.mjs` comprueba que cada slug existe (Astro no lo hace ni en `astro check` ni en el build).
+
+- **Fuentes por dato**: cada ficha lleva `fuentes: [{ datos: [campos], url, afirma, consultado, secundaria? }]`. El esquema (`exigeFuentes()` en `content.config.ts`) RECHAZA un campo con valor si ninguna fuente lo nombra en `datos`. Sin fuente → campo vacío → la página pinta «pendiente». `secundaria: true` = Wikipedia, prensa o reseñas (no la editorial ni el autor).
+- `juegos`: `titulo`, `tituloCastellano`, `estado` (vacío = publicado; `en-construccion`), `edicion` (texto, solo si la edición jugada no se puede marcar en `ediciones[]`), `ano`, `ediciones[]`, `autoria[]`, `editorial[]`, `editorialCastellano[]`, `sistema`, `licenciaJuego[]` (`licencia`, `alcance`; distinta de la del sistema), `generos[]`, `modo[]` (`con-dj`, `sin-dj`, `solitario`), `formato[]`, `jugadores` (`min`, `max`, `nota`), `jugado` (`nosotros`, `ultima`; dato del grupo, sin fuente web), `portada` (opcional, con `credito` y `permiso`; hoy ninguna), `enlaces[]`, `dudas[]` (preguntas abiertas, en impersonal), `fuentes[]`, `draft`. Cuerpo: 2-4 frases propias de qué es el juego.
+- **Ediciones** (`juegos.ediciones[]`, dato de primera clase): `nombre`, `ano`, `editorial` (ref), `idioma` (`en`/`es`), `traduccionDe` (nombre de otra edición del mismo juego), `licencia` (ref, por edición), `jugadaPorNosotros` (bool, dato del grupo), `descarga` opcional `{url, formato, licencia}` y `fuentes[]` propias (mínimo una; `exigeFuentes` también aquí). Descarga SOLO si la licencia de esa edición lo permite (abierta) o es gratuita en la web oficial, y siempre el enlace oficial: no alojamos archivos. El test comprueba refs, `traduccionDe` y descargas.
+- **Nunca nombrar a PabloFM** (ni «según…», «lo dictó») en lo que se publica: lo que afirma el grupo sale como dato del grupo. Quién lo dijo, solo en `proyecto/docs`. Lo vigila `tests/rol-sin-nombres.test.mjs`.
+- `licencias`: `nombre`, `nombreCorto`, `tipo` (`cc`, `orc`, `abierta-propia`, `dominio-publico` = abiertas; `politica-de-uso`, `con-aprobacion`, `fans`, `cerrada`), `url`, `permite` (`comercial`, `adaptar`, `atribucion`, `compartirIgual`), `fuentes[]`. Cuerpo: qué permite, en castellano llano.
+- `autoria` y `editoriales`: `nombre`, `web`, `fuentes[]`. `autoria` es distinta de `people` (personas de las Jornadas).
+- Helpers en `lib/collections.ts`: `getAllJuegos()`, `getSistemasRol()`, `getAllLicencias()`, `getAllAutoria()`, `getAllEditoriales()`, `resuelveJuego()` (resuelve referencias y ediciones; calcula `licencias` = todas las que tocan al juego (juego, sistema, ediciones, descargas), `abierto` = alguna de ellas abierta, `estado`, `edicionesJugadas`/`edicionJugadaTexto`, `descargas` = descargas de ediciones + SRD del sistema, `descargable` (cualquiera de ellas) y `descargaJuego` (alguna EDICIÓN descargable: filtro «Se puede descargar»)), `juegosDescargables()`, `juegosDeSistema()` (incluye los de sistemas derivados, con `via`), `linajeSistema()`, `derivadosDeSistema()`, `juegosDeLicencia()`, `usosDeLicencia()`, `sistemasDeLicencia()`, `juegosDeEditorial()` y `papelesDeEditorial()` (miran también las ediciones), `juegosDePersona()`, `sistemasDeAutoria()`, `sistemasDeEditorial()`, `esAbierta()`. Etiquetas de los enums en `lib/formato.ts` (`generoRol`, `modoJuego`, `formatoPartida`, `tipoLicencia`, `estadoJuego`, `dondeSeJugo`, `idiomaEdicion`…).
+- Buscador sin JS: `lib/rol-filtros.ts` (`filtrosRol()` = juegos resueltos + grupos de filtros con sus juegos; una opción sin juegos no se publica) y componentes `Filtros` y `CatalogoRol`. Filtro nuevo = una opción en `construye()`; si su ruta tiene una sola parte, hace falta su `.astro` en `pages/rol/juegos/`. Rutas de Rol en `lib/rol-rutas.ts` (`hrefLicencia` termina en barra: los ids llevan puntos). `Datos` admite `enlaces` (dato con enlaces a otras fichas).
+- Idea futura, sin colección: «material adicional» (imprimibles 2D/3D). Ver `proyecto/docs/rol/datos-fase1.md`.
+- Estado de los datos y pendientes por juego: `proyecto/docs/rol/datos-fase1.md`.
 
 ### `guides` — Guías de juego (sección MMO)
 

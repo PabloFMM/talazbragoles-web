@@ -1,4 +1,4 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
@@ -97,28 +97,109 @@ const people = defineCollection({
   }),
 });
 
+// ─── Piezas comunes de la sección Rol (fase 1, 2026-11-23) ───────────
+// Regla documental hecha código: cada dato rellenado de una ficha de Rol
+// necesita al menos una fuente cuyo `datos` lo nombre. Sin fuente → campo
+// vacío → la página pinta «pendiente». Ver docs/rol/CONTEXTO-TARJETAS.md.
+
+/** YAML lee «2026-11-23» como Date: se normaliza a texto AAAA-MM-DD. */
+const fechaTexto = z
+  .union([z.string(), z.date()])
+  .transform((v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v));
+
+/** Una fuente por dato: dónde se comprobó, qué afirma y cuándo se consultó. */
+const fuenteDato = z.object({
+  datos: z.array(z.string()).min(1), // campos que respalda («ano», «autoria», «licenciaJuego»…)
+  url: z.url(),
+  afirma: z.string(), // en castellano, lo que dice la página (sin interpretar)
+  consultado: fechaTexto,
+  secundaria: z.boolean().default(false), // Wikipedia, prensa, reseñas: no es la editorial ni el autor
+});
+
+type FuenteDato = z.infer<typeof fuenteDato>;
+
+/** Comprueba que cada campo con valor tiene una fuente que lo respalda. */
+function exigeFuentes<T extends { fuentes: FuenteDato[] }>(campos: (keyof T & string)[]) {
+  return (data: T, ctx: z.RefinementCtx) => {
+    const cubiertos = new Set(data.fuentes.flatMap((f) => f.datos));
+    for (const campo of campos) {
+      const v = data[campo] as unknown;
+      const vacio =
+        v === undefined || v === null || v === "" ||
+        (Array.isArray(v) && v.length === 0) ||
+        (typeof v === "object" && !Array.isArray(v) && Object.keys(v as object).length === 0);
+      if (!vacio && !cubiertos.has(campo)) {
+        ctx.addIssue({ code: "custom", path: [campo], message: `«${campo}» tiene valor pero ninguna fuente lo respalda (fuentes[].datos)` });
+      }
+    }
+  };
+}
+
+const generoRol = z.enum([
+  "fantasia",
+  "ciencia-ficcion",
+  "terror",
+  "misterio",
+  "historico",
+  "contemporaneo",
+  "universal",
+  "otro",
+]);
+
+const enlace = z.object({ etiqueta: z.string(), url: z.url() });
+
+/**
+ * Una edición de un juego (dato de primera clase, 2026-11-23): cada una con su
+ * editorial, idioma, licencia y fuentes propias. Las traducciones son entradas
+ * aparte que dicen de qué edición vienen (`traduccionDe` = `nombre` de otra
+ * entrada del mismo juego; lo comprueba tests/rol-referencias.test.mjs).
+ */
+const edicionJuego = z
+  .object({
+    nombre: z.string(), // «7.ª edición», «Manual v0.6.0»
+    ano: z.number().int().optional(),
+    editorial: reference("editoriales").optional(),
+    idioma: z.enum(["en", "es"]).default("en"),
+    traduccionDe: z.string().optional(),
+    licencia: reference("licencias").optional(), // puede cambiar de una edición a otra
+    // Dato del grupo (la jugamos), sin fuente web. Se marca en la edición
+    // original salvo que conste el idioma del ejemplar.
+    jugadaPorNosotros: z.boolean().default(false),
+    // Solo si la licencia de ESTA edición lo permite (abierta o gratuita
+    // oficial). Siempre la descarga oficial: no alojamos archivos.
+    descarga: z
+      .object({ url: z.url(), formato: z.string(), licencia: reference("licencias") })
+      .optional(),
+    fuentes: z.array(fuenteDato).min(1),
+  })
+  .superRefine(exigeFuentes(["ano", "editorial", "traduccionDe", "licencia", "descarga"]));
+
 // ─── 4. systems — sistemas de juego de rol ────────────────────────────
+// Colección ÚNICA (decisión 2026-11-23): `jugadoEn` dice si es de las Jornadas
+// (se ve en /sistemas/, Archivo) o del grupo actual (se ve en /rol/sistemas/).
+// Los campos en inglés son los de las Jornadas; los de Rol, en castellano.
 
 const systems = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/systems" }),
   schema: z.object({
     name: z.string(),
+    // Dónde se jugó. Sin valor = Jornadas (lo que había antes de la sección Rol).
+    jugadoEn: z.array(z.enum(["jornadas", "grupo"])).default(["jornadas"]),
+    nombreCorto: z.string().optional(), // «PbtA», «BRP»
+    familia: reference("systems").optional(), // sistema padre (Carved from Brindlewood → PbtA)
+    origen: z.string().optional(), // juego del que sale el sistema, en texto
+    ano: z.number().int().optional(),
+    autoria: z.array(reference("autoria")).default([]),
+    editorial: z.array(reference("editoriales")).default([]),
+    licencia: reference("licencias").optional(), // licencia del sistema (SRD o motor)
+    srd: z.object({ nombre: z.string(), url: z.url(), alcance: z.string().optional() }).optional(),
+    enlaces: z.array(enlace).default([]),
+    dudas: z.array(z.string()).default([]),
+    fuentes: z.array(fuenteDato).default([]),
     publisher: z.string().optional(),
     year: z.number().int().optional(),
     country: z.string().optional(),
-    genre: z
-      .array(
-        z.enum([
-          "fantasia",
-          "ciencia-ficcion",
-          "terror",
-          "historico",
-          "contemporaneo",
-          "universal",
-          "otro",
-        ])
-      )
-      .default([]),
+    genre: z.array(generoRol).default([]),
     editions: z
       .array(
         z.object({
@@ -135,7 +216,105 @@ const systems = defineCollection({
       .array(z.object({ label: z.string(), url: z.url() }))
       .default([]),
     draft: z.boolean().default(false),
-  }),
+  }).superRefine(exigeFuentes(["nombreCorto", "familia", "origen", "ano", "autoria", "editorial", "licencia", "srd"])),
+});
+
+// ─── 4 bis. juegos — fichas de juegos de rol del grupo (sección /rol/) ──
+// Un .md por juego; el cuerpo son 2-4 frases propias de qué es el juego.
+// «Licencia del juego» va aparte de la del sistema (la del sistema está en systems).
+
+const juegos = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/juegos" }),
+  schema: z.object({
+    titulo: z.string(),
+    tituloCastellano: z.string().optional(),
+    // Vacío = publicado. «en-construccion»: el juego aún se está escribiendo.
+    estado: z.enum(["publicado", "en-construccion"]).optional(),
+    // Edición que juega el grupo, en texto, SOLO cuando no se puede marcar una
+    // entrada de `ediciones[]` (p. ej. «5.ª edición» sin saber si 2014 o 2024).
+    // Dato del grupo: sin fuente web. Si no, se deriva de `jugadaPorNosotros`.
+    edicion: z.string().optional(),
+    ano: z.number().int().optional(), // primera publicación
+    ediciones: z.array(edicionJuego).default([]),
+    autoria: z.array(reference("autoria")).default([]),
+    editorial: z.array(reference("editoriales")).default([]),
+    editorialCastellano: z.array(reference("editoriales")).default([]),
+    sistema: reference("systems").optional(),
+    licenciaJuego: z
+      .array(z.object({ licencia: reference("licencias"), alcance: z.string().optional() }))
+      .default([]),
+    generos: z.array(generoRol).default([]),
+    modo: z.array(z.enum(["con-dj", "sin-dj", "solitario"])).default([]),
+    formato: z.array(z.enum(["una-sesion", "campana"])).default([]),
+    jugadores: z
+      .object({ min: z.number().int(), max: z.number().int(), nota: z.string().optional() })
+      .optional(),
+    // Que lo jugamos es dato del grupo: no lleva fuente web.
+    jugado: z.object({ nosotros: z.boolean().default(false), ultima: fechaTexto.optional() }).default({ nosotros: false }),
+    // Portadas: hueco tipográfico mientras no haya permiso (decisión 2026-11-23).
+    portada: z
+      .object({ archivo: z.string(), credito: z.string(), permiso: z.enum(["cita", "licencia", "permiso-editor", "foto-propia"]) })
+      .optional(),
+    enlaces: z.array(enlace).default([]), // web oficial, SRD, compra en la editorial
+    dudas: z.array(z.string()).default([]), // preguntas abiertas: se pintan como «pendiente»
+    fuentes: z.array(fuenteDato).default([]),
+    draft: z.boolean().default(false),
+  }).superRefine(
+    exigeFuentes([
+      "tituloCastellano", "estado", "ano", "autoria", "editorial", "editorialCastellano",
+      "sistema", "licenciaJuego", "generos", "modo", "formato", "jugadores",
+    ])
+  ),
+});
+
+// ─── 4 ter. licencias — qué permite cada licencia, en castellano llano ──
+
+const licencias = defineCollection({
+  // El id es el nombre del archivo tal cual: el id por defecto quita los puntos
+  // («cc-by-3.0» → «cc-by-30») y las referencias de juegos y sistemas no casarían.
+  loader: glob({ pattern: "**/*.md", base: "./src/content/licencias", generateId: ({ entry }) => entry.replace(/\.md$/, "") }),
+  schema: z.object({
+    nombre: z.string(),
+    nombreCorto: z.string(),
+    // cc / orc / abierta-propia / dominio-publico = abierta. politica-de-uso: deja
+    // publicar juegos inspirados sin ser una licencia. con-aprobacion: licencia
+    // para terceros que la editorial aprueba caso a caso. fans: solo material no
+    // comercial. cerrada.
+    tipo: z.enum(["cc", "orc", "abierta-propia", "dominio-publico", "politica-de-uso", "con-aprobacion", "fans", "cerrada"]),
+    url: z.url().optional(), // texto oficial
+    permite: z
+      .object({
+        comercial: z.boolean().optional(),
+        adaptar: z.boolean().optional(),
+        atribucion: z.boolean().optional(), // exige citar la autoría
+        compartirIgual: z.boolean().optional(), // las obras derivadas, con la misma licencia
+      })
+      .default({}),
+    fuentes: z.array(fuenteDato).default([]),
+  }).superRefine(exigeFuentes(["url", "permite"])),
+});
+
+// ─── 4 quater. autoria — personas que diseñan o escriben juegos de rol ──
+// Distinta de «people» (personas de las Jornadas).
+
+const autoria = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/autoria" }),
+  schema: z.object({
+    nombre: z.string(),
+    web: z.url().optional(),
+    fuentes: z.array(fuenteDato).default([]),
+  }).superRefine(exigeFuentes(["web"])),
+});
+
+// ─── 4 quinquies. editoriales — originales y en castellano ─────────────
+
+const editoriales = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/editoriales" }),
+  schema: z.object({
+    nombre: z.string(),
+    web: z.url().optional(),
+    fuentes: z.array(fuenteDato).default([]),
+  }).superRefine(exigeFuentes(["web"])),
 });
 
 // ─── 5. timeline — eventos cronológicos ───────────────────────────────
@@ -175,7 +354,7 @@ const guides = defineCollection({
 });
 
 // ─── 7. campaigns — partidas y campañas ACTUALES del grupo (sección /rol/) ──
-// Distinto de «systems» (lo jugado en las Jornadas históricas). PabloFM, 2026-11-15.
+// Distinto de «systems» (lo jugado en las Jornadas históricas). Decisión 2026-11-15.
 // Nada inventado: sin datos de una campaña, no se crea el archivo.
 
 const campaigns = defineCollection({
@@ -210,4 +389,7 @@ const campaigns = defineCollection({
   }),
 });
 
-export const collections = { sources, editions, people, systems, timeline, guides, campaigns };
+export const collections = {
+  sources, editions, people, systems, timeline, guides, campaigns,
+  juegos, licencias, autoria, editoriales,
+};
