@@ -1,9 +1,10 @@
 ---
 /**
  * /ediciones/<año>/<documento>/: un documento de época con caras (folleto,
- * programa, cartel, recorte…): cada cara grande y su texto copiado tal cual.
- * Solo se generan los documentos que tienen caras; los demás (p. ej. recuerdos)
- * se leen en la página de su edición.
+ * programa, cartel, recorte…): cada cara GRANDE y su texto copiado tal cual
+ * (.tz-documento--grande). Cada cara lleva ancla #cara-N (la usan las miniaturas
+ * de la página del año). Solo se generan los documentos que tienen caras; los
+ * demás (p. ej. recuerdos) se leen en la página de su edición.
  */
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
@@ -50,9 +51,9 @@ const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceI
 
     <section class="tz-seccion" aria-labelledby="s-caras">
       <Titulo id="s-caras" numero="01">{doc.caras.length === 1 ? "La cara y su texto" : "Las caras y su texto"}</Titulo>
-      <ol class="tz-documento">
+      <ol class="tz-documento tz-documento--grande">
         {doc.caras.map((c, j) => (
-          <li class="tz-documento-cara">
+          <li class="tz-documento-cara" id={`cara-${j + 1}`}>
             <a class="tz-documento-imagen" href={c.imagen} aria-label={`${c.titulo}: ver la imagen sola, a tamaño completo`}>
               <img src={c.imagen} width={c.ancho} height={c.alto} alt={c.alt} loading={j === 0 ? "eager" : "lazy"} decoding="async" />
             </a>

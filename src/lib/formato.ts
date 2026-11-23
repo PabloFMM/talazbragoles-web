@@ -70,6 +70,16 @@ export const tipoActividad: Record<Campo<"editions", "activities">[number]["type
   otro: "Otra",
 };
 
+/** Grupos de «Qué se hizo» (bloque 02 de una edición), en el orden en que se pintan. */
+export const tipoActividadGrupo: Record<Campo<"editions", "activities">[number]["type"], string> = {
+  "partida-rol": "Partidas de rol",
+  torneo: "Torneos, ligas y campeonatos",
+  demo: "Demostraciones",
+  charla: "Charlas y mesas redondas",
+  exposicion: "Exposiciones",
+  otro: "Otras actividades",
+};
+
 /** Apartado de un documento de edición (bloque 05), en el orden en que se pintan. */
 export type ApartadoDocumento = Campo<"editions", "documentos">[number]["apartado"];
 export const APARTADOS: ApartadoDocumento[] = ["papeles", "prensa", "fotos", "recuerdos"];

@@ -1,5 +1,5 @@
 ---
-/** /cronologia/: entradas fechadas de la colección «timeline», de la más antigua a la más reciente. */
+/** /cronologia/: entradas fechadas de la colección «timeline», de la MÁS RECIENTE a la más antigua (como las ediciones, decisión 2026-11-23). */
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
@@ -9,7 +9,7 @@ import { getAllTimeline, hrefEdicion } from "../../lib/collections";
 import { anclaFuente, categoriaCronologia, partesFecha } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
-const entradas = await getAllTimeline();
+const entradas = (await getAllTimeline()).reverse();
 const fuentes = await getCollection("sources");
 const ediciones = await getCollection("editions");
 const tituloFuente = (id: string) => fuentes.find((f) => f.id === id)?.data.title;
@@ -25,7 +25,7 @@ const edicion = (id?: string) => (id ? ediciones.find((e) => e.id === id) : unde
       numero={numeroSeccion("/cronologia")}
       seccion="Archivo"
       titulo="Cronología"
-      entradilla="Lo que se puede fechar, en orden. Algunas entradas fechan cuándo se publicó un testimonio, no cuándo ocurrió lo que cuenta."
+      entradilla="Lo que se puede fechar, de lo más reciente a lo más antiguo. Algunas entradas fechan cuándo se publicó un testimonio, no cuándo ocurrió lo que cuenta."
     />
 
     <section class="tz-seccion" aria-labelledby="s-entradas">

@@ -76,6 +76,30 @@ test("/ediciones/ y la portada van de la más reciente a la más antigua, «sin 
   }
 });
 
+test("cada página de año lleva el riel completo, en orden, con su año marcado y los bloques 01-06 en orden", () => {
+  const esperado = ["1997", "1996", "1995", "1994", "1993", "1992", "sin-fecha"];
+  for (const id of esperado) {
+    const html = pagina(`/ediciones/${id}/`);
+    const riel = html.match(/<nav class="tz-riel"[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(riel, `/ediciones/${id}/: falta el riel`);
+    assert.match(riel, /aria-labelledby="riel-titulo"/, `/ediciones/${id}/: el riel no tiene nombre`);
+    const orden = [...riel.matchAll(/href="\/ediciones\/([^/"]+)\/"/g)].map((m) => m[1]);
+    assert.deepEqual(orden, esperado, `/ediciones/${id}/: orden del riel`);
+    const actuales = [...riel.matchAll(/href="\/ediciones\/([^/"]+)\/"\s+aria-current="page"/g)].map((m) => m[1]);
+    assert.deepEqual(actuales, [id], `/ediciones/${id}/: el riel debe marcar solo su año con aria-current="page"`);
+    const bloques = ["s-resumen", "s-actividades", "s-organizacion", "s-lugar", "s-documentos", "s-fuentes"].map((b) => html.indexOf(`id="${b}"`));
+    assert.ok(bloques.every((p) => p > 0), `/ediciones/${id}/: falta algún bloque 01-06`);
+    assert.deepEqual([...bloques].sort((a, b) => a - b), bloques, `/ediciones/${id}/: los bloques 01-06 no van en orden`);
+  }
+});
+
+test("/cronologia/ va de la entrada más reciente a la más antigua", () => {
+  const html = pagina("/cronologia/");
+  const anos = [...html.matchAll(/<span class="tz-crono-ano">(\d{4})<\/span>/g)].map((m) => Number(m[1]));
+  assert.ok(anos.length >= 2, "la cronología debería tener entradas");
+  assert.deepEqual(anos, [...anos].sort((a, b) => b - a));
+});
+
 test("las rutas viejas redirigen con 301 y nada enlaza a ellas", () => {
   const reglas = readFileSync(join(RAIZ, "public", "_redirects"), "utf-8")
     .split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#")).map((l) => l.split(/\s+/));

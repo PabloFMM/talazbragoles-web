@@ -1,11 +1,16 @@
 ---
-/** /ediciones/: todas las ediciones por año, con recuento por estado y lo que falta. */
+/**
+ * /ediciones/: portada de la sección (Ediciones 2/2, decisión P4). Todos los años
+ * de la edición más reciente a la más antigua, «Sin fecha» al final; cada uno con
+ * su portada en miniatura (cara 1 del folleto o cartel) o un hueco tipográfico
+ * con el año, su estado documental y cuántos documentos tiene. No redirige.
+ */
 import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
+import Estado from "../../components/sistema/Estado.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
-import RegistroEdiciones from "../../components/archivo/RegistroEdiciones.astro";
-import { getAllEditions } from "../../lib/collections";
+import { getAllEditions, hrefEdicion } from "../../lib/collections";
 import { plural, type EstadoDocumental } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
@@ -20,14 +25,14 @@ const recuento = [
 
 <Layout
   title="Ediciones"
-  description="Ediciones de las Jornadas Talazbrágoles por año: estado documental, sede y fuentes de cada una."
+  description="Ediciones de las Jornadas Talazbrágoles año a año, de la más reciente a la más antigua: portada, estado documental, documentos y fuentes de cada una."
 >
   <div class="tz-pagina">
     <Encabezado
       numero={numeroSeccion("/ediciones")}
       seccion="Archivo"
       titulo="Ediciones"
-      entradilla="Cada edición de la que hay noticia, por año. Solo se afirma lo que dice alguna fuente; lo demás queda pendiente."
+      entradilla="Año a año, de la más reciente a la más antigua. Solo se afirma lo que dice alguna fuente; lo demás queda pendiente."
     >
       <p class="tz-recuento">{plural(ediciones.length, "edición registrada", "ediciones registradas")}: {recuento}.</p>
     </Encabezado>
@@ -35,7 +40,35 @@ const recuento = [
     <section class="tz-seccion" aria-labelledby="s-por-ano">
       <Titulo id="s-por-ano" numero="01">Por año</Titulo>
       {ediciones.length > 0 ? (
-        <RegistroEdiciones ediciones={ediciones} conTexto />
+        <ol class="tz-ediciones">
+          {ediciones.map((e) => {
+            const { year, numero, title, status, portada, documentos, anioEstado } = e.data;
+            const sinFecha = year === "desconocida";
+            const anoTexto = sinFecha ? "Sin fecha" : String(year);
+            return (
+              <li class="tz-ediciones-item">
+                <a class="tz-ediciones-enlace" href={hrefEdicion(e.id)}>
+                  {portada ? (
+                    <span class="tz-documento-imagen tz-ediciones-imagen">
+                      <img src={portada.imagen} width={portada.ancho} height={portada.alto} alt={portada.alt} loading="lazy" decoding="async" />
+                    </span>
+                  ) : (
+                    <span class="tz-edicion-hueco tz-ediciones-hueco" aria-hidden="true">
+                      <span class="tz-edicion-hueco-anio">{anoTexto}</span>
+                    </span>
+                  )}
+                  <span class="tz-ediciones-anio">{anoTexto}{numero && <> · {numero.romano} edición</>}</span>
+                  <span class="tz-ediciones-titulo">{title}</span>
+                </a>
+                <ul class="tz-registro-meta">
+                  <li><Estado estado={status} /></li>
+                  {anioEstado?.estado === "deducido" && <li>Año deducido</li>}
+                  <li>{documentos.length ? plural(documentos.length, "documento", "documentos") : <>Documentos: <Pendiente /></>}</li>
+                </ul>
+              </li>
+            );
+          })}
+        </ol>
       ) : (
         <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna edición registrada." /></div>
       )}
@@ -45,10 +78,10 @@ const recuento = [
       <Titulo id="s-falta" numero="02">Lo que falta</Titulo>
       <div class="tz-con-margen">
         <ol class="tz-lista-numerada">
-          <li><span>Cuántas ediciones hubo y en qué años. El folleto de 1997 anuncia la VI edición «por sexto año consecutivo» y la crónica de La Runa habla de una 5ª edición en abril de 1996; de la 1ª a la 4ª no hay ningún dato directo.</span></li>
-          <li><span>Organización de cada edición.</span></li>
+          <li><span>Cuántas ediciones hubo y en qué años. El folleto de 1997 anuncia la VI edición «por sexto año consecutivo» y la crónica de La Runa habla de una 5ª edición en abril de 1996; de la 1ª a la 4ª solo se deduce el año, y de lo que vino después de 1997 no hay ningún dato.</span></li>
+          <li><span>Organización de cada edición: el equipo cambiaba cada año.</span></li>
           <li><span>Lugar exacto de cada edición (edificio o local).</span></li>
-          <li><span>Programas, carteles y listas de partidas.</span></li>
+          <li><span>Programas, carteles, recortes de prensa y fotos.</span></li>
         </ol>
         <aside class="tz-margen">
           <p class="tz-rotulo">Estado documental</p>

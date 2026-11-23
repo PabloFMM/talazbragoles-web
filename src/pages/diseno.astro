@@ -18,6 +18,7 @@ import PortadaTipografica from "../components/sistema/PortadaTipografica.astro";
 import PortadaJuego from "../components/sistema/PortadaJuego.astro";
 import CreditoPortada from "../components/sistema/CreditoPortada.astro";
 import Filtros from "../components/sistema/Filtros.astro";
+import RielEdiciones from "../components/archivo/RielEdiciones.astro";
 import { filtrosRol } from "../lib/rol-filtros";
 import { getAllEditions, getAllSources, getAllJuegos, resuelveJuego, hrefEdicion } from "../lib/collections";
 import { dosCifras } from "../lib/formato";
@@ -316,6 +317,15 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
         <Filtros grupos={gruposMuestra} total={totalJuegos} />
       </div>
     </section>
+
+    <!-- 15. RIEL DE AÑOS (Ediciones 2/2) -->
+    <section class="tz-seccion" aria-labelledby="s-riel">
+      <Titulo id="s-riel" numero="15">Riel de años</Titulo>
+      <p class="tz-medida">Como el desplazador de fechas de una galería de fotos: en la página de cada edición, los años van a la derecha y el contenido a la izquierda. De la más reciente a la más antigua, «Sin fecha» al final. Cada año es su propia página (sin JavaScript); el actual va invertido (tinta de fondo) con <code>aria-current="page"</code>. La marca de estado tiene la misma forma que el estado documental, y un texto oculto dice número de edición y estado a los lectores de pantalla. Desde 1024 px es una columna fija (<code>sticky</code>) con filetes finos; por debajo, una fila de botones de 48 px encima del contenido que se parte en líneas, sin barra de desplazamiento. Componente <code>RielEdiciones</code>; aquí, muestra con la edición más reciente marcada (<code>aria-current="true"</code>, porque no es esta página).</p>
+      <div class="muestra-riel">
+        <RielEdiciones ediciones={ediciones} actual={ediciones[0]?.id} muestra idTitulo="muestra-riel-titulo" />
+      </div>
+    </section>
   </div>
 </Layout>
 
@@ -344,4 +354,6 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
   .muestra-caja { margin-top: var(--e-6); padding: var(--e-6) var(--e-5); border: var(--f-fino) solid var(--filete); }
   .estados { display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6); margin: 0 0 var(--e-3); }
   .botones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); margin-top: var(--e-6); }
+  .muestra-riel { max-width: 13rem; margin-top: var(--e-6); }
+  @media (max-width: 63.99rem) { .muestra-riel { max-width: none; } }
 </style>

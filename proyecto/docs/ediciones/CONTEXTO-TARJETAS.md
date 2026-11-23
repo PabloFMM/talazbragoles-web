@@ -60,3 +60,13 @@ Revisar todos los enlaces internos a las rutas antiguas (cronología, fuentes, p
 ## Reglas
 
 Nada inventado (lo desconocido «pendiente»); cada dato con fuente; no nombrar a PabloFM en lo publicado (grep en `dist/ediciones`); texto ≥16 px, toques ≥48 px, contraste ≥7:1, sin animaciones, sin JS de cliente; auditar 320-1440 px (11 anchos) × 100/200 %; `npm test` en verde (lanzar en segundo plano con `PLAYWRIGHT_BROWSERS_PATH=/opt/data/cache/ms-playwright CI=1`).
+
+## Hecho en la tarjeta 2/2 (`t_896bc03a`, 2026-11-23)
+
+- **Riel**: `src/components/archivo/RielEdiciones.astro` (clases `tz-riel*` y `tz-oculto` en `sistema.css` §4.17 sexies). ≥1024 px columna derecha sticky (si no cabe en la ventana, se desplaza dentro); por debajo, arriba, fila de botones de 48 px que se parte. Marca de estado con la forma de `Estado` + texto oculto; `aria-current="page"` en el año de la página.
+- **Página del año** con el orden de la propuesta: 01 «De un vistazo» (portada grande enlazada al documento, o hueco tipográfico con el año) + resumen + nota del año + «Lo que cuentan las fuentes» · índice interno (48 px) · 02 Qué se hizo agrupado por tipo (`tipoActividadGrupo`) · 03 · 04 · 05 (con miniaturas de las caras → `#cara-N` del documento) · 06 · 07 cronología.
+- **Documento**: caras grandes (`.tz-documento--grande`), cada cara con ancla `#cara-N`.
+- **`/ediciones/`**: rejilla de años de nuevo a viejo con portada o hueco, estado, «año deducido» y nº de documentos.
+- **Cronología**: ahora de la más reciente a la más antigua (`getAllTimeline().reverse()` en la página; el helper sigue de vieja a nueva).
+- `/diseno/` §15 muestra el riel; `docs/diseno.md` §5 lo documenta.
+- Sigue pendiente (preguntas para PabloFM): ¿hubo ediciones después de 1997?, ¿quién organizaba cada año?, ¿hay fotos, prensa o más papeles de alguna edición?

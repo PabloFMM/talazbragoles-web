@@ -1231,13 +1231,243 @@
   .tz-documento-nota { margin: var(--e-4) 0 0; font-size: var(--t-0); color: var(--tinta-2); }
   .tz-documento-ver { margin: var(--e-4) 0 0; }
 
+  /* Documento en su página: caras grandes (hasta 36rem o el 60 % de la caja) */
+  @media (min-width: 48rem) {
+    .tz-documento--grande .tz-documento-cara { grid-template-columns: minmax(0, min(36rem, 60%)) minmax(0, 1fr); }
+  }
+  .tz-documento-cara { scroll-margin-top: var(--nav-offset); }
+
+  /* --- 4.17 sexies Ediciones por año (Ediciones 2/2, 2026-11-23) ---
+     Como el desplazador de fechas de una galería de fotos: años a la DERECHA
+     (riel, sticky) y contenido a la izquierda desde 64rem; por debajo, el riel va
+     ARRIBA como fila de botones de 48 px que se parte en líneas. Sin JS: cada año
+     es su página. De nuevo a viejo, «Sin fecha» al final. */
+
+  /* Texto solo para lectores de pantalla */
+  .tz-oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .tz-edicion {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 var(--e-8);
+    padding-bottom: var(--aire);
+  }
+  .tz-edicion-contenido { min-width: 0; }
+
+  /* Riel de años */
+  .tz-riel { min-width: 0; padding-top: var(--e-5); }
+  .tz-riel-titulo { margin: 0 0 var(--e-3); }
+  .tz-riel-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tz-riel-lista > li { min-width: 0; }
+  .tz-riel-enlace {
+    display: flex;
+    align-items: center;
+    gap: var(--e-2);
+    min-height: var(--toque);
+    min-width: var(--toque);
+    padding: 0 var(--e-3);
+    border: var(--f-fino) solid var(--tinta);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-riel-enlace:hover .tz-riel-anio { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .tz-riel-enlace[aria-current] { background: var(--tinta); color: var(--papel); }
+  .tz-riel-anio {
+    font-family: var(--letra-titular);
+    font-size: 1.25rem;
+    font-weight: var(--p-normal);
+    line-height: 1.1;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .tz-riel-num { display: none; font-size: var(--t-0); }
+  /* Marca de estado: la misma forma que .tz-estado (círculo lleno, medio, vacío), en el color del texto */
+  .tz-riel-marca {
+    flex: none;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: var(--f-medio) solid currentColor;
+    box-sizing: border-box;
+  }
+  .tz-riel-marca--documentada { background: currentColor; }
+  .tz-riel-marca--parcial { box-shadow: inset 0.25rem 0 0 currentColor; }
+  .tz-riel-nota {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-1) var(--e-4);
+    margin: var(--e-3) 0 0;
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+  }
+  .tz-riel-nota .tz-estado { color: var(--tinta); font-weight: var(--p-normal); }
+  .tz-riel-deducido { flex-basis: 100%; }
+
+  @media (min-width: 64rem) {
+    .tz-edicion { grid-template-columns: minmax(0, 1fr) minmax(0, min(13rem, 26%)); }
+    .tz-edicion > .tz-riel {
+      order: 2;
+      position: sticky;
+      top: var(--e-5);
+      align-self: start;
+      /* Con el texto muy grande el riel no cabe en la ventana: que se desplace él solo */
+      max-height: calc(100vh - 2 * var(--e-5));
+      overflow-y: auto;
+      margin-top: var(--e-5);
+      padding: var(--e-2) var(--e-2) var(--e-2) var(--e-5);
+      border-left: var(--f-medio) solid var(--tinta);
+    }
+    .tz-riel-lista { display: block; }
+    .tz-riel-lista > li { border-bottom: var(--f-fino) solid var(--filete); }
+    .tz-riel-lista > li:first-child { border-top: var(--f-fino) solid var(--filete); }
+    .tz-riel-enlace { border: 0; padding: 0 var(--e-2); }
+    .tz-riel-anio { flex: 1 1 auto; min-width: 0; font-size: 1.75rem; font-weight: var(--p-fino); }
+    .tz-riel-num { display: inline; color: var(--tinta-2); }
+    .tz-riel-enlace[aria-current] .tz-riel-num { color: var(--papel); }
+  }
+
+  /* 01 Lo visual + resumen: portada grande y, al lado, los datos */
+  .tz-edicion-visual {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e-6) var(--medianil);
+    align-items: start;
+  }
+  @media (min-width: 48rem) {
+    .tz-edicion-visual { grid-template-columns: minmax(0, min(22rem, 45%)) minmax(0, 1fr); }
+  }
+  .tz-edicion-figura { margin: 0; min-width: 0; max-width: 26rem; }
+  .tz-edicion-figura figcaption { margin-top: var(--e-2); }
+  .tz-edicion-ver { margin: var(--e-1) 0 0; }
+  .tz-edicion-visual > .tz-datos { margin: 0; }
+  /* Hueco tipográfico (sin cartel ni folleto): el año grande en papel-2, proporción de un folleto */
+  .tz-edicion-hueco {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--e-4);
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 26rem;
+    aspect-ratio: 3 / 4;
+    padding: var(--e-5);
+    background: var(--papel-2);
+    border-top: var(--f-medio) solid var(--tinta);
+  }
+  .tz-edicion-hueco-anio {
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+    font-weight: var(--p-fino);
+    line-height: 1;
+    overflow-wrap: break-word;
+  }
+  .tz-edicion-hueco-texto { margin: 0; font-size: var(--t-0); }
+  .tz-edicion-nota {
+    max-width: var(--medida);
+    margin-top: var(--e-6);
+    padding-top: var(--e-3);
+    border-top: var(--f-fino) solid var(--tinta);
+    font-size: var(--t-0);
+    color: var(--tinta-2);
+  }
+  .tz-edicion-nota p { margin: 0; }
+  .tz-edicion-nota p + p { margin-top: var(--e-2); }
+  .tz-edicion-nota .tz-rotulo { color: var(--tinta); }
+
+  /* Índice interno de la edición: enlaces de 48 px en una fila que se parte */
+  .tz-edicion-indice ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--e-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block: var(--f-fino) solid var(--filete);
+  }
+  .tz-edicion-indice a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--toque);
+    min-width: var(--toque);
+    color: var(--tinta);
+    font-size: var(--t-0);
+    font-weight: var(--p-medio);
+    text-underline-offset: 0.22em;
+  }
+  .tz-edicion-grupo:first-child { margin-top: 0; }
+
+  /* Miniaturas de las caras de un documento (bloque 05) */
+  .tz-miniaturas {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--e-2);
+    max-width: 28rem;
+    margin: var(--e-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tz-miniaturas > li { min-width: 0; }
+  .tz-miniaturas .tz-documento-imagen:hover { outline: var(--f-medio) solid var(--tinta); }
+
+  /* /ediciones/: todos los años, de nuevo a viejo, con portada o hueco */
+  .tz-ediciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+    gap: var(--e-7) var(--medianil);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tz-ediciones-item { min-width: 0; }
+  .tz-ediciones-enlace { display: block; color: var(--tinta); text-decoration: none; }
+  .tz-ediciones-imagen { display: block; }
+  .tz-ediciones-imagen img { aspect-ratio: 3 / 4; object-fit: cover; object-position: top; }
+  .tz-ediciones-hueco { display: flex; max-width: none; }
+  .tz-ediciones-anio {
+    display: block;
+    margin-top: var(--e-3);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+  }
+  .tz-ediciones-titulo {
+    display: block;
+    margin-top: var(--e-1);
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    line-height: var(--il-titulo);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+  .tz-ediciones-enlace:hover .tz-ediciones-titulo { text-decoration-thickness: 2px; }
+  .tz-ediciones-enlace:hover .tz-documento-imagen { outline: var(--f-medio) solid var(--tinta); }
+  .tz-ediciones .tz-registro-meta { margin-top: var(--e-2); gap: var(--e-1) var(--e-4); }
+  .tz-ediciones .tz-estado { white-space: normal; }
+
   /* --- 4.18 Impresión ---
      Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice
      y el índice del pie; las migas se quedan como texto (dicen dónde estaba la página).
      Los enlaces externos del contenido llevan su dirección detrás, entre paréntesis. */
   @media print {
     html, body { background: #fff; color: #000; }
-    .tz-saltar, .tz-nav, .tz-pie nav { display: none; }
+    .tz-saltar, .tz-nav, .tz-pie nav, .tz-riel, .tz-edicion-indice { display: none; }
     .tz-cabecera { border-bottom-color: #000; }
     .tz-cabecera-fila { padding-block: var(--e-2) var(--e-3); }
     .tz-logo-nombre { font-size: 2rem; }

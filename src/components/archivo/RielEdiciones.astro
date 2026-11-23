@@ -1,0 +1,70 @@
+---
+/**
+ * Riel de años (Ediciones 2/2, 2026-11-23): como el desplazador de fechas de una
+ * galería de fotos. De la edición más reciente a la más antigua, «Sin fecha» al
+ * final (lo ordena getAllEditions()). Sin JS: cada año es su propia página.
+ *
+ * - ≥ 1024 px: columna a la DERECHA del contenido, `position: sticky`.
+ * - Por debajo: ARRIBA, fila de botones de 48 px que se parte en líneas (sin
+ *   scroll horizontal).
+ * - Cada enlace lleva la marca de estado (la misma forma que <Estado>) y un texto
+ *   oculto con número de edición y estado, para lectores de pantalla.
+ * - `actual` = id de la edición de la página (aria-current="page").
+ *   `muestra` (solo /diseno/) marca el actual con aria-current="true", porque ahí
+ *   el enlace no es la página en la que se está.
+ */
+import type { CollectionEntry } from "astro:content";
+import { hrefEdicion } from "../../lib/collections";
+import { estadoDocumental } from "../../lib/formato";
+
+interface Props {
+  ediciones: CollectionEntry<"editions">[];
+  actual?: string;
+  muestra?: boolean;
+  /** id del rótulo (único en la página). */
+  idTitulo?: string;
+}
+const { ediciones, actual, muestra = false, idTitulo = "riel-titulo" } = Astro.props;
+const deducidos = ediciones
+  .filter((e) => e.data.anioEstado?.estado === "deducido" && e.data.year !== "desconocida")
+  .map((e) => e.data.year as number);
+const tramo =
+  deducidos.length > 1
+    ? `${Math.min(...deducidos)}-${Math.max(...deducidos)}`
+    : deducidos.length === 1 ? String(deducidos[0]) : "";
+---
+<nav class="tz-riel" aria-labelledby={idTitulo}>
+  <p class="tz-rotulo tz-riel-titulo" id={idTitulo}>Ediciones por año</p>
+  <ol class="tz-riel-lista">
+    {ediciones.map((e) => {
+      const { year, numero, status, anioEstado } = e.data;
+      const sinFecha = year === "desconocida";
+      const esActual = e.id === actual;
+      const oculto = [
+        numero ? `${numero.romano} edición` : undefined,
+        anioEstado?.estado === "deducido" ? "año deducido" : undefined,
+        estadoDocumental[status].toLowerCase(),
+      ].filter(Boolean).join(", ");
+      return (
+        <li>
+          <a
+            class="tz-riel-enlace"
+            href={hrefEdicion(e.id)}
+            aria-current={esActual ? (muestra ? "true" : "page") : undefined}
+          >
+            <span class="tz-riel-anio">{sinFecha ? "Sin fecha" : year}</span>
+            {numero && <span class="tz-riel-num" aria-hidden="true">{numero.romano}</span>}
+            <span class={`tz-riel-marca tz-riel-marca--${status}`} aria-hidden="true"></span>
+            <span class="tz-oculto">, {oculto}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ol>
+  <p class="tz-riel-nota">
+    <span class="tz-estado tz-estado--documentada">Documentada</span>
+    <span class="tz-estado tz-estado--parcial">Parcial</span>
+    <span class="tz-estado tz-estado--pendiente">Pendiente</span>
+    {tramo && <span class="tz-riel-deducido">{tramo}: año deducido.</span>}
+  </p>
+</nav>

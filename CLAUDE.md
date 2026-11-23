@@ -44,7 +44,7 @@ src/
 │   └── editoriales/        # Rol: editoriales originales y en castellano
 ├── components/
 │   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
-│   ├── archivo/            # RegistroEdiciones (ediciones por año), Migas
+│   ├── archivo/            # RegistroEdiciones (ediciones por año, portada), RielEdiciones (riel de años de /ediciones/<año>/), Migas
 │   (MMO y guías: clases tz- de sistema.css §4.17; ya no hay MmoStyles)
 ├── layouts/
 │   └── Layout.astro        # Layout único (cabecera, índice sin JS, pie-colofón)
@@ -56,8 +56,8 @@ src/
 │   ├── index.astro         # Portada: frase de qué fueron las Jornadas + ediciones por año
 │   ├── fuentes.astro       # Listado de fuentes
 │   ├── ediciones/
-│   │   ├── index.astro     # Todas las ediciones, de la más reciente a la más antigua
-│   │   ├── [anio]/index.astro      # /ediciones/1997/ … /ediciones/sin-fecha/: una página por año
+│   │   ├── index.astro     # Todos los años (portada o hueco, estado, nº de documentos), de la más reciente a la más antigua
+│   │   ├── [anio]/index.astro      # /ediciones/1997/ … /ediciones/sin-fecha/: riel de años + 01 visual · 02 qué se hizo · 03 organización · 04 lugar · 05 papeles · 06 fuentes
 │   │   └── [anio]/[documento].astro # /ediciones/1997/folleto/: documento con caras y texto literal
 │   ├── cronologia/
 │   │   └── index.astro     # Línea temporal
