@@ -6,6 +6,7 @@ ediciones:
     ano: 2018
     editorial: "tuesday-knight-games"
     licencia: "mothership-terceros"
+    jugadaPorNosotros: true
     fuentes:
       - datos:
           - "ano"
@@ -65,7 +66,6 @@ enlaces:
   - etiqueta: "Recursos gratuitos (hojas y pantalla)"
     url: "https://www.tuesdayknightgames.com/pages/mothership-resources-downloads"
 dudas:
-  - "Edición que juega el grupo (0e o 1.ª): pendiente."
   - "Sistema: reglas propias de dados de porcentaje y pánico, sin nombre de sistema aparte."
   - "Número de jugadores: la editorial no lo dice en las páginas consultadas."
   - "Edición en castellano: no consta ninguna oficial."

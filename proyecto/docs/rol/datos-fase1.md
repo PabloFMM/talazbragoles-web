@@ -31,15 +31,15 @@ Cómo se garantiza la regla documental: el esquema (`exigeFuentes()` en `content
 | Juego | Sistema · licencia del sistema | Licencia del juego | Edición que jugamos | Descarga oficial | Pendiente |
 |---|---|---|---|---|---|
 | Alice is Missing (`alice-is-missing`) | — | — | pendiente | — | sistema, licencia, edición jugada |
-| Call of Cthulhu (`la-llamada-de-cthulhu`) | Basic Roleplaying · ORC | Material de fans de Chaosium | **7.ª** | texto de BRP bajo ORC (enlace del sistema) | nº de jugadores |
+| Call of Cthulhu (`la-llamada-de-cthulhu`) | Basic Roleplaying · ORC | Material de fans de Chaosium | **7.ª en castellano (Edge)** | texto de BRP bajo ORC (enlace del sistema) | nº de jugadores |
 | Delta Green (`delta-green`) | Sistema de Delta Green · — | Pautas de fans | pendiente | — | edición jugada, nº de jugadores |
 | Dungeon World (`dungeon-world`) | PbtA · Política PbtA | CC BY 3.0 | pendiente | texto CC BY 3.0 (GitHub de Sage LaTorra) | edición jugada |
-| Dungeons & Dragons 5.ª (`dungeons-dragons-5`) | D&D 5.ª (SRD) · CC BY 4.0 | Contenido de fans de Wizards | **5.ª** (2014 o 2024: pendiente) | SRD 5.1/5.2 (sistema) | subedición, autoría, nº de jugadores |
+| Dungeons & Dragons 5.ª (`dungeons-dragons-5`) | D&D 5.ª (SRD) · CC BY 4.0 | Contenido de fans de Wizards | **5.ª (2014)** | SRD 5.1/5.2 (sistema) | autoría, nº de jugadores |
 | Ironsworn (`ironsworn`) | Ironsworn · CC BY 4.0 | CC BY-NC-SA 4.0 | pendiente | edición digital gratuita (Tomkin Press) + SRD | edición jugada, nº de jugadores |
-| Mothership (`mothership`) **nuevo** | — | Licencia de terceros con aprobación | pendiente (0e o 1.ª) | Player's Survival Guide 1e, PDF gratis | sistema, nº de jugadores, edición en castellano |
+| Mothership (`mothership`) **nuevo** | — | Licencia de terceros con aprobación | **0e** | Player's Survival Guide 1e, PDF gratis | sistema, nº de jugadores, edición en castellano |
 | Numinia (`numinia`) **nuevo, en construcción** | — | Dominio público (manual) · CC0 (objetos de numinia.com) | pendiente | manual v0.6.0 (numinia.org) | año, autoría, sistema, nº de jugadores |
 | Public Access (`public-access`) | Carved from Brindlewood · — | — | pendiente | — | licencia, edición jugada, nº de jugadores |
-| Root (`root`) | PbtA · Política PbtA | — | pendiente | — | año, licencia, edición jugada |
+| Root (`root`) | PbtA · Política PbtA | — | pendiente | — | licencia, edición jugada (año 2021: blog de Magpie) |
 | Star Trek Adventures (`star-trek-adventures`) | 2d20 · — | Cerrada | **2.ª** | — (el SRD de 2d20 no tiene licencia abierta) | nº de jugadores |
 | Trophy Dark (`trophy-dark`) | Trophy · CC BY 4.0 | Cerrada | pendiente | SRD de Trophy (sistema) | año del libro, edición jugada, nº de jugadores |
 | Vaesen (`vaesen`) **nuevo** | Year Zero Engine · YZE Free Tabletop License | Cerrada (fuera del programa de licencias de Free League) | pendiente | SRD del YZE (sistema) | edición jugada |
@@ -54,10 +54,11 @@ Ediciones jugadas (dato de PabloFM, 2026-11-23; en la web sale como dato del gru
 
 ## Preguntas abiertas (las fichas las muestran como «pendiente»)
 
-- **Edición jugada** de D&D (¿2014 o revisión de 2024?), Mothership (¿0e o 1.ª?), Trophy Dark, Delta Green, Dungeon World, Ironsworn, Public Access, Root, Alice, Vaesen y Numinia. Idioma del ejemplar de La llamada de Cthulhu 7.ª (se ha marcado la edición original; si es la de Edge, marcar la traducción).
-- **Public Access / Carved from Brindlewood**: no hay texto oficial de licencia abierta; solo lo mencionan blogs.
-- **Root**: año de publicación y licencia del texto sin fuente oficial.
-- **Alice is Missing**: no tiene un sistema con nombre ni consta licencia.
+- Resuelto (PabloFM, 2026-11-23): D&D = 2014; Mothership = 0e; Cthulhu 7.ª = edición en castellano de Edge.
+- **Edición jugada** de Trophy Dark, Delta Green, Dungeon World, Ironsworn, Public Access, Root, Alice, Vaesen y Numinia.
+- **Public Access / Carved from Brindlewood**: no hay texto oficial de licencia abierta; solo lo mencionan blogs (uno dice que nació en un tuit de Jason Cordova y otro que el texto va dentro del libro de Brindlewood Bay). Revisado otra vez el 2026-11-23: no está en gauntlet-rpg.com (páginas de Public Access y Brindlewood Bay). Sigue «pendiente».
+- **Root**: licencia del texto sin fuente oficial (revisado 2026-11-23; solo un módulo de Foundry de terceros cita «© 2021 Magpie Games. All rights reserved»: no se usa). Año 2021 resuelto con el blog de Magpie (PDF a la venta el 15-12-2021).
+- **Alice is Missing**: no tiene un sistema con nombre ni consta licencia. Revisado 2026-11-23: las webs de Hunters Entertainment y Renegade no la dan; el aviso «All rights reserved» solo aparece en copias del libro en webs no oficiales (no se citan).
 - **Mothership y Numinia**: reglas propias sin nombre de sistema aparte.
 - **2d20**: hay SRD gratuito y un programa comunitario (2d20 World Builders), pero no una licencia abierta tipo CC u ORC.
 - **Número de jugadores**: solo lo dan las editoriales de Dungeon World, Root, Alice is Missing y Vaesen.

@@ -24,7 +24,12 @@ Public Access (Jason Cordova, The Gauntlet, Carved from Brindlewood) · Trophy D
 CONFIRMADOS por PabloFM (2026-11-23): «Bison» = Vaesen (Free League; su licencia abierta NO incluye Vaesen, fuente GeekNative 2026) · «Space Terror» = Mothership (Tuesday Knight Games; licencia de terceros con aprobación previa, no abierta: tuesdayknightgames.zendesk.com artículo 4412576594843) · Trophy = Trophy Dark (confirmado). Se publican.
 «Numinia» = el juego de rol de numinia.com (Numen Games, Madrid; objetos CC0 según numinia.com/how-it-works; licencia del reglamento pendiente). Se publica. Es el proyecto del propio PabloFM: tono descriptivo.
 «Dark Age» era Dungeon World (descartado como juego aparte).
-Ediciones jugadas: D&D 5.ª (2014/2024 pendiente); La llamada de Cthulhu 7.ª; Star Trek Adventures 2.ª.
+Ediciones jugadas: D&D 5.ª de 2014; La llamada de Cthulhu 7.ª en castellano (Edge); Star Trek Adventures 2.ª; Mothership 0e (PabloFM, 2026-11-23).
+
+## Respuestas de PabloFM (2.ª sesión, 2026-11-23) — mandan sobre lo anterior
+- **Portadas oficiales**: se publican las portadas oficiales (decisión suya: web sin ánimo de lucro), siempre con crédito (editorial/ilustración) y enlace a la página oficial de donde sale la imagen, en el campo `portada` del esquema. Contacto con autores y editoriales: tarjeta aparte en triage.
+- **Fase 2 (crónicas)**: los jugadores salen SOLO con su personaje; ningún nombre, apodo ni dato que identifique a una persona real.
+- **«File overwrite» = «file over app»** (los datos viven en archivos abiertos que sobreviven a la aplicación). Estudiar numinia.org y su NWOS: la idea es adoptarlo en un futuro cercano.
 NUNCA nombrar a PabloFM en la web («según PabloFM» prohibido): sus datos se publican como dato del grupo, sin matices de duda.
 Numinia: ficha y página propia con estado «En construcción»; sin mencionar relación personal ni LinkedIn.
 

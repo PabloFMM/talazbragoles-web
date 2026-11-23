@@ -1,12 +1,12 @@
 ---
 titulo: "Dungeons & Dragons, 5.ª edición"
 ano: 2014
-edicion: "5.ª edición"
 ediciones:
   - nombre: "5.ª edición (2014)"
     ano: 2014
     editorial: "wizards-of-the-coast"
     licencia: "wizards-contenido-fans"
+    jugadaPorNosotros: true
     fuentes:
       - datos:
           - "ano"
@@ -73,7 +73,6 @@ enlaces:
   - etiqueta: "SRD 5.1 y 5.2 (D&D Beyond)"
     url: "https://www.dndbeyond.com/srd"
 dudas:
-  - "Edición que juega el grupo: 5.ª; no consta si la de 2014 o la revisión de 2024."
   - "Autoría: depende de la edición; pendiente."
   - "Número de jugadores: pendiente."
 fuentes:
