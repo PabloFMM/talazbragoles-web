@@ -59,6 +59,12 @@ jugadores:
   max: 6
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/vaesen.jpg"
+  titulo: "Vaesen"
+  edicion: "libro básico, edición original en inglés"
+  credito: "Free League"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (Free League)"
     url: "https://freeleaguepublishing.com/games/vaesen/"
@@ -111,6 +117,11 @@ fuentes:
       - "editorialCastellano"
     url: "https://devir.es/vaesen-juego-de-rol-de-horror-nordico"
     afirma: "Devir publica «Vaesen: juego de rol de horror nórdico» en castellano."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://freeleaguepublishing.com/shop/vaesen-2/vaesen-nordic-horror-roleplaying/"
+    afirma: "Ficha del libro básico de Vaesen en la tienda de Free League Publishing: enseña esta portada."
     consultado: 2026-11-23
 ---
 

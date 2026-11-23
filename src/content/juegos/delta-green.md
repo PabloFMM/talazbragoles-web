@@ -92,6 +92,12 @@ modo:
   - "con-dj"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/delta-green.jpg"
+  titulo: "Delta Green: Agent's Handbook"
+  edicion: "edición original en inglés"
+  credito: "Arc Dream Publishing"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial"
     url: "https://www.delta-green.com/"
@@ -138,6 +144,11 @@ fuentes:
     afirma: "La edición de 2016 toma los dados de porcentaje de Basic Roleplaying y Call of Cthulhu con cambios propios."
     consultado: 2026-11-23
     secundaria: true
+  - datos:
+      - "portada"
+    url: "https://shop.arcdream.com/products/delta-green-agents-handbook"
+    afirma: "Ficha del Agent's Handbook de Delta Green (tapa dura) en la tienda de Arc Dream Publishing: enseña esta portada."
+    consultado: 2026-11-23
 ---
 
 Terror lovecraftiano y conspiración: los personajes son agentes y quien dirige es el «Supervisor» (Handler). Empezó como ambientación de La llamada de Cthulhu y desde 2016 tiene reglamento propio.

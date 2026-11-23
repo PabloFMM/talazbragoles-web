@@ -1,7 +1,7 @@
 # Sistema de diseño «Papel y tinta»
 
 Rediseño de talazbragoles.com (encargo de PabloFM, 2026-11-15). Tarjeta 1/5: `t_6bd8248f`.
-Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **actual, limpio y elegante**. Blanco y negro sobrio, mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso. Nada de fotocopia, máquina de escribir, recortes, sellos, texturas, dorados ni degradados. Solo tipografía: no hay logo gráfico, fotos ni ilustraciones. Excepción (2026-11-23): la reproducción de un documento de época en la ficha de su edición (folleto, programa, cartel), porque es la prueba documental, no adorno; siempre con su texto copiado al lado (componente `.tz-documento`, sistema.css §4.17 quater) y con `alt`, `width` y `height`. Solo modo claro (sin `prefers-color-scheme`).
+Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **actual, limpio y elegante**. Blanco y negro sobrio, mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso. Nada de fotocopia, máquina de escribir, recortes, sellos, texturas, dorados ni degradados. Solo tipografía: no hay logo gráfico, fotos ni ilustraciones, con dos excepciones (2026-11-23): las portadas oficiales de los juegos en Rol (§2 bis) y la reproducción de un documento de época en la ficha de su edición (folleto, programa, cartel), porque es la prueba documental, no adorno; siempre con su texto copiado al lado (componente `.tz-documento`, sistema.css §4.17 quater) y con `alt`, `width` y `height`. Solo modo claro (sin `prefers-color-scheme`).
 
 - Código: `repo/src/styles/sistema.css` (tokens + componentes, prefijo `tz-`), `repo/src/styles/global.css` (punto de entrada: `reset.css` + `sistema.css`; sin Tailwind desde 2026-11-17), `repo/src/layouts/Layout.astro` (cabecera, índice, pie), `repo/src/components/sistema/*.astro`, `repo/src/lib/nav.ts` (8 entradas en 3 grupos), `repo/src/components/sistema/Indice.astro` (índice).
 - Muestrario vivo: `/diseno/` (noindex, fuera del sitemap por el filtro de `astro.config.mjs`).
@@ -26,6 +26,19 @@ Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **a
 | `--filete` | `#b8b2a5` | SOLO filetes divisorios finos. NUNCA texto | decorativo |
 
 El cian `#00f5d4` anterior desaparece. Alias de compatibilidad para estilos antiguos: `--paper`, `--paper-2`, `--ink`, `--ink-2`, `--line`, `--line-2`, `--accent` (= tinta), `--nav-offset`. No usarlos en código nuevo.
+
+## 2 bis. Excepción de color: portadas oficiales (Rol 5, 2026-11-23, tarjeta `t_2e62a9d4`)
+
+Decisión del grupo (2026-11-23, manda sobre el «hueco tipográfico» de la fase 1): en `/rol/` se publican las **portadas oficiales** de los juegos, reproducidas sin ánimo de lucro. Con los documentos de época del Archivo (§4.17 quater de `sistema.css`), son las únicas imágenes del sistema, y las únicas en color.
+
+- **Origen**: solo la web oficial de la editorial o del autor (página del producto). Nada de tiendas de terceros, wikis ni aficionados. Si no hay portada oficial en la web, se queda el hueco tipográfico (`PortadaTipografica`). Se guarda en el repo (`src/assets/rol/portadas/<slug>.jpg`, JPEG de 640 px de ancho como máximo, recortada a la portada si la web la enseña en una maqueta o una tableta); no se enlaza en caliente.
+- **Datos**: campo `portada` de la ficha (`archivo`, `titulo` si el impreso no es el del juego, `edicion`, `credito`, `ilustracion` solo si la web la acredita, `permiso: oficial-sin-lucro`) + una fuente en `fuentes[]` con `datos: ["portada"]`: url exacta de la página de donde sale, qué enseña y fecha. El esquema rechaza una portada sin esa fuente.
+- **Aspecto**: tal cual, en su proporción (no se recorta a 3:4); filete fino de tinta (`--f-fino`) alrededor; sin bordes redondeados, sombras, filtros, transiciones ni animaciones. En las rejillas enlazadas, al pasar el ratón un contorno de 2 px de tinta (la portada tipográfica, en cambio, se invierte).
+- **Crédito**: debajo, a 16 px (`--t-0`) en `--tinta-2` con el enlace en tinta y subrayado: «Portada: <editorial>» en rejillas y catálogo; en la ficha, «Portada oficial: <editorial> (<edición>). Reproducida sin ánimo de lucro, con crédito y enlace a la editorial.» En las rejillas el crédito va FUERA del enlace de la portada (no se anidan enlaces).
+- **Texto alternativo**: «Portada de <título> (<edición>)».
+- **Técnica**: `astro:assets` (`<Picture>`): AVIF y WebP + JPEG de reserva, `width`/`height`, `srcset` 1×/2× (240/480 en la ficha, 200/400 en rejillas, 144/288 en el catálogo), calidad 45 (la 2× más pesada, Dungeon World, ~60 KB en AVIF), `loading="lazy"` salvo en la ficha. HTML estático, sin JS.
+- **Componentes**: `PortadaJuego` (imagen o hueco) y `CreditoPortada`; clases `tz-portada-figura`, `tz-portada-img`, `tz-portada-credito` (`sistema.css` §4.17 quinquies). Muestra en `/diseno/` §13.
+- **Auditoría**: `tests/auditoria-sitio.js` sigue marcando cualquier imagen visible salvo `.tz-portada-img` y los documentos de época (`.tz-documento-imagen`); a la portada le exige alt «Portada de … (…)» y medidas. `tests/rol-publicado.test.mjs` y `tests/rol-referencias.test.mjs` comprueban alt, medidas, AVIF/WebP, crédito con enlace y fuente oficial.
 
 ## 3. Tipografía
 Dos familias variables autoalojadas en `repo/public/fonts/` (subconjunto latín, cubre el español), licencia SIL OFL 1.1 (textos `OFL-*.txt` junto a los archivos). Procedencia: paquetes npm `@fontsource-variable/archivo` y `@fontsource-variable/source-serif-4`, copiados a mano (no son dependencias del proyecto). Las dos redondas se precargan en el `<head>`.

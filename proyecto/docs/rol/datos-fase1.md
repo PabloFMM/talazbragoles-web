@@ -24,6 +24,33 @@ Cómo se garantiza la regla documental: el esquema (`exigeFuentes()` en `content
 - **Licencias**: tipos nuevos `dominio-publico` (cuenta como abierta) y `con-aprobacion` (licencia para terceros con aprobación caso a caso; no abierta).
 - `resuelveJuego()` devuelve además `estado`, `ediciones` resueltas, `edicionesJugadas`, `edicionJugadaTexto`, `descargas` (de las ediciones y el SRD del sistema) y `descargable`; nuevo `juegosDescargables()` para el filtro «Se puede descargar».
 
+## Portadas oficiales (Rol 5, 2026-11-23, tarjeta `t_2e62a9d4`)
+
+Decisión del grupo: se publican las portadas OFICIALES, sin ánimo de lucro, con crédito y enlace a la página de donde sale cada imagen (campo `portada` + fuente con `datos: ["portada"]`). Solo webs de la editorial o del autor; sin portada oficial, hueco tipográfico. Imágenes en `src/assets/rol/portadas/` (recortadas a la portada cuando la web la enseña en maqueta o tableta). Todo consultado el 2026-11-23.
+
+| Juego | Portada publicada | Crédito | Fuente (página oficial) |
+|---|---|---|---|
+| Alice is Missing | «Alice ha desaparecido», edición en castellano | Devir | https://devir.es/alice-ha-desaparecido |
+| Call of Cthulhu | Manual del Guardián, 7.ª en castellano (la que jugamos) | Edge Studio | https://es.edge-studio.net/games/cthulhu7-manual-del-guardian/ |
+| Delta Green | Agent's Handbook, original en inglés | Arc Dream Publishing | https://shop.arcdream.com/products/delta-green-agents-handbook |
+| Dungeon World | edición en castellano | Nosolorol | https://www.nosolorol.com/indie/285-dungeon-world-papel |
+| Dungeons & Dragons 5.ª | Player's Handbook de 2014 (la que jugamos), versión digital con logotipo de D&D Beyond | Wizards of the Coast | https://marketplace.dndbeyond.com/all-rulebooks/players-handbook?pid=SRC-00002 |
+| Ironsworn | libro básico | Tomkin Press | https://tomkinpress.com/pages/ironsworn |
+| Mothership | Player's Survival Guide **1.ª edición** (jugamos la 0e: su portada no está en la web oficial; el alt y el crédito lo dicen) | Tuesday Knight Games | https://www.tuesdayknightgames.com/products/mothership-players-survival-guide |
+| Numinia | **hueco tipográfico**: numinia.org y numinia.com no tienen portada del juego (solo ilustraciones sueltas y una tarjeta del archivo NWOS) | — | — |
+| Public Access | original en inglés | The Gauntlet | https://www.gauntlet-rpg.com/public-access.html |
+| Root | Core Book, original en inglés | Magpie Games | https://magpiegames.com/collections/root/products/root-the-roleplaying-game |
+| Star Trek Adventures | 2.ª edición, libro básico (la que jugamos) | Modiphius | https://modiphius.us/products/star-trek-adventures-the-roleplaying-game-second-edition-core-rulebook |
+| Trophy Dark | original en inglés | The Gauntlet y Hedgemaze Press | https://trophyrpg.com/ |
+| Vaesen | libro básico, original en inglés | Free League | https://freeleaguepublishing.com/shop/vaesen-2/vaesen-nordic-horror-roleplaying/ |
+
+Pendiente:
+- **Ilustración**: ninguna página oficial consultada acredita al ilustrador junto a la imagen; el campo `portada.ilustracion` existe y queda vacío.
+- **Numinia** sigue con hueco: si Numen Games publica una portada del manual, añadirla con su fuente.
+- **Mothership 0e**: si aparece su portada en la web de Tuesday Knight Games, cambiarla.
+- Ediciones jugadas pendientes (Alice, Delta Green, Dungeon World, Ironsworn, Public Access, Root, Trophy Dark, Vaesen): se ha usado la portada de la edición que da la web oficial; cuando se sepa cuál jugamos, revisar si cambia.
+- Correo modelo a editoriales (`docs/rol/correo-modelo.md`): da por hecho que la portada ya está publicada. Cierto para 12 de 13 juegos; para **Numinia** no hay portada (es el proyecto de Numen Games: no hace falta escribir) y para **Mothership** la publicada es la de la 1.ª edición.
+
 ## Juego por juego
 
 «Pendiente» = campo vacío por falta de fuente.

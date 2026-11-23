@@ -1,0 +1,68 @@
+---
+/**
+ * Portada de un juego (Rol 5, 2026-11-23): la portada OFICIAL si la ficha la
+ * tiene (campo `portada`, imagen de src/assets procesada con astro:assets en
+ * AVIF/WebP + JPEG, con width/height), y si no, el hueco tipográfico.
+ *
+ * Las imágenes son la única excepción de color de «Papel y tinta»: sin bordes
+ * redondeados, sombras ni animaciones; filete fino de tinta (sistema.css §4.17 quinquies).
+ *
+ * - tamano "grande" (ficha), "normal" (rejillas) o "lista" (catálogo).
+ * - credito: pinta el crédito con enlace debajo (figcaption). Dentro de un
+ *   enlace NO se puede (no se anidan enlaces): ahí se usa CreditoPortada fuera.
+ * - decorativa: solo afecta al hueco tipográfico (aria-hidden). La imagen
+ *   siempre lleva alt «Portada de <título> (<edición>)».
+ */
+import { Picture } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import PortadaTipografica from "./PortadaTipografica.astro";
+import CreditoPortada from "./CreditoPortada.astro";
+
+interface Props {
+  juego: CollectionEntry<"juegos">;
+  sistema?: string;
+  pie?: string;
+  tamano?: "normal" | "grande" | "lista";
+  decorativa?: boolean;
+  credito?: boolean;
+}
+const { juego, sistema, pie, tamano = "normal", decorativa = false, credito = false } = Astro.props;
+const d = juego.data;
+const p = d.portada;
+const alt = p ? `Portada de ${p.titulo ?? d.titulo} (${p.edicion})` : "";
+// Anchos servidos (1× y 2×) según dónde se pinta; el CSS fija el ancho real.
+const medidas = {
+  grande: { widths: [240, 480], sizes: "15rem" },
+  normal: { widths: [200, 400], sizes: "12rem" },
+  lista: { widths: [144, 288], sizes: "9rem" },
+}[tamano];
+---
+{p ? (
+  <figure class:list={["tz-portada-figura", `tz-portada-figura--${tamano}`]}>
+    <Picture
+      src={p.archivo}
+      alt={alt}
+      formats={["avif", "webp"]}
+      fallbackFormat="jpg"
+      widths={medidas.widths}
+      sizes={medidas.sizes}
+      quality={45}
+      class="tz-portada-img"
+      loading={tamano === "grande" ? "eager" : "lazy"}
+      decoding="async"
+    />
+    {credito && (
+      <figcaption>
+        <CreditoPortada juego={juego} largo={tamano === "grande"} />
+      </figcaption>
+    )}
+  </figure>
+) : (
+  <PortadaTipografica
+    titulo={d.titulo}
+    sistema={sistema}
+    pie={pie}
+    tamano={tamano === "grande" ? "grande" : "normal"}
+    decorativa={decorativa}
+  />
+)}

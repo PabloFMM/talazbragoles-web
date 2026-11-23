@@ -14,7 +14,7 @@ import Titulo from "./Titulo.astro";
 import Datos from "./Datos.astro";
 import Estado from "./Estado.astro";
 import Filtros from "./Filtros.astro";
-import PortadaTipografica from "./PortadaTipografica.astro";
+import PortadaJuego from "./PortadaJuego.astro";
 import { filtrosRol } from "../../lib/rol-filtros";
 import type { JuegoResuelto } from "../../lib/collections";
 import { estadoJuego, listaY } from "../../lib/formato";
@@ -89,7 +89,7 @@ const n = (x: number) => `${x} ${x === 1 ? "juego" : "juegos"}`;
           const nota = activa?.notas.get(f.juego.id);
           return (
             <li class="tz-catalogo-fila">
-              <PortadaTipografica titulo={d.titulo} sistema={corto(f.sistema)} decorativa />
+              <PortadaJuego juego={f.juego} sistema={corto(f.sistema)} tamano="lista" decorativa credito />
               <div>
                 <h3 class="tz-registro-titulo"><a href={`/rol/juegos/${f.juego.id}`}>{d.titulo}</a></h3>
                 {f.estado === "en-construccion" && (

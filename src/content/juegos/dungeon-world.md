@@ -62,6 +62,11 @@ jugadores:
   nota: "En total, contando a quien dirige; lo ideal, de 4 a 6. Nosolorol dice «de tres a cinco jugadores»."
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/dungeon-world.jpg"
+  edicion: "edición en castellano"
+  credito: "Nosolorol"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "SRD (texto libre)"
     url: "https://www.dungeonworldsrd.com/"
@@ -101,6 +106,11 @@ fuentes:
       - "jugadores"
     url: "https://www.dungeonworldsrd.com/"
     afirma: "Hace falta una persona que dirija (Game Master) y de 2 a 5 amistades más; lo mejor es un grupo de 4 a 6 contando a quien lo prepara."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://www.nosolorol.com/indie/285-dungeon-world-papel"
+    afirma: "Ficha de Dungeon World (papel) en la tienda de Nosolorol, editorial de la edición en castellano: enseña esta portada."
     consultado: 2026-11-23
 ---
 

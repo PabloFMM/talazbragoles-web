@@ -15,6 +15,8 @@ import Pendiente from "../components/sistema/Pendiente.astro";
 import Estado from "../components/sistema/Estado.astro";
 import Logo from "../components/sistema/Logo.astro";
 import PortadaTipografica from "../components/sistema/PortadaTipografica.astro";
+import PortadaJuego from "../components/sistema/PortadaJuego.astro";
+import CreditoPortada from "../components/sistema/CreditoPortada.astro";
 import Filtros from "../components/sistema/Filtros.astro";
 import { filtrosRol } from "../lib/rol-filtros";
 import { getAllEditions, getAllSources, getAllJuegos, resuelveJuego } from "../lib/collections";
@@ -23,6 +25,9 @@ import { dosCifras } from "../lib/formato";
 const ediciones = await getAllEditions();
 const fuentes = await getAllSources();
 const juegosMuestra = await Promise.all((await getAllJuegos()).slice(0, 3).map(resuelveJuego));
+// Rol 5: un juego con portada oficial y uno sin ella (hueco tipográfico).
+const conPortada = (await getAllJuegos()).find((j) => j.data.portada);
+const sinPortada = (await getAllJuegos()).find((j) => !j.data.portada);
 const { grupos: todosGrupos, fichas: fichasMuestra } = await filtrosRol();
 const gruposMuestra = todosGrupos.slice(0, 2);
 const totalJuegos = fichasMuestra.length;
@@ -261,10 +266,30 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
       </ol>
     </section>
 
-    <!-- 13. PORTADA TIPOGRÁFICA (sección Rol) -->
+    <!-- 13. PORTADAS: OFICIAL O TIPOGRÁFICA (sección Rol) -->
     <section class="tz-seccion" aria-labelledby="s-portada">
-      <Titulo id="s-portada" numero="13">Portada tipográfica</Titulo>
-      <p class="tz-medida">Hueco con la proporción de una portada (3:4) para los juegos de Rol: título en serif fino, filete corto y sistema abajo. Sin imagen ni color: no publicamos portadas sin permiso. El título sigue al ancho de la portada y nunca baja de 16 px. Enlazada, al pasar el ratón se invierte (tinta de fondo). Datos reales de la colección de juegos.</p>
+      <Titulo id="s-portada" numero="13">Portadas: oficial o tipográfica</Titulo>
+      <p class="tz-medida"><strong>Excepción de color (2026-11-23):</strong> en Rol se publica la portada <em>oficial</em> de cada juego, sacada de la web de la editorial o del autor y reproducida sin ánimo de lucro. Es la única imagen en color del sistema: va tal cual, en su proporción, con un filete fino de tinta; sin bordes redondeados, sombras, filtros ni animaciones. Debajo, el crédito a 16 px con enlace a la página de donde sale («Portada: editorial»; en la ficha, también la edición). El <code>alt</code> es «Portada de título (edición)». Se sirve con <code>astro:assets</code> (AVIF, WebP y JPEG, con <code>width</code>/<code>height</code>); sin JS. Componentes <code>PortadaJuego</code> y <code>CreditoPortada</code>.</p>
+      {conPortada && (
+        <ul class="tz-portadas" style="margin-top:var(--e-6)">
+          <li>
+            <a href={`/rol/juegos/${conPortada.id}`}>
+              <PortadaJuego juego={conPortada} />
+              <span class="tz-portadas-nota">Portada oficial, enlazada</span>
+            </a>
+            <CreditoPortada juego={conPortada} />
+          </li>
+          {sinPortada && (
+            <li>
+              <a href={`/rol/juegos/${sinPortada.id}`}>
+                <PortadaJuego juego={sinPortada} />
+                <span class="tz-portadas-nota">Sin portada oficial: hueco</span>
+              </a>
+            </li>
+          )}
+        </ul>
+      )}
+      <p class="tz-medida" style="margin-top:var(--e-7)">Cuando la editorial no publica la portada en su web (o el juego no tiene), va el hueco tipográfico: la proporción de una portada (3:4), título en serif fino, filete corto y sistema abajo. Nada de imágenes de tiendas ni de aficionados. El título sigue al ancho de la portada y nunca baja de 16 px. Enlazada, al pasar el ratón se invierte (tinta de fondo). Datos reales de la colección de juegos.</p>
       <ul class="tz-portadas" style="margin-top:var(--e-6)">
         {juegosMuestra.map((f) => (
           <li>

@@ -69,6 +69,11 @@ formato:
   - "una-sesion"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/trophy-dark.jpg"
+  edicion: "edición original en inglés"
+  credito: "The Gauntlet y Hedgemaze Press"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial"
     url: "https://trophyrpg.com/"
@@ -119,6 +124,11 @@ fuentes:
       - "editorialCastellano"
     url: "https://www.thehillspress.es/producto/trophy-dark/"
     afirma: "The Hills Press publica Trophy Dark en castellano: fantasía oscura y terror psicológico."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://trophyrpg.com/"
+    afirma: "Web oficial de Trophy: enseña esta portada de Trophy Dark («Cover of Trophy Dark book»); dice que lo diseña Jesse Ross y lo publican The Gauntlet y Hedgemaze Press."
     consultado: 2026-11-23
 ---
 

@@ -48,6 +48,12 @@ jugadores:
   nota: "Sin dirección formal: una persona explica y facilita las reglas."
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/alice-is-missing.jpg"
+  titulo: "Alice ha desaparecido"
+  edicion: "edición en castellano"
+  credito: "Devir"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (Hunters Entertainment)"
     url: "https://www.huntersentertainment.com/alice-is-missing"
@@ -86,6 +92,11 @@ fuentes:
       - "editorialCastellano"
     url: "https://devir.es/alice-ha-desaparecido"
     afirma: "Devir publica «Alice ha desaparecido», juego de rol mudo sobre la desaparición de Alice Briarwood, para una sesión y sin director de juego."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://devir.es/alice-ha-desaparecido"
+    afirma: "Ficha de «Alice ha desaparecido» en la tienda de Devir, editorial de la edición en castellano: enseña esta portada."
     consultado: 2026-11-23
 ---
 

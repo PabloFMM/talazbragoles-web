@@ -13,7 +13,8 @@ import Titulo from "../../components/sistema/Titulo.astro";
 import Ficha from "../../components/sistema/Ficha.astro";
 import Estado from "../../components/sistema/Estado.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
-import PortadaTipografica from "../../components/sistema/PortadaTipografica.astro";
+import PortadaJuego from "../../components/sistema/PortadaJuego.astro";
+import CreditoPortada from "../../components/sistema/CreditoPortada.astro";
 import { getAllCampaigns, getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego } from "../../lib/collections";
 import { dosCifras, estadoCampana, estadoJuego } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
@@ -46,13 +47,14 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
             {jugados.map((f) => (
               <li>
                 <a href={`/rol/juegos/${f.juego.id}`}>
-                  <PortadaTipografica titulo={f.juego.data.titulo} sistema={corto(f.sistema)} />
+                  <PortadaJuego juego={f.juego} sistema={corto(f.sistema)} />
                   <span class="tz-portadas-nota">
                     {f.estado === "en-construccion"
                       ? <Estado estado="parcial" texto={estadoJuego["en-construccion"]} />
                       : f.edicionJugadaTexto ?? <>Edición: <Pendiente /></>}
                   </span>
                 </a>
+                <CreditoPortada juego={f.juego} />
               </li>
             ))}
           </ul>
@@ -63,7 +65,7 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
       ) : (
         <div class="tz-medida"><Pendiente mensaje="Todavía no hay ningún juego registrado." /></div>
       )}
-      <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">Sin imágenes de portada: no publicamos portadas sin permiso de quien las tiene. Debajo de cada una, la edición que jugamos.</p>
+      <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">Portadas oficiales, sacadas de la web de cada editorial y reproducidas sin ánimo de lucro. Debajo de cada una, la edición que jugamos y de dónde sale la imagen. Si la editorial no publica la portada, va un hueco con el título.</p>
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-accesos">

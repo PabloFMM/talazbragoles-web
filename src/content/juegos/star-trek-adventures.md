@@ -73,6 +73,11 @@ modo:
   - "con-dj"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/star-trek-adventures.jpg"
+  edicion: "2.ª edición, libro básico"
+  credito: "Modiphius"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "2.ª edición (Modiphius)"
     url: "https://modiphius.us/products/star-trek-adventures-second-edition-core-rulebook-pdf"
@@ -110,6 +115,11 @@ fuentes:
     afirma: "Holocubierta Ediciones lo tradujo y publicó en 2017."
     consultado: 2026-11-23
     secundaria: true
+  - datos:
+      - "portada"
+    url: "https://modiphius.us/products/star-trek-adventures-the-roleplaying-game-second-edition-core-rulebook"
+    afirma: "Ficha del libro básico de Star Trek Adventures, 2.ª edición, en la tienda de Modiphius: enseña esta portada."
+    consultado: 2026-11-23
 ---
 
 Juego de rol de ciencia ficción con licencia oficial de Star Trek. Usa una versión del sistema 2d20 de Modiphius y va por su segunda edición (2024).

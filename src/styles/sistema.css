@@ -1078,6 +1078,45 @@
   }
   .tz-juego-lista { margin: 0; padding: 0; list-style: none; }
   .tz-juego-lista li + li { margin-top: var(--e-1); }
+
+  /* --- 4.17 quinquies Portadas oficiales (Rol 5, 2026-11-23) ---
+     Única excepción de color del sistema: la imagen de la portada, tal cual la
+     publica la editorial. Sin bordes redondeados, sombras, filtros ni animaciones:
+     un filete fino de tinta alrededor. Proporción natural de cada portada (no se
+     recorta para encajar en 3:4). Crédito debajo, a 16 px, con enlace a la fuente. */
+  .tz-portada-figura { margin: 0; min-width: 0; }
+  .tz-portada-figura picture { display: block; }
+  .tz-portada-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--f-fino) solid var(--tinta);
+    background: var(--papel);
+  }
+  .tz-portadas a:hover .tz-portada-img { outline: var(--f-medio) solid var(--tinta); }
+  .tz-portada-credito {
+    margin: var(--e-2) 0 0;
+    font-size: var(--t-0);
+    line-height: 1.4;
+    color: var(--tinta-2);
+    overflow-wrap: anywhere;
+  }
+  .tz-portada-credito a { color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  /* En las rejillas, los enlaces son bloques sin subrayado (la portada entera): el del crédito no. */
+  .tz-portadas .tz-portada-credito a {
+    display: inline;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+  .tz-catalogo-fila > .tz-portada-figura { display: none; }
+  @media (min-width: 40rem) {
+    .tz-catalogo-fila > .tz-portada-figura { display: block; }
+  }
+  .tz-juego > .tz-portada-figura { width: min(100%, 14rem); }
+  @media (min-width: 48rem) {
+    .tz-juego > .tz-portada-figura { width: 100%; }
+  }
   .tz-descarga { margin-top: var(--e-4); }
   .tz-descarga .tz-ref { margin: var(--e-2) 0 0; }
   .tz-licencia + .tz-licencia { margin-top: var(--e-7); }

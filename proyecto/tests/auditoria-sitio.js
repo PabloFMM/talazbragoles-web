@@ -69,6 +69,13 @@
       if (img.getBoundingClientRect().right > W + 1) add(`documento desborda: ${img.getAttribute('src')}`);
       continue;
     }
+    // Excepción (Rol 5, 2026-11-23): la portada oficial de un juego, con alt «Portada de … (…)» y medidas.
+    if (img.matches('.tz-portada-img')) {
+      if (!/^Portada de .+ \(.+\)$/.test(img.alt)) add(`portada sin alt correcto: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`portada sin width/height: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`portada desborda: ${img.getAttribute('src')}`);
+      continue;
+    }
     add(`imagen visible: ${img.getAttribute('src')}`);
   }
   return JSON.stringify({ w: W, sw: SW, issues });

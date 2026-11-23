@@ -69,6 +69,12 @@ modo:
   - "con-dj"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/dungeons-dragons-5.jpg"
+  titulo: "Player's Handbook"
+  edicion: "5.ª edición de 2014, versión digital de D&D Beyond"
+  credito: "Wizards of the Coast"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "SRD 5.1 y 5.2 (D&D Beyond)"
     url: "https://www.dndbeyond.com/srd"
@@ -108,6 +114,11 @@ fuentes:
     afirma: "Juego de rol de fantasía heroica en el que un director de juego narra la historia y los jugadores la cambian con sus acciones."
     consultado: 2026-11-23
     secundaria: true
+  - datos:
+      - "portada"
+    url: "https://marketplace.dndbeyond.com/all-rulebooks/players-handbook?pid=SRC-00002"
+    afirma: "Ficha del Player's Handbook (5e) en la tienda de D&D Beyond, de Wizards of the Coast: enseña esta portada de la versión digital (con el logotipo de D&D Beyond)."
+    consultado: 2026-11-23
 ---
 
 La quinta edición del juego de rol de fantasía más conocido: un grupo de aventureros, alguien que dirige y un dado de veinte. Sus reglas base están publicadas bajo Creative Commons en el SRD.

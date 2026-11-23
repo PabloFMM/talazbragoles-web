@@ -1,0 +1,24 @@
+---
+/**
+ * Crédito de una portada oficial (Rol 5): «Portada: <editorial>», con enlace a
+ * la página oficial de donde sale la imagen (la fuente de `fuentes[]` que
+ * respalda «portada»). En la ficha (largo) añade la edición y el permiso.
+ * No pinta nada si el juego no tiene portada. Letra de 16 px (--t-0).
+ */
+import type { CollectionEntry } from "astro:content";
+import { permisoPortada } from "../../lib/formato";
+
+interface Props {
+  juego: CollectionEntry<"juegos">;
+  largo?: boolean;
+}
+const { juego, largo = false } = Astro.props;
+const p = juego.data.portada;
+const fuente = juego.data.fuentes.find((f) => f.datos.includes("portada"));
+if (p && !fuente) throw new Error(`${juego.id}: la portada no tiene fuente (fuentes[].datos «portada»)`);
+---
+{p && fuente && (
+  <p class="tz-portada-credito">
+    {largo ? "Portada oficial" : "Portada"}: <a href={fuente.url} rel="noreferrer">{p.credito}</a>{largo && <> ({p.edicion}){p.ilustracion && <>; ilustración de {p.ilustracion}</>}. {permisoPortada[p.permiso]}.</>}
+  </p>
+)}

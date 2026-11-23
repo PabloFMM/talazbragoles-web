@@ -60,6 +60,12 @@ modo:
   - "con-dj"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/mothership.jpg"
+  titulo: "Mothership: Player's Survival Guide"
+  edicion: "1.ª edición; no es la 0e que jugamos"
+  credito: "Tuesday Knight Games"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (Tuesday Knight Games)"
     url: "https://www.tuesdayknightgames.com/pages/mothership-rpg"
@@ -92,6 +98,11 @@ fuentes:
       - "licenciaJuego"
     url: "https://tuesdayknightgames.zendesk.com/hc/en-us/articles/4412576594843-How-can-I-create-third-party-licensed-content-for-Mothership"
     afirma: "Para publicar material de terceros hay que rellenar el acuerdo de licencia y enviar el manuscrito a la editorial, que lo revisa y lo aprueba o no."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://www.tuesdayknightgames.com/products/mothership-players-survival-guide"
+    afirma: "Ficha del Player's Survival Guide de Mothership (1.ª edición) en la tienda de Tuesday Knight Games: enseña esta portada. En la web oficial no se ha encontrado la portada de la edición 0."
     consultado: 2026-11-23
 ---
 

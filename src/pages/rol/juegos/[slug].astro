@@ -1,7 +1,7 @@
 ---
 /**
  * /rol/juegos/<slug>/: ficha de un juego de rol (colección «juegos»).
- * Portada tipográfica, datos (vacíos = «pendiente»), qué es, ediciones (con la
+ * Portada (la oficial con su crédito, o el hueco tipográfico), datos (vacíos = «pendiente»), qué es, ediciones (con la
  * descarga oficial si su licencia lo permite), qué deja hacer la licencia,
  * dónde conseguirlo, fuentes por dato y juegos parecidos.
  * Nunca se nombra a quien dio los datos: lo que afirma el grupo es dato del grupo.
@@ -15,7 +15,8 @@ import Datos from "../../../components/sistema/Datos.astro";
 import Ficha from "../../../components/sistema/Ficha.astro";
 import Estado from "../../../components/sistema/Estado.astro";
 import Pendiente from "../../../components/sistema/Pendiente.astro";
-import PortadaTipografica from "../../../components/sistema/PortadaTipografica.astro";
+import PortadaJuego from "../../../components/sistema/PortadaJuego.astro";
+import CreditoPortada from "../../../components/sistema/CreditoPortada.astro";
 import FuenteDato from "../../../components/sistema/FuenteDato.astro";
 import { getAllJuegos, resuelveJuego, juegosParecidos } from "../../../lib/collections";
 import {
@@ -148,7 +149,7 @@ const sistemasDe = new Map(
     <section class="tz-seccion" aria-labelledby="s-ficha">
       <Titulo id="s-ficha" numero="01">Ficha</Titulo>
       <div class="tz-juego">
-        <PortadaTipografica titulo={d.titulo} sistema={corto(r.sistema)} pie={d.ano ? String(d.ano) : undefined} tamano="grande" decorativa />
+        <PortadaJuego juego={juego} sistema={corto(r.sistema)} pie={d.ano ? String(d.ano) : undefined} tamano="grande" decorativa credito />
         <div>
           <Datos datos={datos} class="tz-datos--ancho" />
           {d.dudas.length > 0 && (
@@ -268,9 +269,10 @@ const sistemasDe = new Map(
           {parecidos.map((p) => (
             <li>
               <a href={`/rol/juegos/${p.juego.id}`}>
-                <PortadaTipografica titulo={p.juego.data.titulo} sistema={sistemasDe.get(p.juego.id)} pie={pieDe(p.juego)} />
+                <PortadaJuego juego={p.juego} sistema={sistemasDe.get(p.juego.id)} pie={pieDe(p.juego)} />
                 <span class="tz-portadas-nota">{p.motivos.join(" · ")}</span>
               </a>
+              <CreditoPortada juego={p.juego} />
             </li>
           ))}
         </ul>

@@ -45,6 +45,12 @@ jugadores:
   max: 6
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/root.jpg"
+  titulo: "Root: The Roleplaying Game, Core Book"
+  edicion: "edición original en inglés"
+  credito: "Magpie Games"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (Magpie Games)"
     url: "https://magpiegames.com/collections/root/products/root-the-roleplaying-game"
@@ -91,6 +97,11 @@ fuentes:
       - "modo"
     url: "https://shadowlands.es/edicion-deluxe-de-root-el-juego-de-rol.html"
     afirma: "La edición incluye libretos de jugador, creación de mapas y materiales para el director."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://magpiegames.com/collections/root/products/root-the-roleplaying-game"
+    afirma: "Ficha del Core Book de Root: The Roleplaying Game en la tienda de Magpie Games: enseña esta portada."
     consultado: 2026-11-23
 ---
 
