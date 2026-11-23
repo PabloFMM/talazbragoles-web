@@ -1,0 +1,101 @@
+{
+  "year": 1997,
+  "title": "Talazbrágoles'97 — VI Jornadas (19 y 20 de abril)",
+  "verified": true,
+  "status": "parcial",
+  "venue": {
+    "name": "Pabellón Multifuncional de Las Matas",
+    "city": "Las Rozas (Las Matas), Madrid",
+    "address": "Según el plano del folleto, entre la calle Martín Iriarte, la calle San José Obrero y el camino del Garzo, junto a Correos"
+  },
+  "organizer": "«Organizadas por y para aficionados», con apoyo del Ayuntamiento de Las Rozas (logotipo de la Concejalía de Juventud en la portada). Nombres de la organización: pendientes.",
+  "description": "El folleto de la edición anuncia las VI Jornadas de Juegos de Rol, Estrategia y Simulación el sábado 19 y el domingo 20 de abril de 1997 en el Pabellón Multifuncional de Las Matas, «por sexto año consecutivo». Previstas: más de cien partidas de rol, torneos de rol y de cartas, liga de Blood Bowl, wargames, juegos en red y demostraciones de internet, cine fórum, charlas y concursos. Colaboraron 14 editoriales y tiendas. Es un programa anunciado: no hay crónica que cuente cómo fue ni cuánta gente acudió.",
+  "activities": [
+    { "type": "partida-rol", "name": "Más de cien partidas de juegos de rol", "description": "Lista de actividades (cara 3). La presentación habla también de «partidas de demostración» de juegos menos conocidos." },
+    { "type": "torneo", "name": "Torneo de AD&D", "system": "AD&D", "description": "Lista de actividades (cara 3)." },
+    { "type": "torneo", "name": "Torneo de La llamada de Cthulhu", "system": "La llamada de Cthulhu", "description": "Lista de actividades (cara 3)." },
+    { "type": "torneo", "name": "Torneo de El Señor de los Anillos", "description": "Lista de actividades (cara 3). El folleto lo pone aparte del campeonato de cartas del mismo nombre; no dice de qué juego se trata." },
+    { "type": "torneo", "name": "Liga de Blood Bowl", "system": "Blood Bowl", "description": "Lista de actividades (cara 3)." },
+    { "type": "torneo", "name": "Campeonato de El Señor de los Anillos (cartas)", "description": "Lista de actividades (cara 3)." },
+    { "type": "torneo", "name": "Campeonatos de Magic y Doomtrooper", "description": "Lista de actividades (cara 3), impreso «Doomtroper». La presentación añade partidas de cartas «entre los propios aficionados»." },
+    { "type": "demo", "name": "Partidas de demostración de Dice Master", "description": "Lista de actividades (cara 3), con ese nombre." },
+    { "type": "otro", "name": "Partidas de wargames", "description": "Presentación (cara 2): «Los aficionados a los wargames podrán demostrar sus dotes de estrategia»." },
+    { "type": "torneo", "name": "Torneos de juegos en red", "description": "Lista de actividades (cara 3) y presentación (cara 2)." },
+    { "type": "demo", "name": "Demostraciones de internet", "description": "Presentación (cara 2): «No podíamos permanecer ajenos al boom informático»." },
+    { "type": "otro", "name": "Cine fórum", "description": "Lista de actividades (cara 3) y presentación (cara 2)." },
+    { "type": "charla", "name": "Mesas redondas y charlas", "description": "Presentación (cara 2). No dice temas ni ponentes." },
+    { "type": "exposicion", "name": "Exposiciones de merchandising", "description": "Presentación (cara 2)." },
+    { "type": "otro", "name": "Concursos de disfraces y de pintado de figuras", "description": "Presentación (cara 2)." }
+  ],
+  "sourceIds": ["folleto-vi-jornadas-1997"],
+  "peopleIds": [],
+  "documentos": [
+    {
+      "id": "folleto",
+      "titulo": "El folleto de 1997",
+      "descripcion": "Díptico: una hoja doblada por la mitad, cuatro caras. Reproducido a partir de fotos de un ejemplar en papel, enderezado y pasado a escala de grises. Junto a cada cara, su texto copiado tal cual, con la ortografía impresa (las erratas van marcadas [sic]; en el original las mayúsculas no llevan tilde).",
+      "sourceId": "folleto-vi-jornadas-1997",
+      "caras": [
+        {
+          "titulo": "Cara 1 · Portada",
+          "imagen": "/documentos/1997-folleto-vi-jornadas/p1-portada.jpg",
+          "ancho": 1000,
+          "alto": 1351,
+          "alt": "Portada del folleto: título Talazbrágoles'97 en diagonal, en letra de rotulador, sobre fondo gris texturado; arriba, la fecha; abajo, el logotipo de la Concejalía de Juventud.",
+          "texto": [
+            "19 Y 20 DE ABRIL",
+            "TALAZBRÁGOLES'97",
+            "VI JORNADAS DE JUEGOS DE ROL, ESTRATEGIA Y SIMULACION",
+            "CONCEJALIA DE JUVENTUD"
+          ],
+          "nota": "El logotipo de la Concejalía de Juventud son unas casas blancas con arcos y un sol negro detrás, en trazos de pincel."
+        },
+        {
+          "titulo": "Cara 2 · Presentación",
+          "imagen": "/documentos/1997-folleto-vi-jornadas/p2-presentacion.jpg",
+          "ancho": 1000,
+          "alto": 1375,
+          "alt": "Segunda cara del folleto: cuatro párrafos de presentación en cursiva sobre fondo gris texturado.",
+          "texto": [
+            "Como viene siendo habitual, y por sexto año consecutivo os invitamos a asistir a Talazbrágoles, jornadas de rol, estrategia y simulación. Estas jornadas están organizadas por y para aficionados, contando con el patrocinio de editoriales y tiendas, además del apoyo del Ayuntamiento de Las Rozas.",
+            "En esta edición se organizarán torneos de los juegos de rol más populares, así como partidas de demostración de aquellos menos conocidos. Los aficionados a los wargames podrán demostrar sus dotes de estrategia participando en cualquiera de las partidas que tendrán lugar. Por supuesto, y como sucede desde hace algunos años, estarán presentes los juegos de cartas tanto en torneos organizados como en partidas entre los propios aficionados.",
+            "No podíamos permanecer ajenos al boom informático y nos abrimos a las nuevas tecnologías con las [sic] incorporación de actividades como demostraciones de internet y torneos de juegos en red.",
+            "Y por supuesto, contaremos con actividades relacionadas con la afición, como exposiciones de merchandising, mesas redondas, charlas, cine-forum, concursos de disfraces y de pintado de figuras, etc."
+          ]
+        },
+        {
+          "titulo": "Cara 3 · Patrocinadores y actividades",
+          "imagen": "/documentos/1997-folleto-vi-jornadas/p3-patrocinadores-actividades.jpg",
+          "ancho": 1000,
+          "alto": 1375,
+          "alt": "Tercera cara del folleto, sobre fondo blanco: lista de patrocinadores arriba y lista de actividades abajo, junto a un dibujo a lápiz de un guerrero con yelmo de cuernos y alas que sostiene a una figura femenina sobre un risco.",
+          "texto": [
+            "PATROCINADORES Y COLABORADORES",
+            "Agradecemos a las siguientes empresas su colaboración en la organización de las jornadas:",
+            "Akira Comics · Arte-9 · Ediciones Cronópolis · El Húsar · Farsa's Wagon · Generación X · Interlink · Joc Internacional · Kerykion · La Factoría de Ideas · Librería Atlántica · Ludotecnia · M+D · Yggdrasil Jocs",
+            "LISTA DE ACTIVIDADES",
+            "Más de cien partidas de juegos de rol; Torneo de AD&D; Torneo de la llamada de Cthulhu; Torneo de El Señor de los Anillos; Liga de Blood Bowl; Campeonato de El Señor de los Anillos (cartas); Campeonatos de Magic y Doomtroper [sic]; Partidas de demostración de Dice Master; Cine Forum; Torneos de juegos en red."
+          ],
+          "nota": "La ilustración no lleva firma legible: su autoría está pendiente."
+        },
+        {
+          "titulo": "Cara 4 · Contraportada: cómo llegar",
+          "imagen": "/documentos/1997-folleto-vi-jornadas/p4-contraportada.jpg",
+          "ancho": 1000,
+          "alto": 1351,
+          "alt": "Contraportada del folleto: lugar y horario arriba, plano de Las Matas en el centro con una flecha que señala Talazbrágoles junto a Correos, y cómo llegar debajo.",
+          "texto": [
+            "VEN Y DISFRUTA",
+            "PABELLON MULTIFUNCIONAL DE LAS MATAS DE MADRID",
+            "HORARIO: SABADO 19: 10:00 A.M. - 21:00 P.M. · DOMINGO 20: 10:00 A.M. - 19:00 P.M.",
+            "AUTOBUS: LINEA 622 MADRID-LAS MATAS. INTERCAMBIADOR DE MONCLOA",
+            "CERCANIAS DE RENFE: ESTACION DE LAS MATAS.",
+            "MAS INFORMACION: TEL. (91) 636 05 18 - FAX (91) 637 37 12",
+            "http:/ / www.interlink.es/ talazbrágoles"
+          ],
+          "nota": "El plano señala «TALAZBRAGOLES» en el edificio entre la calle Martín Iriarte, la calle San José Obrero y el camino del Garzo, junto a Correos; cerca, la estación de Renfe, la parroquia de San José y la parada del autobús. La dirección web se copia con los espacios con que sale impresa."
+        }
+      ]
+    }
+  ]
+}

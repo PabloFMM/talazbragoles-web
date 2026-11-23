@@ -223,7 +223,7 @@ Texto biográfico en Markdown.
 
 - **Sistema «Papel y tinta»** (2026-11-15): leer `proyecto/docs/diseno.md` y ver `/diseno/` antes de maquetar. Tokens y componentes en `src/styles/sistema.css` (prefijo `tz-`) y `src/components/sistema/`.
 - **Paleta**: solo papel y tinta (`--papel: #f4f0e6`, `--tinta: #0f0f10`, `--tinta-2: #45413b` para texto secundario). Sin color de acento: los estados se marcan invirtiendo o engrosando filetes.
-- **Única imagen en color**: las portadas OFICIALES de los juegos de Rol (2026-11-23): solo de la web de la editorial o del autor, guardadas en el repo, con crédito y enlace debajo, filete fino, sin redondeos ni sombras. Ver `proyecto/docs/diseno.md` §2 bis. Ninguna otra imagen (la auditoría las marca).
+- **Portadas de Rol (imagen en color)**: las portadas OFICIALES de los juegos de Rol (2026-11-23): solo de la web de la editorial o del autor, guardadas en el repo, con crédito y enlace debajo, filete fino, sin redondeos ni sombras. Ver `proyecto/docs/diseno.md` §2 bis. La otra excepción son los documentos de época del Archivo (`.tz-documento`); ninguna imagen más (la auditoría las marca).
 - **Tipografías**: Archivo (texto e interfaz, sin remates) y Source Serif 4 (logotipo y titulares, peso fino), autoalojadas en `public/fonts/` (SIL OFL 1.1). Nada de fuentes externas.
 - **Mínimos**: texto ≥ 16 px, controles ≥ 48 px, contraste ≥ 7:1, sin animaciones ni transiciones. Nada de `text-xs`, `text-black/60`, `rounded-*`, sombras ni texturas.
 - **Sin JS en cliente**: no añadir `<script>` ni frameworks de UI (única excepción: el asesor, ver «Sección MMO»).

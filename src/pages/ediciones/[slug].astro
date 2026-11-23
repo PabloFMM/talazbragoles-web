@@ -20,10 +20,18 @@ export async function getStaticPaths() {
 }
 
 const { edition } = Astro.props;
-const { year, title, status, verified, venue, organizer, description, activities, sourceIds } = edition.data;
+const { year, title, status, verified, venue, organizer, description, activities, sourceIds, documentos } = edition.data;
 
 const fuentes = (await getCollection("sources")).filter((s) => sourceIds.includes(s.id));
 const cronologia = (await getAllTimeline()).filter((t) => t.data.relatedEditionId === edition.id);
+
+const numeroFuente = (id: string) => fuentes.findIndex((f) => f.id === id) + 1;
+// Secciones numeradas: «Documentos» solo existe si la edición tiene alguno.
+let n = 2;
+const num = () => String(++n).padStart(2, "0");
+const nDocumentos = documentos.map(() => num());
+const nFuentes = num();
+const nCrono = num();
 
 const anoTexto = year === "desconocida" ? "Año pendiente" : String(year);
 const datos = [
@@ -96,11 +104,46 @@ const datos = [
       )}
     </section>
 
+    {documentos.map((d, i) => (
+      <section class="tz-seccion" id={d.id} aria-labelledby={`s-doc-${d.id}`}>
+        <Titulo id={`s-doc-${d.id}`} numero={nDocumentos[i]}>{d.titulo}</Titulo>
+        <div class="tz-con-margen">
+          <div>
+            {d.descripcion && <p class="tz-prosa tz-medida" style="margin-top:0">{d.descripcion}</p>}
+          </div>
+          <aside class="tz-margen">
+            <p class="tz-rotulo">Fuente</p>
+            <p>{numeroFuente(d.sourceId) > 0
+              ? <a class="tz-enlace" href={`#${d.sourceId}`}>Nota {String(numeroFuente(d.sourceId)).padStart(2, "0")} de «Fuentes»</a>
+              : <Pendiente />}</p>
+          </aside>
+        </div>
+        <ol class="tz-documento">
+          {d.caras.map((c, j) => (
+            <li class="tz-documento-cara">
+              <a class="tz-documento-imagen" href={c.imagen} aria-label={`${c.titulo}: ver la imagen sola, a tamaño completo`}>
+                <img src={c.imagen} width={c.ancho} height={c.alto} alt={c.alt} loading={j === 0 ? "eager" : "lazy"} decoding="async" />
+              </a>
+              <div class="tz-documento-texto">
+                <h3 class="tz-subtitulo">{c.titulo}</h3>
+                {c.texto.length > 0 ? (
+                  <blockquote class="tz-documento-literal" lang="es">
+                    {c.texto.map((t) => <p>{t}</p>)}
+                  </blockquote>
+                ) : <Pendiente mensaje="Texto de esta cara sin copiar." />}
+                {c.nota && <p class="tz-documento-nota">{c.nota}</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
     <section class="tz-seccion" aria-labelledby="s-fuentes">
-      <Titulo id="s-fuentes" numero="03">Fuentes</Titulo>
+      <Titulo id="s-fuentes" numero={nFuentes}>Fuentes</Titulo>
       {fuentes.length > 0 ? (
         <ol class="tz-fuentes tz-medida">
-          {fuentes.map((s, i) => <NotaFuente fuente={s} n={i + 1} />)}
+          {fuentes.map((s, i) => <NotaFuente fuente={s} n={i + 1} ancla />)}
         </ol>
       ) : (
         <div class="tz-medida"><Pendiente mensaje="Esta edición no tiene ninguna fuente enlazada." /></div>
@@ -109,7 +152,7 @@ const datos = [
 
     {cronologia.length > 0 && (
       <section class="tz-seccion" aria-labelledby="s-crono">
-        <Titulo id="s-crono" numero="04">En la cronología</Titulo>
+        <Titulo id="s-crono" numero={nCrono}>En la cronología</Titulo>
         <ul class="tz-lista-numerada tz-medida">
           {cronologia.map((t) => {
             const f = partesFecha(t.data.date, t.data.precision);

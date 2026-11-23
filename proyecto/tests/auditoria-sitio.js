@@ -60,13 +60,23 @@
     if (r.height < 47.5 || (r.width < 47.5 && !el.matches('summary'))) add(`control ${Math.round(r.width)}×${Math.round(r.height)}: <${el.tagName.toLowerCase()} class="${tz(el)}"> «${el.textContent.trim().slice(0, 30)}»`);
   }
   if (document.querySelector('script:not([type="application/ld+json"])')) add('hay <script> (prohibido fuera del asesor)');
-  // Única imagen permitida (Rol 5, 2026-11-23): la portada oficial de un juego, con alt «Portada de …» y medidas.
   for (const img of document.images) {
     if (!visible(img)) continue;
-    if (!img.matches('.tz-portada-img')) { add(`imagen visible: ${img.getAttribute('src')}`); continue; }
-    if (!/^Portada de .+ \(.+\)$/.test(img.alt)) add(`portada sin alt correcto: ${img.getAttribute('src')}`);
-    if (!img.getAttribute('width') || !img.getAttribute('height')) add(`portada sin width/height: ${img.getAttribute('src')}`);
-    if (img.getBoundingClientRect().right > W + 1) add(`portada desborda: ${img.getAttribute('src')}`);
+    // Excepción (2026-11-23): reproducción de un documento de época (fuente primaria) en su ficha.
+    if (img.closest('.tz-documento-imagen')) {
+      if (!img.alt || img.alt.length < 20) add(`documento sin alt descriptivo: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`documento sin width/height: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`documento desborda: ${img.getAttribute('src')}`);
+      continue;
+    }
+    // Excepción (Rol 5, 2026-11-23): la portada oficial de un juego, con alt «Portada de … (…)» y medidas.
+    if (img.matches('.tz-portada-img')) {
+      if (!/^Portada de .+ \(.+\)$/.test(img.alt)) add(`portada sin alt correcto: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`portada sin width/height: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`portada desborda: ${img.getAttribute('src')}`);
+      continue;
+    }
+    add(`imagen visible: ${img.getAttribute('src')}`);
   }
   return JSON.stringify({ w: W, sw: SW, issues });
 })()

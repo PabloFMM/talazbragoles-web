@@ -11,7 +11,7 @@ const sources = defineCollection({
     url: z.url(),
     asserts: z.string(),
     caveat: z.string().optional(),
-    type: z.enum(["testimonio", "prensa", "documento-oficial", "web-archivo", "foto", "video", "otro"]),
+    type: z.enum(["testimonio", "prensa", "documento-oficial", "documento-de-epoca", "web-archivo", "foto", "video", "otro"]),
     date: z.string().optional(),
     accessDate: z.string().optional(),
     broken: z.boolean().default(false),
@@ -59,6 +59,29 @@ const editions = defineCollection({
         photos: z.array(z.string()).default([]),
       })
       .optional(),
+    /** Documentos de época reproducidos en la ficha (folleto, programa…).
+     *  Cada cara: imagen en public/ y su transcripción literal (erratas con [sic]). */
+    documentos: z
+      .array(
+        z.object({
+          id: z.string(),
+          titulo: z.string(),
+          descripcion: z.string().optional(),
+          sourceId: z.string(),
+          caras: z.array(
+            z.object({
+              titulo: z.string(),
+              imagen: z.string().startsWith("/"),
+              ancho: z.number().int(),
+              alto: z.number().int(),
+              alt: z.string(),
+              texto: z.array(z.string()).default([]),
+              nota: z.string().optional(),
+            })
+          ),
+        })
+      )
+      .default([]),
   }),
 });
 
