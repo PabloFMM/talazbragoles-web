@@ -29,3 +29,6 @@ playwright-report/
 
 # python
 __pycache__/
+
+# wrangler dev (pruebas locales de _redirects/_headers)
+.wrangler/
