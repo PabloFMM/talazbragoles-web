@@ -1,10 +1,17 @@
 ---
 titulo: "Root: The Roleplaying Game"
 tituloCastellano: "Root: El Juego de Rol"
+ano: 2021
 ediciones:
   - nombre: "Root: The Roleplaying Game"
+    ano: 2021
     editorial: "magpie-games"
     fuentes:
+      - datos:
+          - "ano"
+        url: "https://magpiegames.com/blogs/news/root-the-rpg-now-available-for-pdf-and-preorder"
+        afirma: "Magpie Games anuncia el 15-12-2021 que Root: The RPG ya está a la venta en PDF, tras el Kickstarter de octubre de 2019."
+        consultado: 2026-11-23
       - datos:
           - "editorial"
         url: "https://magpiegames.com/collections/root/products/root-the-roleplaying-game"
@@ -44,9 +51,13 @@ enlaces:
   - etiqueta: "Edición en castellano (Shadowlands)"
     url: "https://shadowlands.es/root/"
 dudas:
-  - "Año de publicación: no confirmado en fuente oficial."
   - "Licencia del texto: es un juego con licencia oficial del juego de mesa Root (Leder Games); no se ha encontrado licencia abierta ni el aviso de derechos del libro."
 fuentes:
+  - datos:
+      - "ano"
+    url: "https://magpiegames.com/blogs/news/root-the-rpg-now-available-for-pdf-and-preorder"
+    afirma: "Magpie Games anuncia el 15-12-2021 que Root: The RPG ya está a la venta en PDF, tras el Kickstarter de octubre de 2019."
+    consultado: 2026-11-23
   - datos:
       - "editorial"
       - "generos"

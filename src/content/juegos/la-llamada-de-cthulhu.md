@@ -49,7 +49,6 @@ ediciones:
     ano: 2014
     editorial: "chaosium"
     licencia: "chaosium-material-fans"
-    jugadaPorNosotros: true
     fuentes:
       - datos:
           - "ano"
@@ -72,6 +71,7 @@ ediciones:
     idioma: "es"
     traduccionDe: "7.ª edición"
     licencia: "chaosium-material-fans"
+    jugadaPorNosotros: true
     fuentes:
       - datos:
           - "editorial"

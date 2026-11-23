@@ -55,7 +55,7 @@ enlaces:
     url: "https://devir.es/alice-ha-desaparecido"
 dudas:
   - "Sistema: el juego tiene reglas propias (mensajes de texto en silencio y cartas); no consta como sistema con nombre."
-  - "Licencia: no aparece en las páginas consultadas."
+  - "Licencia: no aparece en las webs de Hunters Entertainment ni de Renegade Game Studios."
 fuentes:
   - datos:
       - "autoria"
