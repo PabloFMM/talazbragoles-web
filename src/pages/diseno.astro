@@ -15,12 +15,17 @@ import Pendiente from "../components/sistema/Pendiente.astro";
 import Estado from "../components/sistema/Estado.astro";
 import Logo from "../components/sistema/Logo.astro";
 import PortadaTipografica from "../components/sistema/PortadaTipografica.astro";
+import Filtros from "../components/sistema/Filtros.astro";
+import { filtrosRol } from "../lib/rol-filtros";
 import { getAllEditions, getAllSources, getAllJuegos, resuelveJuego } from "../lib/collections";
 import { dosCifras } from "../lib/formato";
 
 const ediciones = await getAllEditions();
 const fuentes = await getAllSources();
 const juegosMuestra = await Promise.all((await getAllJuegos()).slice(0, 3).map(resuelveJuego));
+const { grupos: todosGrupos, fichas: fichasMuestra } = await filtrosRol();
+const gruposMuestra = todosGrupos.slice(0, 2);
+const totalJuegos = fichasMuestra.length;
 
 const colores = [
   { token: "--papel", hex: "#f4f0e6", uso: "Fondo de todo el sitio", contraste: "—" },
@@ -276,6 +281,15 @@ const fichaDe = (ed: (typeof ediciones)[number]) => ({
         </div>
       )}
       <p class="tz-ref tz-medida" style="margin-top:var(--e-4)">Grande (ficha del juego), con año al pie. En la ficha y el catálogo va con <code>aria-hidden</code> porque el título ya está en la página; dentro de un enlace no, porque su texto es el nombre del enlace. Sin sistema conocido dice «Sistema pendiente».</p>
+    </section>
+
+    <!-- 14. FILTROS SIN JAVASCRIPT (sección Rol) -->
+    <section class="tz-seccion" aria-labelledby="s-filtros">
+      <Titulo id="s-filtros" numero="14">Filtros sin JavaScript</Titulo>
+      <p class="tz-medida">El buscador del catálogo de juegos son enlaces a páginas ya filtradas, generadas en el build: un grupo por criterio, cada opción con su recuento (≥ 48 px de alto, filete fino). En la página filtrada la opción activa lleva <code>aria-current="page"</code> y se invierte (tinta de fondo, letra seminegra), y arriba aparece «Quitar filtro». Un filtro cada vez. Datos reales; aquí ninguna está activa.</p>
+      <div style="margin-top:var(--e-6)">
+        <Filtros grupos={gruposMuestra} total={totalJuegos} />
+      </div>
     </section>
   </div>
 </Layout>

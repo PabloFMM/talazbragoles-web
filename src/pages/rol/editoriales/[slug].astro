@@ -45,7 +45,7 @@ const datos: Dato[] = [
     <section class="tz-seccion" aria-labelledby="s-juegos">
       <Titulo id="s-juegos" numero="02">Juegos</Titulo>
       {juegos.length > 0 ? (
-        <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+        <ul class="tz-lista-enlaces">
           {juegos.map(({ j, papeles }) => (
             <li>
               <a href={hrefJuego(j.id)}>
@@ -64,7 +64,7 @@ const datos: Dato[] = [
     {sistemas.length > 0 && (
       <section class="tz-seccion" aria-labelledby="s-sistemas">
         <Titulo id="s-sistemas" numero="03">Sistemas</Titulo>
-        <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+        <ul class="tz-lista-enlaces">
           {sistemas.map((s) => (
             <li>
               <a href={hrefSistema(s.id)}>

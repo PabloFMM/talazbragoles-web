@@ -51,7 +51,7 @@ const bloques = [
       <section class="tz-seccion" aria-labelledby={b.id}>
         <Titulo id={b.id} numero={String(i + 1).padStart(2, "0")}>{b.titulo}</Titulo>
         <p class="tz-medida" style="margin:0 0 var(--e-5)">{b.nota}</p>
-        <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+        <ul class="tz-lista-enlaces">
           {b.filas.map(({ l, detalle }) => (
             <li>
               <a href={hrefLicencia(l.id)}>

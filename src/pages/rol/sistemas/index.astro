@@ -53,7 +53,7 @@ const filas = await Promise.all(
 
     <section class="tz-seccion" aria-labelledby="s-sistemas">
       <Titulo id="s-sistemas" numero="01">Todos los sistemas</Titulo>
-      <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+      <ul class="tz-lista-enlaces">
         {filas.map(({ s, detalle, hijo }) => (
           <li>
             <a href={hrefSistema(s.id)}>

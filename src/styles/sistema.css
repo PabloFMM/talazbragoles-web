@@ -1133,7 +1133,12 @@
     padding-block: var(--e-3);
     margin-block: calc(-1 * var(--e-3));
     color: var(--tinta);
+    overflow-wrap: anywhere; /* dominios largos (tuesdayknightgames.zendesk.com) */
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
   }
+  .tz-datos dd a:hover { text-decoration-thickness: 2px; }
 
   /* Qué permite una licencia: lista de sí / no, sin color (la palabra lo dice). */
   .tz-permisos { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--filete); }

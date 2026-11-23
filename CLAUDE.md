@@ -66,8 +66,13 @@ src/
 │   │   └── index.astro     # Directorio de personas
 │   ├── rol/
 │   │   ├── index.astro     # Portada de Rol: lo que hemos jugado (PortadaTipografica), accesos, crónicas (fase 2)
-│   │   ├── juegos/index.astro   # Catálogo de juegos (colección juegos)
-│   │   ├── juegos/[slug].astro  # Ficha de juego: datos, ediciones y descargas, licencia, fuentes (FuenteDato), parecidos
+│   │   ├── juegos/index.astro   # Catálogo de juegos con bloque «Filtrar» (componente CatalogoRol)
+│   │   ├── juegos/[slug].astro  # Ficha de juego: datos con enlaces cruzados, ediciones y descargas, licencia, fuentes, parecidos
+│   │   ├── juegos/descargables.astro, en-castellano.astro, [criterio]/[valor].astro
+│   │   │                        # Páginas ya filtradas (sin JS): licencia/, sistema/, genero/, modo/, formato/ (lib/rol-filtros.ts)
+│   │   ├── sistemas/            # index (familias y derivados) y [slug] (ficha, juegos también vía derivados)
+│   │   ├── licencias/           # index (abiertas / no abiertas) y [slug] (qué permite, punto por punto, quién la usa; slug con puntos)
+│   │   ├── autoria/ y editoriales/  # index y [slug]: juegos y sistemas de cada persona o editorial
 │   │   └── campanas/[slug].astro # Ficha de campaña (colección campaigns, hoy vacía: no genera páginas)
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
@@ -118,7 +123,8 @@ Markdown en `src/content/<colección>/<slug>.md`. Se enlazan con `reference()`; 
 - **Nunca nombrar a PabloFM** (ni «según…», «lo dictó») en lo que se publica: lo que afirma el grupo sale como dato del grupo. Quién lo dijo, solo en `proyecto/docs`. Lo vigila `tests/rol-sin-nombres.test.mjs`.
 - `licencias`: `nombre`, `nombreCorto`, `tipo` (`cc`, `orc`, `abierta-propia`, `dominio-publico` = abiertas; `politica-de-uso`, `con-aprobacion`, `fans`, `cerrada`), `url`, `permite` (`comercial`, `adaptar`, `atribucion`, `compartirIgual`), `fuentes[]`. Cuerpo: qué permite, en castellano llano.
 - `autoria` y `editoriales`: `nombre`, `web`, `fuentes[]`. `autoria` es distinta de `people` (personas de las Jornadas).
-- Helpers en `lib/collections.ts`: `getAllJuegos()`, `getSistemasRol()`, `getAllLicencias()`, `getAllAutoria()`, `getAllEditoriales()`, `resuelveJuego()` (resuelve referencias y ediciones; calcula `abierto` = licencia del juego O del sistema, `estado`, `edicionesJugadas`/`edicionJugadaTexto`, `descargas` = descargas de ediciones + SRD del sistema, `descargable`), `juegosDescargables()`, `juegosDeSistema()`, `juegosDeLicencia()` y `juegosDeEditorial()` (miran también las ediciones), `juegosDePersona()`, `esAbierta()`. Etiquetas de los enums en `lib/formato.ts` (`generoRol`, `modoJuego`, `formatoPartida`, `tipoLicencia`, `estadoJuego`, `dondeSeJugo`, `idiomaEdicion`…).
+- Helpers en `lib/collections.ts`: `getAllJuegos()`, `getSistemasRol()`, `getAllLicencias()`, `getAllAutoria()`, `getAllEditoriales()`, `resuelveJuego()` (resuelve referencias y ediciones; calcula `licencias` = todas las que tocan al juego (juego, sistema, ediciones, descargas), `abierto` = alguna de ellas abierta, `estado`, `edicionesJugadas`/`edicionJugadaTexto`, `descargas` = descargas de ediciones + SRD del sistema, `descargable` (cualquiera de ellas) y `descargaJuego` (alguna EDICIÓN descargable: filtro «Se puede descargar»)), `juegosDescargables()`, `juegosDeSistema()` (incluye los de sistemas derivados, con `via`), `linajeSistema()`, `derivadosDeSistema()`, `juegosDeLicencia()`, `usosDeLicencia()`, `sistemasDeLicencia()`, `juegosDeEditorial()` y `papelesDeEditorial()` (miran también las ediciones), `juegosDePersona()`, `sistemasDeAutoria()`, `sistemasDeEditorial()`, `esAbierta()`. Etiquetas de los enums en `lib/formato.ts` (`generoRol`, `modoJuego`, `formatoPartida`, `tipoLicencia`, `estadoJuego`, `dondeSeJugo`, `idiomaEdicion`…).
+- Buscador sin JS: `lib/rol-filtros.ts` (`filtrosRol()` = juegos resueltos + grupos de filtros con sus juegos; una opción sin juegos no se publica) y componentes `Filtros` y `CatalogoRol`. Filtro nuevo = una opción en `construye()`; si su ruta tiene una sola parte, hace falta su `.astro` en `pages/rol/juegos/`. Rutas de Rol en `lib/rol-rutas.ts` (`hrefLicencia` termina en barra: los ids llevan puntos). `Datos` admite `enlaces` (dato con enlaces a otras fichas).
 - Idea futura, sin colección: «material adicional» (imprimibles 2D/3D). Ver `proyecto/docs/rol/datos-fase1.md`.
 - Estado de los datos y pendientes por juego: `proyecto/docs/rol/datos-fase1.md`.
 

@@ -92,7 +92,7 @@ const filtro = d.tipo === "cc" ? "licencia/creative-commons" : abierta ? "licenc
       <Titulo id="s-juegos" numero="02">Juegos que la usan</Titulo>
       {juegos.length > 0 ? (
         <>
-          <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+          <ul class="tz-lista-enlaces">
             {juegos.map(({ f, usos }) => (
               <li>
                 <a href={hrefJuego(f.juego.id)}>
@@ -115,7 +115,7 @@ const filtro = d.tipo === "cc" ? "licencia/creative-commons" : abierta ? "licenc
     <section class="tz-seccion" aria-labelledby="s-sistemas">
       <Titulo id="s-sistemas" numero="03">Sistemas que la usan</Titulo>
       {sistemas.length > 0 ? (
-        <ul class="tz-lista-enlaces tz-lista-enlaces--una">
+        <ul class="tz-lista-enlaces">
           {sistemas.map((s) => (
             <li>
               <a href={hrefSistema(s.id)}>
