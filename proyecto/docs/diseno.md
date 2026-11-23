@@ -1,7 +1,7 @@
 # Sistema de diseño «Papel y tinta»
 
 Rediseño de talazbragoles.com (encargo de PabloFM, 2026-11-15). Tarjeta 1/5: `t_6bd8248f`.
-Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **actual, limpio y elegante**. Blanco y negro sobrio, mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso. Nada de fotocopia, máquina de escribir, recortes, sellos, texturas, dorados ni degradados. Solo tipografía: no hay logo gráfico, fotos ni ilustraciones. Solo modo claro (sin `prefers-color-scheme`).
+Estilo (PabloFM, 2026-11-15, manda sobre el encargo inicial de «fanzine»): **actual, limpio y elegante**. Blanco y negro sobrio, mucho aire, retícula clara, filetes finos, jerarquía por tamaño y peso. Nada de fotocopia, máquina de escribir, recortes, sellos, texturas, dorados ni degradados. Solo tipografía: no hay logo gráfico, fotos ni ilustraciones. Excepción (2026-11-23): la reproducción de un documento de época en la ficha de su edición (folleto, programa, cartel), porque es la prueba documental, no adorno; siempre con su texto copiado al lado (componente `.tz-documento`, sistema.css §4.17 quater) y con `alt`, `width` y `height`. Solo modo claro (sin `prefers-color-scheme`).
 
 - Código: `repo/src/styles/sistema.css` (tokens + componentes, prefijo `tz-`), `repo/src/styles/global.css` (punto de entrada: `reset.css` + `sistema.css`; sin Tailwind desde 2026-11-17), `repo/src/layouts/Layout.astro` (cabecera, índice, pie), `repo/src/components/sistema/*.astro`, `repo/src/lib/nav.ts` (8 entradas en 3 grupos), `repo/src/components/sistema/Indice.astro` (índice).
 - Muestrario vivo: `/diseno/` (noindex, fuera del sitemap por el filtro de `astro.config.mjs`).
