@@ -26,18 +26,65 @@ const sources = defineCollection({
 const editions = defineCollection({
   loader: glob({ pattern: "**/*.json", base: "./src/content/editions" }),
   schema: z.object({
+    // El id de la entrada (nombre del archivo) ES la ruta: "1997" → /ediciones/1997/,
+    // "sin-fecha" → /ediciones/sin-fecha/. Las rutas viejas redirigen (public/_redirects).
     year: z.union([z.number().int().min(1980).max(2099), z.literal("desconocida")]),
     title: z.string(),
+    /** Número de la edición: { romano: "VI", entero: 6 }. Sin fuente → se omite. */
+    numero: z
+      .object({
+        romano: z.string().regex(/^[IVXLC]+$/),
+        entero: z.number().int().min(1),
+      })
+      .optional(),
+    /** ¿El año lo dice un documento de la edición o se deduce? Siempre con fuente. */
+    anioEstado: z
+      .object({
+        estado: z.enum(["confirmado", "deducido"]),
+        sourceIds: z.array(z.string()).min(1),
+        nota: z.string().optional(),
+      })
+      .optional(),
     verified: z.boolean().default(false),
     status: z.enum(["documentada", "parcial", "pendiente"]).default("pendiente"),
+    /** Resumen (bloque 01). Texto libre; vacío = «pendiente». */
+    fechas: z.string().optional(),
+    horario: z.string().optional(),
+    apoyo: z.string().optional(),
+    asistencia: z.string().optional(),
     venue: z
       .object({
         name: z.string().optional(),
         city: z.string().optional(),
         address: z.string().optional(),
+        /** Cómo se llegaba entonces (autobús, tren…). */
+        comoLlegar: z.string().optional(),
+        /** Qué es hoy el edificio. */
+        hoy: z.string().optional(),
       })
       .optional(),
+    /** «Organiza» del resumen: una línea. El detalle va en `organizacion`. */
     organizer: z.string().optional(),
+    /** Bloque 03: el equipo cambiaba cada año. */
+    organizacion: z
+      .object({
+        equipo: z.array(z.string()).default([]),
+        asociacion: z.string().optional(),
+        patrocinadores: z.array(z.string()).default([]),
+        nota: z.string().optional(),
+      })
+      .optional(),
+    /** Imagen principal (cartel o portada del folleto). Si falta: hueco tipográfico con el año. */
+    portada: z
+      .object({
+        imagen: z.string().startsWith("/"),
+        ancho: z.number().int(),
+        alto: z.number().int(),
+        alt: z.string(),
+        /** slug del documento del que sale (enlaza a /ediciones/<año>/<slug>/). */
+        documento: z.string().optional(),
+      })
+      .optional(),
     description: z.string().optional(),
     activities: z
       .array(
@@ -59,12 +106,15 @@ const editions = defineCollection({
         photos: z.array(z.string()).default([]),
       })
       .optional(),
-    /** Documentos de época reproducidos en la ficha (folleto, programa…).
-     *  Cada cara: imagen en public/ y su transcripción literal (erratas con [sic]). */
+    /** Documentos de la edición (bloque 05), por apartado: papeles (folletos,
+     *  programas, carteles, inscripciones, permisos), prensa, fotos, recuerdos
+     *  (testimonios). Un documento con caras tiene su página
+     *  /ediciones/<año>/<slug>/ (imagen en public/ + transcripción literal, [sic]). */
     documentos: z
       .array(
         z.object({
-          id: z.string(),
+          slug: z.string().regex(/^[a-z0-9-]+$/),
+          apartado: z.enum(["papeles", "prensa", "fotos", "recuerdos"]),
           titulo: z.string(),
           descripcion: z.string().optional(),
           sourceId: z.string(),
@@ -78,10 +128,11 @@ const editions = defineCollection({
               texto: z.array(z.string()).default([]),
               nota: z.string().optional(),
             })
-          ),
+          ).default([]),
         })
       )
-      .default([]),
+      .default([])
+      .refine((ds) => new Set(ds.map((d) => d.slug)).size === ds.length, "Dos documentos con el mismo slug"),
   }),
 });
 

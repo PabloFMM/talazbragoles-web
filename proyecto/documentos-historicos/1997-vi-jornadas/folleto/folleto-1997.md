@@ -6,7 +6,7 @@ edicion: VI
 lugar: Pabellón Multifuncional de Las Matas (Las Rozas, Madrid)
 editor: Concejalía de Juventud (logotipo en portada); apoyo del Ayuntamiento de Las Rozas (según el texto)
 procedencia: ejemplar en papel; dos fotos de móvil aportadas al proyecto el 2026-11-23
-digitalizacion: "2026-11-23 — cada mitad enderezada por separado con los bordes reales del papel y el doblez; líneas de texto alineadas con el propio texto (desviación residual ≤1-2 px); iluminación igualada, escala de grises, ruido quitado y enfoque; pliegue exterior fundido (scripts en herramientas/)"
+digitalizacion: "2026-11-23 — cada mitad enderezada por separado con los bordes reales del papel y el doblez; líneas de texto alineadas con el propio texto (desviación residual ≤1-2 px); iluminación igualada, escala de grises, ruido quitado y enfoque; pliegue exterior fundido (scripts en ../../herramientas/)"
 transcripcion: literal (se respeta la ortografía impresa; las erratas van marcadas [sic])
 ---
 

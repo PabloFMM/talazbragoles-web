@@ -17,11 +17,13 @@ interface Props {
   portada?: boolean;
   /** Migas de pan encima del encabezado (el último paso es esta página). */
   migas?: Paso[];
+  /** Las migas ya están pintadas fuera (página de edición con riel): poco aire arriba. */
+  trasMigas?: boolean;
 }
-const { titulo, numero, seccion, entradilla, portada = false, migas } = Astro.props;
+const { titulo, numero, seccion, entradilla, portada = false, migas, trasMigas = false } = Astro.props;
 ---
 {migas && <div class="tz-encabezado"><Migas pasos={migas} /></div>}
-<header class:list={["tz-encabezado", { "tz-encabezado--tras-migas": migas }]}>
+<header class:list={["tz-encabezado", { "tz-encabezado--tras-migas": migas || trasMigas }]}>
   {(numero || seccion) && (
     <p class="tz-antetitulo">
       {numero && <span class="tz-num">{numero}</span>}

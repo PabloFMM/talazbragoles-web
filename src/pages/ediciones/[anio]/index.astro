@@ -1,0 +1,303 @@
+---
+/**
+ * /ediciones/<año>/ (y /ediciones/sin-fecha/): una edición, como la propuesta
+ * aprobada (docs/ediciones/propuesta-v1): riel de años a la derecha (arriba en
+ * móvil) y, a la izquierda, en este orden: 01 lo visual + resumen · 02 qué se
+ * hizo (por tipo) · 03 organización · 04 lugar · 05 papeles, prensa, fotos y
+ * recuerdos · 06 fuentes. Vacío = «pendiente».
+ * Cada documento con caras tiene su página: [anio]/[documento].astro.
+ */
+import { getCollection } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Migas from "../../../components/archivo/Migas.astro";
+import RielEdiciones from "../../../components/archivo/RielEdiciones.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Estado from "../../../components/sistema/Estado.astro";
+import Datos from "../../../components/sistema/Datos.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import NotaFuente from "../../../components/sistema/NotaFuente.astro";
+import { getAllEditions, getAllTimeline, hrefDocumento } from "../../../lib/collections";
+import { partesFecha, tipoActividadGrupo, apartadoDocumento, APARTADOS } from "../../../lib/formato";
+
+export async function getStaticPaths() {
+  const editions = await getCollection("editions");
+  return editions.map((e) => ({ params: { anio: e.id }, props: { edition: e } }));
+}
+
+const { edition } = Astro.props;
+const {
+  year, title, numero, anioEstado, status, verified, fechas, horario, apoyo, asistencia,
+  venue, organizer, organizacion, description, activities, sourceIds, documentos, portada,
+} = edition.data;
+
+const todas = await getAllEditions();
+const fuentes = (await getCollection("sources")).filter((s) => sourceIds.includes(s.id));
+const cronologia = (await getAllTimeline()).filter((t) => t.data.relatedEditionId === edition.id);
+const numeroFuente = (id: string) => fuentes.findIndex((f) => f.id === id) + 1;
+const notaFuente = (id: string) => {
+  const n = numeroFuente(id);
+  return n > 0 ? { href: `#${id}`, texto: `Nota ${String(n).padStart(2, "0")} de «Fuentes»` } : undefined;
+};
+
+const sinFecha = year === "desconocida";
+const anoTexto = sinFecha ? "Sin fecha" : String(year);
+const resumen = [
+  { etiqueta: "Edición", valor: numero ? `${numero.romano} (${numero.entero}.ª)` : undefined },
+  {
+    etiqueta: "Año",
+    valor: sinFecha ? undefined : anioEstado?.estado === "deducido" ? `${year} (deducido)` : year,
+  },
+  { etiqueta: "Fechas", valor: fechas },
+  { etiqueta: "Horario", valor: horario },
+  { etiqueta: "Lugar", valor: [venue?.name, venue?.city].filter(Boolean).join(", ") },
+  { etiqueta: "Organiza", valor: organizer },
+  { etiqueta: "Apoyo", valor: apoyo },
+  { etiqueta: "Asistencia", valor: asistencia },
+];
+const organizacionDatos = [
+  { etiqueta: "Equipo", valor: organizacion?.equipo.join(", ") },
+  { etiqueta: "Asociación", valor: organizacion?.asociacion },
+  {
+    etiqueta: "Patrocinadores y colaboradores",
+    valor: organizacion?.patrocinadores.length
+      ? `${organizacion.patrocinadores.length}: ${organizacion.patrocinadores.join(" · ")}`
+      : undefined,
+  },
+];
+const lugarDatos = [
+  { etiqueta: "Edificio", valor: venue?.name },
+  { etiqueta: "Ciudad", valor: venue?.city },
+  { etiqueta: "Dónde", valor: venue?.address },
+  { etiqueta: "Cómo llegar", valor: venue?.comoLlegar },
+  { etiqueta: "Hoy", valor: venue?.hoy },
+];
+
+// 02: actividades agrupadas por tipo, en el orden de tipoActividadGrupo.
+const grupos = (Object.keys(tipoActividadGrupo) as (keyof typeof tipoActividadGrupo)[])
+  .map((tipo) => ({ tipo, etiqueta: tipoActividadGrupo[tipo], lista: activities.filter((a) => a.type === tipo) }))
+  .filter((g) => g.lista.length > 0);
+
+// 01: la portada (cartel o cara 1 del folleto) y el documento al que pertenece.
+const docPortada = portada?.documento ? documentos.find((d) => d.slug === portada.documento) : undefined;
+const hrefPortada =
+  docPortada && docPortada.caras.length > 0 ? hrefDocumento(edition.id, docPortada.slug) : portada?.imagen;
+
+const indice = [
+  { href: "#s-actividades", texto: "Qué se hizo" },
+  { href: "#s-organizacion", texto: "Organización" },
+  { href: "#s-lugar", texto: "Lugar" },
+  { href: "#s-documentos", texto: "Papeles, prensa y fotos" },
+  { href: "#s-fuentes", texto: "Fuentes" },
+  ...(cronologia.length > 0 ? [{ href: "#s-crono", texto: "En la cronología" }] : []),
+];
+
+const descripcion =
+  description ??
+  (sinFecha
+    ? "Menciones de las Jornadas Talazbrágoles sin año conocido."
+    : `Edición de ${year} de las Jornadas Talazbrágoles: datos, documentos, fuentes y lo que falta.`);
+---
+
+<Layout title={title} description={descripcion}>
+  <div class="tz-pagina">
+    <div class="tz-encabezado"><Migas pasos={[{ texto: "Ediciones", href: "/ediciones" }, { texto: anoTexto }]} /></div>
+
+    <div class="tz-edicion">
+      <RielEdiciones ediciones={todas} actual={edition.id} />
+
+      <div class="tz-edicion-contenido">
+        <Encabezado
+          trasMigas
+          numero={sinFecha ? "—" : String(year)}
+          seccion={numero ? `${numero.romano} edición` : "Edición"}
+          titulo={title}
+        >
+          <p class="tz-recuento">
+            <Estado estado={status} />{!verified && <> · sin verificar</>}
+            {anioEstado?.estado === "deducido" && <> · año deducido</>}
+          </p>
+        </Encabezado>
+
+        <section class="tz-seccion" aria-labelledby="s-resumen">
+          <Titulo id="s-resumen" numero="01">De un vistazo</Titulo>
+          <div class="tz-edicion-visual">
+            {portada ? (
+              <figure class="tz-edicion-figura">
+                <a class="tz-documento-imagen" href={hrefPortada}>
+                  <img src={portada.imagen} width={portada.ancho} height={portada.alto} alt={portada.alt} loading="eager" decoding="async" />
+                </a>
+                <figcaption class="tz-documento-nota">
+                  {docPortada ? <>Portada de «{docPortada.titulo}».</> : <>Portada de la edición.</>}
+                </figcaption>
+                {docPortada && docPortada.caras.length > 0 && (
+                  <p class="tz-edicion-ver">
+                    <a class="tz-enlace-bloque" href={hrefPortada}><span>Ver {docPortada.caras.length === 1 ? "la cara" : `las ${docPortada.caras.length} caras`} y su texto</span><span aria-hidden="true">›</span></a>
+                  </p>
+                )}
+              </figure>
+            ) : (
+              <div class="tz-edicion-hueco">
+                <p class="tz-edicion-hueco-anio">{anoTexto}</p>
+                <p class="tz-edicion-hueco-texto">Cartel o folleto: <Pendiente /></p>
+              </div>
+            )}
+            <Datos datos={resumen} />
+          </div>
+
+          {anioEstado && (
+            <div class="tz-edicion-nota">
+              <p class="tz-rotulo">{anioEstado.estado === "deducido" ? "Año deducido" : "Año confirmado"}</p>
+              {anioEstado.nota && <p>{anioEstado.nota}</p>}
+              <p>
+                {anioEstado.sourceIds.map((id, i) => {
+                  const nf = notaFuente(id);
+                  return <>{i > 0 && " · "}{nf ? <a class="tz-enlace" href={nf.href}>{nf.texto}</a> : <Pendiente />}</>;
+                })}
+              </p>
+            </div>
+          )}
+          {description && (
+            <div class="tz-prosa tz-medida">
+              <h3 class="tz-subtitulo">Lo que cuentan las fuentes</h3>
+              <p>{description}</p>
+            </div>
+          )}
+        </section>
+
+        <nav class="tz-edicion-indice" aria-label="En esta edición">
+          <ul>
+            {indice.map((i) => <li><a href={i.href}>{i.texto}</a></li>)}
+          </ul>
+        </nav>
+
+        <section class="tz-seccion" aria-labelledby="s-actividades">
+          <Titulo id="s-actividades" numero="02">Qué se hizo</Titulo>
+          {grupos.length > 0 ? (
+            <div class="tz-medida">
+              {grupos.map((g) => (
+                <>
+                  <h3 class="tz-subtitulo tz-edicion-grupo">{g.etiqueta}</h3>
+                  <ul class="tz-lista-numerada">
+                    {g.lista.map((a) => (
+                      <li>
+                        <div>
+                          <p class="tz-item-titulo">{a.name}</p>
+                          {(a.system || a.gm) && (
+                            <p class="tz-ref tz-item-meta">
+                              {[a.system && `Sistema: ${a.system}`, a.gm && `Dirige: ${a.gm}`].filter(Boolean).join(" · ")}
+                            </p>
+                          )}
+                          {a.description && <p class="tz-item-texto">{a.description}</p>}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ))}
+            </div>
+          ) : (
+            <div class="tz-medida">
+              <Pendiente
+                mensaje="No hay ninguna actividad registrada de esta edición."
+                pide="Ayudaría el programa de la edición o una lista de partidas."
+              />
+            </div>
+          )}
+        </section>
+
+        <section class="tz-seccion" aria-labelledby="s-organizacion">
+          <Titulo id="s-organizacion" numero="03">Organización</Titulo>
+          <div class="tz-medida">
+            <Datos datos={organizacionDatos} />
+            {organizacion?.nota && <p class="tz-prosa">{organizacion.nota}</p>}
+          </div>
+        </section>
+
+        <section class="tz-seccion" aria-labelledby="s-lugar">
+          <Titulo id="s-lugar" numero="04">Lugar</Titulo>
+          <div class="tz-medida">
+            <Datos datos={lugarDatos} />
+          </div>
+        </section>
+
+        <section class="tz-seccion" aria-labelledby="s-documentos">
+          <Titulo id="s-documentos" numero="05">Papeles, prensa y fotos</Titulo>
+          {APARTADOS.map((ap) => {
+            const docs = documentos.filter((d) => d.apartado === ap);
+            return (
+              <div class="tz-medida" id={`apartado-${ap}`}>
+                <h3 class="tz-subtitulo">{apartadoDocumento[ap]}</h3>
+                {docs.length > 0 ? (
+                  <ul class="tz-lista-numerada">
+                    {docs.map((d) => {
+                      const nf = notaFuente(d.sourceId);
+                      return (
+                        <li>
+                          <div>
+                            <p class="tz-item-titulo">
+                              {d.caras.length > 0
+                                ? <a class="tz-enlace" href={hrefDocumento(edition.id, d.slug)}>{d.titulo}</a>
+                                : d.titulo}
+                            </p>
+                            <p class="tz-ref tz-item-meta">
+                              {d.caras.length > 0 && <>{d.caras.length === 1 ? "1 cara" : `${d.caras.length} caras`} con su texto · </>}
+                              {nf ? <a class="tz-enlace" href={nf.href}>{nf.texto}</a> : <>Fuente: <Pendiente /></>}
+                            </p>
+                            {d.descripcion && <p class="tz-item-texto">{d.descripcion}</p>}
+                            {d.caras.length > 0 && (
+                              <ul class="tz-miniaturas">
+                                {d.caras.map((c, j) => (
+                                  <li>
+                                    <a class="tz-documento-imagen" href={`${hrefDocumento(edition.id, d.slug)}#cara-${j + 1}`}>
+                                      <img src={c.imagen} width={c.ancho} height={c.alto} alt={`${c.titulo}: verla grande, con su texto`} loading="lazy" decoding="async" />
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : (
+                  <Pendiente />
+                )}
+              </div>
+            );
+          })}
+        </section>
+
+        <section class="tz-seccion" aria-labelledby="s-fuentes">
+          <Titulo id="s-fuentes" numero="06">Fuentes</Titulo>
+          {fuentes.length > 0 ? (
+            <ol class="tz-fuentes tz-medida">
+              {fuentes.map((s, i) => <NotaFuente fuente={s} n={i + 1} ancla />)}
+            </ol>
+          ) : (
+            <div class="tz-medida"><Pendiente mensaje="Esta edición no tiene ninguna fuente enlazada." /></div>
+          )}
+        </section>
+
+        {cronologia.length > 0 && (
+          <section class="tz-seccion" aria-labelledby="s-crono">
+            <Titulo id="s-crono" numero="07">En la cronología</Titulo>
+            <ul class="tz-lista-numerada tz-medida">
+              {cronologia.map((t) => {
+                const f = partesFecha(t.data.date, t.data.precision);
+                return (
+                  <li><span>{[f.resto, f.ano].filter(Boolean).join(" de ")}: <a class="tz-enlace" href={`/cronologia#${t.id}`}>{t.data.title}</a></span></li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
+
+        <div class="tz-acciones">
+          <a class="tz-boton" href="/ediciones"><span aria-hidden="true">‹</span> Todas las ediciones</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,90 @@
+---
+/**
+ * /ediciones/<año>/<documento>/: un documento de época con caras (folleto,
+ * programa, cartel, recorte…): cada cara GRANDE y su texto copiado tal cual
+ * (.tz-documento--grande). Cada cara lleva ancla #cara-N (la usan las miniaturas
+ * de la página del año). Solo se generan los documentos que tienen caras; los
+ * demás (p. ej. recuerdos) se leen en la página de su edición.
+ */
+import { getCollection } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import NotaFuente from "../../../components/sistema/NotaFuente.astro";
+import { hrefEdicion } from "../../../lib/collections";
+import { apartadoDocumento } from "../../../lib/formato";
+
+export async function getStaticPaths() {
+  const editions = await getCollection("editions");
+  return editions.flatMap((e) =>
+    e.data.documentos
+      .filter((d) => d.caras.length > 0)
+      .map((d) => ({ params: { anio: e.id, documento: d.slug }, props: { edition: e, doc: d } }))
+  );
+}
+
+const { edition, doc } = Astro.props;
+const { year, title } = edition.data;
+const anoTexto = year === "desconocida" ? "Sin fecha" : String(year);
+const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceId);
+---
+
+<Layout
+  title={`${doc.titulo} · ${anoTexto}`}
+  description={doc.descripcion ?? `${doc.titulo}, documento de la edición ${anoTexto} de las Jornadas Talazbrágoles.`}
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[
+        { texto: "Ediciones", href: "/ediciones" },
+        { texto: anoTexto, href: `/ediciones/${edition.id}` }, // migas sin barra final, como el resto
+        { texto: doc.titulo },
+      ]}
+      numero={year === "desconocida" ? "—" : String(year)}
+      seccion={apartadoDocumento[doc.apartado]}
+      titulo={doc.titulo}
+      entradilla={doc.descripcion}
+    >
+      <p class="tz-recuento">De la edición: <a class="tz-enlace" href={hrefEdicion(edition.id)}>{title}</a></p>
+    </Encabezado>
+
+    <section class="tz-seccion" aria-labelledby="s-caras">
+      <Titulo id="s-caras" numero="01">{doc.caras.length === 1 ? "La cara y su texto" : "Las caras y su texto"}</Titulo>
+      <ol class="tz-documento tz-documento--grande">
+        {doc.caras.map((c, j) => (
+          <li class="tz-documento-cara" id={`cara-${j + 1}`}>
+            <a class="tz-documento-imagen" href={c.imagen} aria-label={`${c.titulo}: ver la imagen sola, a tamaño completo`}>
+              <img src={c.imagen} width={c.ancho} height={c.alto} alt={c.alt} loading={j === 0 ? "eager" : "lazy"} decoding="async" />
+            </a>
+            <div class="tz-documento-texto">
+              <h3 class="tz-subtitulo">{c.titulo}</h3>
+              {c.texto.length > 0 ? (
+                <blockquote class="tz-documento-literal" lang="es">
+                  {c.texto.map((t) => <p>{t}</p>)}
+                </blockquote>
+              ) : <Pendiente mensaje="Texto de esta cara sin copiar." />}
+              {c.nota && <p class="tz-documento-nota">{c.nota}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-fuentes">
+      <Titulo id="s-fuentes" numero="02">Fuente</Titulo>
+      {fuente ? (
+        <ol class="tz-fuentes tz-medida">
+          <NotaFuente fuente={fuente} n={1} ancla />
+        </ol>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Este documento no tiene fuente enlazada." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href={hrefEdicion(edition.id)}><span aria-hidden="true">‹</span> Volver a {anoTexto}</a>
+      <a class="tz-boton" href="/ediciones">Todas las ediciones</a>
+    </div>
+  </div>
+</Layout>

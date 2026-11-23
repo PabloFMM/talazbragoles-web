@@ -1,0 +1,15 @@
+{
+  "year": 1993,
+  "title": "Talazbrágoles — II edición (año deducido)",
+  "numero": { "romano": "II", "entero": 2 },
+  "anioEstado": {
+    "estado": "deducido",
+    "sourceIds": ["folleto-vi-jornadas-1997"],
+    "nota": "El folleto de 1997 presenta la VI edición como el «sexto año consecutivo»: contando hacia atrás, la II sería de 1993. Ninguna fuente de esta edición lo confirma todavía."
+  },
+  "verified": false,
+  "status": "pendiente",
+  "sourceIds": ["folleto-vi-jornadas-1997"],
+  "peopleIds": [],
+  "activities": []
+}

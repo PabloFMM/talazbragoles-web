@@ -44,7 +44,7 @@ src/
 │   └── editoriales/        # Rol: editoriales originales y en castellano
 ├── components/
 │   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
-│   ├── archivo/            # RegistroEdiciones (ediciones por año), Migas
+│   ├── archivo/            # RegistroEdiciones (ediciones por año, portada), RielEdiciones (riel de años de /ediciones/<año>/), Migas
 │   (MMO y guías: clases tz- de sistema.css §4.17; ya no hay MmoStyles)
 ├── layouts/
 │   └── Layout.astro        # Layout único (cabecera, índice sin JS, pie-colofón)
@@ -56,8 +56,9 @@ src/
 │   ├── index.astro         # Portada: frase de qué fueron las Jornadas + ediciones por año
 │   ├── fuentes.astro       # Listado de fuentes
 │   ├── ediciones/
-│   │   ├── index.astro     # Listado de ediciones
-│   │   └── [slug].astro    # Ficha detallada
+│   │   ├── index.astro     # Todos los años (portada o hueco, estado, nº de documentos), de la más reciente a la más antigua
+│   │   ├── [anio]/index.astro      # /ediciones/1997/ … /ediciones/sin-fecha/: riel de años + 01 visual · 02 qué se hizo · 03 organización · 04 lugar · 05 papeles · 06 fuentes
+│   │   └── [anio]/[documento].astro # /ediciones/1997/folleto/: documento con caras y texto literal
 │   ├── cronologia/
 │   │   └── index.astro     # Línea temporal
 │   ├── sistemas/
@@ -98,6 +99,8 @@ Campos clave: `title`, `url`, `asserts` (qué afirma), `type` (testimonio/prensa
 Archivos JSON en `src/content/editions/`.
 
 Campos clave: `year` (número o `"desconocida"`), `title`, `status` (`documentada` | `parcial` | `pendiente`), `verified`, `venue`, `organizer`, `activities[]`, `sourceIds[]`.
+
+Desde 2026-11-23 (Ediciones 1/2): el NOMBRE DEL ARCHIVO es la ruta (`1997.json` → `/ediciones/1997/`, `sin-fecha.json` → `/ediciones/sin-fecha/`); las rutas viejas (`talazbragoles-1997-sexta`…) redirigen con 301 en `public/_redirects` (Cloudflare Workers). Campos nuevos, todos opcionales (vacío = «pendiente»): `numero` (`romano`, `entero`), `anioEstado` (`estado` confirmado/deducido, `sourceIds[]`, `nota`; sus fuentes también en `sourceIds`), `fechas`, `horario`, `apoyo`, `asistencia`, `venue.comoLlegar`, `venue.hoy`, `organizacion` (`equipo[]`, `asociacion`, `patrocinadores[]`, `nota`), `portada` (`imagen`, `ancho`, `alto`, `alt`, `documento`). `documentos[]` lleva `slug` (antes `id`) y `apartado` (`papeles` | `prensa` | `fotos` | `recuerdos`); los que tienen `caras` generan `/ediciones/<año>/<slug>/`. Orden en todo el sitio: de la más reciente a la más antigua (`getAllEditions()`); rutas con `hrefEdicion()`/`hrefDocumento()`. Lo vigila `tests/ediciones.test.mjs`.
 
 ### `people` — Personas
 
@@ -168,7 +171,7 @@ Crea `src/content/sources/<slug>.json`:
 
 ### Nueva edición
 
-Crea `src/content/editions/<slug>.json`:
+Crea `src/content/editions/<año>.json` (el nombre del archivo es la ruta):
 
 ```json
 {
@@ -193,7 +196,7 @@ name: "Nombre Apellido"
 roles: ["organizador"]
 verified: true
 draft: false
-editionIds: ["talazbragoles-sin-fecha-1"]
+editionIds: ["sin-fecha"]
 sourceIds: ["comunidad-umbria-2012"]
 ---
 

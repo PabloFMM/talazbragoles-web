@@ -1,14 +1,36 @@
 {
   "year": 1997,
   "title": "Talazbrágoles'97 — VI Jornadas (19 y 20 de abril)",
+  "numero": { "romano": "VI", "entero": 6 },
+  "anioEstado": {
+    "estado": "confirmado",
+    "sourceIds": ["folleto-vi-jornadas-1997"],
+    "nota": "La portada del folleto dice «Talazbrágoles'97» y «VI Jornadas»."
+  },
   "verified": true,
   "status": "parcial",
+  "fechas": "Sábado 19 y domingo 20 de abril de 1997",
+  "horario": "Sábado de 10:00 a 21:00 · domingo de 10:00 a 19:00",
+  "apoyo": "Ayuntamiento de Las Rozas (logotipo de la Concejalía de Juventud en la portada)",
   "venue": {
     "name": "Pabellón Multifuncional de Las Matas",
     "city": "Las Rozas (Las Matas), Madrid",
-    "address": "Según el plano del folleto, entre la calle Martín Iriarte, la calle San José Obrero y el camino del Garzo, junto a Correos"
+    "address": "Según el plano del folleto, entre la calle Martín Iriarte, la calle San José Obrero y el camino del Garzo, junto a Correos",
+    "comoLlegar": "Autobús 622 Madrid-Las Matas, desde el intercambiador de Moncloa · Cercanías de Renfe, estación de Las Matas"
   },
   "organizer": "«Organizadas por y para aficionados», con apoyo del Ayuntamiento de Las Rozas (logotipo de la Concejalía de Juventud en la portada). Nombres de la organización: pendientes.",
+  "organizacion": {
+    "equipo": [],
+    "patrocinadores": ["Akira Comics", "Arte-9", "Ediciones Cronópolis", "El Húsar", "Farsa's Wagon", "Generación X", "Interlink", "Joc Internacional", "Kerykion", "La Factoría de Ideas", "Librería Atlántica", "Ludotecnia", "M+D", "Yggdrasil Jocs"],
+    "nota": "El folleto solo dice que las jornadas están «organizadas por y para aficionados» y lista a los patrocinadores y colaboradores. No nombra a nadie del equipo ni a ninguna asociación."
+  },
+  "portada": {
+    "imagen": "/documentos/1997-folleto-vi-jornadas/p1-portada.jpg",
+    "ancho": 1000,
+    "alto": 1351,
+    "alt": "Portada del folleto: título Talazbrágoles'97 en diagonal, en letra de rotulador, sobre fondo gris texturado; arriba, la fecha; abajo, el logotipo de la Concejalía de Juventud.",
+    "documento": "folleto"
+  },
   "description": "El folleto de la edición anuncia las VI Jornadas de Juegos de Rol, Estrategia y Simulación el sábado 19 y el domingo 20 de abril de 1997 en el Pabellón Multifuncional de Las Matas, «por sexto año consecutivo». Previstas: más de cien partidas de rol, torneos de rol y de cartas, liga de Blood Bowl, wargames, juegos en red y demostraciones de internet, cine fórum, charlas y concursos. Colaboraron 14 editoriales y tiendas. Es un programa anunciado: no hay crónica que cuente cómo fue ni cuánta gente acudió.",
   "activities": [
     { "type": "partida-rol", "name": "Más de cien partidas de juegos de rol", "description": "Lista de actividades (cara 3). La presentación habla también de «partidas de demostración» de juegos menos conocidos." },
@@ -31,7 +53,8 @@
   "peopleIds": [],
   "documentos": [
     {
-      "id": "folleto",
+      "slug": "folleto",
+      "apartado": "papeles",
       "titulo": "El folleto de 1997",
       "descripcion": "Díptico: una hoja doblada por la mitad, cuatro caras. Reproducido a partir de fotos de un ejemplar en papel, enderezado y pasado a escala de grises. Junto a cada cara, su texto copiado tal cual, con la ortografía impresa (las erratas van marcadas [sic]; en el original las mayúsculas no llevan tilde).",
       "sourceId": "folleto-vi-jornadas-1997",

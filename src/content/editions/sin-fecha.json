@@ -1,0 +1,26 @@
+{
+  "year": "desconocida",
+  "title": "Talazbrágoles: menciones sin fecha",
+  "verified": false,
+  "status": "pendiente",
+  "description": "Recuerdos de gente que fue a las jornadas, sin año ni edición. Si un dato nuevo permite fecharlos, pasan a la página de su año.",
+  "sourceIds": ["viruete-2009", "comunidad-umbria-2012"],
+  "peopleIds": [],
+  "activities": [],
+  "documentos": [
+    {
+      "slug": "testimonio-viruete-2009",
+      "apartado": "recuerdos",
+      "titulo": "Testimonio en Viruete.com (2009)",
+      "descripcion": "El autor cuenta que fue a unas Talazbrágoles, que describe como unas viejas jornadas de rol, y que allí conoció a una amiga que cambiaba cartas del juego de Star Trek: La Nueva Generación. No da año ni sede.",
+      "sourceId": "viruete-2009"
+    },
+    {
+      "slug": "testimonio-umbria-2012",
+      "apartado": "recuerdos",
+      "titulo": "Testimonio en Comunidad Umbría (2012)",
+      "descripcion": "En el hilo «Roleros por Majadahonda, Las Rozas de Madrid», un participante dice que hizo partidas de demostración en la Talazbrágoles y en la Casa de la Juventud de Majadahonda. No da año.",
+      "sourceId": "comunidad-umbria-2012"
+    }
+  ]
+}
