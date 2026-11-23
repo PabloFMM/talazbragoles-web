@@ -5,7 +5,8 @@ import Encabezado from "../../../components/sistema/Encabezado.astro";
 import Titulo from "../../../components/sistema/Titulo.astro";
 import Datos, { type Dato } from "../../../components/sistema/Datos.astro";
 import Pendiente from "../../../components/sistema/Pendiente.astro";
-import PortadaTipografica from "../../../components/sistema/PortadaTipografica.astro";
+import PortadaJuego from "../../../components/sistema/PortadaJuego.astro";
+import CreditoPortada from "../../../components/sistema/CreditoPortada.astro";
 import FuenteDato from "../../../components/sistema/FuenteDato.astro";
 import { getAllAutoria, juegosDePersona, resuelveJuego, sistemasDeAutoria } from "../../../lib/collections";
 import { hrefJuego, hrefSistema } from "../../../lib/rol-rutas";
@@ -50,9 +51,10 @@ const datos: Dato[] = [
           {juegos.map((f) => (
             <li>
               <a href={hrefJuego(f.juego.id)}>
-                <PortadaTipografica titulo={f.juego.data.titulo} sistema={f.sistema?.data.nombreCorto ?? f.sistema?.data.name} pie={f.juego.data.ano ? String(f.juego.data.ano) : undefined} />
+                <PortadaJuego juego={f.juego} sistema={f.sistema?.data.nombreCorto ?? f.sistema?.data.name} pie={f.juego.data.ano ? String(f.juego.data.ano) : undefined} />
                 <span class="tz-portadas-nota">{f.juego.data.jugado.nosotros ? "Lo jugamos" : "En el registro"}</span>
               </a>
+              <CreditoPortada juego={f.juego} />
             </li>
           ))}
         </ul>

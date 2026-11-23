@@ -101,6 +101,12 @@ modo:
   - "con-dj"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/la-llamada-de-cthulhu.jpg"
+  titulo: "La llamada de Cthulhu: Manual del Guardián"
+  edicion: "7.ª edición en castellano"
+  credito: "Edge Studio"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (Chaosium)"
     url: "https://www.chaosium.com/call-of-cthulhu-rpg/"
@@ -145,6 +151,11 @@ fuentes:
       - "licenciaJuego"
     url: "https://www.chaosium.com/orc-license/"
     afirma: "Call of Cthulhu es una marca reservada: no entra en la licencia ORC de Basic Roleplaying."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://es.edge-studio.net/games/cthulhu7-manual-del-guardian/"
+    afirma: "Página del Manual del Guardián de La llamada de Cthulhu 7.ª edición en la web de Edge Studio, editorial de la edición en castellano: enseña esta portada."
     consultado: 2026-11-23
 ---
 

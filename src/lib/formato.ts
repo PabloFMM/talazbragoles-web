@@ -128,6 +128,7 @@ export const dondeSeJugo: Record<CampoRol<"systems", "jugadoEn">[number], string
 };
 
 export const permisoPortada: Record<NonNullable<CampoRol<"juegos", "portada">>["permiso"], string> = {
+  "oficial-sin-lucro": "Reproducida sin ánimo de lucro, con crédito y enlace a la editorial",
   cita: "Cita",
   licencia: "Licencia",
   "permiso-editor": "Permiso de la editorial",
@@ -164,6 +165,7 @@ const CAMPOS: Record<string, string> = {
   nombreCorto: "nombre corto",
   url: "texto oficial",
   permite: "qué permite",
+  portada: "imagen de portada",
 };
 export const etiquetaCampo = (campo: string) => CAMPOS[campo] ?? campo;
 

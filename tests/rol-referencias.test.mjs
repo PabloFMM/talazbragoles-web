@@ -105,3 +105,24 @@ test("toda fuente de Rol dice qué afirma y cuándo se consultó", () => {
     }
   }
 });
+
+// Rol 5 (2026-11-23): portadas oficiales. Cada `portada` apunta a un archivo que
+// existe en src/assets/rol/portadas/, lleva crédito, edición y permiso, y tiene
+// una fuente en `fuentes[]` (datos: «portada») con la url oficial de la imagen.
+test("cada portada tiene archivo, crédito y la url oficial de donde sale", () => {
+  let n = 0;
+  for (const [slug, d] of Object.entries(juegos)) {
+    if (!d.portada) continue;
+    n++;
+    const p = d.portada;
+    const ruta = join(CONTENIDO, "juegos", p.archivo);
+    assert.ok(existsSync(ruta), `juegos/${slug}: no existe la imagen ${p.archivo}`);
+    assert.match(p.archivo, /^\.\.\/\.\.\/assets\/rol\/portadas\/[a-z0-9-]+\.(jpg|png|webp)$/, `juegos/${slug}: la portada va en src/assets/rol/portadas/`);
+    for (const c of ["credito", "edicion", "permiso"]) assert.ok(String(p[c] ?? "").trim(), `juegos/${slug}: portada sin «${c}»`);
+    const f = (d.fuentes ?? []).filter((x) => x.datos?.includes("portada"));
+    assert.equal(f.length, 1, `juegos/${slug}: la portada necesita UNA fuente con «portada» en datos`);
+    assert.match(f[0].url, /^https:\/\//, `juegos/${slug}: la fuente de la portada debe ser https`);
+    assert.ok(!f[0].secundaria, `juegos/${slug}: la portada sale de la web oficial, no de una fuente secundaria`);
+  }
+  assert.ok(n > 0, "ninguna ficha tiene portada: revisar la prueba");
+});

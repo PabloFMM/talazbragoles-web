@@ -58,6 +58,11 @@ modo:
   - "solitario"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/ironsworn.jpg"
+  edicion: "libro básico, edición original en inglés"
+  credito: "Tomkin Press"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (Tomkin Press)"
     url: "https://tomkinpress.com/pages/ironsworn"
@@ -93,6 +98,11 @@ fuentes:
       - "editorialCastellano"
     url: "https://www.thehillspress.es/producto/ironsworn/"
     afirma: "The Hills Press publica Ironsworn en castellano, con sus tres modos de juego."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://tomkinpress.com/pages/ironsworn"
+    afirma: "Página de Ironsworn en la web de Tomkin Press, la editorial de Shawn Tomkin: enseña esta portada del libro básico."
     consultado: 2026-11-23
 ---
 

@@ -48,6 +48,11 @@ modo:
   - "con-dj"
 jugado:
   nosotros: true
+portada:
+  archivo: "../../assets/rol/portadas/public-access.jpg"
+  edicion: "edición original en inglés"
+  credito: "The Gauntlet"
+  permiso: "oficial-sin-lucro"
 enlaces:
   - etiqueta: "Web oficial (The Gauntlet)"
     url: "https://www.gauntlet-rpg.com/public-access.html"
@@ -82,6 +87,11 @@ fuentes:
       - "editorialCastellano"
     url: "https://www.thehillspress.es/producto/public-access/"
     afirma: "The Hills Press publica Public Access en castellano."
+    consultado: 2026-11-23
+  - datos:
+      - "portada"
+    url: "https://www.gauntlet-rpg.com/public-access.html"
+    afirma: "Página de Public Access en la web de The Gauntlet, su editorial: enseña esta portada."
     consultado: 2026-11-23
 ---
 

@@ -225,7 +225,7 @@ const systems = defineCollection({
 
 const juegos = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/juegos" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     titulo: z.string(),
     tituloCastellano: z.string().optional(),
     // Vacío = publicado. «en-construccion»: el juego aún se está escribiendo.
@@ -251,9 +251,20 @@ const juegos = defineCollection({
       .optional(),
     // Que lo jugamos es dato del grupo: no lleva fuente web.
     jugado: z.object({ nosotros: z.boolean().default(false), ultima: fechaTexto.optional() }).default({ nosotros: false }),
-    // Portadas: hueco tipográfico mientras no haya permiso (decisión 2026-11-23).
+    // Portada (decisión 2026-11-23, Rol 5): la OFICIAL, sacada de la web de la
+    // editorial o del autor, guardada en src/assets/rol/portadas/ y procesada con
+    // astro:assets. Sin portada oficial → hueco tipográfico (PortadaTipografica).
+    // La url de donde sale la imagen va en `fuentes[]` con «portada» en `datos`
+    // (lo exige exigeFuentes y la usa el crédito como enlace).
     portada: z
-      .object({ archivo: z.string(), credito: z.string(), permiso: z.enum(["cita", "licencia", "permiso-editor", "foto-propia"]) })
+      .object({
+        archivo: image(), // ruta relativa al .md: "../../assets/rol/portadas/<slug>.jpg"
+        titulo: z.string().optional(), // título impreso en la portada, si no es `titulo` («Manual del Guardián»)
+        edicion: z.string(), // edición de esa portada, para el alt: «7.ª edición en castellano»
+        credito: z.string(), // quién la publica (editorial o autor), corto: es el texto del enlace
+        ilustracion: z.string().optional(), // solo si la web oficial acredita la ilustración
+        permiso: z.enum(["oficial-sin-lucro", "cita", "licencia", "permiso-editor", "foto-propia"]),
+      })
       .optional(),
     enlaces: z.array(enlace).default([]), // web oficial, SRD, compra en la editorial
     dudas: z.array(z.string()).default([]), // preguntas abiertas: se pintan como «pendiente»
@@ -262,7 +273,7 @@ const juegos = defineCollection({
   }).superRefine(
     exigeFuentes([
       "tituloCastellano", "estado", "ano", "autoria", "editorial", "editorialCastellano",
-      "sistema", "licenciaJuego", "generos", "modo", "formato", "jugadores",
+      "sistema", "licenciaJuego", "generos", "modo", "formato", "jugadores", "portada",
     ])
   ),
 });

@@ -86,3 +86,61 @@ test("las fichas de juego no muestran datos vacíos: sin dato, «pendiente»", (
   }
   assert.ok(pendientes > 0, "ningún campo vacío comprobado: revisar la prueba");
 });
+
+// Rol 5 (2026-11-23): portadas oficiales. Juego con `portada` → <img> con alt
+// «Portada de …», width/height y AVIF/WebP, y crédito con enlace a la fuente de
+// la imagen. Juego sin `portada` → hueco tipográfico y ninguna imagen.
+const imagenes = (html) => [...html.matchAll(/<img\b[^>]*class="tz-portada-img"[^>]*>/g)].map((m) => m[0]);
+const decodifica = (s) => s?.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&quot;/g, "\"").replace(/&amp;/g, "&");
+const attr = (tag, a) => decodifica(new RegExp(`\\s${a}="([^"]*)"`).exec(tag)?.[1]);
+
+test("portadas oficiales con alt, medidas y crédito enlazado; sin portada, hueco", async () => {
+  const { parse } = await import("yaml");
+  const dir = join(RAIZ, "src", "content", "juegos");
+  let con = 0, sin = 0;
+  for (const n of readdirSync(dir).filter((x) => x.endsWith(".md"))) {
+    const slug = n.replace(/\.md$/, "");
+    const fm = parse(readFileSync(join(dir, n), "utf-8").split(/^---\s*$/m)[1] ?? "") ?? {};
+    if (fm.draft) continue;
+    const html = pagina(`/rol/juegos/${slug}/`);
+    // La portada de la ficha va en la sección «Ficha» (antes de «Qué es»); las de «Juegos parecidos», aparte.
+    const ficha = html.split('id="s-ficha"')[1]?.split("</section>")[0] ?? "";
+    const imgs = imagenes(ficha);
+    if (!fm.portada) {
+      sin++;
+      assert.equal(imgs.length, 0, `${slug}: sin portada en el .md no debe haber imagen`);
+      assert.match(ficha, /class="tz-portada tz-portada--grande"/, `${slug}: falta el hueco tipográfico`);
+      continue;
+    }
+    con++;
+    assert.equal(imgs.length, 1, `${slug}: la ficha debe tener una imagen de portada`);
+    const img = imgs[0];
+    assert.equal(attr(img, "alt"), `Portada de ${fm.portada.titulo ?? fm.titulo} (${fm.portada.edicion})`, `${slug}: alt`);
+    assert.ok(Number(attr(img, "width")) > 0 && Number(attr(img, "height")) > 0, `${slug}: la imagen necesita width y height`);
+    const fig = /<figure class="tz-portada-figura[\s\S]*?<\/figure>/.exec(ficha)?.[0] ?? "";
+    assert.match(fig, /<source[^>]+type="image\/avif"/, `${slug}: falta la fuente AVIF`);
+    assert.match(fig, /<source[^>]+type="image\/webp"/, `${slug}: falta la fuente WebP`);
+    const url = fm.fuentes.find((f) => f.datos.includes("portada")).url;
+    assert.ok(fig.includes(`<a href="${url.replace(/&/g, "&amp;")}"`), `${slug}: el crédito debe enlazar a ${url}`);
+    assert.ok(texto(fig).includes(fm.portada.credito.replace(/&/g, "&amp;")), `${slug}: falta el crédito «${fm.portada.credito}»`);
+    for (const src of [...fig.matchAll(/\/_astro\/[^\s"]+/g)].map((m) => m[0])) {
+      assert.ok(existsSync(join(DIST, src)), `${slug}: falta ${src} en dist/`);
+    }
+    assert.ok(!/<script/i.test(fig), `${slug}: la portada no lleva JS`);
+  }
+  assert.ok(con > 0 && sin > 0, `hace falta al menos un juego con portada (${con}) y uno sin ella (${sin})`);
+});
+
+test("en /rol/ y el catálogo, cada portada lleva su crédito con enlace", () => {
+  for (const r of ["/rol/", "/rol/juegos/"]) {
+    const html = pagina(r);
+    const imgs = imagenes(html);
+    assert.ok(imgs.length > 0, `${r}: sin portadas`);
+    for (const img of imgs) {
+      assert.match(attr(img, "alt") ?? "", /^Portada de .+ \(.+\)$/, `${r}: alt mal formado: ${img}`);
+      assert.ok(attr(img, "width") && attr(img, "height"), `${r}: imagen sin medidas`);
+    }
+    const creditos = [...html.matchAll(/<p class="tz-portada-credito">[^<]*<a href="https:\/\//g)].length;
+    assert.equal(creditos, imgs.length, `${r}: ${imgs.length} portadas y ${creditos} créditos con enlace`);
+  }
+});
