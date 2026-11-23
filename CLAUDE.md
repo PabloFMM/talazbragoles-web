@@ -65,8 +65,10 @@ src/
 │   ├── personas/
 │   │   └── index.astro     # Directorio de personas
 │   ├── rol/
-│   │   ├── index.astro     # Juegos de rol: campañas ACTUALES del grupo (colección campaigns)
-│   │   └── [slug].astro    # Ficha de campaña: sesiones y personajes
+│   │   ├── index.astro     # Portada de Rol: lo que hemos jugado (PortadaTipografica), accesos, crónicas (fase 2)
+│   │   ├── juegos/index.astro   # Catálogo de juegos (colección juegos)
+│   │   ├── juegos/[slug].astro  # Ficha de juego: datos, ediciones y descargas, licencia, fuentes (FuenteDato), parecidos
+│   │   └── campanas/[slug].astro # Ficha de campaña (colección campaigns, hoy vacía: no genera páginas)
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
     ├── global.css          # Punto de entrada: importa reset.css y sistema.css
