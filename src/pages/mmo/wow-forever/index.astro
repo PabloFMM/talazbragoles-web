@@ -17,6 +17,18 @@ const bandas = [
   { banda: "Hyjal Summit", jugadores: "20", jefes: "13" },
   { banda: "Guarida de Onyxia", jugadores: "40", jefes: "1" },
 ];
+
+// Mensajes para el chat del juego (cada uno ≤ 255 caracteres, límite del chat).
+// Los tres primeros, nuevos (2026-11-20, a partir del propósito dictado por PabloFM);
+// el resto, ya aprobados antes por él (catálogo en la skill talazbragoles-web).
+const mensajes = [
+  "<La Barbarie> ¡Horda! Roleros mayorcitos con imaginación y buen rollo. Vamos con calma: más a disfrutar y a rolear que a grandes retos. ¡Susúrrame!",
+  "¿Te gusta el rol y jugar sin prisas? <La Barbarie>, Horda de roleros con imaginación y buen rollo, te busca. ¡Susúrrame!",
+  "<La Barbarie> ¡Horda! Somos roleros: creemos que con imaginación y buen rollo se pasa un rato estupendo. No buscamos grandes retos, buscamos buena compañía. ¡Susúrrame!",
+  "<La Barbarie> ¡Horda! Hermandad pequeña de gente mayorcita. Jugamos con los pies y solo para pasarlo bien. Si no sabes jugar, encajas. Buen rollo y cero marrullerías. ¡Susúrrame!",
+  "¿Te pierdes en Orgrimmar? Nosotros también. <La Barbarie>, Horda mayorcita y sin pretensiones. ¡Susúrrame!",
+  "<La Barbarie> recluta en Orgrimmar: hermandad pequeña de gente mayorcita. Si no sabes jugar, aquí estarás como en casa. Buen rollo y paciencia. ¡Susúrrame!",
+];
 ---
 
 <Layout
@@ -95,6 +107,25 @@ const bandas = [
         <div><dt>Towerbrünnen</dt><dd>Apellido y datos: <Pendiente /></dd></div>
       </dl>
       <p class="tz-ref" style="margin:var(--e-3) 0 0">Datos dados por los jugadores el 13 de noviembre de 2026.</p>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-recluta">
+      <Titulo id="s-recluta" numero="05">Únete a La Barbarie</Titulo>
+      <div class="tz-prosa">
+        <h3>Nuestro propósito</h3>
+        <p>Somos un grupo de roleros: gente que cree que, con imaginación y buen rollo, se puede pasar un rato estupendo. Nuestro propósito es que la imaginación esté más presente en todo lo que jugamos.</p>
+        <p>Creemos que la imaginación y el juego van a importar cada vez más, y que se mezclarán cada vez más con la vida real, con las profesiones y con todo lo demás. WoW Forever ha sido la ocasión de compartir y reactivar esto en un juego que todos queremos. Además, nos gusta hacer y organizar otras actividades de rol: los MMO son una parte importante de los juegos de rol, y World of Warcraft es uno de los grandes. Las verás en la sección <a href="/rol">Rol</a>.</p>
+
+        <h3>Qué buscamos</h3>
+        <p>Somos una hermandad de la Horda que va con calma: más a disfrutar, y quizá a rolear, que a otra cosa. No pretendemos hacer grandes retos, aunque seguro que a alguno le apetecen. Buscamos gente con imaginación, buen rollo y paciencia, sepa mucho o poco del juego.</p>
+        <p>Para unirte, susurra en el juego a cualquiera de los miembros de la lista de arriba. Horario de juego y Discord: <Pendiente /></p>
+
+        <h3>Mensajes para reclutar en el juego</h3>
+        <p>Para los miembros: copia uno y pégalo en el chat. En las ciudades, en Comercio (<strong>/2</strong>); fuera, en General (<strong>/1</strong>). Mejor no repetir el mismo más de una vez cada 10 o 15 minutos.</p>
+        <ul>
+          {mensajes.map((m) => <li>{m}</li>)}
+        </ul>
+      </div>
     </section>
   </div>
 </Layout>
