@@ -38,7 +38,7 @@ function compruebaRef(donde, col, slug) {
 }
 
 test("hay fichas de juegos con su sistema, licencias, autoría y editoriales", () => {
-  assert.ok(Object.keys(juegos).length >= 10, "faltan juegos");
+  assert.ok(Object.keys(juegos).length >= 13, "faltan juegos");
   for (const col of ["licencias", "autoria", "editoriales"]) assert.ok(Object.keys(existe[col]).length > 0, col);
 });
 
@@ -49,6 +49,38 @@ test("las referencias de los juegos existen", () => {
     for (const a of d.autoria ?? []) compruebaRef(donde, "autoria", a);
     for (const e of [...(d.editorial ?? []), ...(d.editorialCastellano ?? [])]) compruebaRef(donde, "editoriales", e);
     for (const l of d.licenciaJuego ?? []) compruebaRef(donde, "licencias", l.licencia);
+  }
+});
+
+test("las ediciones apuntan a fichas que existen y sus traducciones a otra edición del juego", () => {
+  for (const [slug, d] of Object.entries(juegos)) {
+    const nombres = new Set((d.ediciones ?? []).map((e) => e.nombre));
+    assert.equal(nombres.size, (d.ediciones ?? []).length, `juegos/${slug}: dos ediciones con el mismo nombre`);
+    for (const e of d.ediciones ?? []) {
+      const donde = `juegos/${slug} › ${e.nombre}`;
+      if (e.editorial) compruebaRef(donde, "editoriales", e.editorial);
+      if (e.licencia) compruebaRef(donde, "licencias", e.licencia);
+      if (e.descarga) compruebaRef(donde, "licencias", e.descarga.licencia);
+      if (e.traduccionDe) {
+        assert.ok(nombres.has(e.traduccionDe), `${donde}: traduccionDe «${e.traduccionDe}» no es otra edición del juego`);
+        assert.notEqual(e.traduccionDe, e.nombre, `${donde}: se traduce a sí misma`);
+      }
+    }
+  }
+});
+
+test("las descargas solo salen de ediciones con licencia abierta o gratis en la web oficial", () => {
+  // Abierta (CC, ORC, dominio público…) o PDF gratuito oficial («gratis/gratuito» en el formato).
+  const abiertas = new Set(["cc", "orc", "abierta-propia", "dominio-publico"]);
+  for (const [slug, d] of Object.entries(juegos)) {
+    for (const e of d.ediciones ?? []) {
+      if (!e.descarga) continue;
+      const lic = existe.licencias[e.descarga.licencia];
+      assert.ok(
+        abiertas.has(lic.tipo) || /gratis|gratuit/i.test(e.descarga.formato),
+        `juegos/${slug} › ${e.nombre}: descarga con licencia «${e.descarga.licencia}» que no es abierta ni consta como gratuita`
+      );
+    }
   }
 });
 
@@ -63,9 +95,10 @@ test("las referencias de los sistemas existen", () => {
 });
 
 test("toda fuente de Rol dice qué afirma y cuándo se consultó", () => {
+  const todas = (d) => [...(d.fuentes ?? []), ...(d.ediciones ?? []).flatMap((e) => e.fuentes ?? [])];
   for (const [col, fichas] of Object.entries({ juegos, ...existe })) {
     for (const [slug, d] of Object.entries(fichas)) {
-      for (const f of d.fuentes ?? []) {
+      for (const f of todas(d)) {
         assert.ok(f.afirma?.trim(), `${col}/${slug}: fuente sin «afirma» (${f.url})`);
         assert.ok(f.consultado, `${col}/${slug}: fuente sin fecha de consulta (${f.url})`);
       }

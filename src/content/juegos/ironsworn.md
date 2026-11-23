@@ -2,6 +2,44 @@
 titulo: "Ironsworn"
 tituloCastellano: "Ironsworn"
 ano: 2018
+ediciones:
+  - nombre: "Ironsworn (libro básico)"
+    ano: 2018
+    editorial: "tomkin-press"
+    licencia: "cc-by-nc-sa-4.0"
+    descarga:
+      url: "https://tomkinpress.com/products/ironsworn-digital-edition"
+      formato: "PDF de la edición digital, gratuito (0 dólares) en la tienda oficial"
+      licencia: "cc-by-nc-sa-4.0"
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://en.wikipedia.org/wiki/Ironsworn"
+        afirma: "Publicado en 2018."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "editorial"
+          - "licencia"
+        url: "https://tomkinpress.com/pages/licensing"
+        afirma: "El texto completo de Ironsworn, de Shawn Tomkin (Tomkin Press), está bajo CC BY-NC-SA 4.0."
+        consultado: 2026-11-23
+      - datos:
+          - "descarga"
+        url: "https://tomkinpress.com/products/ironsworn-digital-edition"
+        afirma: "Tomkin Press ofrece «Ironsworn - Digital Edition» por 0,00 dólares."
+        consultado: 2026-11-23
+  - nombre: "Ironsworn en castellano"
+    editorial: "the-hills-press"
+    idioma: "es"
+    traduccionDe: "Ironsworn (libro básico)"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://www.thehillspress.es/producto/ironsworn/"
+        afirma: "The Hills Press publica Ironsworn en castellano."
+        consultado: 2026-11-23
 autoria:
   - "shawn-tomkin"
 editorial:

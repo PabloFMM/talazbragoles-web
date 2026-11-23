@@ -4,11 +4,59 @@ ano: 2017
 ediciones:
   - nombre: "1.ª edición"
     ano: 2017
+    editorial: "modiphius-entertainment"
+    licencia: "todos-los-derechos-reservados"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://en.wikipedia.org/wiki/Star_Trek_Adventures"
+        afirma: "Modiphius publicó la 1.ª edición en agosto de 2017."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://modiphius.us/products/star-trek-adventures-second-edition-core-rulebook-pdf"
+        afirma: "Star Trek y sus marcas son de CBS Studios y Paramount; todos los derechos reservados."
+        consultado: 2026-11-23
   - nombre: "2.ª edición"
     ano: 2024
-  - nombre: "Libro básico en castellano (Holocubierta)"
+    editorial: "modiphius-entertainment"
+    licencia: "todos-los-derechos-reservados"
+    jugadaPorNosotros: true
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://en.wikipedia.org/wiki/Star_Trek_Adventures"
+        afirma: "La 2.ª edición salió en agosto de 2024."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "editorial"
+          - "licencia"
+        url: "https://modiphius.us/products/star-trek-adventures-the-roleplaying-game-second-edition-core-rulebook"
+        afirma: "Modiphius vende el libro básico de la 2.ª edición de Star Trek Adventures; Star Trek es marca de CBS Studios y Paramount, todos los derechos reservados."
+        consultado: 2026-11-23
+  - nombre: "Libro básico en castellano"
     ano: 2017
+    editorial: "holocubierta-ediciones"
     idioma: "es"
+    traduccionDe: "1.ª edición"
+    licencia: "todos-los-derechos-reservados"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+          - "traduccionDe"
+        url: "https://es.wikipedia.org/wiki/Star_Trek_(juegos_de_rol)"
+        afirma: "Holocubierta Ediciones tradujo y publicó Star Trek Adventures en 2017."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://modiphius.us/products/star-trek-adventures-second-edition-core-rulebook-pdf"
+        afirma: "Star Trek y sus marcas son de CBS Studios y Paramount; todos los derechos reservados."
+        consultado: 2026-11-23
 autoria:
   - "nathan-dowdell"
 editorial:
@@ -31,7 +79,6 @@ enlaces:
   - etiqueta: "Edición en castellano (Holocubierta)"
     url: "https://www.holocubierta.com/market/marketview/rpggames/sta"
 dudas:
-  - "Edición que juega el grupo: ¿1.ª (2017) o 2.ª (2024)?"
   - "Número de jugadores: la editorial no lo dice en las páginas consultadas."
 fuentes:
   - datos:

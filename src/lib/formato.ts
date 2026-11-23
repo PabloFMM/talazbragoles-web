@@ -110,9 +110,16 @@ export const tipoLicencia: Record<CampoRol<"licencias", "tipo">, string> = {
   cc: "Creative Commons",
   orc: "Licencia ORC",
   "abierta-propia": "Licencia abierta propia",
+  "dominio-publico": "Dominio público",
   "politica-de-uso": "Política de uso (no es una licencia)",
+  "con-aprobacion": "Con aprobación previa de la editorial (no es abierta)",
   fans: "Solo material de fans, no comercial",
   cerrada: "Cerrada",
+};
+
+export const estadoJuego: Record<NonNullable<CampoRol<"juegos", "estado">>, string> = {
+  publicado: "Publicado",
+  "en-construccion": "En construcción",
 };
 
 export const dondeSeJugo: Record<CampoRol<"systems", "jugadoEn">[number], string> = {

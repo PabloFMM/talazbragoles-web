@@ -1,13 +1,60 @@
 ---
 titulo: "Dungeons & Dragons, 5.ª edición"
 ano: 2014
+edicion: "5.ª edición"
 ediciones:
-  - nombre: "5.ª edición"
+  - nombre: "5.ª edición (2014)"
     ano: 2014
-  - nombre: "Revisión de la 5.ª edición"
+    editorial: "wizards-of-the-coast"
+    licencia: "wizards-contenido-fans"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://en.wikipedia.org/wiki/Editions_of_Dungeons_%26_Dragons"
+        afirma: "La 5.ª edición salió en 2014; Wizards of the Coast es la editorial."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://www.dndbeyond.com/srd"
+        afirma: "Fuera del SRD (CC BY 4.0), el contenido de fans se rige por la Fan Content Policy de Wizards."
+        consultado: 2026-11-23
+  - nombre: "Revisión de la 5.ª edición (2024)"
     ano: 2024
+    editorial: "wizards-of-the-coast"
+    licencia: "wizards-contenido-fans"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://en.wikipedia.org/wiki/Editions_of_Dungeons_%26_Dragons"
+        afirma: "En 2024 Wizards of the Coast publicó una revisión de la 5.ª edición."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://www.dndbeyond.com/srd"
+        afirma: "Fuera del SRD (CC BY 4.0), el contenido de fans se rige por la Fan Content Policy de Wizards."
+        consultado: 2026-11-23
   - nombre: "Manual del Jugador, edición revisada 2024, en castellano"
+    editorial: "wizards-of-the-coast"
     idioma: "es"
+    traduccionDe: "Revisión de la 5.ª edición (2024)"
+    licencia: "wizards-contenido-fans"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://mathom.es/es/5-edicion-castellano/57258-dungeons-dragons-manual-del-jugador-edicion-revisada-2024-9780786969685.html"
+        afirma: "Manual del Jugador (edición revisada 2024) en castellano, editorial Wizards of the Coast."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://www.dndbeyond.com/srd"
+        afirma: "Fuera del SRD (CC BY 4.0), el contenido de fans se rige por la Fan Content Policy de Wizards."
+        consultado: 2026-11-23
 editorial:
   - "wizards-of-the-coast"
 editorialCastellano:
@@ -26,7 +73,7 @@ enlaces:
   - etiqueta: "SRD 5.1 y 5.2 (D&D Beyond)"
     url: "https://www.dndbeyond.com/srd"
 dudas:
-  - "Edición que juega el grupo: ¿2014 o la revisión de 2024?"
+  - "Edición que juega el grupo: 5.ª; no consta si la de 2014 o la revisión de 2024."
   - "Autoría: depende de la edición; pendiente."
   - "Número de jugadores: pendiente."
 fuentes:

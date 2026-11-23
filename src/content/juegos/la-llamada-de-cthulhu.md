@@ -5,20 +5,85 @@ ano: 1981
 ediciones:
   - nombre: "1.ª edición"
     ano: 1981
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    fuentes: &wikiCoC
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://en.wikipedia.org/wiki/Call_of_Cthulhu_(role-playing_game)"
+        afirma: "Chaosium publicó la 1.ª edición en 1981, la 2.ª en 1983, la 3.ª en 1986, la 4.ª en 1989, la 5.ª en 1992, la 6.ª en 2004 y la 7.ª en 2014."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://www.chaosium.com/fan-material-policy/"
+        afirma: "Chaosium permite material de fans de sus juegos solo si no se vende ni se cobra."
+        consultado: 2026-11-23
   - nombre: "2.ª edición"
     ano: 1983
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    fuentes: *wikiCoC
   - nombre: "3.ª edición"
     ano: 1986
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    fuentes: *wikiCoC
   - nombre: "4.ª edición"
     ano: 1989
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    fuentes: *wikiCoC
   - nombre: "5.ª edición"
     ano: 1992
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    fuentes: *wikiCoC
   - nombre: "6.ª edición"
     ano: 2004
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    fuentes: *wikiCoC
   - nombre: "7.ª edición"
     ano: 2014
-  - nombre: "7.ª edición en castellano (Edge Studio)"
+    editorial: "chaosium"
+    licencia: "chaosium-material-fans"
+    jugadaPorNosotros: true
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://en.wikipedia.org/wiki/Call_of_Cthulhu_(role-playing_game)"
+        afirma: "La 7.ª edición salió en 2014."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "editorial"
+        url: "https://www.chaosium.com/call-of-cthulhu-rules/"
+        afirma: "Chaosium presenta la 7.ª edición como la edición actual de las reglas de Call of Cthulhu."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://www.chaosium.com/fan-material-policy/"
+        afirma: "Chaosium permite material de fans de sus juegos solo si no se vende ni se cobra."
+        consultado: 2026-11-23
+  - nombre: "7.ª edición en castellano"
+    editorial: "edge-studio"
     idioma: "es"
+    traduccionDe: "7.ª edición"
+    licencia: "chaosium-material-fans"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://es.edge-studio.net/categories-games/cthulhu-7-esp/"
+        afirma: "Edge Studio publica La llamada de Cthulhu 7.ª edición en castellano, con licencia de Chaosium."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://www.chaosium.com/fan-material-policy/"
+        afirma: "Chaosium permite material de fans de sus juegos solo si no se vende ni se cobra."
+        consultado: 2026-11-23
 autoria:
   - "sandy-petersen"
 editorial:
@@ -42,7 +107,6 @@ enlaces:
   - etiqueta: "Edición en castellano (Edge Studio)"
     url: "https://es.edge-studio.net/categories-games/cthulhu-7-esp/"
 dudas:
-  - "Edición que juega el grupo: pendiente."
   - "Número de jugadores: la editorial no lo dice en las páginas consultadas."
 fuentes:
   - datos:

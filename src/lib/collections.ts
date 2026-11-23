@@ -42,7 +42,7 @@ const porNombreRol = (a: { data: { nombre: string } }, b: { data: { nombre: stri
   a.data.nombre.localeCompare(b.data.nombre, "es");
 
 /** Tipos de licencia que cuentan como «abierta» en el filtro (decisión 2026-11-23). */
-const TIPOS_ABIERTOS = new Set(["cc", "orc", "abierta-propia"]);
+const TIPOS_ABIERTOS = new Set(["cc", "orc", "abierta-propia", "dominio-publico"]);
 
 /** ¿Es abierta esta licencia? Política PbtA, pautas de fans y cerrada: no. */
 export function esAbierta(lic: CollectionEntry<"licencias">) {
@@ -73,8 +73,8 @@ export async function getAllEditoriales() {
 
 /**
  * Ficha de un juego con sus referencias ya resueltas: sistema (y su licencia),
- * licencias del juego, autoría y editoriales. Lo que falte queda undefined/vacío
- * y la página lo pinta «pendiente».
+ * licencias del juego, autoría, editoriales y ediciones. Lo que falte queda
+ * undefined/vacío y la página lo pinta «pendiente».
  */
 export async function resuelveJuego(juego: CollectionEntry<"juegos">) {
   const d = juego.data;
@@ -83,18 +83,48 @@ export async function resuelveJuego(juego: CollectionEntry<"juegos">) {
   const licenciasJuego = await Promise.all(
     d.licenciaJuego.map(async (l) => ({ licencia: await getEntry(l.licencia), alcance: l.alcance }))
   );
+  const ediciones = await Promise.all(
+    d.ediciones.map(async (e) => ({
+      ...e,
+      editorial: e.editorial ? await getEntry(e.editorial) : undefined,
+      licencia: e.licencia ? await getEntry(e.licencia) : undefined,
+      descarga: e.descarga ? { ...e.descarga, licencia: await getEntry(e.descarga.licencia) } : undefined,
+    }))
+  );
+  const jugadas = ediciones.filter((e) => e.jugadaPorNosotros);
+  // Descargas oficiales: las de cada edición y el SRD del sistema.
+  const descargas = [
+    ...ediciones.flatMap((e) => (e.descarga ? [{ nombre: e.nombre, url: e.descarga.url, formato: e.descarga.formato, licencia: e.descarga.licencia }] : [])),
+    ...(sistema?.data.srd && licenciaSistema
+      ? [{ nombre: sistema.data.srd.nombre, url: sistema.data.srd.url, formato: "SRD del sistema", licencia: licenciaSistema }]
+      : []),
+  ];
   return {
     juego,
+    estado: d.estado ?? "publicado",
     sistema,
     licenciaSistema,
     licenciasJuego,
     autoria: await getEntries(d.autoria),
     editorial: await getEntries(d.editorial),
     editorialCastellano: await getEntries(d.editorialCastellano),
+    ediciones,
+    // Edición que juega el grupo: las marcadas en ediciones[] o, si no se puede
+    // señalar una, el texto de `edicion`. Ninguna = «pendiente».
+    edicionesJugadas: jugadas,
+    edicionJugadaTexto: jugadas.length ? jugadas.map((e) => e.nombre).join(" · ") : d.edicion,
+    descargas,
     // Filtro «Abierta»: mira la licencia del juego Y la del sistema (decisión 6).
     abierto: licenciasJuego.some((l) => esAbierta(l.licencia)) || (licenciaSistema ? esAbierta(licenciaSistema) : false),
-    enCastellano: d.editorialCastellano.length > 0,
+    enCastellano: d.editorialCastellano.length > 0 || d.ediciones.some((e) => e.idioma === "es"),
+    descargable: descargas.length > 0,
   };
+}
+
+/** Juegos con alguna descarga oficial (de una edición o del SRD de su sistema): filtro «Se puede descargar». */
+export async function juegosDescargables() {
+  const fichas = await Promise.all((await getAllJuegos()).map(resuelveJuego));
+  return fichas.filter((f) => f.descargable).map((f) => f.juego);
 }
 
 /** Juegos que usan un sistema (directamente). */
@@ -107,7 +137,10 @@ export async function juegosDeLicencia(licenciaId: string) {
   const sistemas = await getSistemasRol();
   const conLicencia = new Set(sistemas.filter((s) => s.data.licencia?.id === licenciaId).map((s) => s.id));
   return (await getAllJuegos()).filter(
-    (j) => j.data.licenciaJuego.some((l) => l.licencia.id === licenciaId) || (j.data.sistema && conLicencia.has(j.data.sistema.id))
+    (j) =>
+      j.data.licenciaJuego.some((l) => l.licencia.id === licenciaId) ||
+      j.data.ediciones.some((e) => e.licencia?.id === licenciaId || e.descarga?.licencia.id === licenciaId) ||
+      (j.data.sistema && conLicencia.has(j.data.sistema.id))
   );
 }
 
@@ -116,10 +149,13 @@ export async function juegosDePersona(personaId: string) {
   return (await getAllJuegos()).filter((j) => j.data.autoria.some((a) => a.id === personaId));
 }
 
-/** Juegos de una editorial (original o en castellano). */
+/** Juegos de una editorial (original, en castellano o de alguna edición). */
 export async function juegosDeEditorial(editorialId: string) {
   return (await getAllJuegos()).filter(
-    (j) => j.data.editorial.some((e) => e.id === editorialId) || j.data.editorialCastellano.some((e) => e.id === editorialId)
+    (j) =>
+      j.data.editorial.some((e) => e.id === editorialId) ||
+      j.data.editorialCastellano.some((e) => e.id === editorialId) ||
+      j.data.ediciones.some((e) => e.editorial?.id === editorialId)
   );
 }
 

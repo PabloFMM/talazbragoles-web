@@ -4,6 +4,51 @@ tituloCastellano: "Trophy Dark"
 ediciones:
   - nombre: "Reglas básicas en el fanzine Codex – Dark 2"
     ano: 2018
+    editorial: "the-gauntlet"
+    licencia: "todos-los-derechos-reservados"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://www.drivethrurpg.com/en/product/268198/codex-dark-2-dec-2018"
+        afirma: "El fanzine Codex – Dark 2 (diciembre de 2018), de The Gauntlet, incluye las reglas básicas de Trophy."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://trophyrpg.com/system/"
+        afirma: "La licencia CC BY 4.0 cubre solo el SRD: nada de Trophy fuera de él, incluidos nombres, personajes, lugares y arte."
+        consultado: 2026-11-23
+  - nombre: "Trophy Dark (libro)"
+    editorial: "the-gauntlet"
+    licencia: "todos-los-derechos-reservados"
+    fuentes:
+      - datos:
+          - "editorial"
+        url: "https://trophyrpg.com/"
+        afirma: "Trophy Dark: diseñado por Jesse Ross y publicado por The Gauntlet y Hedgemaze Press."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://trophyrpg.com/system/"
+        afirma: "La licencia CC BY 4.0 cubre solo el SRD: nada de Trophy fuera de él, incluidos nombres, personajes, lugares y arte."
+        consultado: 2026-11-23
+  - nombre: "Trophy Dark en castellano"
+    editorial: "the-hills-press"
+    idioma: "es"
+    traduccionDe: "Trophy Dark (libro)"
+    licencia: "todos-los-derechos-reservados"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://www.thehillspress.es/producto/trophy-dark/"
+        afirma: "The Hills Press publica Trophy Dark en castellano."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://trophyrpg.com/system/"
+        afirma: "La licencia CC BY 4.0 cubre solo el SRD: nada de Trophy fuera de él, incluidos nombres, personajes, lugares y arte."
+        consultado: 2026-11-23
 autoria:
   - "jesse-ross"
 editorial:
@@ -30,7 +75,6 @@ enlaces:
   - etiqueta: "Edición en castellano (The Hills Press)"
     url: "https://www.thehillspress.es/producto/trophy-dark/"
 dudas:
-  - "PabloFM lo dictó como «Dark Trophy»: confirmar que es Trophy Dark y no Trophy Gold (dos juegos distintos)."
   - "Año del libro completo: hay reglas en Codex (2018), campaña de Kickstarter (2020) y PDF en tienda (2022); falta la fecha de publicación."
   - "Número de jugadores: la editorial no lo dice en las páginas consultadas."
 fuentes:

@@ -2,6 +2,45 @@
 titulo: "Dungeon World"
 tituloCastellano: "Dungeon World"
 ano: 2012
+ediciones:
+  - nombre: "Dungeon World"
+    ano: 2012
+    editorial: "sage-kobold-productions"
+    licencia: "cc-by-3.0"
+    descarga:
+      url: "https://github.com/Sagelt/Dungeon-World"
+      formato: "Texto fuente del libro en el repositorio de Sage LaTorra (también se lee en dungeonworldsrd.com)"
+      licencia: "cc-by-3.0"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://en.wikipedia.org/wiki/Dungeon_World"
+        afirma: "Publicado en 2012 por Sage Kobold Productions (y RNDM Games)."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+          - "descarga"
+        url: "https://raw.githubusercontent.com/Sagelt/Dungeon-World/master/LICENSE"
+        afirma: "El texto de Dungeon World en el repositorio está bajo Creative Commons Atribución 3.0 Unported."
+        consultado: 2026-11-23
+      - datos:
+          - "descarga"
+        url: "https://github.com/Sagelt/Dungeon-World"
+        afirma: "Repositorio con el texto del libro; el arte de la versión impresa no está incluido."
+        consultado: 2026-11-23
+  - nombre: "Dungeon World en castellano"
+    editorial: "nosolorol"
+    idioma: "es"
+    traduccionDe: "Dungeon World"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://www.nosolorol.com/indie/285-dungeon-world-papel"
+        afirma: "Nosolorol publica la edición en castellano de Dungeon World, de Sage LaTorra y Adam Koebel."
+        consultado: 2026-11-23
 autoria:
   - "sage-latorra"
   - "adam-koebel"

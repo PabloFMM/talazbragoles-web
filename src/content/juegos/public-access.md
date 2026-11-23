@@ -5,8 +5,35 @@ ano: 2023
 ediciones:
   - nombre: "Versión original de 7 páginas"
     ano: 2014
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://www.gauntlet-rpg.com/public-access.html"
+        afirma: "La versión original de 2014 tenía 7 páginas y era para 3-5 jugadores."
+        consultado: 2026-11-23
   - nombre: "Primera edición del juego actual"
     ano: 2023
+    editorial: "the-gauntlet"
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://www.kickstarter.com/projects/gauntlet/public-access-analog-horror-mystery-ttrpg"
+        afirma: "La nueva edición revisa las reglas de la publicación original de 2023."
+        consultado: 2026-11-23
+      - datos:
+          - "editorial"
+        url: "https://www.drivethrurpg.com/en/product/429340/public-access"
+        afirma: "Public Access, de The Gauntlet."
+        consultado: 2026-11-23
+  - nombre: "Public Access en castellano"
+    editorial: "the-hills-press"
+    idioma: "es"
+    fuentes:
+      - datos:
+          - "editorial"
+        url: "https://www.thehillspress.es/producto/public-access/"
+        afirma: "The Hills Press publica Public Access en castellano."
+        consultado: 2026-11-23
 autoria:
   - "jason-cordova"
 editorial:

@@ -148,6 +148,32 @@ const generoRol = z.enum([
 
 const enlace = z.object({ etiqueta: z.string(), url: z.url() });
 
+/**
+ * Una edición de un juego (dato de primera clase, 2026-11-23): cada una con su
+ * editorial, idioma, licencia y fuentes propias. Las traducciones son entradas
+ * aparte que dicen de qué edición vienen (`traduccionDe` = `nombre` de otra
+ * entrada del mismo juego; lo comprueba tests/rol-referencias.test.mjs).
+ */
+const edicionJuego = z
+  .object({
+    nombre: z.string(), // «7.ª edición», «Manual v0.6.0»
+    ano: z.number().int().optional(),
+    editorial: reference("editoriales").optional(),
+    idioma: z.enum(["en", "es"]).default("en"),
+    traduccionDe: z.string().optional(),
+    licencia: reference("licencias").optional(), // puede cambiar de una edición a otra
+    // Dato del grupo (la jugamos), sin fuente web. Se marca en la edición
+    // original salvo que conste el idioma del ejemplar.
+    jugadaPorNosotros: z.boolean().default(false),
+    // Solo si la licencia de ESTA edición lo permite (abierta o gratuita
+    // oficial). Siempre la descarga oficial: no alojamos archivos.
+    descarga: z
+      .object({ url: z.url(), formato: z.string(), licencia: reference("licencias") })
+      .optional(),
+    fuentes: z.array(fuenteDato).min(1),
+  })
+  .superRefine(exigeFuentes(["ano", "editorial", "traduccionDe", "licencia", "descarga"]));
+
 // ─── 4. systems — sistemas de juego de rol ────────────────────────────
 // Colección ÚNICA (decisión 2026-11-23): `jugadoEn` dice si es de las Jornadas
 // (se ve en /sistemas/, Archivo) o del grupo actual (se ve en /rol/sistemas/).
@@ -202,11 +228,14 @@ const juegos = defineCollection({
   schema: z.object({
     titulo: z.string(),
     tituloCastellano: z.string().optional(),
-    edicion: z.string().optional(), // la que juega el grupo; vacía = pendiente
+    // Vacío = publicado. «en-construccion»: el juego aún se está escribiendo.
+    estado: z.enum(["publicado", "en-construccion"]).optional(),
+    // Edición que juega el grupo, en texto, SOLO cuando no se puede marcar una
+    // entrada de `ediciones[]` (p. ej. «5.ª edición» sin saber si 2014 o 2024).
+    // Dato del grupo: sin fuente web. Si no, se deriva de `jugadaPorNosotros`.
+    edicion: z.string().optional(),
     ano: z.number().int().optional(), // primera publicación
-    ediciones: z
-      .array(z.object({ nombre: z.string(), ano: z.number().int().optional(), idioma: z.enum(["en", "es"]).default("en") }))
-      .default([]),
+    ediciones: z.array(edicionJuego).default([]),
     autoria: z.array(reference("autoria")).default([]),
     editorial: z.array(reference("editoriales")).default([]),
     editorialCastellano: z.array(reference("editoriales")).default([]),
@@ -220,7 +249,7 @@ const juegos = defineCollection({
     jugadores: z
       .object({ min: z.number().int(), max: z.number().int(), nota: z.string().optional() })
       .optional(),
-    // Que lo jugamos lo dijo PabloFM (dictado, 2026-11-23): no lleva fuente web.
+    // Que lo jugamos es dato del grupo: no lleva fuente web.
     jugado: z.object({ nosotros: z.boolean().default(false), ultima: fechaTexto.optional() }).default({ nosotros: false }),
     // Portadas: hueco tipográfico mientras no haya permiso (decisión 2026-11-23).
     portada: z
@@ -232,7 +261,7 @@ const juegos = defineCollection({
     draft: z.boolean().default(false),
   }).superRefine(
     exigeFuentes([
-      "tituloCastellano", "edicion", "ano", "ediciones", "autoria", "editorial", "editorialCastellano",
+      "tituloCastellano", "estado", "ano", "autoria", "editorial", "editorialCastellano",
       "sistema", "licenciaJuego", "generos", "modo", "formato", "jugadores",
     ])
   ),
@@ -245,9 +274,11 @@ const licencias = defineCollection({
   schema: z.object({
     nombre: z.string(),
     nombreCorto: z.string(),
-    // cc / orc / abierta-propia = abierta. politica-de-uso: deja publicar juegos
-    // inspirados sin ser una licencia. fans: solo material no comercial. cerrada.
-    tipo: z.enum(["cc", "orc", "abierta-propia", "politica-de-uso", "fans", "cerrada"]),
+    // cc / orc / abierta-propia / dominio-publico = abierta. politica-de-uso: deja
+    // publicar juegos inspirados sin ser una licencia. con-aprobacion: licencia
+    // para terceros que la editorial aprueba caso a caso. fans: solo material no
+    // comercial. cerrada.
+    tipo: z.enum(["cc", "orc", "abierta-propia", "dominio-publico", "politica-de-uso", "con-aprobacion", "fans", "cerrada"]),
     url: z.url().optional(), // texto oficial
     permite: z
       .object({
@@ -321,7 +352,7 @@ const guides = defineCollection({
 });
 
 // ─── 7. campaigns — partidas y campañas ACTUALES del grupo (sección /rol/) ──
-// Distinto de «systems» (lo jugado en las Jornadas históricas). PabloFM, 2026-11-15.
+// Distinto de «systems» (lo jugado en las Jornadas históricas). Decisión 2026-11-15.
 // Nada inventado: sin datos de una campaña, no se crea el archivo.
 
 const campaigns = defineCollection({

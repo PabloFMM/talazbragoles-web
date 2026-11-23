@@ -5,10 +5,74 @@ ano: 2016
 ediciones:
   - nombre: "Ambientación para La llamada de Cthulhu"
     ano: 1997
+    licencia: "delta-green-pautas"
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://en.wikipedia.org/wiki/Delta_Green"
+        afirma: "Delta Green nació como ambientación para Call of Cthulhu; el libro salió en 1997."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://www.delta-green.com/publishing-guidelines/"
+        afirma: "Solo se permite material de fans no comercial; nada de IA ni traducciones de los libros."
+        consultado: 2026-11-23
   - nombre: "Agent's Handbook (primer reglamento propio)"
     ano: 2016
+    editorial: "arc-dream-publishing"
+    licencia: "delta-green-pautas"
+    fuentes:
+      - datos:
+          - "ano"
+        url: "https://en.wikipedia.org/wiki/Delta_Green"
+        afirma: "El Agent's Handbook (2016) es el primer reglamento propio de Delta Green."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "editorial"
+        url: "https://devir.es/delta-green-manual-del-agente"
+        afirma: "El editor original de Delta Green es Arc Dream Publishing."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://www.delta-green.com/publishing-guidelines/"
+        afirma: "Solo se permite material de fans no comercial; nada de IA ni traducciones de los libros."
+        consultado: 2026-11-23
   - nombre: "Handler's Guide"
     ano: 2018
+    editorial: "arc-dream-publishing"
+    licencia: "delta-green-pautas"
+    fuentes:
+      - datos:
+          - "ano"
+          - "editorial"
+        url: "https://en.wikipedia.org/wiki/Delta_Green"
+        afirma: "La Handler's Guide de Arc Dream salió en 2018 y completa el reglamento."
+        consultado: 2026-11-23
+        secundaria: true
+      - datos:
+          - "licencia"
+        url: "https://www.delta-green.com/publishing-guidelines/"
+        afirma: "Solo se permite material de fans no comercial; nada de IA ni traducciones de los libros."
+        consultado: 2026-11-23
+  - nombre: "Manual del Agente"
+    editorial: "devir"
+    idioma: "es"
+    traduccionDe: "Agent's Handbook (primer reglamento propio)"
+    licencia: "delta-green-pautas"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://devir.es/delta-green-manual-del-agente"
+        afirma: "Devir publica Delta Green – Manual del Agente en castellano; editor original, Arc Dream Publishing."
+        consultado: 2026-11-23
+      - datos:
+          - "licencia"
+        url: "https://www.delta-green.com/publishing-guidelines/"
+        afirma: "Solo se permite material de fans no comercial; nada de IA ni traducciones de los libros."
+        consultado: 2026-11-23
 autoria:
   - "dennis-detwiller"
   - "christopher-gunning"

@@ -1,6 +1,26 @@
 ---
 titulo: "Root: The Roleplaying Game"
 tituloCastellano: "Root: El Juego de Rol"
+ediciones:
+  - nombre: "Root: The Roleplaying Game"
+    editorial: "magpie-games"
+    fuentes:
+      - datos:
+          - "editorial"
+        url: "https://magpiegames.com/collections/root/products/root-the-roleplaying-game"
+        afirma: "Magpie Games publica Root: The Roleplaying Game, con licencia oficial del juego de mesa Root de Leder Games."
+        consultado: 2026-11-23
+  - nombre: "Root: El Juego de Rol"
+    editorial: "shadowlands-ediciones"
+    idioma: "es"
+    traduccionDe: "Root: The Roleplaying Game"
+    fuentes:
+      - datos:
+          - "editorial"
+          - "traduccionDe"
+        url: "https://shadowlands.es/root/"
+        afirma: "Shadowlands publica Root: El Juego de Rol, adaptación oficial del juego de mesa."
+        consultado: 2026-11-23
 autoria:
   - "brendan-conway"
   - "mark-diaz-truman"
