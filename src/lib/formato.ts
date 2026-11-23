@@ -139,6 +139,40 @@ export const idiomaEdicion: Record<CampoRol<"juegos", "ediciones">[number]["idio
   es: "Castellano",
 };
 
+/** Nombre legible de un campo que respalda una fuente (`fuentes[].datos`). */
+const CAMPOS: Record<string, string> = {
+  titulo: "título",
+  tituloCastellano: "título en castellano",
+  estado: "estado",
+  ano: "año",
+  ediciones: "ediciones",
+  autoria: "autoría",
+  editorial: "editorial",
+  editorialCastellano: "editorial en castellano",
+  sistema: "sistema",
+  licenciaJuego: "licencia del juego",
+  licencia: "licencia",
+  generos: "género",
+  modo: "cómo se juega",
+  formato: "formato de partida",
+  jugadores: "jugadores",
+  traduccionDe: "de qué edición es traducción",
+  descarga: "descarga oficial",
+  familia: "familia",
+  origen: "origen",
+  srd: "SRD",
+  nombreCorto: "nombre corto",
+  url: "texto oficial",
+  permite: "qué permite",
+};
+export const etiquetaCampo = (campo: string) => CAMPOS[campo] ?? campo;
+
+/** Lista legible: «a», «a y b», «a, b y c». */
+export function listaY(items: string[]) {
+  if (items.length <= 1) return items.join("");
+  return `${items.slice(0, -1).join(", ")} y ${items[items.length - 1]}`;
+}
+
 /** «2026-11-14» → «14 de noviembre de 2026». Si no es una fecha completa, la devuelve tal cual. */
 export function fechaLarga(iso: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);

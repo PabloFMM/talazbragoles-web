@@ -149,6 +149,46 @@ export async function juegosDePersona(personaId: string) {
   return (await getAllJuegos()).filter((j) => j.data.autoria.some((a) => a.id === personaId));
 }
 
+/**
+ * Juegos parecidos a uno: mismo sistema, alguna licencia en común (del juego o
+ * de su sistema) o alguien de la autoría en común. Cada uno con sus motivos,
+ * en texto, y ordenados por número de motivos.
+ */
+export async function juegosParecidos(juego: CollectionEntry<"juegos">) {
+  const sistemas = new Map((await getSistemasRol()).map((s) => [s.id, s]));
+  const licencias = new Map((await getAllLicencias()).map((l) => [l.id, l]));
+  const autoria = new Map((await getAllAutoria()).map((a) => [a.id, a]));
+  const licenciasDe = (j: CollectionEntry<"juegos">) => {
+    const ids = new Set(j.data.licenciaJuego.map((l) => l.licencia.id));
+    const sis = j.data.sistema ? sistemas.get(j.data.sistema.id) : undefined;
+    if (sis?.data.licencia) ids.add(sis.data.licencia.id);
+    return ids;
+  };
+  // «Cerrada» no hace parecidos a dos juegos: solo cuenta lo que se comparte de verdad.
+  const propias = [...licenciasDe(juego)].filter((id) => licencias.get(id)?.data.tipo !== "cerrada");
+  const otros = (await getAllJuegos()).filter((j) => j.id !== juego.id);
+  return otros
+    .map((j) => {
+      const motivos: string[] = [];
+      if (juego.data.sistema && j.data.sistema?.id === juego.data.sistema.id) {
+        const s = sistemas.get(juego.data.sistema.id);
+        motivos.push(`Mismo sistema${s ? `: ${s.data.nombreCorto ?? s.data.name}` : ""}`);
+      }
+      const suyas = licenciasDe(j);
+      for (const id of propias) {
+        if (!suyas.has(id)) continue;
+        const l = licencias.get(id);
+        const politica = l && (l.data.tipo === "politica-de-uso" || l.data.tipo === "fans");
+        motivos.push(`${politica ? "Mismas condiciones de uso" : "Misma licencia"}: ${l?.data.nombreCorto ?? id}`);
+      }
+      for (const a of juego.data.autoria)
+        if (j.data.autoria.some((b) => b.id === a.id)) motivos.push(`Misma autoría: ${autoria.get(a.id)?.data.nombre ?? a.id}`);
+      return { juego: j, motivos };
+    })
+    .filter((p) => p.motivos.length > 0)
+    .sort((a, b) => b.motivos.length - a.motivos.length || a.juego.data.titulo.localeCompare(b.juego.data.titulo, "es"));
+}
+
 /** Juegos de una editorial (original, en castellano o de alguna edición). */
 export async function juegosDeEditorial(editorialId: string) {
   return (await getAllJuegos()).filter(

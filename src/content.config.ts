@@ -270,7 +270,9 @@ const juegos = defineCollection({
 // ─── 4 ter. licencias — qué permite cada licencia, en castellano llano ──
 
 const licencias = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/licencias" }),
+  // El id es el nombre del archivo tal cual: el id por defecto quita los puntos
+  // («cc-by-3.0» → «cc-by-30») y las referencias de juegos y sistemas no casarían.
+  loader: glob({ pattern: "**/*.md", base: "./src/content/licencias", generateId: ({ entry }) => entry.replace(/\.md$/, "") }),
   schema: z.object({
     nombre: z.string(),
     nombreCorto: z.string(),
