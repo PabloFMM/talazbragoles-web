@@ -1471,6 +1471,130 @@
   .tz-ediciones .tz-registro-meta { margin-top: var(--e-2); gap: var(--e-1) var(--e-4); }
   .tz-ediciones .tz-estado { white-space: normal; }
 
+  /* --- 4.17 septies Crónicas de mesa: módulos, campañas y mesas (Rol 7/8, 2026-11-24) ---
+     Ilustraciones del módulo: tercera excepción de imagen del sistema (proyecto/docs/diseno.md §2 ter).
+     Solo dentro de .tz-modulo-imagen: figura con filete fino, sin redondeos ni sombras, y pie debajo. */
+  .tz-modulo-imagen { margin: var(--e-7) 0; max-width: 46rem; }
+  .tz-modulo-imagen img { display: block; width: 100%; height: auto; border: var(--f-fino) solid var(--tinta); }
+  .tz-modulo-imagen figcaption {
+    margin-top: var(--e-3);
+    font-size: var(--t-0);
+    line-height: 1.55;
+    color: var(--tinta-2);
+    max-width: var(--medida);
+  }
+  .tz-prosa .tz-modulo-imagen { margin-block: var(--e-7); }
+  /* «(pendiente: …)» largo dentro del texto: parte línea como el resto (el nowrap de §4.8 es para la palabra suelta) */
+  .tz-prosa .tz-pendiente, .tz-ficha-texto .tz-pendiente, .tz-jornada-texto .tz-pendiente, .tz-modulo-imagen .tz-pendiente { white-space: normal; }
+  /* Botón de descarga: con el texto al 200 % parte línea en vez de desbordar */
+  .tz-descarga .tz-boton { max-width: 100%; text-align: center; }
+
+  /* Campaña: el primer ## del cuerpo («La verdad de nuestra mesa») ya lo pone el título de la sección. */
+  .tz-sin-primer-titulo > h2:first-child { display: none; }
+  .tz-sin-primer-titulo > h2:first-child + * { margin-top: 0; }
+  .tz-prosa h2, .tz-prosa h3, .tz-prosa h4 { scroll-margin-top: var(--nav-offset); }
+  .tz-prosa h4 { margin: var(--e-5) 0 var(--e-2); font-size: var(--t-1); font-weight: var(--p-semi); line-height: var(--il-titulo); }
+  .tz-guia > h4, .tz-guia > blockquote { max-width: var(--medida); }
+  .tz-prosa blockquote { margin-inline: 0; padding-left: var(--e-4); border-left: var(--f-medio) solid var(--tinta); }
+
+  /* Índice interno: apartados (##) y, debajo, sus ### sin número */
+  .tz-modulo-indice ul { list-style: none; margin: 0 0 var(--e-2); padding: 0 0 0 2.25rem; }
+  .tz-modulo-indice ul li { border-top: var(--f-fino) solid var(--filete); }
+  .tz-modulo-indice ul a { grid-template-columns: minmax(0, 1fr); }
+  .tz-modulo-indice ul a::before { content: none; }
+  /* Por debajo de 64rem el índice va plegado encima del texto; desde 64rem, abierto al margen */
+  .tz-modulo-plegable { border-block: var(--f-fino) solid var(--tinta); }
+  .tz-modulo-plegable > summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 var(--e-2);
+    min-height: var(--toque);
+    font-size: var(--t-0);
+    font-weight: var(--p-semi);
+  }
+  .tz-modulo-plegable > summary::before { content: "+"; display: inline-block; width: 1.25em; font-weight: var(--p-normal); }
+  .tz-modulo-plegable[open] > summary::before { content: "−"; }
+  .tz-modulo-plegable > summary:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+  .tz-modulo-plegable-n { font-weight: var(--p-normal); color: var(--tinta-2); }
+  .tz-modulo-plegable > .tz-indice-guia { border-top: 0; padding-top: 0; }
+  .tz-modulo-indice--ancho { display: none; }
+  @media (min-width: 64rem) {
+    .tz-modulo-plegable { display: none; }
+    .tz-modulo-indice--ancho { display: block; }
+  }
+
+  /* Anterior / siguiente al pie de cada sección */
+  .tz-modulo-paso { border-top: var(--f-fino) solid var(--tinta); margin-bottom: var(--e-6); }
+  .tz-modulo-paso ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 0 var(--medianil);
+  }
+  .tz-modulo-paso li { min-width: 0; padding-block: var(--e-3); }
+  .tz-modulo-paso-enlace {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--e-1);
+    min-height: var(--toque);
+    color: var(--tinta);
+    text-decoration: none;
+  }
+  .tz-modulo-paso-rotulo { font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-modulo-paso-titulo {
+    font-size: var(--t-1);
+    font-weight: var(--p-semi);
+    overflow-wrap: break-word;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+  .tz-modulo-paso-enlace:hover .tz-modulo-paso-titulo { text-decoration-thickness: 2px; }
+  /* En dos columnas, «Siguiente» se alinea a la derecha */
+  @media (min-width: 40rem) { .tz-modulo-paso li + li .tz-modulo-paso-enlace { align-items: flex-end; text-align: right; } }
+
+  /* Aviso de destripe de una campaña: recuadro discreto con filete grueso arriba */
+  .tz-aviso {
+    margin-top: var(--e-6);
+    padding: var(--e-5);
+    background: var(--papel-2);
+    border-top: var(--f-medio) solid var(--tinta);
+    font-size: var(--t-1);
+  }
+  .tz-aviso p { margin: 0; }
+  .tz-aviso p + p { margin-top: var(--e-3); }
+  .tz-aviso .tz-rotulo { margin-bottom: var(--e-3); }
+
+  /* Texto de una ficha (reparto, Registro del Tesaurum Verba) */
+  .tz-ficha-texto { margin: var(--e-4) 0 0; font-size: var(--t-1); line-height: var(--il-texto); }
+  .tz-ficha-texto.tz-ref { font-size: var(--t-0); }
+  .tz-registro-tv { scroll-margin-top: var(--nav-offset); }
+  .tz-registro-tv .tz-ficha-cabeza .tz-rotulo { color: var(--tinta); }
+
+  /* Cronología de una campaña: jornada a jornada */
+  .tz-jornadas { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-jornada { padding-block: var(--e-5); border-top: var(--f-fino) solid var(--filete); }
+  .tz-jornada:first-child { border-top: var(--f-medio) solid var(--tinta); }
+  .tz-jornada-titulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--e-1) var(--e-4);
+    margin: 0;
+    font-family: var(--letra-titular);
+    font-size: var(--t-2);
+    font-weight: var(--p-normal);
+    line-height: 1.25;
+  }
+  .tz-jornada-titulo .tz-num { font-family: var(--letra-texto); font-size: var(--t-0); }
+  .tz-jornada-titulo > span:last-child { min-width: 0; }
+  .tz-jornada-estado { margin: var(--e-2) 0 0; }
+  .tz-jornada-texto { margin: var(--e-3) 0 0; font-size: var(--t-1); line-height: var(--il-texto); }
+
   /* --- 4.18 Impresión ---
      Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice
      y el índice del pie; las migas se quedan como texto (dicen dónde estaba la página).

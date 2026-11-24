@@ -1,0 +1,81 @@
+---
+/**
+ * /rol/mesas/<slug>/: una mesa de juego (Rol 7/8, 2026-11-24). Ficha (dónde y con
+ * qué juega, quién dirige), quiénes somos (cuerpo del .md, sin nombres) y sus campañas.
+ */
+import { render, getEntry } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Datos from "../../../components/sistema/Datos.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import { getAllMesas, campanasDeMesa } from "../../../lib/collections";
+import { direccionMesa, estadoCampana, listaY, lugarMesa } from "../../../lib/formato";
+import { numeroSeccion } from "../../../lib/nav";
+import { hrefCampana } from "../../../lib/rol-rutas";
+
+export async function getStaticPaths() {
+  const mesas = await getAllMesas();
+  return mesas.map((m) => ({ params: { slug: m.id }, props: { mesa: m } }));
+}
+
+const { mesa } = Astro.props;
+const d = mesa.data;
+const { Content } = await render(mesa);
+const campanas = await Promise.all(
+  (await campanasDeMesa(mesa.id)).map(async (c) => ({ campana: c, juego: await getEntry(c.data.juego) }))
+);
+---
+
+<Layout title={`${d.nombre} (mesa de rol)`} description={d.resumen}>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Mesas", href: "/rol/mesas" }, { texto: d.nombre }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Mesa de juego"
+      titulo={d.nombre}
+      entradilla={d.resumen}
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <Datos
+        class="tz-datos--ancho tz-medida"
+        datos={[
+          { etiqueta: "Dónde juega", valor: lugarMesa[d.lugar] },
+          { etiqueta: "Con qué", valor: d.herramientas.length ? listaY(d.herramientas) : undefined },
+          { etiqueta: "Quién dirige", valor: direccionMesa[d.direccion] },
+          { etiqueta: "Campañas publicadas", valor: campanas.length },
+        ]}
+      />
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-quienes">
+      <Titulo id="s-quienes" numero="02">Quiénes somos</Titulo>
+      {mesa.body?.trim() ? <div class="tz-prosa"><Content /></div> : <div class="tz-medida"><Pendiente mensaje="Falta la presentación de la mesa." /></div>}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-campanas">
+      <Titulo id="s-campanas" numero="03">Campañas</Titulo>
+      {campanas.length > 0 ? (
+        <ul class="tz-lista-enlaces tz-lista-enlaces--una tz-medida">
+          {campanas.map(({ campana, juego }) => (
+            <li>
+              <a href={hrefCampana(campana.id)}>
+                <span class="tz-lista-enlaces-nombre">{campana.data.titulo}</span>
+                <span class="tz-lista-enlaces-detalle">{juego?.data.titulo ?? campana.data.juego.id} · {estadoCampana[campana.data.estado]}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna campaña publicada de esta mesa." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Volver a Rol</a>
+    </div>
+  </div>
+</Layout>

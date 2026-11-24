@@ -77,7 +77,12 @@ src/
 │   │   ├── sistemas/            # index (familias y derivados) y [slug] (ficha, juegos también vía derivados)
 │   │   ├── licencias/           # index (abiertas / no abiertas) y [slug] (qué permite, punto por punto, quién la usa; slug con puntos)
 │   │   ├── autoria/ y editoriales/  # index y [slug]: juegos y sistemas de cada persona o editorial
-│   │   └── (modulos/, campanas/, mesas/: páginas de la tarjeta Rol 7/8, pendientes)
+│   │   ├── modulos/index.astro            # /rol/modulos/: módulos publicados
+│   │   ├── modulos/[modulo]/index.astro   # Portada del módulo: ficha, Conflicto de Partida, cómo usarlo, índice, descarga
+│   │   ├── modulos/[modulo]/[seccion].astro  # Una página por sección: migas, índice interno (plegado < 64rem), anterior/siguiente
+│   │   ├── modulos/[modulo].md.ts         # /rol/modulos/<modulo>.md: el módulo entero en Markdown (CC0), imágenes con URL absoluta
+│   │   ├── campanas/index.astro y [slug].astro  # La aventura: aviso de destripe, ficha, reparto, jornada a jornada, la verdad de la mesa, Registro del Tesaurum Verba
+│   │   └── mesas/index.astro y [slug].astro     # La mesa: ficha, quiénes somos, campañas
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
     ├── global.css          # Punto de entrada: importa reset.css y sistema.css
@@ -155,6 +160,8 @@ Sustituyen a la antigua `campaigns` (JSON vacío con `gm` y `player`). Markdown.
 - `campanas`: `titulo`, `juego`, `mesa`, `modulo` (refs), `estado` (+ `estadoNota`), `fechas` (`inicio`, `fin`, `nota`), `numeroJornadas` (`n`, `aproximado`), `versionManual`, `licencia` (`"cc-by-4.0"`), `atribucion`, `direccion: "DJ"`, `aviso` (destripe), `resumen`, `reparto[]` (`personaje`, `posicion`, `especie`, `concepto`, `escena`, `nota`), `jornadas[]` (`n`, `titulo`, `quePaso`, `estado`: `documentado` | `deducido` | `pendiente`), `aportaciones[]` (ficha «Registro del Tesaurum Verba»: `nombre`, `tipo`, `grado` `aportacion` | `consolidada` | `inscrita` | `prevista`, `personaje` del reparto, `jornada`, `minuto`, `comoSeConsolido`, `manual` {`version`, `capitulo`} obligatorio si está inscrita, `queCambio`, `pendiente`). Cuerpo: «La verdad de nuestra mesa».
 - Lo que falta se escribe `(pendiente: qué)` en el Markdown; `src/lib/rehype-guias.mjs` lo pinta como `<span class="tz-pendiente">` en estas colecciones.
 - Helpers: `getAllCampanas()`, `getAllMesas()`, `campanasDeMesa()`, `getAllModulos()`, `seccionesDeModulo()`; etiquetas en `lib/formato.ts` (`estadoCampana`, `estadoJornada`, `gradoAportacion`, `lugarMesa`, `direccionMesa`). Referencias, orden de secciones, imágenes y aportaciones: `tests/rol-referencias.test.mjs`.
+- **Páginas (Rol 7/8, 2026-11-24)**: rutas en `lib/rol-rutas.ts` (`hrefModulo`, `hrefSeccionModulo`, `hrefModuloMd`, `hrefCampana`, `hrefMesa`, `anclaAportacion`). `/rol/` enlaza módulos, campañas y mesas («Crónicas de mesa»); la ficha de un juego con campañas o módulos añade la sección «Crónicas de mesa» (Lo jugamos · Módulo · Aportaciones al Corpus Numiniense, con ancla a cada ficha del Tesaurum Verba). El cuerpo de una sección empieza por sus apartados (`##`): no repetir el título de la sección (el h1 lo pone la página). Clases en `sistema.css` §4.17 septies. Lo vigila `tests/rol-cronicas-publicado.test.mjs` (sobre `dist/`).
+- **Imágenes del módulo**: tercera excepción de imagen (`proyecto/docs/diseno.md` §2 ter). `rehype-guias.mjs` (`figurasModulo`) convierte «imagen + pie en cursiva» en `<figure class="tz-modulo-imagen">` y pide a Astro WebP con `srcset` 480/800/1200. OJO: el build reutiliza el HTML ya renderizado de las colecciones; tras tocar un plugin rehype, `npx astro sync --force` antes del build.
 
 ---
 

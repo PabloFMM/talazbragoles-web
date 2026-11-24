@@ -2,8 +2,7 @@
 /**
  * /rol/: portada de la sección Rol (fase 1, 2026-11-23). Lo que jugamos ahora:
  * portadas tipográficas de los juegos, accesos a Juegos / Sistemas / Licencias
- * y las crónicas de mesa (fase 2: colecciones `campanas`, `mesas` y `modulos`; hasta
- * que existan sus páginas se anuncian «en preparación»). Lo jugado en las
+ * y las crónicas de mesa (fase 2, Rol 7/8: módulos, campañas y mesas). Lo jugado en las
  * Jornadas históricas está en /sistemas/ (Archivo).
  * Accesos a Juegos (con filtros), Sistemas, Licencias, Autoría y Editoriales.
  */
@@ -14,7 +13,8 @@ import Estado from "../../components/sistema/Estado.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import PortadaJuego from "../../components/sistema/PortadaJuego.astro";
 import CreditoPortada from "../../components/sistema/CreditoPortada.astro";
-import { getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego } from "../../lib/collections";
+import { getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego, getAllModulos, getAllCampanas, getAllMesas } from "../../lib/collections";
+import { hrefCampana, hrefMesa, hrefModulo } from "../../lib/rol-rutas";
 import { estadoJuego } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
@@ -22,6 +22,9 @@ const juegos = await getAllJuegos();
 const jugados = await Promise.all(juegos.filter((j) => j.data.jugado.nosotros).map(resuelveJuego));
 const nSistemas = (await getSistemasRol()).length;
 const nLicencias = (await getAllLicencias()).length;
+const modulos = await getAllModulos();
+const campanas = await getAllCampanas();
+const mesas = await getAllMesas();
 const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ?? s?.data.name;
 ---
 
@@ -95,13 +98,26 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
 
     <section class="tz-seccion" aria-labelledby="s-cronicas">
       <Titulo id="s-cronicas" numero="03">Crónicas de mesa</Titulo>
-      <div class="tz-medida">
-        <Pendiente
-          etiqueta="En preparación"
-          mensaje="Las crónicas de nuestras mesas: campañas en curso, la última sesión jugada y el mundo que va saliendo."
-          pide="Cada campaña tendrá su ficha: juego, mesa, estado, reparto de personajes y lo que pasó en cada jornada."
-        />
-      </div>
+      <p class="tz-medida" style="margin:0 0 var(--e-6)">Lo que jugamos en nuestras mesas y lo que sale de ello: módulos abiertos para que otras mesas los jueguen y la crónica de cómo los jugamos nosotros.</p>
+      <ul class="tz-resumen">
+        <li>
+          <h3>Módulos</h3>
+          <p>{modulos.length === 1 ? `«${modulos[0].data.titulo}», módulo abierto (CC0) para jugar en cualquier mesa.` : `${modulos.length} módulos abiertos para jugar en cualquier mesa.`}</p>
+          {modulos.map((m) => <a class="tz-enlace-bloque" href={hrefModulo(m.id)}><span>Módulo «{m.data.titulo}»</span><span aria-hidden="true">›</span></a>)}
+          <a class="tz-enlace-bloque" href="/rol/modulos"><span>Todos los módulos</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Campañas</h3>
+          <p>Cómo las jugamos: reparto de personajes, jornada a jornada y lo que aportamos al juego. Desvelan el misterio.</p>
+          {campanas.map((c) => <a class="tz-enlace-bloque" href={hrefCampana(c.id)}><span>Campaña «{c.data.titulo}»</span><span aria-hidden="true">›</span></a>)}
+          <a class="tz-enlace-bloque" href="/rol/campanas"><span>Todas las campañas</span><span aria-hidden="true">›</span></a>
+        </li>
+        <li>
+          <h3>Mesas</h3>
+          <p>Los grupos con los que jugamos, sin nombres: los jugadores salen con su personaje.</p>
+          {mesas.map((m) => <a class="tz-enlace-bloque" href={hrefMesa(m.id)}><span>{m.data.nombre}</span><span aria-hidden="true">›</span></a>)}
+        </li>
+      </ul>
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-jornadas">

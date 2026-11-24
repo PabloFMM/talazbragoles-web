@@ -1,0 +1,119 @@
+---
+/**
+ * /rol/modulos/<modulo>/: portada de un módulo de aventura (Rol 7/8, 2026-11-24).
+ * Cabecera (título, tipo, autoría, licencia CC0), ficha, Conflicto de Partida,
+ * cómo usarlo (cuerpo de la ficha, con enlace a la aventura de nuestra mesa como
+ * ejemplo), índice de secciones y descarga del .md completo.
+ * La autoría del módulo es la ÚNICA persona real nombrada en las crónicas (decisión 52).
+ */
+import { getEntry, render } from "astro:content";
+import Layout from "../../../../layouts/Layout.astro";
+import Encabezado from "../../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../../components/sistema/Titulo.astro";
+import Datos from "../../../../components/sistema/Datos.astro";
+import Pendiente from "../../../../components/sistema/Pendiente.astro";
+import { getAllModulos, seccionesDeModulo } from "../../../../lib/collections";
+import { dosCifras } from "../../../../lib/formato";
+import { numeroSeccion } from "../../../../lib/nav";
+import { hrefCampana, hrefJuego, hrefLicencia, hrefMesa, hrefModuloMd, hrefSeccionModulo } from "../../../../lib/rol-rutas";
+import type { Dato } from "../../../../components/sistema/Datos.astro";
+
+export async function getStaticPaths() {
+  const modulos = await getAllModulos();
+  return modulos.map((m) => ({ params: { modulo: m.id }, props: { modulo: m } }));
+}
+
+const { modulo } = Astro.props;
+const d = modulo.data;
+const { Content } = await render(modulo);
+const secciones = await seccionesDeModulo(modulo.id);
+const juego = await getEntry(d.juego);
+const licencia = await getEntry("licencias", d.licencia);
+const campana = d.campana ? await getEntry(d.campana) : undefined;
+const mesa = campana ? await getEntry(campana.data.mesa) : undefined;
+const palabras = [modulo, ...secciones].reduce((n, s) => n + (s.body ?? "").split(/\s+/).filter(Boolean).length, 0);
+const miles = (n: number) => (Math.round(n / 500) * 500).toLocaleString("es-ES");
+
+const datos: Dato[] = [
+  { etiqueta: "Juego", enlaces: juego ? [{ texto: juego.data.titulo, href: hrefJuego(juego.id) }] : [] },
+  { etiqueta: "Autoría", valor: d.autoria },
+  { etiqueta: "Licencia", enlaces: licencia ? [{ texto: licencia.data.nombre, href: hrefLicencia(licencia.id) }] : [] },
+  { etiqueta: "Dificultad", valor: d.dificultad },
+  { etiqueta: "Duración", valor: d.duracion },
+  { etiqueta: "Jugadores", valor: d.jugadores },
+  { etiqueta: "Dónde transcurre", valor: d.ambito },
+];
+---
+
+<Layout title={`${d.titulo} (módulo de ${juego?.data.titulo ?? "rol"})`} description={d.resumen}>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Módulos", href: "/rol/modulos" }, { texto: d.titulo }]}
+      numero={numeroSeccion("/rol")}
+      seccion={d.tipo}
+      titulo={d.titulo}
+      entradilla={d.resumen}
+    >
+      <p class="tz-recuento">De {d.autoria} · licencia {licencia?.data.nombreCorto ?? d.licencia}: se puede copiar, adaptar y publicar sin pedir permiso</p>
+    </Encabezado>
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <Datos datos={datos} class="tz-datos--ancho tz-medida" />
+      {d.conflicto ? (
+        <div class="tz-nota tz-medida" style="margin-top:var(--e-6)">
+          <p class="tz-rotulo">Conflicto de Partida</p>
+          <p>{d.conflicto}</p>
+        </div>
+      ) : (
+        <div class="tz-medida" style="margin-top:var(--e-6)"><Pendiente mensaje="Falta el Conflicto de Partida." /></div>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-uso">
+      <Titulo id="s-uso" numero="02">Cómo usar este módulo</Titulo>
+      <div class="tz-prosa"><Content /></div>
+      {campana && (
+        <p class="tz-medida" style="margin:var(--e-5) 0 0">
+          <a class="tz-enlace-bloque" href={hrefCampana(campana.id)}>
+            <span>Un ejemplo: cómo lo jugó {mesa ? mesa.data.nombre.replace(/^El /, "el ") : "nuestra mesa"} (desvela el misterio)</span><span aria-hidden="true">›</span>
+          </a>
+        </p>
+      )}
+      {mesa && (
+        <p class="tz-ref tz-medida" style="margin:var(--e-3) 0 0">La mesa: <a href={hrefMesa(mesa.id)}>{mesa.data.nombre}</a>.</p>
+      )}
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-indice">
+      <Titulo id="s-indice" numero="03">Índice</Titulo>
+      <ol class="tz-lista-enlaces tz-lista-enlaces--una tz-medida">
+        {secciones.map((s) => (
+          <li>
+            <a href={hrefSeccionModulo(modulo.id, s.data.slug)}>
+              <span class="tz-lista-enlaces-nombre"><span class="tz-num">{dosCifras(s.data.orden)}</span> {s.data.titulo}</span>
+              <span class="tz-lista-enlaces-detalle">{s.data.resumen}</span>
+              <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-descarga">
+      <Titulo id="s-descarga" numero="04">Descargar</Titulo>
+      <div class="tz-descarga tz-medida">
+        <a class="tz-boton tz-boton--tinta" href={hrefModuloMd(modulo.id)} download={`${modulo.id}.md`}>Descargar en Markdown <span class="tz-sr">el módulo «{d.titulo}»</span></a>
+        <p class="tz-ref">
+          Todo el módulo en un solo archivo de texto (Markdown, unas {miles(palabras)} palabras), con las imágenes enlazadas.
+          Licencia {licencia?.data.nombreCorto ?? d.licencia}: <a href={hrefLicencia(d.licencia)}>qué permite</a>.
+        </p>
+      </div>
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href={hrefSeccionModulo(modulo.id, secciones[0]?.data.slug ?? "")}>Empezar a leer <span aria-hidden="true">›</span></a>
+      <a class="tz-boton" href="/rol/modulos"><span aria-hidden="true">‹</span> Todos los módulos</a>
+    </div>
+  </div>
+</Layout>

@@ -8,9 +8,7 @@ autoria: "Christian Märtens, storyteller de Numen Games"
 resumen: "Cómo dirigir la investigación: PNJ modulares, lugares por entorno, el archivo de la logia, los tres antiguos miembros y cinco escenas adaptables."
 ---
 
-## Fase de Investigación
-
-### Cómo dirigir la fase
+## Cómo dirigir la fase
 
 ![Esquema ilustrado de Numinia: cuatro distritos alrededor de una plaza central, con sus lugares rotulados.](../../../assets/rol/navegantes/04-mapa-numinia-distritos.jpg)
 *Esquema de Numinia: los cuatro distritos alrededor del Ágora. La imagen dice «Agora Plaza» (Ágora), «Taberna Hyperborean» (Taberna Hiperbórea) y «Estados de la Conciencia» (la Academia del Umbral Anímico, según el manual). Ilustración del módulo, hecha con IA. CC0.*
@@ -45,11 +43,11 @@ Libertad no es calma. En la investigación tienen que pasar cosas: un PNJ miente
 
 **Cuándo termina.** Cuando las escenas empiezan a repetir información, las decisiones ya no abren caminos o la mesa pierde interés, el DJ puede provocar el tránsito. La investigación debe ser amplia, no interminable. Después, en la Fase de Reflexión, los jugadores eligen qué persiguen (ver el Espacio de Indeterminación 7).
 
-### Fichas del LAP
+## Fichas del LAP
 
 En cuanto los PJ sepan de la existencia de un antiguo miembro, pueden consultar su ficha en el LAP. Es información pública. Se entrega tal cual.
 
-| | Aurelian Thalos | Helena Noctua | Cassian Virel | Isolde Mareth |
+| Campo | Aurelian Thalos | Helena Noctua | Cassian Virel | Isolde Mareth |
 |---|---|---|---|---|
 | **Gremio / Rama / Casa** | Exégeta – Erudito – Taumaturgo | Alquimista – Menestral – Esteta | Centinela – Serafín – Guardián | Centinela – Arcángel – Exploradora |
 | **Facción** | Neo-Atlantes (Distrito Sycamore) | Neo-Atlantes (Distrito Sycamore) | Círculo Estelar (Distrito Solomon) | Neo-Atlantes (Distrito Sycamore) |
@@ -59,13 +57,13 @@ En cuanto los PJ sepan de la existencia de un antiguo miembro, pueden consultar 
 
 La ficha no lo dice todo. Isolde, aunque figure como asesora de una Academia de Vitruvian, trabaja desde su casa, en Sycamore. Helena es la única de los tres que no figura en los registros públicos como posible exmiembro de la logia. A Cassian no se puede llegar.
 
-### PNJ modulares
+## PNJ modulares
 
 Son arquetipos adaptables. Sirven tanto si los jugadores empiezan por un organismo oficial como si bucean en la Rumorología de la ciudad. El DJ los coloca en el lugar que convenga. Cada perfil indica entre paréntesis el distrito donde es más fácil encontrarlo.
 
 Ninguno tiene la verdad. Cada uno tiene una parte, una versión o una obsesión.
 
-#### Académicos (Vitruvian / Solomon)
+### Académicos (Vitruvian / Solomon)
 
 **Dr. Eidon Salvaris** — Exégeta, humanita, profesor.
 - Especialidad: anomalías cognitivas. Actitud: pedante, de fascinación contenida.
@@ -79,7 +77,7 @@ Ninguno tiene la verdad. Cada uno tiene una parte, una versión o una obsesión.
 - Especialidad: simbología. Interpretó sueños de la logia. Cree que la brújula es peligrosa.
 - Hay dos versiones del personaje. En la lista de PNJ es alquimista, biomecánico, investigador teórico, un «paranoico elegante» de advertencias exageradas. En la escena del Vórtice, posterior, es espectral, casi cálido, y puede ser el antiguo maestro del PJ Oniromante. El DJ elige; la escena usa la segunda. Ver «Escenas adaptables».
 
-#### Bohemios (Ouroboros / Sycamore)
+### Bohemios (Ouroboros / Sycamore)
 
 **Ormuz «el Ciego»** — Exégeta, reptiliano, poeta.
 - Escribe poemas oníricos. Alcohólico.
@@ -95,7 +93,7 @@ Ninguno tiene la verdad. Cada uno tiene una parte, una versión o una obsesión.
 - Cuenta historias, todas contradictorias: rumores valiosos disfrazados de ficción.
 - Traficó con sueños para la logia sin saber mucho de ella. Conoce bien la historia del Desborde.
 
-#### Barriobajeros (Ouroboros bajo / periferia)
+### Barriobajeros (Ouroboros bajo / periferia)
 
 **K'hader «Tres Dedos»** — Alquimista, reptiliano, traficante; oficialmente, vendedor ambulante.
 - Trafica con recuerdos. Habla del mercado negro de sueños.
@@ -108,7 +106,7 @@ Ninguno tiene la verdad. Cada uno tiene una parte, una versión o una obsesión.
 - Trabajó para la logia como «aprietatuercas».
 - Afirma haber visto a Aurelian hace poco. Información dudosa, pero provocadora.
 
-#### Tecnológicos (Solomon / Vitruvian)
+### Tecnológicos (Solomon / Vitruvian)
 
 **Dorian Hoax** — Alquimista, mestizo (cyanita-espectral), hacker (analista de datos corruptos).
 - Tiene registros de la logia. Sabe cosas sobre Cassian Virel.
@@ -121,11 +119,11 @@ Ninguno tiene la verdad. Cada uno tiene una parte, una versión o una obsesión.
 - Guarda datos sobre la logia.
 - Desarrolla patrones repetitivos, casi proféticos, sobre los sueños.
 
-### Lugares por entorno
+## Lugares por entorno
 
 Sitios donde pueden estar los PNJ modulares. Todos sirven para repartir PNJ, información y rumores. Los nombres y distritos siguen el manual cuando el material dice otra cosa.
 
-#### Entorno académico (Distrito Vitruvian)
+### Entorno académico (Distrito Vitruvian)
 
 **Academia del Umbral Anímico** (Campus Escolástico). Institución prestigiosa, sobria, casi excesivamente correcta. Estudia los estados de conciencia con un rigor casi clínico y una base filosófica profunda; las clases oscilan entre lo científico y lo especulativo, y no siempre queda claro dónde acaba uno y empieza lo otro. Los profesores hablan con precisión, pero evitan ciertas preguntas.
 
@@ -141,13 +139,13 @@ Dentro está la **Cámara de Palimpsestos**, apartada del circuito habitual. Se 
 
 La **Sección Aleph** no figura en los planos oficiales y su paso está completamente restringido. Se baja por niveles inferiores hasta las catacumbas. La arquitectura cambia: menos funcional, más antigua. Guarda registros que no se pueden clasificar sin comprometer la estructura del archivo. La luz es tenue y estable, sin fuente visible. Cualquier sonido parece amortiguado, como si el lugar absorbiera la intención antes que el ruido.
 
-#### Entorno espiritual
+### Entorno espiritual
 
 **Teatro de los Sentidos** (Distrito Sycamore, Círculo Escénico de la Acrópolis). Edificio de líneas sinuosas, casi orgánicas, más cultivado que construido. La fachada parece cambiar con la luz; sus relieves recuerdan cuerpos en movimiento, entrelazados en formas que la mirada no consigue fijar. Dentro, oscuridad y luces tenues y fluorescentes. No hay separación clara entre público y performers. El Teatro no representa historias: provoca estados. Sus espectáculos pueden llevar el teatro del cuerpo al límite de lo anatómico, explorar el alma como materia manipulable, usar la piel, la respiración y el pulso como lenguaje, o encarnar paradojas numínidas: acciones que contradicen su propio sentido. Aquí actúa Nyrean Vell.
 
 **Vórtice de los Sueños** (Distrito Ouroboros, Templo de Khepri). Espacio interior del templo dedicado a la práctica de la oniromancia, entre hogueras, vapores psicotrópicos y murmullos. No es una escuela formal, sino un lugar de entrenamiento y tránsito. El acceso está medianamente restringido: no es un sitio de visita, pero tampoco está prohibido; depende de la intención de quien llega. Salas circulares, suelos grabados en espiral, luz tenue. El silencio está cargado, como si los sueños recientes no se hubieran disipado del todo. Los iniciados practican la inducción, la navegación y el retorno; no todos lo consiguen a la primera. Aquí se entrenó el PJ Oniromante con Aurelian. Tiene escena propia.
 
-#### Entorno pintoresco (Distrito Ouroboros, Barrio Viejo)
+### Entorno pintoresco (Distrito Ouroboros, Barrio Viejo)
 
 El Barrio Viejo es el sustrato más popular de Ouroboros: calles estrechas, plazas y viejos establecimientos donde sobreviven restos de otras épocas. Se intercambian información, objetos e historias, y es uno de los focos de actividad clandestina de la ciudad. Comprende la Calle de los Misterios (mercado negro), la Plaza de los Rumores (centro de la Rumorología) y el Corredor de la Memoria (viejos cafés).
 
@@ -168,7 +166,7 @@ El Barrio Viejo es el sustrato más popular de Ouroboros: calles estrechas, plaz
 
 **El Rincón de las Ménades** (Corredor de la Memoria). Más animado: música suave, risas contenidas, un ambiente cálido, casi festivo. Pero a veces la intensidad sube sin motivo claro. Aquí manda la emoción, y no siempre se queda dentro.
 
-#### Entorno barriobajero (Distrito Ouroboros, Plaza de los Rumores)
+### Entorno barriobajero (Distrito Ouroboros, Plaza de los Rumores)
 
 ![Arco en ruinas con una serpiente azul luminosa sobre una calle inundada; un hombre con chaqueta.](../../../assets/rol/navegantes/09-ouroboros-plaza-de-los-rumores.jpg)
 *Ouroboros, la Plaza de los Rumores. Ilustración del módulo, hecha con IA. CC0.*
@@ -179,12 +177,12 @@ El Barrio Viejo es el sustrato más popular de Ouroboros: calles estrechas, plaz
 
 **El Jardín Sumergido.** Espacio bajo tierra, cálido y saturado de humedad, donde se fuma nimbria, una planta de hojas verdinegras que crece en el Viridial. Se inhalan sus vapores o se bebe. Aquí los recuerdos se mezclan, y no siempre vuelven a su sitio.
 
-#### Otros lugares
+### Otros lugares
 
 - **La Taberna Hiperbórea** y **la Casa de los Acertijos**, con el Foro de los Laberintos (Ouroboros): ver «Escenas adaptables».
 - **El Órgano de Defensa** (Solomon) y **la casa de Isolde Mareth** (Sycamore): ver «Los antiguos miembros».
 
-### El archivo de la logia
+## El archivo de la logia
 
 El archivo reconstruido es una guía que se ofrece por fragmentos: testimonios de PNJ, documentos encontrados. El DJ decide en qué formato entrega cada fragmento (documento, declaración, rumor, sueño) y cuánto da, según cómo investiguen los jugadores. Los fragmentos llevan número romano para que el DJ sepa cuáles ha entregado.
 
@@ -300,11 +298,11 @@ El archivo reconstruido es una guía que se ofrece por fragmentos: testimonios d
 - Las hipótesis del fragmento X y las que circulan entre investigadores son Propuestas potenciales, no hechos. Están en esa sección con la frase final de Aurelian.
 - Los ocho rumores sobre la logia, con su clasificación, también están allí (Rumorología). Se recogen igual que el archivo.
 
-### Los antiguos miembros
+## Los antiguos miembros
 
 Los PJ pueden intentar localizar a los tres antiguos miembros: Helena Noctua, Cassian Virel e Isolde Mareth. Cada uno exige un camino distinto. Helena es selectiva. Cassian es inalcanzable. Isolde se niega.
 
-#### Helena Noctua
+### Helena Noctua
 
 **Dónde.** Distrito Vitruvian. Es Jefa de Recursos en la Sociedad Histórica. Por algún motivo ha esquivado toda sospecha: es la única de los tres que no figura en los registros públicos como posible exmiembro de la logia. Oficialmente, es especialista en clasificación de estructuras narrativas anómalas.
 
@@ -349,7 +347,7 @@ Se la puede encontrar en las salas de archivo de octaedros de la Biblioteca Atla
 
 **El fragmento de clasificación.** Helena puede entregar, dejar consultar o dejarse arrebatar un esquema incompleto: símbolos de puertas, patrones repetidos y referencias cruzadas. Es un gráfico de símbolos caóticos y reconocibles, con un orden que solo detecta un Oniromante. Está mal ordenado a propósito, bajo una clave que solo conoce Helena. Un Oniromante puede interpretarlo con una Tirada de Decodificar entorno. Es una Pieza del Conflicto potencial: su interpretación está en «Las Piezas del Conflicto» (Pieza 1).
 
-#### Cassian Virel
+### Cassian Virel
 
 **Dónde.** Trabaja en la Égida Liminal, una fortificación móvil que recorre la periferia de Numinia estudiando alteraciones y manteniéndolas bajo control.
 
@@ -365,7 +363,7 @@ Si preguntan por su relación con la logia, reciben respuestas evasivas y negati
 
 Lo que se sepa de Cassian tendrá que llegar por otros caminos: Helena, Dorian Hoax, el fragmento III del archivo.
 
-#### Isolde Mareth
+### Isolde Mareth
 
 **Dónde.** Es asesora independiente de la Academia del Umbral Anímico, en el Campus Escolástico de Vitruvian. Pero no acude a la sede: trabaja desde su casa, en el Distrito Sycamore. A veces tiene que presentarse en la Academia para manipular material tecnológico.
 
@@ -400,11 +398,11 @@ Isolde sigue trabajando en los sueños. Para quién y con qué medios, nadie lo 
 
 **El sistema de seguridad.** Isolde ha instalado en su casa un clon holográfico que se carga y se activa poco después de detectar presencias extrañas. Antes se oye: «Sistema de seguridad cargado. Activando protocolo». Desde ese momento tarda treinta segundos en aparecer. Lleva una daga holográfica que hiere de verdad y se mueve y ataca a gran velocidad. Se desactiva hackeando el sistema de seguridad, instalado en el cuarto contiguo, o venciéndolo. El enfrentamiento y sus anclajes están en «Anclajes pregenerados para el DJ» (Enfrentamiento 4).
 
-### Escenas adaptables
+## Escenas adaptables
 
 Estas escenas se escribieron para los PJ de una mesa concreta. Aquí están sin ellos: sin nombres de PJ, sin sus respuestas y sin lo que se construyó sobre ellas. Cuando una escena pide un PJ con un vínculo (un antiguo maestro, una escuela), el DJ la asigna a quien encaje o abre ese vínculo con una pregunta de Resonancia Dialógica: «¿Quién te enseñó aquí, y qué te dejó a deber?». Ninguna es obligatoria.
 
-#### Escena 1. El Foro de los Laberintos
+### Escena 1. El Foro de los Laberintos
 
 *(Casa de los Acertijos, Distrito Ouroboros)*
 
@@ -437,7 +435,7 @@ Para sacarle algo, el PJ tiene que formular una hipótesis en forma de acertijo 
 
 Gane o pierda, Kharos entra y le dice: «Tienes un talento enorme, casi único; pero no sabes protegerlo». Después le da un indicio, que el DJ elige entre el material de la investigación (un fragmento del archivo, un rumor), y desaparece.
 
-#### Escena 2. La Taberna Hiperbórea
+### Escena 2. La Taberna Hiperbórea
 
 *(Distrito Ouroboros)*
 
@@ -457,7 +455,7 @@ El material no dice qué gana quien acierta ni en qué escena se usaba. (pendien
 
 **El callejón.** Al salir, en el callejón de la taberna, puede producirse un enfrentamiento: algo empieza a filtrarse por una rejilla del suelo, y Kharos se va corriendo diciendo que «no es para él». Ver «Anclajes pregenerados para el DJ» (Enfrentamiento 6).
 
-#### Escena 3. El Vórtice de los Sueños
+### Escena 3. El Vórtice de los Sueños
 
 *(Templo de Khepri, Distrito Ouroboros)*
 
@@ -494,7 +492,7 @@ En el sueño, el PJ elige una cosa: enfrentarse a ellos (ver «Anclajes pregener
 
 Si los Depredadores vieron al PJ, más adelante puede llegar la emboscada: tres Depredadores del Eco asaltan a los PJ en la ciudad. Recuerda que un Depredador no cruza solo: si aparece, algo lo ha llamado, a propósito o por una corriente del Velo. Ver «Anclajes pregenerados para el DJ» (Enfrentamiento 3).
 
-#### Escena 4. Ishara Venn
+### Escena 4. Ishara Venn
 
 *(En el Vórtice de los Sueños)*
 
@@ -507,7 +505,7 @@ Ishara es la puerta hacia Nyrean Vell:
 > «Hay alguien en Sycamore que ha llevado esto más lejos… Nyrean Vell, una performer que está actuando en el Teatro de los Sentidos. No estudia sueños. Los convierte en espectáculo. Lo llama… la Estética del Desborde.»
 > «No recrea sueños tal como fueron; recrea lo que *dejaron atrás* cuando se rompieron.»
 
-#### Escena 5. Nyrean Vell, la performer de la conciencia
+### Escena 5. Nyrean Vell, la performer de la conciencia
 
 *(Teatro de los Sentidos, Distrito Sycamore)*
 

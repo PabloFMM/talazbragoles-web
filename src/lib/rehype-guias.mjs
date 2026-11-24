@@ -11,6 +11,7 @@
  *    escribe «(pendiente: qué)» y se pinta como el «pendiente» del sitio
  *    (<span class="tz-pendiente">, sistema.css §4.8). El .md descargable lo
  *    conserva como texto legible.
+ * 4. Módulos (Rol 7/8): «imagen + pie en cursiva» → <figure class="tz-modulo-imagen"> con srcset (figurasModulo).
  *
  * El generador de la web local (proyecto/tools/build-guias.py) hace lo mismo en Python.
  */
@@ -78,6 +79,28 @@ export function marcaPendientes(arbol) {
   });
 }
 
+/**
+ * Imágenes de los módulos (Rol 7/8): el Markdown pone la imagen y, en la línea
+ * siguiente, el pie en cursiva (un solo <p>). Ese párrafo pasa a ser
+ * <figure class="tz-modulo-imagen"> con <figcaption>. A la imagen se le dan
+ * anchos y `sizes` para que Astro (rehype-images, que corre DESPUÉS de este
+ * plugin y pasa estas propiedades a getImage) genere un srcset en WebP.
+ */
+export const ANCHOS_MODULO = [480, 800, 1200];
+export const SIZES_MODULO = "(min-width: 64rem) 46rem, calc(100vw - 2rem)";
+export function figurasModulo(arbol) {
+  recorrer(arbol, (n) => {
+    if (n.type !== "element" || n.tagName !== "p") return;
+    const el = (n.children || []).filter((h) => !(h.type === "text" && !h.value.trim()));
+    if (el.length !== 2 || el[0].tagName !== "img" || el[1].tagName !== "em") return;
+    const [img, em] = el;
+    img.properties = { ...img.properties, widths: ANCHOS_MODULO, sizes: SIZES_MODULO, loading: "lazy", decoding: "async" };
+    n.tagName = "figure";
+    n.properties = { className: ["tz-modulo-imagen"] };
+    n.children = [img, { type: "element", tagName: "figcaption", properties: {}, children: em.children }];
+  });
+}
+
 export default function rehypeGuias() {
   return (arbol, archivo) => {
     const ruta = String(archivo?.path || archivo?.history?.[0] || "");
@@ -90,6 +113,9 @@ export default function rehypeGuias() {
       if (esGuia && n.tagName === "h1" && padre) quitar.push([padre, n]);
     });
     for (const [padre, n] of quitar) padre.children.splice(padre.children.indexOf(n), 1);
-    if (esCronica) marcaPendientes(arbol);
+    if (esCronica) {
+      marcaPendientes(arbol);
+      figurasModulo(arbol);
+    }
   };
 }
