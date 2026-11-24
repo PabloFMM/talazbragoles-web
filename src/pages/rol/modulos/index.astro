@@ -1,0 +1,55 @@
+---
+/**
+ * /rol/modulos/: módulos de aventura publicados (Rol 7/8, 2026-11-24).
+ * Un módulo es un esqueleto abierto (CC0) que cualquier mesa puede jugar; la
+ * aventura de nuestra mesa que sale de él se publica aparte, en /rol/campanas/.
+ */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import { getAllModulos, getAllJuegos } from "../../../lib/collections";
+import { numeroSeccion } from "../../../lib/nav";
+import { hrefModulo } from "../../../lib/rol-rutas";
+
+const modulos = await getAllModulos();
+const juegos = new Map((await getAllJuegos()).map((j) => [j.id, j.data.titulo]));
+---
+
+<Layout
+  title="Módulos de aventura"
+  description="Módulos de aventura para juegos de rol, publicados con licencia abierta para que cualquier mesa los juegue."
+>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Módulos" }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Módulos de aventura"
+      entradilla="Aventuras abiertas para que cualquier mesa las juegue. Dan el punto de partida, los lugares y las escenas; las respuestas las construye cada mesa."
+    />
+
+    <section class="tz-seccion" aria-labelledby="s-modulos">
+      <Titulo id="s-modulos" numero="01">Módulos publicados</Titulo>
+      {modulos.length > 0 ? (
+        <ul class="tz-lista-enlaces tz-lista-enlaces--una tz-medida">
+          {modulos.map((m) => (
+            <li>
+              <a href={hrefModulo(m.id)}>
+                <span class="tz-lista-enlaces-nombre">{m.data.titulo}</span>
+                <span class="tz-lista-enlaces-detalle">{juegos.get(m.data.juego.id) ?? m.data.juego.id} · {m.data.resumen}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ningún módulo publicado." /></div>
+      )}
+    </section>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Volver a Rol</a>
+    </div>
+  </div>
+</Layout>

@@ -8,6 +8,10 @@
 /mmo/wow-forever/asesor/datos/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Módulos de Rol en un solo Markdown (CC0), para leer o descargar
+/rol/modulos/*.md
+  Content-Type: text/markdown; charset=utf-8
+
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 

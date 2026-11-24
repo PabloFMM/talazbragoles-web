@@ -1,80 +1,210 @@
 ---
-/** /rol/campanas/<slug>/: ficha de una campaña actual (colección «campaigns»). */
+/**
+ * /rol/campanas/<slug>/: una campaña o aventura jugada por nuestra mesa (Rol 7/8, 2026-11-24).
+ * Aviso de destripe, ficha (juego, mesa, módulo, fechas, jornadas, licencia CC BY 4.0),
+ * reparto (SOLO personajes), cronología por jornadas, «La verdad de nuestra mesa»
+ * (cuerpo del .md) y «Lo que esta aventura aportó a Numinia», con una ficha
+ * «Registro del Tesaurum Verba» por aportación (ancla: anclaAportacion()).
+ * Privacidad: quien dirige sale como «DJ»; ningún nombre real (lo vigila el esquema).
+ */
+import { getEntry, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import Encabezado from "../../../components/sistema/Encabezado.astro";
 import Titulo from "../../../components/sistema/Titulo.astro";
 import Datos from "../../../components/sistema/Datos.astro";
+import Estado from "../../../components/sistema/Estado.astro";
 import Pendiente from "../../../components/sistema/Pendiente.astro";
-import { getAllCampaigns } from "../../../lib/collections";
-import { estadoCampana } from "../../../lib/formato";
+import { getAllCampanas } from "../../../lib/collections";
+import { dosCifras, estadoCampana, estadoJornada, gradoAportacion } from "../../../lib/formato";
 import { numeroSeccion } from "../../../lib/nav";
+import { anclaAportacion, hrefJuego, hrefLicencia, hrefMesa, hrefModulo } from "../../../lib/rol-rutas";
+import type { Dato } from "../../../components/sistema/Datos.astro";
+import type { EstadoDocumental } from "../../../lib/formato";
 
 export async function getStaticPaths() {
-  const campanas = await getAllCampaigns();
+  const campanas = await getAllCampanas();
   return campanas.map((c) => ({ params: { slug: c.id }, props: { campana: c } }));
 }
 
 const { campana } = Astro.props;
-const { title, system, status, started, gm, summary, sessions, characters } = campana.data;
-const datos = [
-  { etiqueta: "Sistema", valor: system },
-  { etiqueta: "Estado", valor: estadoCampana[status] },
-  { etiqueta: "Desde", valor: started },
-  { etiqueta: "Dirige", valor: gm },
+const d = campana.data;
+const { Content, headings } = await render(campana);
+const juego = await getEntry(d.juego);
+const mesa = await getEntry(d.mesa);
+const modulo = d.modulo ? await getEntry(d.modulo) : undefined;
+const licencia = await getEntry("licencias", d.licencia);
+
+const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+const mes = (f?: string) => {
+  const m = f ? /^(\d{4})-(\d{2})$/.exec(f) : null;
+  return m ? `${MESES[Number(m[2]) - 1]} de ${m[1]}` : f;
+};
+const fechas = d.fechas?.inicio
+  ? `De ${mes(d.fechas.inicio)} a ${d.fechas.fin ? mes(d.fechas.fin) : "hoy"}`
+  : undefined;
+// Primer ## del cuerpo = «La verdad de nuestra mesa»: lo pone el Titulo de la sección.
+const titulaCuerpo = headings[0]?.depth === 2 ? headings[0].text : "La verdad de nuestra mesa";
+
+const datos: Dato[] = [
+  { etiqueta: "Juego", enlaces: juego ? [{ texto: juego.data.titulo, href: hrefJuego(juego.id) }] : [] },
+  { etiqueta: "Edición del juego", valor: d.versionManual },
+  { etiqueta: "Mesa", enlaces: mesa ? [{ texto: mesa.data.nombre, href: hrefMesa(mesa.id) }] : [] },
+  { etiqueta: "Módulo base", enlaces: modulo ? [{ texto: modulo.data.titulo, href: hrefModulo(modulo.id) }] : [] },
+  { etiqueta: "Estado", valor: d.estado === "pendiente" ? undefined : `${estadoCampana[d.estado]}${d.estadoNota ? `. ${d.estadoNota}` : ""}` },
+  { etiqueta: "Fechas", valor: fechas },
+  { etiqueta: "Jornadas", valor: d.numeroJornadas ? `${d.numeroJornadas.aproximado ? "Unas " : ""}${d.numeroJornadas.n}` : undefined },
+  { etiqueta: "Quién dirige", valor: d.direccion },
+  { etiqueta: "Licencia", enlaces: licencia ? [{ texto: licencia.data.nombre, href: hrefLicencia(licencia.id), detalle: `; atribución: ${d.atribucion}` }] : [] },
+];
+
+// Estado de cada jornada con la forma del estado documental del sitio.
+const formaJornada: Record<(typeof d.jornadas)[number]["estado"], EstadoDocumental> = {
+  documentado: "documentada",
+  deducido: "parcial",
+  pendiente: "pendiente",
+};
+const quePasoPendiente = (t?: string) => !t || /^pendiente\b/i.test(t.trim());
+
+const datosAportacion = (a: (typeof d.aportaciones)[number]): Dato[] => [
+  { etiqueta: "Tipo", valor: a.tipo },
+  { etiqueta: "Grado", valor: gradoAportacion[a.grado] },
+  { etiqueta: "La propuso", valor: a.personaje },
+  { etiqueta: "Jornada", valor: a.jornada },
+  { etiqueta: "Minuto del audio", valor: a.minuto },
+  { etiqueta: "En el manual", valor: a.manual ? `${a.manual.version}. ${a.manual.capitulo}` : undefined },
 ];
 ---
 
-<Layout title={title} description={summary ?? `Campaña de ${system}: sesiones y personajes.`}>
+<Layout
+  title={`${d.titulo} (campaña de ${juego?.data.titulo ?? "rol"})`}
+  description={`Cómo jugó ${mesa?.data.nombre.replace(/^El /, "el ") ?? "nuestra mesa"} «${d.titulo}»: reparto, jornadas, la verdad que construyó la mesa y lo que aportó al juego.`}
+>
   <div class="tz-pagina">
     <Encabezado
-      migas={[{ texto: "Rol", href: "/rol" }, { texto: title }]}
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Campañas", href: "/rol/campanas" }, { texto: d.titulo }]}
       numero={numeroSeccion("/rol")}
-      seccion="Campaña"
-      titulo={title}
-      entradilla={summary}
-    />
+      seccion={`Campaña de ${juego?.data.titulo ?? "rol"} · ${mesa?.data.nombre ?? ""}`}
+      titulo={d.titulo}
+      entradilla={d.resumen}
+    >
+      <p class="tz-recuento">
+        Licencia <a class="tz-enlace" href={hrefLicencia(d.licencia)}>{licencia?.data.nombreCorto ?? d.licencia}</a>: se puede copiar y adaptar citando a {d.atribucion}
+      </p>
+    </Encabezado>
 
-    <section class="tz-seccion" aria-labelledby="s-datos">
-      <Titulo id="s-datos" numero="01">Datos</Titulo>
-      <Datos datos={datos} class="tz-medida" />
+    {d.aviso && (
+      <div class="tz-aviso tz-medida" role="note" aria-label="Aviso de destripe">
+        <p class="tz-rotulo">Aviso: desvela el misterio</p>
+        <p>{d.aviso}</p>
+        {modulo && (
+          <p><a class="tz-enlace-bloque" href={hrefModulo(modulo.id)}><span>Ir al módulo base, sin respuestas</span><span aria-hidden="true">›</span></a></p>
+        )}
+      </div>
+    )}
+
+    <section class="tz-seccion" aria-labelledby="s-ficha">
+      <Titulo id="s-ficha" numero="01">Ficha</Titulo>
+      <Datos datos={datos} class="tz-datos--ancho tz-medida" />
+      {d.fechas?.nota && <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">{d.fechas.nota}</p>}
     </section>
 
-    <section class="tz-seccion" aria-labelledby="s-sesiones">
-      <Titulo id="s-sesiones" numero="02">Sesiones</Titulo>
-      {sessions.length > 0 ? (
-        <ol class="tz-lista-numerada tz-medida">
-          {sessions.map((s) => (
-            <li>
-              <div>
-                <p class="tz-item-titulo">{s.title ?? (s.n ? `Sesión ${s.n}` : "Sesión")}</p>
-                {s.date && <p class="tz-ref tz-item-meta">{s.date}</p>}
-                <p class="tz-item-texto">{s.summary}</p>
+    <section class="tz-seccion" aria-labelledby="s-reparto">
+      <Titulo id="s-reparto" numero="02">Reparto</Titulo>
+      <p class="tz-medida" style="margin:0 0 var(--e-6)">Los jugadores salen con el nombre de su personaje; quien dirige, como «DJ».</p>
+      {d.reparto.length > 0 ? (
+        <div class="tz-fichas">
+          {d.reparto.map((r, i) => (
+            <article class="tz-ficha">
+              <div class="tz-ficha-cabeza"><span class="tz-num">{dosCifras(i + 1)}</span><span /></div>
+              <div class="tz-ficha-cuerpo">
+                <h3 class="tz-ficha-titulo">{r.personaje}</h3>
+                <Datos datos={[
+                  { etiqueta: "Posición", valor: r.posicion },
+                  { etiqueta: "Especie", valor: r.especie },
+                  { etiqueta: "Escena de presentación", valor: r.escena },
+                ]} />
+                {r.concepto && <p class="tz-ficha-texto">{r.concepto}</p>}
+                {r.nota && <p class="tz-ref tz-ficha-texto">{r.nota}</p>}
               </div>
-            </li>
+            </article>
           ))}
-        </ol>
+        </div>
       ) : (
-        <div class="tz-medida"><Pendiente mensaje="Todavía no hay resúmenes de sesión." /></div>
+        <div class="tz-medida"><Pendiente mensaje="Falta el reparto." /></div>
       )}
     </section>
 
-    <section class="tz-seccion" aria-labelledby="s-personajes">
-      <Titulo id="s-personajes" numero="03">Personajes</Titulo>
-      {characters.length > 0 ? (
-        <Datos
-          class="tz-medida tz-datos--ancho"
-          datos={characters.map((p) => ({
-            etiqueta: p.name,
-            valor: [p.player && `Lo lleva ${p.player}.`, p.description].filter(Boolean).join(" "),
-          }))}
-        />
+    <section class="tz-seccion" aria-labelledby="s-cronologia">
+      <Titulo id="s-cronologia" numero="03">Jornada a jornada</Titulo>
+      <p class="tz-medida" style="margin:0 0 var(--e-5)">
+        «Documentado»: lo cuenta el resumen de esa jornada. «Deducido»: se saca de otros textos. «Pendiente»: falta el resumen; se completará con los audios.
+      </p>
+      <ol class="tz-jornadas tz-medida">
+        {d.jornadas.map((j) => (
+          <li class="tz-jornada">
+            <h3 class="tz-jornada-titulo">
+              <span class="tz-num">Jornada {j.n}</span>
+              <span>{j.titulo ?? <Pendiente etiqueta="título pendiente" />}</span>
+            </h3>
+            <p class="tz-jornada-estado"><Estado estado={formaJornada[j.estado]} texto={estadoJornada[j.estado]} /></p>
+            {quePasoPendiente(j.quePaso) ? (
+              <p class="tz-jornada-texto"><Pendiente />{j.quePaso ? <>: {j.quePaso.trim().replace(/^pendiente\s*/i, "").replace(/^\((.*)\)\.?/, "$1.")}</> : "."}</p>
+            ) : (
+              <p class="tz-jornada-texto">{j.quePaso}</p>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-verdad">
+      <Titulo id="s-verdad" numero="04">{titulaCuerpo}</Titulo>
+      <div class:list={["tz-prosa", { "tz-sin-primer-titulo": headings[0]?.depth === 2 }]}><Content /></div>
+    </section>
+
+    <section class="tz-seccion" aria-labelledby="s-aportaciones">
+      <Titulo id="s-aportaciones" numero="05">Lo que esta aventura aportó a Numinia</Titulo>
+      <div class="tz-medida" style="margin:0 0 var(--e-6)">
+        <p style="margin:0">
+          Lo que propone la mesa puede llegar al mundo del juego. Primero es una aportación; si la aventura la hace verdad, queda consolidada;
+          cuando entra en el manual, está inscrita en el Corpus Numiniense. Cada una tiene su ficha del Tesaurum Verba.
+        </p>
+      </div>
+      {d.aportaciones.length > 0 ? (
+        <div class="tz-fichas">
+          {d.aportaciones.map((a, i) => (
+            <article class="tz-ficha tz-registro-tv" id={anclaAportacion(a.nombre)}>
+              <div class="tz-ficha-cabeza"><span class="tz-num">{dosCifras(i + 1)}</span><span class="tz-rotulo">Registro del Tesaurum Verba</span></div>
+              <div class="tz-ficha-cuerpo">
+                <h3 class="tz-ficha-titulo">{a.nombre}</h3>
+                <Datos datos={datosAportacion(a)} />
+                <p class="tz-ficha-texto"><strong>Cómo se consolidó.</strong> {a.comoSeConsolido}</p>
+                {a.queCambio && <p class="tz-ficha-texto"><strong>Qué cambió.</strong> {a.queCambio}</p>}
+                {a.pendiente && <p class="tz-ficha-texto"><Pendiente />: {a.pendiente}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
       ) : (
-        <div class="tz-medida"><Pendiente mensaje="Todavía no hay personajes registrados." /></div>
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay aportaciones registradas." /></div>
       )}
     </section>
+
+    {modulo && (
+      <section class="tz-seccion" aria-labelledby="s-modulo">
+        <Titulo id="s-modulo" numero="06">Jugarla en tu mesa</Titulo>
+        <p class="tz-medida" style="margin:0">
+          Esta es nuestra versión. El módulo base deja el misterio abierto para que cada mesa construya el suyo, y es de dominio público.
+        </p>
+        <p class="tz-medida" style="margin:var(--e-4) 0 0">
+          <a class="tz-enlace-bloque" href={hrefModulo(modulo.id)}><span>Módulo «{modulo.data.titulo}»</span><span aria-hidden="true">›</span></a>
+        </p>
+      </section>
+    )}
 
     <div class="tz-acciones" style="margin-bottom:var(--aire)">
-      <a class="tz-boton" href="/rol#s-cronicas"><span aria-hidden="true">‹</span> Crónicas de mesa</a>
+      <a class="tz-boton" href="/rol/campanas"><span aria-hidden="true">‹</span> Todas las campañas</a>
+      {mesa && <a class="tz-boton" href={hrefMesa(mesa.id)}>La mesa: {mesa.data.nombre}</a>}
     </div>
   </div>
 </Layout>

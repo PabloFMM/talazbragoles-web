@@ -77,6 +77,14 @@
       if (img.getBoundingClientRect().right > W + 1) add(`portada desborda: ${img.getAttribute('src')}`);
       continue;
     }
+    // Excepción (Rol 7/8, 2026-11-24): ilustración de un módulo de aventura (CC0), en su figura con pie.
+    if (img.closest('figure.tz-modulo-imagen')) {
+      if (!img.alt || img.alt.length < 20) add(`ilustración de módulo sin alt descriptivo: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`ilustración de módulo sin width/height: ${img.getAttribute('src')}`);
+      if (!img.closest('figure').querySelector('figcaption')?.textContent.trim()) add(`ilustración de módulo sin pie: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`ilustración de módulo desborda: ${img.getAttribute('src')}`);
+      continue;
+    }
     add(`imagen visible: ${img.getAttribute('src')}`);
   }
   return JSON.stringify({ w: W, sw: SW, issues });

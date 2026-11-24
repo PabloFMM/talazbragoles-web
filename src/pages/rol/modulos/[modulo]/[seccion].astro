@@ -1,0 +1,130 @@
+---
+/**
+ * /rol/modulos/<modulo>/<seccion>/: una sección del módulo (Rol 7/8, 2026-11-24).
+ * Migas, índice interno con anclas (apartados ## y, debajo, sus ###), el texto
+ * (Markdown limpio de la colección seccionesModulo) y anterior/siguiente.
+ * Las imágenes del Markdown salen como <figure class="tz-modulo-imagen"> (rehype-guias).
+ * Índice: a la derecha desde 64rem; por debajo, plegado en un <details> encima del
+ * texto (las secciones largas tienen más de veinte apartados).
+ */
+import { render, getEntry } from "astro:content";
+import Layout from "../../../../layouts/Layout.astro";
+import Encabezado from "../../../../components/sistema/Encabezado.astro";
+import { getAllModulos, seccionesDeModulo } from "../../../../lib/collections";
+import { dosCifras } from "../../../../lib/formato";
+import { numeroSeccion } from "../../../../lib/nav";
+import { hrefLicencia, hrefModulo, hrefModuloMd, hrefSeccionModulo } from "../../../../lib/rol-rutas";
+
+export async function getStaticPaths() {
+  const secs = await Promise.all((await getAllModulos()).map(async (m) => ({ modulo: m, secciones: await seccionesDeModulo(m.id) })));
+  return secs.flatMap(({ modulo, secciones }) =>
+    secciones.map((seccion, i) => ({
+      params: { modulo: modulo.id, seccion: seccion.data.slug },
+      props: { modulo, seccion, anterior: secciones[i - 1], siguiente: secciones[i + 1], total: secciones.length },
+    }))
+  );
+}
+
+const { modulo, seccion, anterior, siguiente, total } = Astro.props;
+const d = seccion.data;
+const { Content, headings } = await render(seccion);
+const licencia = await getEntry("licencias", d.licencia);
+
+type Entrada = { slug: string; text: string; hijos: { slug: string; text: string }[] };
+const apartados: Entrada[] = [];
+let vistoH2 = false;
+headings.forEach((h) => {
+  const e: Entrada = { slug: h.slug, text: h.text, hijos: [] };
+  if (h.depth === 2) { vistoH2 = true; apartados.push(e); }
+  // Un ### antes de cualquier ## va al primer nivel.
+  else if (h.depth === 3) (vistoH2 ? apartados[apartados.length - 1].hijos : apartados).push(e);
+});
+const nApartados = apartados.reduce((n, e) => n + 1 + e.hijos.length, 0);
+const titulo = `${dosCifras(d.orden)}. ${d.titulo}`;
+---
+
+<Layout title={`${d.titulo} · ${modulo.data.titulo}`} description={d.resumen}>
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[
+        { texto: "Rol", href: "/rol" },
+        { texto: "Módulos", href: "/rol/modulos" },
+        { texto: modulo.data.titulo, href: hrefModulo(modulo.id).replace(/\/$/, "") },
+        { texto: d.titulo },
+      ]}
+      numero={numeroSeccion("/rol")}
+      seccion={`${modulo.data.titulo} · sección ${d.orden} de ${total}`}
+      titulo={titulo}
+      entradilla={d.resumen}
+    >
+      <p class="tz-recuento">
+        De {d.autoria} · licencia <a class="tz-enlace" href={hrefLicencia(d.licencia)}>{licencia?.data.nombreCorto ?? d.licencia}</a>
+      </p>
+    </Encabezado>
+
+    <div class="tz-seccion tz-guia-reticula">
+      {nApartados > 0 && (
+        <aside class="tz-guia-margen" aria-label="Índice de la sección">
+          <details class="tz-modulo-plegable">
+            <summary>Índice de esta sección <span class="tz-modulo-plegable-n">({nApartados} apartados)</span></summary>
+            <nav class="tz-indice-guia tz-modulo-indice" aria-label="Apartados de la sección">
+              <ol>
+                {apartados.map((e) => (
+                  <li>
+                    <a href={`#${e.slug}`}><span>{e.text}</span></a>
+                    {e.hijos.length > 0 && (
+                      <ul>
+                        {e.hijos.map((h) => <li><a href={`#${h.slug}`}><span>{h.text}</span></a></li>)}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </details>
+          <nav class="tz-indice-guia tz-modulo-indice tz-modulo-indice--ancho" aria-label="Apartados de la sección">
+            <p class="tz-rotulo" style="margin:0">En esta sección</p>
+            <ol>
+              {apartados.map((e) => (
+                <li>
+                  <a href={`#${e.slug}`}><span>{e.text}</span></a>
+                  {e.hijos.length > 0 && (
+                    <ul>
+                      {e.hijos.map((h) => <li><a href={`#${h.slug}`}><span>{h.text}</span></a></li>)}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </aside>
+      )}
+
+      <article class="tz-guia tz-prosa tz-contenedor tz-modulo-texto">
+        <Content />
+      </article>
+    </div>
+
+    <nav class="tz-modulo-paso" aria-label="Secciones del módulo">
+      <ul>
+        <li>
+          <a class="tz-modulo-paso-enlace" href={anterior ? hrefSeccionModulo(modulo.id, anterior.data.slug) : hrefModulo(modulo.id)} rel={anterior ? "prev" : undefined}>
+            <span class="tz-modulo-paso-rotulo"><span aria-hidden="true">‹ </span>Anterior</span>
+            <span class="tz-modulo-paso-titulo">{anterior ? `${dosCifras(anterior.data.orden)}. ${anterior.data.titulo}` : "Portada del módulo"}</span>
+          </a>
+        </li>
+        <li>
+          <a class="tz-modulo-paso-enlace" href={siguiente ? hrefSeccionModulo(modulo.id, siguiente.data.slug) : hrefModulo(modulo.id)} rel={siguiente ? "next" : undefined}>
+            <span class="tz-modulo-paso-rotulo">{siguiente ? "Siguiente" : "Fin del módulo"}<span aria-hidden="true"> ›</span></span>
+            <span class="tz-modulo-paso-titulo">{siguiente ? `${dosCifras(siguiente.data.orden)}. ${siguiente.data.titulo}` : "Volver a la portada"}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href={hrefModulo(modulo.id)}><span aria-hidden="true">‹</span> Índice del módulo</a>
+      <a class="tz-boton" href={hrefModuloMd(modulo.id)} download={`${modulo.id}.md`}>Descargar el módulo en Markdown</a>
+    </div>
+  </div>
+</Layout>

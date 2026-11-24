@@ -18,12 +18,13 @@ import Pendiente from "../../../components/sistema/Pendiente.astro";
 import PortadaJuego from "../../../components/sistema/PortadaJuego.astro";
 import CreditoPortada from "../../../components/sistema/CreditoPortada.astro";
 import FuenteDato from "../../../components/sistema/FuenteDato.astro";
-import { getAllJuegos, resuelveJuego, juegosParecidos } from "../../../lib/collections";
+import { getAllJuegos, resuelveJuego, juegosParecidos, getAllCampanas, getAllModulos } from "../../../lib/collections";
 import {
-  dosCifras, estadoJuego, fechaLarga, formatoPartida, generoRol, idiomaEdicion, listaY, modoJuego, tipoLicencia,
+  dosCifras, estadoJuego, fechaLarga, formatoPartida, generoRol, gradoAportacion, idiomaEdicion, listaY, modoJuego, tipoLicencia,
 } from "../../../lib/formato";
 import { numeroSeccion } from "../../../lib/nav";
-import { hrefAutoria, hrefEditorial, hrefLicencia, hrefSistema } from "../../../lib/rol-rutas";
+import { anclaAportacion, hrefAutoria, hrefCampana, hrefEditorial, hrefLicencia, hrefModulo, hrefSistema } from "../../../lib/rol-rutas";
+import { getEntry } from "astro:content";
 import { hrefFiltro } from "../../../lib/rol-filtros";
 import type { Dato } from "../../../components/sistema/Datos.astro";
 
@@ -123,6 +124,25 @@ const licencias = await Promise.all(
   [...usos.values()].map(async (u) => ({ ...u, Cuerpo: (await render(u.licencia)).Content }))
 );
 
+// Crónicas de mesa (Rol 7/8): campañas que jugamos, módulos y aportaciones al juego.
+const campanas = (await getAllCampanas()).filter((c) => c.data.juego.id === juego.id);
+const modulos = (await getAllModulos()).filter((m) => m.data.juego.id === juego.id);
+const mesas = new Map(await Promise.all(campanas.map(async (c) => [c.id, (await getEntry(c.data.mesa))?.data.nombre] as const)));
+const aportaciones = campanas.flatMap((c) => c.data.aportaciones.map((a) => ({ a, c })));
+const hayCronicas = campanas.length > 0 || modulos.length > 0;
+const datosCronicas: Dato[] = [
+  { etiqueta: "Lo jugamos", separador: ";", enlaces: campanas.map((c) => ({ texto: `Campaña «${c.data.titulo}»`, href: hrefCampana(c.id), detalle: mesas.get(c.id) ? ` (${mesas.get(c.id)})` : undefined })) },
+  { etiqueta: "Módulo", enlaces: modulos.map((m) => ({ texto: `«${m.data.titulo}»`, href: hrefModulo(m.id), detalle: " (CC0)" })) },
+  {
+    etiqueta: juego.id === "numinia" ? "Aportaciones al Corpus Numiniense" : "Aportaciones al juego",
+    separador: ";",
+    enlaces: aportaciones.map(({ a, c }) => ({ texto: a.nombre, href: `${hrefCampana(c.id)}#${anclaAportacion(a.nombre)}`, detalle: ` (${gradoAportacion[a.grado].charAt(0).toLowerCase()}${gradoAportacion[a.grado].slice(1)})` })),
+  },
+];
+// Las secciones de después de «Qué es» se numeran seguidas (la de crónicas solo sale si hay).
+let num = 2;
+const sig = () => dosCifras(++num);
+
 const srd = r.sistema?.data.srd;
 const pieDe = (j: (typeof parecidos)[number]["juego"]) => j.data.ano ? String(j.data.ano) : undefined;
 const sistemasDe = new Map(
@@ -175,8 +195,15 @@ const sistemasDe = new Map(
       )}
     </section>
 
+    {hayCronicas && (
+      <section class="tz-seccion" aria-labelledby="s-cronicas">
+        <Titulo id="s-cronicas" numero={sig()}>Crónicas de mesa</Titulo>
+        <Datos datos={datosCronicas} class="tz-datos--ancho tz-medida" />
+      </section>
+    )}
+
     <section class="tz-seccion" aria-labelledby="s-ediciones">
-      <Titulo id="s-ediciones" numero="03">Ediciones</Titulo>
+      <Titulo id="s-ediciones" numero={sig()}>Ediciones</Titulo>
       {r.ediciones.length > 0 ? (
         <div class="tz-fichas">
           {r.ediciones.map((e, i) => (
@@ -200,7 +227,7 @@ const sistemasDe = new Map(
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-licencia">
-      <Titulo id="s-licencia" numero="04">Qué te deja hacer la licencia</Titulo>
+      <Titulo id="s-licencia" numero={sig()}>Qué te deja hacer la licencia</Titulo>
       {licencias.length > 0 ? (
         <div class="tz-medida">
           {licencias.map(({ licencia, usos, Cuerpo }) => (
@@ -223,7 +250,7 @@ const sistemasDe = new Map(
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-conseguir">
-      <Titulo id="s-conseguir" numero="05">Dónde conseguirlo</Titulo>
+      <Titulo id="s-conseguir" numero={sig()}>Dónde conseguirlo</Titulo>
       {d.enlaces.length > 0 || srd ? (
         <ul class="tz-lista-enlaces">
           {d.enlaces.map((e) => (
@@ -252,7 +279,7 @@ const sistemasDe = new Map(
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-fuentes">
-      <Titulo id="s-fuentes" numero="06">Fuentes</Titulo>
+      <Titulo id="s-fuentes" numero={sig()}>Fuentes</Titulo>
       {notas.length > 0 ? (
         <ol class="tz-fuentes tz-medida">
           {notas.map((x) => <FuenteDato fuente={x.fuente} n={x.n} ambito={x.ambito} />)}
@@ -263,7 +290,7 @@ const sistemasDe = new Map(
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-parecidos">
-      <Titulo id="s-parecidos" numero="07">Juegos parecidos</Titulo>
+      <Titulo id="s-parecidos" numero={sig()}>Juegos parecidos</Titulo>
       {parecidos.length > 0 ? (
         <ul class="tz-portadas">
           {parecidos.map((p) => (

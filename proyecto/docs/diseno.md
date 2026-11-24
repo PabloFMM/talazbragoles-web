@@ -29,7 +29,7 @@ El cian `#00f5d4` anterior desaparece. Alias de compatibilidad para estilos anti
 
 ## 2 bis. Excepción de color: portadas oficiales (Rol 5, 2026-11-23, tarjeta `t_2e62a9d4`)
 
-Decisión del grupo (2026-11-23, manda sobre el «hueco tipográfico» de la fase 1): en `/rol/` se publican las **portadas oficiales** de los juegos, reproducidas sin ánimo de lucro. Con los documentos de época del Archivo (§4.17 quater de `sistema.css`), son las únicas imágenes del sistema, y las únicas en color.
+Decisión del grupo (2026-11-23, manda sobre el «hueco tipográfico» de la fase 1): en `/rol/` se publican las **portadas oficiales** de los juegos, reproducidas sin ánimo de lucro. Con los documentos de época del Archivo (§4.17 quater de `sistema.css`) y las ilustraciones de los módulos (§2 ter), son las únicas imágenes del sistema, y las únicas en color.
 
 - **Origen**: solo la web oficial de la editorial o del autor (página del producto). Nada de tiendas de terceros, wikis ni aficionados. Si no hay portada oficial en la web, se queda el hueco tipográfico (`PortadaTipografica`). Se guarda en el repo (`src/assets/rol/portadas/<slug>.jpg`, JPEG de 640 px de ancho como máximo, recortada a la portada si la web la enseña en una maqueta o una tableta); no se enlaza en caliente.
 - **Datos**: campo `portada` de la ficha (`archivo`, `titulo` si el impreso no es el del juego, `edicion`, `credito`, `ilustracion` solo si la web la acredita, `permiso: oficial-sin-lucro`) + una fuente en `fuentes[]` con `datos: ["portada"]`: url exacta de la página de donde sale, qué enseña y fecha. El esquema rechaza una portada sin esa fuente.
@@ -39,6 +39,16 @@ Decisión del grupo (2026-11-23, manda sobre el «hueco tipográfico» de la fas
 - **Técnica**: `astro:assets` (`<Picture>`): AVIF y WebP + JPEG de reserva, `width`/`height`, `srcset` 1×/2× (240/480 en la ficha, 200/400 en rejillas, 144/288 en el catálogo), calidad 45 (la 2× más pesada, Dungeon World, ~60 KB en AVIF), `loading="lazy"` salvo en la ficha. HTML estático, sin JS.
 - **Componentes**: `PortadaJuego` (imagen o hueco) y `CreditoPortada`; clases `tz-portada-figura`, `tz-portada-img`, `tz-portada-credito` (`sistema.css` §4.17 quinquies). Muestra en `/diseno/` §13.
 - **Auditoría**: `tests/auditoria-sitio.js` sigue marcando cualquier imagen visible salvo `.tz-portada-img` y los documentos y objetos de época (`.tz-documento-imagen`, con alt de ≥ 20 caracteres, `width` y `height` obligatorios); a la portada le exige alt «Portada de … (…)» y medidas. `tests/rol-publicado.test.mjs` y `tests/rol-referencias.test.mjs` comprueban alt, medidas, AVIF/WebP, crédito con enlace y fuente oficial.
+
+## 2 ter. Excepción de imagen: ilustraciones de los módulos de Rol (Rol 7/8, 2026-11-24, tarjeta `t_a152be1b`)
+
+Tercera excepción, con las portadas oficiales (§2 bis) y los documentos de época: las **ilustraciones de un módulo de aventura** (hoy, las 9 de «Los Navegantes del Sueño»). Son parte del módulo (mapas, planos, carteles que se enseñan a los jugadores), las hizo con IA quien lo escribió y se publican con el módulo en CC0.
+
+- **Dónde**: solo en las páginas de sección del módulo (`/rol/modulos/<módulo>/<sección>/`), dentro de `<figure class="tz-modulo-imagen">` con `figcaption`. En el Markdown de la sección, la imagen y en la línea siguiente el pie en cursiva; `src/lib/rehype-guias.mjs` (`figurasModulo`) convierte ese párrafo en la figura.
+- **Pie**: qué es, nombres en castellano cuando la imagen trae otros («Agora Plaza» → Ágora), avisos (mapa que lleva respuestas de una mesa), «Ilustración del módulo, hecha con IA. CC0.».
+- **Aspecto**: en su proporción, hasta 46rem de ancho, filete fino de tinta, sin redondeos, sombras, filtros ni animaciones. Pie a 16 px en `--tinta-2`.
+- **Técnica**: imagen de Markdown procesada por `astro:assets` (un `<Picture>` no cabe dentro de Markdown): WebP con `srcset` de 480/800/1200 px y `sizes`, `width`/`height`, `loading="lazy"`. Originales en `src/assets/rol/<módulo>/`. Tras cambiar el plugin rehype hay que borrar la caché de contenidos (`npx astro sync --force`): el build reutiliza el HTML ya renderizado.
+- **Auditoría**: `tests/auditoria-sitio.js` admite `figure.tz-modulo-imagen img` si tiene alt de ≥ 20 caracteres, `width`/`height`, pie con texto y no desborda. Clases en `sistema.css` §4.17 septies.
 
 ## 3. Tipografía
 Dos familias variables autoalojadas en `repo/public/fonts/` (subconjunto latín, cubre el español), licencia SIL OFL 1.1 (textos `OFL-*.txt` junto a los archivos). Procedencia: paquetes npm `@fontsource-variable/archivo` y `@fontsource-variable/source-serif-4`, copiados a mano (no son dependencias del proyecto). Las dos redondas se precargan en el `<head>`.

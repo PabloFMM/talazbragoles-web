@@ -1,7 +1,7 @@
 /** Formato de fechas y etiquetas del Archivo (sin datos: solo presentación). */
 import type { CollectionEntry } from "astro:content";
 
-type Campo<C extends "sources" | "editions" | "people" | "timeline" | "campaigns", K extends keyof CollectionEntry<C>["data"]> =
+type Campo<C extends "sources" | "editions" | "people" | "timeline" | "campanas" | "mesas", K extends keyof CollectionEntry<C>["data"]> =
   CollectionEntry<C>["data"][K];
 
 /** Estado documental de una edición (mismo enum que el esquema). */
@@ -43,11 +43,40 @@ export const categoriaCronologia: Record<Campo<"timeline", "category">, string> 
   otra: "Otro",
 };
 
-export const estadoCampana: Record<Campo<"campaigns", "status">, string> = {
+export const estadoCampana: Record<Campo<"campanas", "estado">, string> = {
   "en-curso": "En curso",
   "en-pausa": "En pausa",
   terminada: "Terminada",
   pendiente: "Pendiente",
+};
+
+type Jornada = Campo<"campanas", "jornadas">[number];
+type Aportacion = Campo<"campanas", "aportaciones">[number];
+
+/** Estado del dato de una jornada de campaña. */
+export const estadoJornada: Record<Jornada["estado"], string> = {
+  documentado: "Documentado",
+  deducido: "Deducido",
+  pendiente: "Pendiente",
+};
+
+/** Grado de una aportación al mundo (decisión 39: protocolo de canon). */
+export const gradoAportacion: Record<Aportacion["grado"], string> = {
+  aportacion: "Aportación",
+  consolidada: "Aportación consolidada",
+  inscrita: "Inscrita en el Corpus Numiniense",
+  prevista: "Prevista, pendiente de inscribir",
+};
+
+export const lugarMesa: Record<Campo<"mesas", "lugar">, string> = {
+  "en-linea": "En línea",
+  presencial: "En persona",
+  mixta: "En línea y en persona",
+};
+
+export const direccionMesa: Record<Campo<"mesas", "direccion">, string> = {
+  fija: "Siempre la misma persona",
+  rotatoria: "Rotatoria: dirige quien conoce el juego",
 };
 
 export const tipoFuente: Record<Campo<"sources", "type">, string> = {

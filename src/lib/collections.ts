@@ -302,8 +302,33 @@ export async function getAllGuides() {
   return all.sort((a, b) => a.data.profesion.localeCompare(b.data.profesion, "es"));
 }
 
-/** Campañas actuales del grupo (sección /rol/), sin borradores, por título. */
-export async function getAllCampaigns() {
-  const all = await getCollection("campaigns", ({ data }) => !data.draft);
-  return all.sort((a, b) => a.data.title.localeCompare(b.data.title, "es"));
+// ─── Crónicas de mesa (Rol, fase 2) ───────────────────────────────────
+
+/** Campañas jugadas por nuestras mesas, sin borradores, por título. */
+export async function getAllCampanas() {
+  const all = await getCollection("campanas", ({ data }) => !data.draft);
+  return all.sort((a, b) => a.data.titulo.localeCompare(b.data.titulo, "es"));
+}
+
+/** Mesas (grupos de juego), sin borradores, por nombre. */
+export async function getAllMesas() {
+  const all = await getCollection("mesas", ({ data }) => !data.draft);
+  return all.sort((a, b) => a.data.nombre.localeCompare(b.data.nombre, "es"));
+}
+
+/** Campañas de una mesa. */
+export async function campanasDeMesa(mesa: string) {
+  return (await getAllCampanas()).filter((c) => c.data.mesa.id === mesa);
+}
+
+/** Módulos publicados (fichas), sin borradores, por título. */
+export async function getAllModulos() {
+  const all = await getCollection("modulos", ({ data }) => !data.draft);
+  return all.sort((a, b) => a.data.titulo.localeCompare(b.data.titulo, "es"));
+}
+
+/** Secciones de un módulo, en orden. Id = «<modulo>/<nn>-<slug>»; ruta = data.slug. */
+export async function seccionesDeModulo(modulo: string) {
+  const all = await getCollection("seccionesModulo", ({ data }) => data.modulo.id === modulo);
+  return all.sort((a, b) => a.data.orden - b.data.orden);
 }

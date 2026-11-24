@@ -1,0 +1,46 @@
+---
+/** /rol/mesas/: nuestras mesas de juego (Rol 7/8, 2026-11-24). Sin nombres de personas. */
+import Layout from "../../../layouts/Layout.astro";
+import Encabezado from "../../../components/sistema/Encabezado.astro";
+import Titulo from "../../../components/sistema/Titulo.astro";
+import Pendiente from "../../../components/sistema/Pendiente.astro";
+import { getAllMesas } from "../../../lib/collections";
+import { lugarMesa } from "../../../lib/formato";
+import { numeroSeccion } from "../../../lib/nav";
+import { hrefMesa } from "../../../lib/rol-rutas";
+
+const mesas = await getAllMesas();
+---
+
+<Layout title="Mesas de juego" description="Los grupos con los que jugamos a rol: dónde juegan, con qué y qué campañas han publicado.">
+  <div class="tz-pagina">
+    <Encabezado
+      migas={[{ texto: "Rol", href: "/rol" }, { texto: "Mesas" }]}
+      numero={numeroSeccion("/rol")}
+      seccion="Rol"
+      titulo="Mesas de juego"
+      entradilla="Los grupos con los que jugamos. Aquí nadie sale con su nombre: los jugadores, con su personaje; quien dirige, como «DJ»."
+    />
+    <section class="tz-seccion" aria-labelledby="s-mesas">
+      <Titulo id="s-mesas" numero="01">Mesas</Titulo>
+      {mesas.length > 0 ? (
+        <ul class="tz-lista-enlaces tz-lista-enlaces--una tz-medida">
+          {mesas.map((m) => (
+            <li>
+              <a href={hrefMesa(m.id)}>
+                <span class="tz-lista-enlaces-nombre">{m.data.nombre}</span>
+                <span class="tz-lista-enlaces-detalle">{lugarMesa[m.data.lugar]} · {m.data.resumen}</span>
+                <span class="tz-lista-enlaces-flecha" aria-hidden="true">›</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="tz-medida"><Pendiente mensaje="Todavía no hay ninguna mesa registrada." /></div>
+      )}
+    </section>
+    <div class="tz-acciones" style="margin-bottom:var(--aire)">
+      <a class="tz-boton" href="/rol"><span aria-hidden="true">‹</span> Volver a Rol</a>
+    </div>
+  </div>
+</Layout>
