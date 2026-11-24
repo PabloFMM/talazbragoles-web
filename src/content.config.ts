@@ -1,6 +1,7 @@
 import { defineCollection, reference } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
+import { buscaPersonas } from "./lib/privacidad.mjs";
 
 // ─── 1. sources — bibliografía / fuentes documentales ─────────────────
 
@@ -458,43 +459,167 @@ const guides = defineCollection({
   }),
 });
 
-// ─── 7. campaigns — partidas y campañas ACTUALES del grupo (sección /rol/) ──
-// Distinto de «systems» (lo jugado en las Jornadas históricas). Decisión 2026-11-15.
-// Nada inventado: sin datos de una campaña, no se crea el archivo.
+// ─── 7. Crónicas de mesa (sección /rol/, fase 2, 2026-11-24) ──────────
+// Sustituyen a la antigua colección `campaigns` (JSON vacío con `gm` y `player`).
+// Decisiones en proyecto/docs/rol/cronicas/CONTEXTO.md y CONTEXTO-TARJETAS.md.
+//
+// PRIVACIDAD: en `campanas` y `mesas` los jugadores salen SOLO con su personaje y
+// quien dirige, como «DJ». Los objetos son `.strict()` (un campo que no esté aquí,
+// como `jugador` o `gm`, rompe el build) y `sinPersonas` rechaza claves de persona
+// y nombres reales en cualquier texto (src/lib/privacidad.mjs; lo repite
+// tests/rol-sin-nombres.test.mjs). La única persona real que se nombra es la
+// autoría del módulo base, en `modulos` (decisión 52).
 
-const campaigns = defineCollection({
-  loader: glob({ pattern: "**/*.json", base: "./src/content/campaigns" }),
+/** superRefine: ninguna clave de persona ni nombre real en el objeto. */
+function sinPersonas(data: unknown, ctx: z.RefinementCtx) {
+  for (const problema of buscaPersonas(data)) ctx.addIssue({ code: "custom", message: problema });
+}
+
+/** Licencia del módulo base (decisión 11): CC0 1.0. Id de `licencias`. */
+const licenciaModulo = z.literal("cc0-1.0");
+/** Licencia de lo propio de una campaña (decisión 6): CC BY 4.0, atribución a Talazbrágoles. */
+const licenciaCampana = z.literal("cc-by-4.0");
+/** Autoría del módulo base (decisión 52): la única persona real nombrada en la fase 2. */
+const autoriaModulo = z.string().min(1);
+
+/** Ficha de un módulo publicado (`src/content/modulos/<slug>.md`). Cuerpo: «Cómo usar este módulo». */
+const modulos = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/modulos" }),
   schema: z.object({
-    title: z.string(),
-    system: z.string(),
-    status: z.enum(["en-curso", "en-pausa", "terminada", "pendiente"]).default("pendiente"),
-    started: z.string().optional(),        // ISO o parcial: "2026", "2026-09"
-    gm: z.string().optional(),             // quien dirige
-    summary: z.string().optional(),        // de qué va la campaña
-    sessions: z
-      .array(
-        z.object({
-          n: z.number().int().optional(),
-          date: z.string().optional(),
-          title: z.string().optional(),
-          summary: z.string(),
-        })
-      )
-      .default([]),
-    characters: z
-      .array(
-        z.object({
-          name: z.string(),
-          player: z.string().optional(),
-          description: z.string().optional(),
-        })
-      )
-      .default([]),
+    titulo: z.string(),
+    juego: reference("juegos"),
+    tipo: z.string(), // «Módulo para el juego de rol Numinia»
+    licencia: licenciaModulo,
+    autoria: autoriaModulo,
+    dificultad: z.string().optional(),
+    duracion: z.string().optional(),
+    jugadores: z.string().optional(),
+    ambito: z.string().optional(),
+    conflicto: z.string().optional(), // Conflicto de Partida (plantilla de aventura de Numinia)
+    resumen: z.string(),
+    /** La aventura de nuestra mesa que sale de este módulo (ejemplo, no respuesta). */
+    campana: reference("campanas").optional(),
     draft: z.boolean().default(false),
+  }).strict(),
+});
+
+/**
+ * Secciones del módulo (`src/content/modulos/<modulo>/<nn>-<slug>.md`), una por página.
+ * Cuerpo en Markdown LIMPIO: sin comentarios `<!-- -->`, sin «Decisiones de
+ * redacción», sin nombres de PJ de nuestra mesa; lo que falta, «(pendiente: …)»
+ * (rehype-guias lo pinta como «pendiente»). Imágenes: Markdown con ruta relativa a
+ * src/assets/rol/navegantes/ y el pie en cursiva en la línea siguiente.
+ * Las versiones anotadas (con fuentes) están en proyecto/material/<modulo>/modulo/.
+ */
+const seccionesModulo = defineCollection({
+  loader: glob({
+    pattern: "*/*.md",
+    base: "./src/content/modulos",
+    generateId: ({ entry }) => entry.replace(/\.md$/, ""), // «los-navegantes-del-sueno/01-raiz»
+  }),
+  schema: z.object({
+    modulo: reference("modulos"),
+    orden: z.number().int().min(1),
+    slug: z.string().regex(/^[a-z0-9-]+$/), // ruta: /rol/modulos/<modulo>/<slug>/
+    titulo: z.string(),
+    licencia: licenciaModulo,
+    autoria: autoriaModulo,
+    resumen: z.string(),
+  }).strict(),
+});
+
+/** Mesa de juego (`src/content/mesas/<slug>.md`): un grupo con una o varias campañas. Cuerpo: quiénes somos, sin nombres. */
+const mesas = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/mesas" }),
+  schema: z.object({
+    nombre: z.string(),
+    resumen: z.string(),
+    /** Dónde se juega: en línea, en persona o las dos. */
+    lugar: z.enum(["en-linea", "presencial", "mixta"]),
+    /** Herramientas de juego en línea (Roll20, Discord…). */
+    herramientas: z.array(z.string()).default([]),
+    /** Quién dirige: siempre la misma persona o va rotando según el juego. Sin nombres. */
+    direccion: z.enum(["fija", "rotatoria"]),
+    draft: z.boolean().default(false),
+  }).strict().superRefine(sinPersonas),
+});
+
+/** Ficha «Registro del Tesaurum Verba» (decisión 39): aportación de la mesa al mundo de Numinia. */
+const aportacion = z.object({
+  nombre: z.string(),
+  tipo: z.string(), // «protocolo», «lugar del sueño», «reliquia», «palabra clave»…
+  /** aportacion → consolidada (verdad en la aventura) → inscrita (en el Corpus
+   *  Numiniense, en una versión del manual); prevista = entrará, aún no está. */
+  grado: z.enum(["aportacion", "consolidada", "inscrita", "prevista"]),
+  personaje: z.string().optional(), // personaje del reparto que la propuso; vacío = pendiente
+  jornada: z.number().int().min(1).optional(), // vacío = pendiente
+  minuto: z.string().optional(), // minuto del audio (cuando se enlacen los audios)
+  comoSeConsolido: z.string(),
+  /** Versión y capítulo del manual donde entró (obligatorio si está inscrita). */
+  manual: z.object({ version: z.string(), capitulo: z.string() }).strict().optional(),
+  queCambio: z.string().optional(),
+  pendiente: z.string().optional(), // lo que falta confirmar (p. ej. con los audios)
+}).strict().superRefine((a, ctx) => {
+  if (a.grado === "inscrita" && !a.manual) {
+    ctx.addIssue({ code: "custom", path: ["manual"], message: "Una aportación inscrita dice en qué versión y capítulo del manual entró" });
+  }
+});
+
+/** Campaña o aventura jugada por una mesa (`src/content/campanas/<slug>.md`). Cuerpo: «La verdad de nuestra mesa». */
+const campanas = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/campanas" }),
+  schema: z.object({
+    titulo: z.string(),
+    juego: reference("juegos"),
+    mesa: reference("mesas"),
+    /** Módulo base del que sale (si se ha publicado). */
+    modulo: reference("modulos").optional(),
+    estado: z.enum(["en-curso", "en-pausa", "terminada", "pendiente"]),
+    estadoNota: z.string().optional(), // p. ej. «deducido de las fechas»
+    fechas: z.object({ inicio: z.string().optional(), fin: z.string().optional(), nota: z.string().optional() }).strict().optional(),
+    numeroJornadas: z.object({ n: z.number().int().min(1), aproximado: z.boolean().default(false) }).strict().optional(),
+    versionManual: z.string().optional(), // edición del juego con la que se jugó
+    licencia: licenciaCampana,
+    atribucion: z.string(), // «Talazbrágoles»
+    /** Quien dirige sale siempre como «DJ» (decisión 1). */
+    direccion: z.literal("DJ"),
+    /** Aviso de destripe: la aventura desvela el módulo base. */
+    aviso: z.string().optional(),
+    resumen: z.string(),
+    reparto: z.array(
+      z.object({
+        personaje: z.string(),
+        posicion: z.string().optional(), // Posición del manual (Oniromante, Armonauta…)
+        especie: z.string().optional(),
+        concepto: z.string().optional(),
+        escena: z.number().int().min(1).optional(), // escena de la Fase de Presentación
+        nota: z.string().optional(),
+      }).strict()
+    ).default([]),
+    jornadas: z.array(
+      z.object({
+        n: z.number().int().min(1),
+        titulo: z.string().optional(), // título del episodio del podcast o del guion de la jornada, si lo hay
+        quePaso: z.string().optional(), // vacío = «pendiente»
+        /** documentado = lo cuenta un resumen de la jornada; deducido = se infiere
+         *  de otros textos (se dice de cuáles en `quePaso`); pendiente = sin texto aún. */
+        estado: z.enum(["documentado", "deducido", "pendiente"]),
+      }).strict()
+    ).default([]),
+    aportaciones: z.array(aportacion).default([]),
+    draft: z.boolean().default(false),
+  }).strict().superRefine(sinPersonas).superRefine((c, ctx) => {
+    const ns = c.jornadas.map((j) => j.n);
+    if (new Set(ns).size !== ns.length) ctx.addIssue({ code: "custom", path: ["jornadas"], message: "Dos jornadas con el mismo número" });
+    const pj = new Set(c.reparto.map((r) => r.personaje));
+    c.aportaciones.forEach((a, i) => {
+      if (a.personaje && !pj.has(a.personaje)) ctx.addIssue({ code: "custom", path: ["aportaciones", i, "personaje"], message: `«${a.personaje}» no está en el reparto` });
+    });
   }),
 });
 
 export const collections = {
-  sources, editions, people, systems, timeline, guides, campaigns,
+  sources, editions, people, systems, timeline, guides,
   juegos, licencias, autoria, editoriales,
+  modulos, seccionesModulo, mesas, campanas,
 };

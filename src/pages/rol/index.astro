@@ -2,24 +2,22 @@
 /**
  * /rol/: portada de la sección Rol (fase 1, 2026-11-23). Lo que jugamos ahora:
  * portadas tipográficas de los juegos, accesos a Juegos / Sistemas / Licencias
- * y las crónicas de mesa (fase 2, colección «campaigns», hoy vacía: se anuncian
- * «en preparación»; no inventar campañas ni personajes). Lo jugado en las
+ * y las crónicas de mesa (fase 2: colecciones `campanas`, `mesas` y `modulos`; hasta
+ * que existan sus páginas se anuncian «en preparación»). Lo jugado en las
  * Jornadas históricas está en /sistemas/ (Archivo).
  * Accesos a Juegos (con filtros), Sistemas, Licencias, Autoría y Editoriales.
  */
 import Layout from "../../layouts/Layout.astro";
 import Encabezado from "../../components/sistema/Encabezado.astro";
 import Titulo from "../../components/sistema/Titulo.astro";
-import Ficha from "../../components/sistema/Ficha.astro";
 import Estado from "../../components/sistema/Estado.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import PortadaJuego from "../../components/sistema/PortadaJuego.astro";
 import CreditoPortada from "../../components/sistema/CreditoPortada.astro";
-import { getAllCampaigns, getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego } from "../../lib/collections";
-import { dosCifras, estadoCampana, estadoJuego } from "../../lib/formato";
+import { getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego } from "../../lib/collections";
+import { estadoJuego } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 
-const campanas = await getAllCampaigns();
 const juegos = await getAllJuegos();
 const jugados = await Promise.all(juegos.filter((j) => j.data.jugado.nosotros).map(resuelveJuego));
 const nSistemas = (await getSistemasRol()).length;
@@ -97,32 +95,13 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
 
     <section class="tz-seccion" aria-labelledby="s-cronicas">
       <Titulo id="s-cronicas" numero="03">Crónicas de mesa</Titulo>
-      {campanas.length > 0 ? (
-        <div class="tz-fichas">
-          {campanas.map((c, i) => (
-            <Ficha
-              numero={dosCifras(i + 1)}
-              titulo={c.data.title}
-              href={`/rol/campanas/${c.id}`}
-              enlace="Ver campaña"
-              datos={[
-                { etiqueta: "Sistema", valor: c.data.system },
-                { etiqueta: "Estado", valor: estadoCampana[c.data.status] },
-                { etiqueta: "Sesiones", valor: c.data.sessions.length || undefined },
-                { etiqueta: "Personajes", valor: c.data.characters.length || undefined },
-              ]}
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="tz-medida">
-          <Pendiente
-            etiqueta="En preparación"
-            mensaje="Las crónicas de nuestras mesas: campañas en curso, la última sesión jugada y el mundo que va saliendo."
-            pide="Cada campaña tendrá su ficha: sistema, estado, resumen de cada sesión y personajes."
-          />
-        </div>
-      )}
+      <div class="tz-medida">
+        <Pendiente
+          etiqueta="En preparación"
+          mensaje="Las crónicas de nuestras mesas: campañas en curso, la última sesión jugada y el mundo que va saliendo."
+          pide="Cada campaña tendrá su ficha: juego, mesa, estado, reparto de personajes y lo que pasó en cada jornada."
+        />
+      </div>
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-jornadas">

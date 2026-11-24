@@ -41,7 +41,10 @@ src/
 │   ├── juegos/             # Rol: un .md por juego que juega el grupo
 │   ├── licencias/          # Rol: qué permite cada licencia
 │   ├── autoria/            # Rol: personas autoras de juegos
-│   └── editoriales/        # Rol: editoriales originales y en castellano
+│   ├── editoriales/        # Rol: editoriales originales y en castellano
+│   ├── modulos/            # Rol fase 2: ficha de cada módulo (<slug>.md) y sus secciones (<slug>/<nn>-<sección>.md)
+│   ├── mesas/              # Rol fase 2: grupos de juego, sin nombres de personas
+│   └── campanas/           # Rol fase 2: campañas jugadas (reparto, jornadas, aportaciones)
 ├── components/
 │   ├── sistema/            # Sistema «Papel y tinta»: Encabezado, Titulo, Ficha, Estado, Pendiente, NotaFuente…
 │   ├── archivo/            # RegistroEdiciones (ediciones por año, portada), RielEdiciones (riel de años de /ediciones/<año>/), Migas
@@ -51,7 +54,7 @@ src/
 ├── lib/
 │   ├── nav.ts              # mainNav (8 secciones)
 │   ├── formato.ts          # Fechas parciales, etiquetas, anclas de fuente (solo presentación)
-│   └── collections.ts      # Helpers tipados: getAllEditions(), getAllSources(), getAllCampaigns()…
+│   └── collections.ts      # Helpers tipados: getAllEditions(), getAllSources(), getAllCampanas()…
 ├── pages/
 │   ├── index.astro         # Portada: frase de qué fueron las Jornadas + ediciones por año
 │   ├── fuentes.astro       # Listado de fuentes
@@ -74,7 +77,7 @@ src/
 │   │   ├── sistemas/            # index (familias y derivados) y [slug] (ficha, juegos también vía derivados)
 │   │   ├── licencias/           # index (abiertas / no abiertas) y [slug] (qué permite, punto por punto, quién la usa; slug con puntos)
 │   │   ├── autoria/ y editoriales/  # index y [slug]: juegos y sistemas de cada persona o editorial
-│   │   └── campanas/[slug].astro # Ficha de campaña (colección campaigns, hoy vacía: no genera páginas)
+│   │   └── (modulos/, campanas/, mesas/: páginas de la tarjeta Rol 7/8, pendientes)
 │   └── diseno.astro        # /diseno/: muestrario interno del sistema (noindex)
 └── styles/
     ├── global.css          # Punto de entrada: importa reset.css y sistema.css
@@ -141,11 +144,17 @@ Archivos JSON en `src/content/timeline/`.
 
 Campos clave: `date` (ISO 8601 o parcial: `"1994"`, `"1994-05"`), `precision`, `title`, `category`, `sourceIds[]`, `verified`.
 
-### `campaigns` — Campañas actuales del grupo (sección `/rol/`)
+### Crónicas de mesa: `modulos`, `seccionesModulo`, `mesas`, `campanas` (Rol fase 2, 2026-11-24)
 
-Archivos JSON en `src/content/campaigns/` (hoy vacía: no inventar campañas ni personajes). Distinto de `systems`, que es lo jugado en las Jornadas históricas.
+Sustituyen a la antigua `campaigns` (JSON vacío con `gm` y `player`). Markdown. Decisiones en `docs/rol/cronicas/` de la carpeta del proyecto (CONTEXTO.md y CONTEXTO-TARJETAS.md; se archivan en `proyecto/docs/` con `sync-repo.py`); versiones anotadas con fuentes en `proyecto/material/<módulo>/`.
 
-Campos: `title`, `system`, `status` (`en-curso` | `en-pausa` | `terminada` | `pendiente`), `started`, `gm`, `summary`, `sessions[]` (`n`, `date`, `title`, `summary`), `characters[]` (`name`, `player`, `description`), `draft`.
+- **Privacidad (no saltarse nunca):** en `campanas` y `mesas` los jugadores salen SOLO con su personaje y quien dirige, como «DJ» (`direccion: "DJ"`). Los objetos son `.strict()` (un campo `jugador`, `gm`… rompe el build) y `buscaPersonas()` de `src/lib/privacidad.mjs` rechaza claves de persona y nombres reales en cualquier texto. La única persona real nombrada es la autoría del módulo base, en `modulos`. Lo vigila `tests/rol-sin-nombres.test.mjs`.
+- `modulos` (`src/content/modulos/<slug>.md`): ficha del módulo. `titulo`, `juego` (ref), `tipo`, `licencia` (`"cc0-1.0"`, literal), `autoria`, `dificultad`, `duracion`, `jugadores`, `ambito`, `conflicto` (Conflicto de Partida), `resumen`, `campana` (ref a la aventura de nuestra mesa). Cuerpo: «Cómo usar este módulo».
+- `seccionesModulo` (`src/content/modulos/<slug>/<nn>-<sección>.md`, id `<slug>/<nn>-<sección>`): una página por sección. `modulo` (ref), `orden`, `slug` (ruta), `titulo`, `licencia` y `autoria` (las de la ficha), `resumen`. Cuerpo LIMPIO: sin `<!-- -->`, sin «Decisiones de redacción», sin nombres de PJ ni nada que sea solo de nuestra mesa (`tests/rol-cronicas.test.mjs`). Empieza en `##` (el h1 lo pone la página). Imágenes: `![alt](../../../assets/rol/<módulo>/<nn>-<nombre>.jpg)` con el pie en cursiva en la LÍNEA SIGUIENTE (mismo párrafo: la página lo convierte en `<figure>`).
+- `mesas`: `nombre`, `resumen`, `lugar` (`en-linea` | `presencial` | `mixta`), `herramientas[]`, `direccion` (`fija` | `rotatoria`). Cuerpo: quiénes somos, sin nombres.
+- `campanas`: `titulo`, `juego`, `mesa`, `modulo` (refs), `estado` (+ `estadoNota`), `fechas` (`inicio`, `fin`, `nota`), `numeroJornadas` (`n`, `aproximado`), `versionManual`, `licencia` (`"cc-by-4.0"`), `atribucion`, `direccion: "DJ"`, `aviso` (destripe), `resumen`, `reparto[]` (`personaje`, `posicion`, `especie`, `concepto`, `escena`, `nota`), `jornadas[]` (`n`, `titulo`, `quePaso`, `estado`: `documentado` | `deducido` | `pendiente`), `aportaciones[]` (ficha «Registro del Tesaurum Verba»: `nombre`, `tipo`, `grado` `aportacion` | `consolidada` | `inscrita` | `prevista`, `personaje` del reparto, `jornada`, `minuto`, `comoSeConsolido`, `manual` {`version`, `capitulo`} obligatorio si está inscrita, `queCambio`, `pendiente`). Cuerpo: «La verdad de nuestra mesa».
+- Lo que falta se escribe `(pendiente: qué)` en el Markdown; `src/lib/rehype-guias.mjs` lo pinta como `<span class="tz-pendiente">` en estas colecciones.
+- Helpers: `getAllCampanas()`, `getAllMesas()`, `campanasDeMesa()`, `getAllModulos()`, `seccionesDeModulo()`; etiquetas en `lib/formato.ts` (`estadoCampana`, `estadoJornada`, `gradoAportacion`, `lugarMesa`, `direccionMesa`). Referencias, orden de secciones, imágenes y aportaciones: `tests/rol-referencias.test.mjs`.
 
 ---
 

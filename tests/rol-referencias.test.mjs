@@ -28,10 +28,26 @@ const juegos = coleccion("juegos");
 const systems = coleccion("systems");
 const existe = {
   systems,
+  juegos,
   licencias: coleccion("licencias"),
   autoria: coleccion("autoria"),
   editoriales: coleccion("editoriales"),
+  modulos: coleccion("modulos"),
+  mesas: coleccion("mesas"),
+  campanas: coleccion("campanas"),
 };
+
+/** Secciones de un módulo: src/content/modulos/<modulo>/<nn>-<slug>.md → [{ archivo, data, cuerpo }]. */
+function secciones(modulo) {
+  const dir = join(CONTENIDO, "modulos", modulo);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((x) => x.endsWith(".md")).sort().map((archivo) => {
+    const texto = readFileSync(join(dir, archivo), "utf-8");
+    const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(texto);
+    assert.ok(m, `modulos/${modulo}/${archivo}: sin frontmatter`);
+    return { archivo, data: parse(m[1]) ?? {}, cuerpo: m[2] };
+  });
+}
 
 function compruebaRef(donde, col, slug) {
   assert.ok(slug in existe[col], `${donde}: «${slug}» no existe en src/content/${col}/`);
@@ -96,7 +112,7 @@ test("las referencias de los sistemas existen", () => {
 
 test("toda fuente de Rol dice qué afirma y cuándo se consultó", () => {
   const todas = (d) => [...(d.fuentes ?? []), ...(d.ediciones ?? []).flatMap((e) => e.fuentes ?? [])];
-  for (const [col, fichas] of Object.entries({ juegos, ...existe })) {
+  for (const [col, fichas] of Object.entries(existe)) {
     for (const [slug, d] of Object.entries(fichas)) {
       for (const f of todas(d)) {
         assert.ok(f.afirma?.trim(), `${col}/${slug}: fuente sin «afirma» (${f.url})`);
@@ -125,4 +141,75 @@ test("cada portada tiene archivo, crédito y la url oficial de donde sale", () =
     assert.ok(!f[0].secundaria, `juegos/${slug}: la portada sale de la web oficial, no de una fuente secundaria`);
   }
   assert.ok(n > 0, "ninguna ficha tiene portada: revisar la prueba");
+});
+
+// Rol 6/8 (2026-11-24): crónicas de mesa. Módulos, secciones, mesas y campañas
+// apuntan a fichas que existen y llevan la licencia decidida (CC0 el módulo base,
+// CC BY 4.0 lo propio de la campaña).
+test("hay un módulo con secciones, una mesa y una campaña", () => {
+  for (const col of ["modulos", "mesas", "campanas"]) assert.ok(Object.keys(existe[col]).length > 0, `no hay ${col}`);
+  for (const slug of Object.keys(existe.modulos)) assert.ok(secciones(slug).length > 0, `modulos/${slug}: sin secciones`);
+});
+
+test("las referencias de módulos, secciones y campañas existen", () => {
+  for (const [slug, d] of Object.entries(existe.modulos)) {
+    const donde = `modulos/${slug}`;
+    compruebaRef(donde, "juegos", d.juego);
+    compruebaRef(donde, "licencias", d.licencia);
+    assert.equal(d.licencia, "cc0-1.0", `${donde}: el módulo base es CC0`);
+    if (d.campana) compruebaRef(donde, "campanas", d.campana);
+  }
+  for (const [slug, d] of Object.entries(existe.campanas)) {
+    const donde = `campanas/${slug}`;
+    compruebaRef(donde, "juegos", d.juego);
+    compruebaRef(donde, "mesas", d.mesa);
+    compruebaRef(donde, "licencias", d.licencia);
+    assert.equal(d.licencia, "cc-by-4.0", `${donde}: la campaña es CC BY 4.0`);
+    if (d.modulo) {
+      compruebaRef(donde, "modulos", d.modulo);
+      assert.equal(existe.modulos[d.modulo].campana, slug, `${donde}: el módulo «${d.modulo}» no enlaza de vuelta a la campaña`);
+    }
+  }
+});
+
+test("cada sección del módulo es de su módulo, va en orden y comparte licencia y autoría", () => {
+  for (const [slug, ficha] of Object.entries(existe.modulos)) {
+    const ss = secciones(slug);
+    ss.forEach(({ archivo, data }, i) => {
+      const donde = `modulos/${slug}/${archivo}`;
+      assert.equal(data.modulo, slug, `${donde}: «modulo» debe ser «${slug}»`);
+      assert.equal(data.orden, i + 1, `${donde}: «orden» debe ser ${i + 1}`);
+      assert.equal(archivo, `${String(data.orden).padStart(2, "0")}-${data.slug}.md`, `${donde}: el archivo se llama <nn>-<slug>.md`);
+      assert.equal(data.licencia, ficha.licencia, `${donde}: licencia distinta de la del módulo`);
+      assert.equal(data.autoria, ficha.autoria, `${donde}: autoría distinta de la del módulo`);
+    });
+    assert.equal(new Set(ss.map((s) => s.data.slug)).size, ss.length, `modulos/${slug}: dos secciones con el mismo slug`);
+  }
+});
+
+test("las imágenes del módulo existen y llevan texto alternativo y pie", () => {
+  let n = 0;
+  for (const slug of Object.keys(existe.modulos)) {
+    for (const { archivo, cuerpo } of secciones(slug)) {
+      for (const m of cuerpo.matchAll(/!\[([^\]]*)\]\(([^)]+)\)(\n\*[^\n]+\*)?/g)) {
+        n++;
+        const donde = `modulos/${slug}/${archivo}: ${m[2]}`;
+        assert.match(m[2], /^\.\.\/\.\.\/\.\.\/assets\/rol\/[a-z0-9-]+\/[a-z0-9-]+\.(jpg|png|webp)$/, `${donde}: la imagen va en src/assets/rol/<módulo>/`);
+        assert.ok(existsSync(join(CONTENIDO, "modulos", slug, m[2])), `${donde}: no existe`);
+        assert.ok(m[1].trim().length > 20, `${donde}: texto alternativo vacío o muy corto`);
+        assert.ok(m[3], `${donde}: falta el pie (línea en cursiva justo debajo)`);
+      }
+    }
+  }
+  assert.ok(n > 0, "el módulo no tiene imágenes: revisar la prueba");
+});
+
+test("las aportaciones de una campaña las propone un personaje del reparto", () => {
+  for (const [slug, d] of Object.entries(existe.campanas)) {
+    const pj = new Set((d.reparto ?? []).map((r) => r.personaje));
+    for (const a of d.aportaciones ?? []) {
+      if (a.personaje) assert.ok(pj.has(a.personaje), `campanas/${slug} › ${a.nombre}: «${a.personaje}» no está en el reparto`);
+      if (a.grado === "inscrita") assert.ok(a.manual?.version && a.manual?.capitulo, `campanas/${slug} › ${a.nombre}: inscrita sin versión ni capítulo del manual`);
+    }
+  }
 });
