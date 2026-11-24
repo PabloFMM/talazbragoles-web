@@ -1,34 +1,518 @@
 {
   "year": 1995,
-  "title": "Talazbrágoles'95 — IV edición (número deducido)",
+  "title": "Talazbrágoles '95 — IV Jornadas (22 y 23 de abril)",
   "numero": {
     "romano": "IV",
-    "entero": 4,
-    "deducido": true
+    "entero": 4
   },
   "anioEstado": {
     "estado": "confirmado",
     "sourceIds": [
+      "folleto-1995",
       "pin-1995"
     ],
-    "nota": "El pin de ese año dice «TALAZBRAGOLES'95». El número IV se deduce del folleto de 1997, que presenta la VI edición como el «sexto año consecutivo»: contando hacia atrás, la IV sería de 1995."
+    "nota": "El folleto dice «IV Jornadas de Juegos de Rol, Estrategia y Simulación de Las Rozas · Talazbrágoles '95»; el pin de ese año, «TALAZBRAGOLES'95»."
   },
-  "verified": false,
-  "status": "pendiente",
+  "verified": true,
+  "status": "parcial",
   "sourceIds": [
-    "folleto-vi-jornadas-1997",
+    "folleto-1995",
+    "mesas-1995",
+    "fanzine-1995",
     "pin-1995"
   ],
   "peopleIds": [],
-  "activities": [],
+  "activities": [
+    {
+      "type": "partida-rol",
+      "name": "AD&D: 13 mesas",
+      "system": "AD&D",
+      "description": "Mesas 5, 6, 7, 8, 9, 10, 11, 12, 15, 17, 18, 24, 26 (La Leyenda · El Salon del Crepusculo · Los Guardianes de la Cripta · Disidents · Lobo Negro (Leganes) · Cibertroll (Villaviciosa)). Algunas partidas, de Reinos Olvidados. «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "El Señor de los Anillos: 3 mesas",
+      "system": "El Señor de los Anillos",
+      "description": "Mesas 2, 25, 27 (El Basilisco Bar · El Ojo sin Parpado (Madrid) · Taur Galen). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Stormbringer: 3 mesas",
+      "system": "Stormbringer",
+      "description": "Mesas 4, 16, 19 (El Basilisco Bar · Disidents). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Vampiro: 3 mesas",
+      "system": "Vampiro",
+      "description": "Mesas 14, 31, 32 (Los Guardianes de la Cripta · Juegos Fatuos (Majadahonda)). «Distribución final de mesas»."
+    },
+    {
+      "type": "otro",
+      "name": "Battletech: 2 mesas",
+      "system": "Battletech",
+      "description": "Mesas 28, 29 (Grebas (Madrid)). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Los Mundos de Ogman: 2 mesas",
+      "system": "Los Mundos de Ogman",
+      "description": "Mesas 21, 22 (Kahoss). «Distribución final de mesas». Juego sin identificar (¿propio del club?): pendiente."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Star Wars: 2 mesas",
+      "system": "Star Wars",
+      "description": "Mesas 1, 25 (El Basilisco Bar · El Ojo sin Parpado (Madrid)). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Universo: 2 mesas",
+      "system": "Universo",
+      "description": "Mesas 16, 18 (Disidents). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "D&D: 1 mesa",
+      "system": "D&D",
+      "description": "Mesa 13 (Los Guardianes de la Cripta). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "RuneQuest: 1 mesa",
+      "system": "RuneQuest",
+      "description": "Mesa 3 (El Basilisco Bar). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Star Trek: 1 mesa",
+      "system": "Star Trek",
+      "description": "Mesa 20 (Disidents). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Superhéroes Inc.: 1 mesa",
+      "system": "Superhéroes Inc.",
+      "description": "Mesa 17 (Disidents). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Toon: 1 mesa",
+      "system": "Toon",
+      "description": "Mesa 25 (El Ojo sin Parpado (Madrid)). «Distribución final de mesas»."
+    },
+    {
+      "type": "partida-rol",
+      "name": "Traveller: 1 mesa",
+      "system": "Traveller",
+      "description": "Mesa 24 (Lobo Negro (Leganes)). «Distribución final de mesas»."
+    },
+    {
+      "type": "charla",
+      "name": "Mesa redonda «MAGIC: amigo o enemigo de los juegos de rol»",
+      "description": "Domingo 23 a las 11:30, según el horario del folleto."
+    },
+    {
+      "type": "otro",
+      "name": "Entrega de premios",
+      "description": "Domingo 23 a las 19:30, según el horario del folleto. No dice de qué premios."
+    },
+    {
+      "type": "otro",
+      "name": "Fanzine oficial, gratuito",
+      "description": "Solo se conserva la portada («ejemplar gratuito»)."
+    }
+  ],
   "portada": {
-    "imagen": "/documentos/pines/pin-1995.jpg",
-    "ancho": 800,
-    "alto": 644,
-    "alt": "Pin de 1995: dragón o criatura alada con cresta y cola en espiral bajo un arco; abajo, en una cartela, «TALAZBRAGOLES'95». Metal plateado y esmalte negro.",
-    "documento": "pin"
+    "imagen": "/documentos/1995-folleto/exterior.jpg",
+    "ancho": 854,
+    "alto": 1060,
+    "alt": "Exterior del folleto de 1995: a un lado, la portada con una figura encorvada de abrigo negro largo y manos de dedos largos envuelta en humo, una cita y el título «IV Jornadas… Talazbrágoles '95»; al otro, el horario del sábado y el domingo.",
+    "documento": "folleto"
   },
   "documentos": [
+    {
+      "slug": "folleto",
+      "apartado": "papeles",
+      "titulo": "Folleto de Talazbrágoles '95",
+      "descripcion": "Díptico impreso de la IV edición: portada con ilustración y horario por fuera; clubes y tiendas por dentro. Ejemplar en papel, fotografiado por las dos caras y pasado a escala de grises.",
+      "sourceId": "folleto-1995",
+      "caras": [
+        {
+          "titulo": "Exterior: portada y horario",
+          "imagen": "/documentos/1995-folleto/exterior.jpg",
+          "ancho": 854,
+          "alto": 1060,
+          "alt": "Exterior del folleto de 1995: a un lado, la portada con una figura encorvada de abrigo negro largo y manos de dedos largos envuelta en humo, una cita y el título «IV Jornadas… Talazbrágoles '95»; al otro, el horario del sábado y el domingo.",
+          "texto": [
+            "\",........ y hubo un tiempo en que los dioses retaban a los héroes a superar infinitas pruebas, infinitas odiseas y sólo los vencedores eran dignos de la fama y la gloria....\" ..........",
+            "IV JORNADAS DE JUEGOS DE ROL , ESTRATEGIA Y SIMULACIÓN DE LAS ROZAS",
+            "TALAZBRÁGOLES '95",
+            "HORARIO",
+            "SABADO 22 ABRIL",
+            "De 10:00 a 20:00 Hrs.",
+            "30 MESAS CON JUEGOS DE ROL ESTRATEGIA Y SIMULACION",
+            "DOMINGO 23 ABRIL",
+            "De 10:00 a 19:30 Hrs.",
+            "JUEGOS DE ROL ESTRATEGIA Y SIMULACION",
+            "A las 11:30 Hrs.",
+            "Mesa Redonda:",
+            "\"MAGIC: Amigo o Enemigo de los Juegos de Ro[cortado]",
+            "A las 19:30 Hrs",
+            "Entrega de Premios.",
+            "INFORMACION:",
+            "En la entrada del Centro podr[cortado] encontrar más información sobr[cortado] jornadas o preguntando a cual[cortado] persona de organización."
+          ],
+          "nota": "Arriba a la izquierda, anotado a mano, «71». La foto corta el borde derecho de la cara del horario: lo cortado va [cortado]."
+        },
+        {
+          "titulo": "Interior: clubes y tiendas",
+          "imagen": "/documentos/1995-folleto/interior.jpg",
+          "ancho": 890,
+          "alto": 1094,
+          "alt": "Interior del folleto de 1995: listas de clubes organizadores, clubes colaboradores y tiendas colaboradoras y, a la derecha, la ilustración de la portada en grande.",
+          "texto": [
+            "Estas Jornadas son posibles Gracias a la colaboración de:",
+            "Clubs Organizadores:",
+            "LA LEYENDA",
+            "EL BASILISCO BAR",
+            "LOS GUARDIANES DE LA CRIPTA DE LA ESPADA NEGRA",
+            "KAHOSS",
+            "EL SALON DEL CREPUSCULO",
+            "DISIDENTS",
+            "Clubs Colaboradores:",
+            "ALAS DE DRAGON (Madrid) · LOBO NEGRO (Leganés) · JUEGOS FATUOS (Majadahonda) · EL OJO SIN PARPADO (Madrid). · CIBERTROLL (Villaviciosa). · TAUR GALEN · GREBAS (Madrid)",
+            "Tiendas Colaboradoras:",
+            "BAZAR MATEY · NAIPE · ARTE 9"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mesas",
+      "apartado": "papeles",
+      "titulo": "Distribución final de mesas (Talazbrágoles 95)",
+      "descripcion": "Hoja impresa con las 33 mesas de la edición: club de cada mesa y, por turno, el juego y el nombre de pila de quien dirige la partida. 32 mesas ocupadas por 13 clubes. Hoja doblada, fotografiada entera y en detalle y pasada a escala de grises.",
+      "sourceId": "mesas-1995",
+      "caras": [
+        {
+          "titulo": "La lista entera",
+          "imagen": "/documentos/1995-mesas/lista.jpg",
+          "ancho": 672,
+          "alto": 1200,
+          "alt": "Hoja «Distribución final de mesas» de 1995: una tabla de 33 filas (mesa, club y cuatro turnos) con un doblez que inclina las filas de abajo.",
+          "texto": [],
+          "nota": "Cada celda lleva el juego y, debajo, quién dirige la partida."
+        },
+        {
+          "titulo": "Detalle de las mesas 16 a 27",
+          "imagen": "/documentos/1995-mesas/detalle-16-27.jpg",
+          "ancho": 1200,
+          "alto": 672,
+          "alt": "Detalle de la hoja de mesas de 1995: filas de las mesas 16 a 27, de los clubes Disidents, Kahoss, Alas de Dragón, Lobo Negro, El Ojo sin Párpado, Cibertroll y Taur Galen.",
+          "texto": []
+        }
+      ],
+      "tabla": {
+        "titulo": "Las mesas, copiadas de la hoja",
+        "nota": "Tal como está impreso: juego · quien dirige (solo nombre de pila, salvo un apellido). «—» = celda vacía en la hoja; «¿?» está impreso así (juego sin decidir). Los números de las mesas 26 a 33 se han contado, porque el doblez inclina esas filas.",
+        "columnas": [
+          "Mesa",
+          "Club",
+          "Sábado mañana",
+          "Sábado tarde",
+          "Domingo mañana",
+          "Domingo tarde"
+        ],
+        "filas": [
+          [
+            "1",
+            "El Basilisco Bar",
+            "Star Wars · David",
+            "Star Wars · David",
+            "Star Wars · David",
+            "Star Wars · David"
+          ],
+          [
+            "2",
+            "El Basilisco Bar",
+            "El Señor de los Anillos · Raúl",
+            "El Señor de los Anillos · Raúl",
+            "El Señor de los Anillos · Raúl",
+            "El Señor de los Anillos · Raúl"
+          ],
+          [
+            "3",
+            "El Basilisco Bar",
+            "Rune Quest · Berni",
+            "Rune Quest · Berni",
+            "Rune Quest · Berni",
+            "Rune Quest · Berni"
+          ],
+          [
+            "4",
+            "El Basilisco Bar",
+            "Stormbringer · Candido",
+            "Stormbringer · Candido",
+            "Stormbringer · Candido",
+            "Stormbringer · Candido"
+          ],
+          [
+            "5",
+            "La Leyenda",
+            "AD&D · Borja",
+            "AD&D · Borja",
+            "AD&D · Borja",
+            "—"
+          ],
+          [
+            "6",
+            "La Leyenda",
+            "AD&D · Enrique",
+            "AD&D · Enrique",
+            "AD&D · Enrique",
+            "—"
+          ],
+          [
+            "7",
+            "La Leyenda",
+            "AD&D · Jorge",
+            "AD&D · Jorge",
+            "AD&D · Jorge",
+            "—"
+          ],
+          [
+            "8",
+            "La Leyenda",
+            "AD&D · Bedul",
+            "AD&D · Bedul",
+            "AD&D · Bedul",
+            "—"
+          ],
+          [
+            "9",
+            "La Leyenda",
+            "AD&D · Francisco",
+            "AD&D · Francisco",
+            "AD&D · Francisco",
+            "—"
+          ],
+          [
+            "10",
+            "La Leyenda",
+            "AD&D · Jesus",
+            "AD&D · Jesus",
+            "AD&D · Jesus",
+            "—"
+          ],
+          [
+            "11",
+            "El Salon del Crepusculo",
+            "—",
+            "—",
+            "AD&D · Jose",
+            "AD&D · Jose"
+          ],
+          [
+            "12",
+            "El Salon del Crepusculo",
+            "—",
+            "—",
+            "AD&D · David",
+            "AD&D · David"
+          ],
+          [
+            "13",
+            "Los Guardianes de la Cripta",
+            "D&D · Hernan",
+            "D&D · Hernan",
+            "D&D · Hernan",
+            "D&D · Hernan"
+          ],
+          [
+            "14",
+            "Los Guardianes de la Cripta",
+            "Vampiro · Max",
+            "Vampiro · Max",
+            "Vampiro · Max",
+            "Vampiro · Max"
+          ],
+          [
+            "15",
+            "Los Guardianes de la Cripta",
+            "AD&D · Antonio",
+            "AD&D · Antonio",
+            "AD&D · Antonio",
+            "AD&D · Antonio"
+          ],
+          [
+            "16",
+            "Disidents",
+            "Strombringer · Diego",
+            "Strombringer · Diego",
+            "Universo · Jose Antonio",
+            "Universo · Jose Antonio"
+          ],
+          [
+            "17",
+            "Disidents",
+            "AD&D Reinos Olvidados · Daniel",
+            "AD&D Reinos Olvidados · Daniel",
+            "Superheroes INC. · Daniel",
+            "Superheroes INC. · Daniel"
+          ],
+          [
+            "18",
+            "Disidents",
+            "Universo · Daniel",
+            "Universo · Daniel",
+            "AD&D Reinos Olvidados · Daniel",
+            "AD&D Reinos Olvidados · Daniel"
+          ],
+          [
+            "19",
+            "Disidents",
+            "Strombringer · David Mestre",
+            "Strombringer · David Mestre",
+            "Strombringer · David Mestre",
+            "Strombringer · David Mestre"
+          ],
+          [
+            "20",
+            "Disidents",
+            "Star Trek · Paul",
+            "Star Trek · Paul",
+            "—",
+            "—"
+          ],
+          [
+            "21",
+            "Kahoss",
+            "Los Mundos de Ogman · Miguel",
+            "Los Mundos de Ogman · Miguel",
+            "Los Mundos de Ogman · Miguel",
+            "Los Mundos de Ogman · Miguel"
+          ],
+          [
+            "22",
+            "Kahoss",
+            "Los Mundos de Ogman · David",
+            "Los Mundos de Ogman · David",
+            "—",
+            "—"
+          ],
+          [
+            "23",
+            "Alas de Dragon (Madrid)",
+            "—",
+            "—",
+            "—",
+            "—"
+          ],
+          [
+            "24",
+            "Lobo Negro (Leganes)",
+            "Traveller · Jose Miguel",
+            "Traveller · Jose Miguel",
+            "AD&D · Carlos",
+            "AD&D · Carlos"
+          ],
+          [
+            "25",
+            "El Ojo sin Parpado (Madrid)",
+            "StarWars · German",
+            "StarWars · German",
+            "El señor de los anillos · Paco",
+            "Toon · Quique"
+          ],
+          [
+            "26",
+            "Cibertroll (Villaviciosa)",
+            "AD&D · Antonio",
+            "AD&D · Antonio",
+            "AD&D · Antonio",
+            "AD&D · Antonio"
+          ],
+          [
+            "27",
+            "Taur Galen",
+            "El Señor de los Anillos · David",
+            "El Señor de los Anillos · David",
+            "El Señor de los Anillos · David",
+            "El Señor de los Anillos · David"
+          ],
+          [
+            "28",
+            "Grebas (Madrid)",
+            "Batteltech",
+            "Batteltech",
+            "—",
+            "—"
+          ],
+          [
+            "29",
+            "Grebas (Madrid)",
+            "Batteltech",
+            "Batteltech",
+            "—",
+            "—"
+          ],
+          [
+            "30",
+            "Lobo Negro (Leganes)",
+            "¿? · Jose Miguel",
+            "¿? · Jose Miguel",
+            "—",
+            "—"
+          ],
+          [
+            "31",
+            "Juegos Fatuos (Majadahonda)",
+            "Vampiro · Enrique",
+            "Vampiro · Enrique",
+            "Vampiro · Enrique",
+            "Vampiro · Enrique"
+          ],
+          [
+            "32",
+            "Juegos Fatuos (Majadahonda)",
+            "Vampiro",
+            "—",
+            "—",
+            "—"
+          ],
+          [
+            "33",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
+          ]
+        ]
+      }
+    },
+    {
+      "slug": "fanzine",
+      "apartado": "papeles",
+      "titulo": "Fanzine oficial de Talazbrágoles 95 (portada)",
+      "descripcion": "Portada fotocopiada del fanzine oficial de la edición, «ejemplar gratuito». Solo se conserva la portada; la fotocopia está muy cargada de tinta.",
+      "sourceId": "fanzine-1995",
+      "caras": [
+        {
+          "titulo": "La portada",
+          "imagen": "/documentos/1995-fanzine/portada.jpg",
+          "ancho": 849,
+          "alto": 1200,
+          "alt": "Portada del fanzine oficial de Talazbrágoles 95: un espadachín de camisa blanca abierta, fajín y espada al cinto, de frente, en un interior oscuro con unas figuras y lo que parece un cocodrilo o dragón a la izquierda.",
+          "texto": [
+            "TALAZBRÁGOLES 95",
+            "FANZINE OFICIAL",
+            "EJEMPLAR GRATUITO"
+          ]
+        }
+      ]
+    },
     {
       "slug": "pin",
       "apartado": "objetos",
@@ -49,5 +533,29 @@
         }
       ]
     }
-  ]
+  ],
+  "fechas": "Sábado 22 y domingo 23 de abril de 1995",
+  "horario": "Sábado de 10:00 a 20:00 · domingo de 10:00 a 19:30",
+  "venue": {
+    "city": "Las Rozas, Madrid"
+  },
+  "organizer": "Seis clubes de rol (ver «Organización»)",
+  "organizacion": {
+    "equipo": [],
+    "asociacion": "Clubes organizadores: La Leyenda · El Basilisco Bar · Los Guardianes de la Cripta de la Espada Negra · Kahoss · El Salón del Crepúsculo · Disidents",
+    "patrocinadores": [
+      "Alas de Dragón (club, Madrid)",
+      "Lobo Negro (club, Leganés)",
+      "Juegos Fatuos (club, Majadahonda)",
+      "El Ojo sin Párpado (club, Madrid)",
+      "Cibertroll (club, Villaviciosa)",
+      "Taur Galen (club)",
+      "Grebas (club, Madrid)",
+      "Bazar Matey (tienda)",
+      "Naipe (tienda)",
+      "Arte 9 (tienda)"
+    ],
+    "nota": "El folleto separa siete «clubs colaboradores» y tres «tiendas colaboradoras». En la lista de mesas aparecen los nombres de pila de quienes dirigían las partidas (ver el documento)."
+  },
+  "description": "El folleto anuncia las IV Jornadas de Juegos de Rol, Estrategia y Simulación de Las Rozas, «Talazbrágoles '95», el sábado 22 y el domingo 23 de abril, con 30 mesas el sábado, una mesa redonda sobre Magic y la entrega de premios el domingo. Las organizaron seis clubes, con siete clubes colaboradores y tres tiendas. La «Distribución final de mesas» reparte 32 mesas ocupadas entre 13 clubes: sobre todo AD&D, y también Stormbringer, El Señor de los Anillos, Star Wars, Vampiro y otros. Hubo además un fanzine oficial gratuito. El nombre del edificio y la asistencia siguen pendientes."
 }

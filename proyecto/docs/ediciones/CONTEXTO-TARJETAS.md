@@ -125,3 +125,32 @@ Consecuencias en los datos (todo sale de esos documentos; las fichas `README.md`
 - Actividades 1995: construirlas desde la lista de mesas agrupadas por juego (no 32 entradas sueltas).
 - Imágenes: desde `restaurado/` de cada carpeta, reducidas (≤1200 px lado mayor) a `public/documentos/<año>-<slug>/`. Cada documento con su página `/ediciones/<año>/<slug>/` (imagen + texto literal del `.md`). La lista de mesas: tabla accesible (`tz-tabla`, se apila en móvil) además de la imagen.
 - Fuentes nuevas, una por documento (tipo `prensa` para De Impresión con fecha 1992-05 y 1992-12; `documento-oficial` u `otro` para cartel/folleto/lista).
+
+## Lote 3 (2026-11-23, también para la tarjeta «Ediciones 4», manda sobre lo anterior si choca)
+
+Restaurado y transcrito en `documentos-historicos/` (README y `.md` de cada carpeta = fuente de verdad):
+
+| Edición | Documento | Carpeta | Apartado | Consecuencia |
+|---|---|---|---|---|
+| 1996 (V) | **La Runa nº 0001, abril 1996, portada «Talazbrágoles `96»** (original) | `1996-v-jornadas/prensa-la-runa-01/` | prensa | 1996 pasa a **confirmado por fuente primaria**: 13-14 abril, «V Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas», sede Las Matas (mismo edificio que 1997, plano), +130 mesas, Magic y SATM puntuables para Ranking nacional, mesas redondas, concurso de pintura, especiales Star Trek (Colectivo Borg) y Expediente X, web; premio Excálibur dos veces. `verified: true`. Portada de la edición = esta página de La Runa (o el pin si se prefiere; elegir La Runa) |
+| 1998 (VII) | Cartel (banda de título) «Talazbragoles'98 · VII Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas de Madrid» (en COLOR, tinta granate) | `1998-jornadas/cartel/` | papeles | **1998 = VII** confirmada (la tarjeta de pines la dejó con número pendiente: corregir). Portada = cartel |
+| 1995 (IV) | Fanzine oficial Talazbrágoles 95 (portada, «ejemplar gratuito») | `1995-iv-jornadas/fanzine/` | papeles | |
+| sin fecha | «Bienvenidos a Ultria»: sesión 0 de una partida del JRT (CSSS) | `sin-fechar/ultria-jrt-sesion-0/` | papeles | |
+| sin fecha | Cartel del club Cofradía de Supervivientes de Solaris Siete | `sin-fechar/cartel-csss/` | papeles | |
+| sin fecha | Cartel de Proyecto Génesis | `sin-fechar/cartel-proyecto-genesis/` | papeles | |
+| sin fecha | Artículo de introducción al rol firmado «Paul M.V.» (fragmento, publicación pendiente) | `sin-fechar/articulo-paul-mv/` | prensa | |
+
+- Los dos archivos del folleto de 1997 que volvieron a llegar son idénticos (md5) a los ya publicados: nada que hacer.
+- «Paul M.V.»: publicar la firma tal como sale impresa; NO relacionarlo en la web con el «Paul» de la lista de mesas de 1995 (es solo una hipótesis en el `.md`).
+- Rol de los 90 queda como fuente secundaria complementaria en 1996 (asistencia ~700 y editoriales vienen del nº 2 vía el blog).
+
+## Hecho en Ediciones 4 (`t_7f36559d`, 2026-11-24)
+
+- **Datos** generados con `scratch/ed4-datos.py` desde los `.md` (citas `>` → `texto[]` literal; descripciones `*( … )*` sueltas fuera, en línea → `[…]`). 1992 (I, título «I Jornada de Juegos de Rol», sin «Talazbrágoles»), 1993 (II), 1995 (IV), 1996 (V) y 1998 (VII): `numero` sin `deducido`, `anioEstado` confirmado con su documento, `verified: true`, `status: parcial`. Solo 1994 (III) sigue con número deducido. Clubes organizadores en `organizacion.asociacion`; colaboradores y tiendas en `patrocinadores` con «(club, ciudad)»/«(tienda)»; contacto de 1993 en la nota.
+- **Portadas**: 1992 = recorte de mayo (solo el artículo: se recortó el de fútbol sala y su foto), 1993 = cartel, 1995 = folleto, 1996 = La Runa, 1998 = cartel (color). Si la portada es prensa u objeto, el pie dice «Cartel o folleto: pendiente».
+- **Documentos** (slug → página): 1992 `de-impresion-mayo`, `de-impresion-diciembre`; 1993 `cartel`; 1995 `folleto` (2 caras), `mesas` (2 caras + `tabla`), `fanzine`; 1996 `la-runa`; 1998 `cartel`; sin fecha `folleto-jrt`, `ultria-jrt`, `cartel-csss`, `cartel-proyecto-genesis`, `articulo-paul-mv` (prensa). Una fuente por documento (`de-impresion-1992-05`, `cartel-1993`, `folleto-1995`, `mesas-1995`, `la-runa-1-1996`, `sin-fecha-<slug>`…), url = su página.
+- **Esquema**: `documentos[].tabla {titulo, nota, columnas, filas}` (cada fila tantas celdas como columnas; «—» = vacía, se lee «vacía»). La página del documento la pinta como `tz-tabla` en `tz-contenedor` con `th scope="row"` (apilada: «Mesa N» como título de ficha; CSS en sistema.css tras §4.17).
+- **Actividades 1995**: una por juego («AD&D: 13 mesas»…, con mesas y clubes), más mesa redonda, entrega de premios y fanzine.
+- **Cronología**: entradas nuevas 1992, 1993, 1995; la de 1996 ahora con La Runa nº 1 (verificada).
+- **QA**: 16 páginas × 11 anchos × 100/200 % = 352 vistas, 0 fallos; capturas en `scratch/ed4-cap/` (tabla de mesas a 320 px apilada, 200 % y 1280).
+- Pendiente: nombre del centro de 1995, cartel de 1992 en papel, asistencia de 1992-1995 y 1998, fechas y sede de 1998, años del premio Excálibur, quién tuvo la iniciativa en 1992.

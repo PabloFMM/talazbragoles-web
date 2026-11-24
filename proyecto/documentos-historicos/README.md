@@ -10,18 +10,18 @@ Material de época (folletos, programas, carteles, fotos, prensa, testimonios) o
 | ¿? | 2002 (pin «'02») | pendiente | pin | `2002-jornadas/` |
 | ¿? | 2000-2001 | sin datos | — | (sin carpeta hasta que haya algo) |
 | ¿? | 1999 (pin sin año; según la colección) | pendiente | pin | `1999-jornadas/` |
-| ¿? | 1998 (pin «98») | pendiente | pin | `1998-jornadas/` |
+| VII | 1998 (cartel) | parcial | cartel · pin | `1998-jornadas/` |
 | VI | 1997 | parcial | folleto original · pin | `1997-vi-jornadas/` |
-| V | 1996 (La Runa + pin) | parcial | reseña de La Runa (fuente secundaria) · pin | `1996-v-jornadas/` |
-| IV | 1995 (pin; nº deducido) | pendiente | pin | `1995-iv-jornadas/` |
+| V | 1996 (La Runa nº 1) | parcial | La Runa nº 1 (portada) · pin | `1996-v-jornadas/` |
+| IV | 1995 (folleto) | parcial | folleto · lista de mesas · fanzine oficial · pin | `1995-iv-jornadas/` |
 | III | 1994 (pin; nº deducido) | pendiente | pin | `1994-iii-jornadas/` |
-| II | 1993 (deducido) | pendiente | — | `1993-ii-jornadas/` |
-| I | 1992 (deducido) | pendiente | — | `1992-i-jornadas/` |
-| ¿? | sin fechar | — | 2 testimonios | `sin-fechar/` |
+| II | 1993 (cartel) | parcial | cartel oficial | `1993-ii-jornadas/` |
+| I | 1992 (prensa: 4 de abril) | parcial | 2 artículos de De Impresión | `1992-i-jornadas/` |
+| ¿? | sin fechar | — | 2 testimonios · JRT (folleto y hoja de Ultria) · cartel de la CSSS · cartel de Proyecto Génesis · artículo de Paul M.V. | `sin-fechar/` |
 
 Cada edición se ordena por dentro así: lo visual (cartel, portada del folleto) y resumen · qué se hizo · organización (cambiaba cada año) · lugar exacto · papeles, prensa y fotos (subcarpetas `folleto/`, `prensa/`, `fotos/`…) · fuentes.
 
-Años de la I a la IV: deducidos del folleto de 1997 («por sexto año consecutivo»). Si aparece un documento que diga otra cosa, manda el documento.
+Numeración: I = 1992 (prensa), II = 1993 (cartel), IV = 1995 (folleto), V = 1996 (La Runa nº 1), VI = 1997 (folleto), VII = 1998 (cartel); III = 1994 por la serie (año por el pin). Si aparece un documento que diga otra cosa, manda el documento.
 
 Ediciones posteriores a 1997: los pines prueban 1998, 2002 y 2003 (y 1999 según la colección). Su número de edición queda pendiente (no sabemos si hubo 2000 y 2001): carpetas `AAAA-jornadas/`. Objetos (pines, camisetas…) van en el apartado «objetos» de su edición.
 

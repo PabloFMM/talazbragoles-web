@@ -137,6 +137,18 @@ const editions = defineCollection({
               nota: z.string().optional(),
             })
           ).default([]),
+          /** Tabla transcrita del documento (p. ej. la lista de mesas de 1995): se
+           *  pinta como tabla accesible en su página, además de la imagen. La primera
+           *  columna es la cabecera de cada fila; «—» = celda vacía en el original. */
+          tabla: z
+            .object({
+              titulo: z.string(),
+              nota: z.string().optional(),
+              columnas: z.array(z.string()).min(2),
+              filas: z.array(z.array(z.string())).min(1),
+            })
+            .refine((t) => t.filas.every((f) => f.length === t.columnas.length), "Cada fila de la tabla debe tener tantas celdas como columnas")
+            .optional(),
         })
       )
       .default([])

@@ -1,10 +1,13 @@
 {
   "date": "1996-04-13",
   "precision": "day",
-  "title": "5ª edición de las jornadas Talazbrágoles (13 y 14 de abril, Las Rozas)",
-  "description": "Según la crónica del periódico La Runa que reseña el blog Rol de los 90. Fuente secundaria; el año 1996 se deduce de la fecha de los números del periódico.",
+  "title": "V Jornadas, Talazbrágoles `96 (13 y 14 de abril, Las Matas)",
+  "description": "Según la portada de La Runa nº 1 (abril de 1996). La crónica del nº 2, reseñada por el blog Rol de los 90, habla de unas 700 personas.",
   "category": "edicion",
-  "sourceIds": ["rol-de-los-90-la-runa-2018"],
-  "verified": false,
+  "sourceIds": [
+    "la-runa-1-1996",
+    "rol-de-los-90-la-runa-2018"
+  ],
+  "verified": true,
   "relatedEditionId": "1996"
 }

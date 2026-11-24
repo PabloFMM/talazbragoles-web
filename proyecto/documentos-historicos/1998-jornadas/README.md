@@ -1,31 +1,34 @@
 ---
-edicion: pendiente
+edicion: VII
+numero: 7
 anio: 1998
-anio_estado: confirmado (pin)
-estado: pendiente
+anio_estado: confirmado (cartel y pin)
+estado: parcial
 ---
 
-# Talazbrágoles 1998
+# VII Jornadas Talazbrágoles (1998)
 
-Existió: lo prueba el pin conmemorativo «TALAZBRÁGOLES 98».
+Confirmada por el cartel: «Talazbragoles'98 · VII Jornadas de Juegos de Rol, Estrategia, Simulación y Cartas de Las Rozas de Madrid».
+
+(La carpeta se llama `1998-jornadas/` por historia; no se renombra para no romper rutas.)
 
 ## Lo que sabemos
 
 | Dato | Valor | Fuente |
 |---|---|---|
-| Edición (número) | pendiente | — |
+| Edición | VII | cartel |
 | Fechas | pendiente | — |
-| Sede | pendiente | — |
+| Sede | Las Rozas de Madrid (edificio pendiente) | cartel |
 | Organización | pendiente | — |
-| Actividades | pendiente | — |
+| Actividades | rol, estrategia, simulación y cartas (título) | cartel |
 
 ## Documentos
 
 | Documento | Apartado | Carpeta |
 |---|---|---|
+| Cartel (banda de título) de 1998 | papeles | `cartel/` |
 | Pin de 1998 | objetos | `pin/` |
 
 ## Pendiente
 
-- Número de edición: si fueron anuales y seguidas desde 1992, 1998 sería la VII, pero no hay fuente que lo diga.
-- Folleto, cartel, prensa o fotos de esta edición.
+- Resto del cartel (la foto llegó como «cartel 01»), fechas, sede, programa.

@@ -63,6 +63,8 @@ const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceI
                 <blockquote class="tz-documento-literal" lang="es">
                   {c.texto.map((t) => <p>{t}</p>)}
                 </blockquote>
+              ) : doc.tabla ? (
+                <p class="tz-prosa">El texto está copiado, celda a celda, en <a class="tz-enlace" href="#s-tabla">«{doc.tabla.titulo}»</a>.</p>
               ) : <Pendiente mensaje={doc.apartado === "objetos" ? "Inscripción sin copiar." : "Texto de esta cara sin copiar."} />}
               {c.nota && <p class="tz-documento-nota">{c.nota}</p>}
             </div>
@@ -71,8 +73,36 @@ const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceI
       </ol>
     </section>
 
+    {doc.tabla && (
+      <section class="tz-seccion" aria-labelledby="s-tabla">
+        <Titulo id="s-tabla" numero="02">{doc.tabla.titulo}</Titulo>
+        {doc.tabla.nota && <p class="tz-medida tz-prosa">{doc.tabla.nota}</p>}
+        <!-- Se apila como fichas en caja estrecha (tz-contenedor + data-etiqueta). -->
+        <div class="tz-contenedor tz-documento-tabla">
+          <table class="tz-tabla">
+            <caption class="tz-oculto">{doc.tabla.titulo}</caption>
+            <thead>
+              <tr>{doc.tabla.columnas.map((c) => <th scope="col">{c}</th>)}</tr>
+            </thead>
+            <tbody>
+              {doc.tabla.filas.map((f) => (
+                <tr>
+                  <th scope="row" data-etiqueta={doc.tabla!.columnas[0]}>{f[0]}</th>
+                  {f.slice(1).map((celda, k) => (
+                    <td data-etiqueta={doc.tabla!.columnas[k + 1]}>
+                      {celda === "—" ? <><span aria-hidden="true">—</span><span class="tz-oculto">vacía</span></> : celda}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
     <section class="tz-seccion" aria-labelledby="s-fuentes">
-      <Titulo id="s-fuentes" numero="02">Fuente</Titulo>
+      <Titulo id="s-fuentes" numero={doc.tabla ? "03" : "02"}>Fuente</Titulo>
       {fuente ? (
         <ol class="tz-fuentes tz-medida">
           <NotaFuente fuente={fuente} n={1} ancla />

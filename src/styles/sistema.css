@@ -891,6 +891,14 @@
   @container (min-width: 30rem) and (max-width: 44rem) {
     .tz-tabla td[data-etiqueta] { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--e-4); }
   }
+  /* Cabecera de fila (th scope="row", p. ej. el número de mesa de 1995): filete de fila, no de cabecera;
+     apilada, lleva delante su etiqueta («Mesa 12») como título de la ficha. */
+  .tz-tabla tbody th { border-bottom: var(--f-fino) solid var(--filete); }
+  @container (max-width: 44rem) {
+    .tz-tabla tbody th { padding: 0; border: 0; font-size: var(--t-1); }
+    .tz-tabla tbody th[data-etiqueta]::before { content: attr(data-etiqueta) " "; }
+    .tz-tabla tbody th + td { margin-top: var(--e-3); }
+  }
 
   /* Lista de enlaces de fila (guías, accesos): nombre en serif, detalle debajo, flecha a la derecha */
   .tz-lista-enlaces {

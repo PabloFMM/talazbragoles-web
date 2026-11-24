@@ -1,23 +1,91 @@
 {
   "year": 1993,
-  "title": "Talazbrágoles — II edición (año deducido)",
+  "title": "Talazbrágoles'93 — II Jornadas (24 y 25 de abril)",
   "numero": {
     "romano": "II",
-    "entero": 2,
-    "deducido": true
+    "entero": 2
   },
   "anioEstado": {
-    "estado": "deducido",
+    "estado": "confirmado",
     "sourceIds": [
-      "folleto-vi-jornadas-1997"
+      "cartel-1993"
     ],
-    "nota": "El folleto de 1997 presenta la VI edición como el «sexto año consecutivo»: contando hacia atrás, la II sería de 1993. Ninguna fuente de esta edición lo confirma todavía."
+    "nota": "El cartel dice «Talazbrágoles'93» y «IIª Jornadas de Juegos de Rol, Estrategia y Simulación de Las Rozas»."
   },
-  "verified": false,
-  "status": "pendiente",
+  "verified": true,
+  "status": "parcial",
+  "fechas": "Sábado 24 y domingo 25 de abril de 1993",
+  "apoyo": "Concejalía de Juventud (logotipo en el cartel)",
+  "venue": {
+    "name": "Centro de Bienestar Social",
+    "city": "Las Rozas, Madrid",
+    "address": "Según el plano del cartel, junto a Burgo Centro, entre la carretera de El Escorial y el Ayuntamiento",
+    "comoLlegar": "Según el plano: tren, línea C-7; autobuses 621 y 622 desde Moncloa"
+  },
+  "organizer": "Cinco clubes de rol (ver «Organización»)",
+  "organizacion": {
+    "equipo": [],
+    "asociacion": "Clubes organizadores: Cofradía de Supervivientes de Solaris Siete · Club de Amigos de La Posada del Cerdo y el Silbato · El Clan de los Insurrectos · El Círculo Invencible · La Leyenda",
+    "patrocinadores": [
+      "Alas de Dragón (club, Madrid)",
+      "Vectra (club, Madrid)",
+      "La Taberna del Poney Pisador (club, Alcalá de Henares)",
+      "Melkor (club, Aranjuez)",
+      "Nameless (club, Pozuelo de Alarcón)",
+      "Lobo Negro (club, Leganés)",
+      "Inmortals (club, Boadilla del Monte)",
+      "Grebas (club, Madrid)",
+      "Los Caballeros de la Espada Negra (club, Las Rozas)",
+      "Naipe (tienda)",
+      "Arte 9 (tienda)",
+      "El Baluarte (tienda)",
+      "La Pelikana (tienda)",
+      "Crisis (tienda)",
+      "Bazar Matey (tienda, añadida a mano)"
+    ],
+    "nota": "El cartel separa nueve «clubs colaboradores» y seis «tiendas patrocinadoras». Información: teléfono (91) 637 49 11 y fax (91) 637 00 28. No nombra a ninguna persona."
+  },
+  "description": "El cartel anuncia las II Jornadas de Juegos de Rol, Estrategia y Simulación de Las Rozas, «Talazbrágoles'93», el 24 y 25 de abril en el Centro de Bienestar Social, organizadas por cinco clubes, con nueve clubes colaboradores de Madrid y alrededores, seis tiendas y el logotipo de la Concejalía de Juventud. Es la primera vez que aparece el nombre «Talazbrágoles» en los documentos que tenemos. No dice horario, actividades ni asistencia.",
+  "activities": [],
+  "portada": {
+    "imagen": "/documentos/1993-cartel/cartel.jpg",
+    "ancho": 839,
+    "alto": 1200,
+    "alt": "Cartel de Talazbrágoles'93: arriba el título; en el centro, una figura encapuchada con capa larga ante un portal en una sala circular de piedra con estanterías y lámpara; abajo, las listas de clubes y tiendas, el logotipo de la Concejalía de Juventud y un plano.",
+    "documento": "cartel"
+  },
   "sourceIds": [
-    "folleto-vi-jornadas-1997"
+    "cartel-1993"
   ],
   "peopleIds": [],
-  "activities": []
+  "documentos": [
+    {
+      "slug": "cartel",
+      "apartado": "papeles",
+      "titulo": "Cartel de Talazbrágoles'93",
+      "descripcion": "Cartel impreso de la II edición, con ilustración, listas de clubes y tiendas y un plano para llegar. Ejemplar en papel amarillento, fotografiado y pasado a escala de grises.",
+      "sourceId": "cartel-1993",
+      "caras": [
+        {
+          "titulo": "El cartel",
+          "imagen": "/documentos/1993-cartel/cartel.jpg",
+          "ancho": 839,
+          "alto": 1200,
+          "alt": "Cartel de Talazbrágoles'93: arriba el título; en el centro, una figura encapuchada con capa larga ante un portal en una sala circular de piedra con estanterías y lámpara; abajo, las listas de clubes y tiendas, el logotipo de la Concejalía de Juventud y un plano.",
+          "texto": [
+            "TALAZBRÁGOLES'93",
+            "IIª Jornadas de Juegos de Rol, Estrategia y Simulación de Las Rozas. En el Centro de Bienestar Social los días 24 y 25 de Abril",
+            "OLVIDA LA RUTINA. CRUZA EL PORTAL DE LA IMAGINACIÓN. SE TU EL PROTAGONISTA: LUCHA CONTRA TEMIBLES BESTIAS, DESCUBRE FANTÁSTICOS TESOROS, VIAJA POR EL TIEMPO Y EL ESPACIO",
+            "Clubes Organizadores: - Cofradía de Supervivientes de Solaris Siete - Club de Amigos de La Posada del Cerdo y el Silbato - El Clan de los Insurrectos - El Circulo Invencible - La Leyenda",
+            "Clubs Colaboradores:- Alas de Dragon (Madrid) - Vectra (Madrid) - La Taberna del Poney Pisador (Alcalá de Henares)- Melkor (Aranjuez) - Nameless (Pozuelo de Alarcón) - Lobo Negro (Leganés) Inmortals (Boadilla del Monte) - Grebas (Madrid) Los Caballeros de La Espada Negra (Las Rozas)",
+            "Tiendas Patrocinadoras: - Naipe - Arte 9 - El Baluarte - la Pelikana - Crisis - BAZAR MATEY [este último, añadido a mano]",
+            "[plano] Lineas C7 tren; Bus 621 622(Moncloa) · Burgo Centro · Burgo Centro · Bienestar Social · Madrid ⇐ Carretera del Escorial · Al Ayuntamiento",
+            "Para más información: Tlf:(91)6374911 Fax:(91)6370028",
+            "© J.S.S. [lectura dudosa, letra muy pequeña]"
+          ],
+          "nota": "Mayúsculas sin tilde como en el original. Bazar Matey está añadida a mano en la lista de tiendas."
+        }
+      ]
+    }
+  ]
 }
