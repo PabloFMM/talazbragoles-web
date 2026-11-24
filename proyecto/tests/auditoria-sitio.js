@@ -62,11 +62,12 @@
   if (document.querySelector('script:not([type="application/ld+json"])')) add('hay <script> (prohibido fuera del asesor)');
   for (const img of document.images) {
     if (!visible(img)) continue;
-    // Excepción (2026-11-23): reproducción de un documento de época (fuente primaria) en su ficha.
+    // Excepción (2026-11-23): reproducción de un documento u objeto de época (folleto,
+    // cartel, pin…: fuente primaria) en su ficha, siempre con alt descriptivo y medidas.
     if (img.closest('.tz-documento-imagen')) {
-      if (!img.alt || img.alt.length < 20) add(`documento sin alt descriptivo: ${img.getAttribute('src')}`);
-      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`documento sin width/height: ${img.getAttribute('src')}`);
-      if (img.getBoundingClientRect().right > W + 1) add(`documento desborda: ${img.getAttribute('src')}`);
+      if (!img.alt || img.alt.length < 20) add(`documento u objeto sin alt descriptivo: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`documento u objeto sin width/height: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`documento u objeto desborda: ${img.getAttribute('src')}`);
       continue;
     }
     // Excepción (Rol 5, 2026-11-23): la portada oficial de un juego, con alt «Portada de … (…)» y medidas.

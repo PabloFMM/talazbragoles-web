@@ -1,15 +1,54 @@
 {
   "year": 1994,
-  "title": "Talazbrágoles — III edición (año deducido)",
-  "numero": { "romano": "III", "entero": 3 },
+  "title": "Talazbrágoles '94 — III edición (número deducido)",
+  "numero": {
+    "romano": "III",
+    "entero": 3,
+    "deducido": true
+  },
   "anioEstado": {
-    "estado": "deducido",
-    "sourceIds": ["folleto-vi-jornadas-1997"],
-    "nota": "El folleto de 1997 presenta la VI edición como el «sexto año consecutivo»: contando hacia atrás, la III sería de 1994. Ninguna fuente de esta edición lo confirma todavía."
+    "estado": "confirmado",
+    "sourceIds": [
+      "pin-1994"
+    ],
+    "nota": "El pin de ese año lleva «'94» y el nombre de las jornadas. El número III se deduce del folleto de 1997, que presenta la VI edición como el «sexto año consecutivo»: contando hacia atrás, la III sería de 1994."
   },
   "verified": false,
   "status": "pendiente",
-  "sourceIds": ["folleto-vi-jornadas-1997"],
+  "sourceIds": [
+    "folleto-vi-jornadas-1997",
+    "pin-1994"
+  ],
   "peopleIds": [],
-  "activities": []
+  "activities": [],
+  "portada": {
+    "imagen": "/documentos/pines/pin-1994.jpg",
+    "ancho": 598,
+    "alto": 800,
+    "alt": "Pin de 1994: figura femenina de perfil con una capa extendida; en la capa, «'94», y en vertical junto a la pierna, «TALAZBRÁGOLES». Metal plateado y esmalte negro.",
+    "documento": "pin"
+  },
+  "documentos": [
+    {
+      "slug": "pin",
+      "apartado": "objetos",
+      "titulo": "Pin de 1994",
+      "descripcion": "Pin metálico conmemorativo: metal plateado en relieve con esmalte negro y silueta recortada. Ejemplar de una colección particular, fotografiado en 2026 y pasado a escala de grises (recorte, luz igualada y ruido quitado). No dice fechas, sede ni número de edición, ni quién lo diseñó; no se sabe si se regalaba a quienes asistían, a la organización o se vendía.",
+      "sourceId": "pin-1994",
+      "caras": [
+        {
+          "titulo": "El pin",
+          "imagen": "/documentos/pines/pin-1994.jpg",
+          "ancho": 598,
+          "alto": 800,
+          "alt": "Pin de 1994: figura femenina de perfil con una capa extendida; en la capa, «'94», y en vertical junto a la pierna, «TALAZBRÁGOLES». Metal plateado y esmalte negro.",
+          "texto": [
+            "'94",
+            "TALAZBRÁGOLES"
+          ],
+          "nota": "Motivo: figura femenina de pie, de perfil, con una capa extendida a la espalda; «'94» en la capa y «TALAZBRÁGOLES» en vertical junto a la pierna."
+        }
+      ]
+    }
+  ]
 }

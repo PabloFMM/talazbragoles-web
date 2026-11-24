@@ -1,24 +1,82 @@
 {
   "year": 1996,
   "title": "Talazbrágoles — 5ª edición (13 y 14 de abril)",
-  "numero": { "romano": "V", "entero": 5 },
+  "numero": {
+    "romano": "V",
+    "entero": 5,
+    "deducido": true
+  },
   "anioEstado": {
-    "estado": "deducido",
-    "sourceIds": ["rol-de-los-90-la-runa-2018", "folleto-vi-jornadas-1997"],
-    "nota": "Dos indicios que coinciden: la crónica salió en La Runa, cuyos números son de abril y mayo de 1996, y el folleto de 1997 presenta la VI edición como el «sexto año consecutivo». Ninguna fuente escribe el año junto a los días."
+    "estado": "confirmado",
+    "sourceIds": [
+      "pin-1996"
+    ],
+    "nota": "El pin de ese año lleva «96» y el nombre de las jornadas. Que la 5ª edición de la crónica de La Runa (13 y 14 de abril) sea la de 1996 sigue siendo deducción: la crónica no escribe el año, pero los números de La Runa son de abril y mayo de 1996 y el folleto de 1997 habla del «sexto año consecutivo»."
   },
   "verified": false,
   "status": "parcial",
   "fechas": "13 y 14 de abril (sábado y domingo en 1996)",
   "asistencia": "Unas 700 personas, según la crónica de La Runa (vía Rol de los 90)",
-  "venue": { "city": "Las Rozas" },
-  "description": "Según la crónica del periódico La Runa que reseña el blog Rol de los 90: jornadas gratuitas, 130 mesas, campeonatos de Magic y SATM, partida de Doom en red, charlas y mesas redondas; unas 700 personas. Fuente secundaria; el año 1996 es deducido.",
-  "sourceIds": ["rol-de-los-90-la-runa-2018", "folleto-vi-jornadas-1997"],
+  "venue": {
+    "city": "Las Rozas"
+  },
+  "portada": {
+    "imagen": "/documentos/pines/pin-1996.jpg",
+    "ancho": 531,
+    "alto": 800,
+    "alt": "Pin de 1996: figura con túnica larga y los brazos alzados hacia lo que parece una llama; arriba, «96», y en vertical a la izquierda, «TALAZBRÁGOLES». Metal plateado y esmalte negro.",
+    "documento": "pin"
+  },
+  "description": "Según la crónica del periódico La Runa que reseña el blog Rol de los 90: jornadas gratuitas, 130 mesas, campeonatos de Magic y SATM, partida de Doom en red, charlas y mesas redondas; unas 700 personas. Fuente secundaria; que esta crónica sea la de 1996 es deducido (el pin confirma que hubo jornadas en 1996, pero no las fechas ni el número).",
+  "sourceIds": [
+    "rol-de-los-90-la-runa-2018",
+    "folleto-vi-jornadas-1997",
+    "pin-1996"
+  ],
   "peopleIds": [],
   "activities": [
-    { "type": "partida-rol", "name": "130 mesas para partidas de rol", "description": "Según la crónica de La Runa, vía Rol de los 90." },
-    { "type": "torneo", "name": "Campeonatos de Magic y SATM", "description": "Según la crónica de La Runa, vía Rol de los 90." },
-    { "type": "otro", "name": "Partida de Doom en red", "description": "Según la crónica de La Runa, vía Rol de los 90." },
-    { "type": "charla", "name": "Charlas y mesas redondas", "description": "Según la crónica de La Runa, vía Rol de los 90. No dice temas ni ponentes." }
+    {
+      "type": "partida-rol",
+      "name": "130 mesas para partidas de rol",
+      "description": "Según la crónica de La Runa, vía Rol de los 90."
+    },
+    {
+      "type": "torneo",
+      "name": "Campeonatos de Magic y SATM",
+      "description": "Según la crónica de La Runa, vía Rol de los 90."
+    },
+    {
+      "type": "otro",
+      "name": "Partida de Doom en red",
+      "description": "Según la crónica de La Runa, vía Rol de los 90."
+    },
+    {
+      "type": "charla",
+      "name": "Charlas y mesas redondas",
+      "description": "Según la crónica de La Runa, vía Rol de los 90. No dice temas ni ponentes."
+    }
+  ],
+  "documentos": [
+    {
+      "slug": "pin",
+      "apartado": "objetos",
+      "titulo": "Pin de 1996",
+      "descripcion": "Pin metálico conmemorativo: metal plateado en relieve con esmalte negro y silueta recortada. Ejemplar de una colección particular, fotografiado en 2026 y pasado a escala de grises (recorte, luz igualada y ruido quitado). No dice fechas, sede ni número de edición, ni quién lo diseñó; no se sabe si se regalaba a quienes asistían, a la organización o se vendía.",
+      "sourceId": "pin-1996",
+      "caras": [
+        {
+          "titulo": "El pin",
+          "imagen": "/documentos/pines/pin-1996.jpg",
+          "ancho": 531,
+          "alto": 800,
+          "alt": "Pin de 1996: figura con túnica larga y los brazos alzados hacia lo que parece una llama; arriba, «96», y en vertical a la izquierda, «TALAZBRÁGOLES». Metal plateado y esmalte negro.",
+          "texto": [
+            "96",
+            "TALAZBRÁGOLES"
+          ],
+          "nota": "Motivo: figura con túnica larga y los brazos alzados hacia lo que parece una llama o antorcha; «96» arriba y «TALAZBRÁGOLES» en vertical a la izquierda."
+        }
+      ]
+    }
   ]
 }

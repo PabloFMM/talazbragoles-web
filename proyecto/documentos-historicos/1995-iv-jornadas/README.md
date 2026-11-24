@@ -1,19 +1,20 @@
 ---
-edicion: IV
+edicion: IV (deducido)
 numero: 4
 anio: 1995
-anio_estado: deducido
+anio_estado: confirmado (pin «'95»); número de edición deducido
 estado: pendiente
 ---
 
 # IV Jornadas Talazbrágoles (1995)
 
-Año **deducido**: el folleto de 1997 (VI Jornadas) dice «por sexto año consecutivo», así que la I fue en 1992 y las siguientes, una por año. Ninguna fuente de esta edición lo confirma todavía.
+Hubo jornadas en 1995: lo prueba el pin conmemorativo. Que fuera la **IV** se deduce del folleto de 1997 («por sexto año consecutivo»).
 
 ## Lo que sabemos
 
 | Dato | Valor | Fuente |
 |---|---|---|
+| Año | 1995 | pin de 1995 |
 | Fechas | pendiente | — |
 | Sede | pendiente | — |
 | Organización | pendiente | — |
@@ -23,8 +24,10 @@ Año **deducido**: el folleto de 1997 (VI Jornadas) dice «por sexto año consec
 
 ## Documentos
 
-Todavía no hay ninguno. Lo que llegue (folletos, programas, carteles, fotos, recortes de prensa, recuerdos) va en una subcarpeta propia, como `../1997-vi-jornadas/folleto/`.
+| Documento | Apartado | Carpeta |
+|---|---|---|
+| Pin de 1995 | objetos | `pin/` |
 
 ## Pendiente
 
-- Cualquier documento o testimonio de esta edición.
+- Folleto, cartel, prensa, fotos o recuerdos de esta edición.

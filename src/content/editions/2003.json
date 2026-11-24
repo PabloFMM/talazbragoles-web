@@ -1,0 +1,47 @@
+{
+  "year": 2003,
+  "title": "Talazbrágoles 2003",
+  "anioEstado": {
+    "estado": "confirmado",
+    "sourceIds": [
+      "pin-2003"
+    ],
+    "nota": "Año según la inscripción: el pin dice «TALAZBRAGOLES'03» (la foto llegó nombrada «pin del 93», pero la cartela dice «'03»). Ninguna fuente dice qué número de edición fue."
+  },
+  "verified": false,
+  "status": "pendiente",
+  "portada": {
+    "imagen": "/documentos/pines/pin-2003.jpg",
+    "ancho": 552,
+    "alto": 800,
+    "alt": "Pin de 2003: figura alargada que sostiene en alto dos formas grandes, como hojas o espadas; abajo, en una cartela, «TALAZBRAGOLES'03». Metal plateado y esmalte negro.",
+    "documento": "pin"
+  },
+  "sourceIds": [
+    "pin-2003"
+  ],
+  "peopleIds": [],
+  "activities": [],
+  "documentos": [
+    {
+      "slug": "pin",
+      "apartado": "objetos",
+      "titulo": "Pin de 2003",
+      "descripcion": "Pin metálico conmemorativo: metal plateado en relieve con esmalte negro y silueta recortada. Ejemplar de una colección particular, fotografiado en 2026 y pasado a escala de grises (recorte, luz igualada y ruido quitado). No dice fechas, sede ni número de edición, ni quién lo diseñó; no se sabe si se regalaba a quienes asistían, a la organización o se vendía.",
+      "sourceId": "pin-2003",
+      "caras": [
+        {
+          "titulo": "El pin",
+          "imagen": "/documentos/pines/pin-2003.jpg",
+          "ancho": 552,
+          "alto": 800,
+          "alt": "Pin de 2003: figura alargada que sostiene en alto dos formas grandes, como hojas o espadas; abajo, en una cartela, «TALAZBRAGOLES'03». Metal plateado y esmalte negro.",
+          "texto": [
+            "TALAZBRAGOLES'03"
+          ],
+          "nota": "Motivo: figura alargada que sostiene en alto dos hojas o espadas grandes (lectura dudosa del motivo); la inscripción en una cartela abajo."
+        }
+      ]
+    }
+  ]
+}

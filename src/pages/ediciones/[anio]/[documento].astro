@@ -50,7 +50,7 @@ const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceI
     </Encabezado>
 
     <section class="tz-seccion" aria-labelledby="s-caras">
-      <Titulo id="s-caras" numero="01">{doc.caras.length === 1 ? "La cara y su texto" : "Las caras y su texto"}</Titulo>
+      <Titulo id="s-caras" numero="01">{doc.apartado === "objetos" ? "El objeto y su inscripción" : doc.caras.length === 1 ? "La cara y su texto" : "Las caras y su texto"}</Titulo>
       <ol class="tz-documento tz-documento--grande">
         {doc.caras.map((c, j) => (
           <li class="tz-documento-cara" id={`cara-${j + 1}`}>
@@ -63,7 +63,7 @@ const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceI
                 <blockquote class="tz-documento-literal" lang="es">
                   {c.texto.map((t) => <p>{t}</p>)}
                 </blockquote>
-              ) : <Pendiente mensaje="Texto de esta cara sin copiar." />}
+              ) : <Pendiente mensaje={doc.apartado === "objetos" ? "Inscripción sin copiar." : "Texto de esta cara sin copiar."} />}
               {c.nota && <p class="tz-documento-nota">{c.nota}</p>}
             </div>
           </li>

@@ -15,7 +15,7 @@
  */
 import type { CollectionEntry } from "astro:content";
 import { hrefEdicion } from "../../lib/collections";
-import { estadoDocumental } from "../../lib/formato";
+import { estadoDocumental, anioEstadoTexto, tramoAnios } from "../../lib/formato";
 
 interface Props {
   ediciones: CollectionEntry<"editions">[];
@@ -25,13 +25,14 @@ interface Props {
   idTitulo?: string;
 }
 const { ediciones, actual, muestra = false, idTitulo = "riel-titulo" } = Astro.props;
-const deducidos = ediciones
-  .filter((e) => e.data.anioEstado?.estado === "deducido" && e.data.year !== "desconocida")
-  .map((e) => e.data.year as number);
-const tramo =
-  deducidos.length > 1
-    ? `${Math.min(...deducidos)}-${Math.max(...deducidos)}`
-    : deducidos.length === 1 ? String(deducidos[0]) : "";
+// Leyenda: qué años no están confirmados («1992-1993: año deducido.», «1999: año atribuido.»).
+const anios = (estado: "deducido" | "atribuido") =>
+  ediciones
+    .filter((e) => e.data.anioEstado?.estado === estado && e.data.year !== "desconocida")
+    .map((e) => e.data.year as number);
+const leyenda = (["deducido", "atribuido"] as const)
+  .map((estado) => ({ tramo: tramoAnios(anios(estado)), texto: anioEstadoTexto[estado] }))
+  .filter((l) => l.tramo);
 ---
 <nav class="tz-riel" aria-labelledby={idTitulo}>
   <p class="tz-rotulo tz-riel-titulo" id={idTitulo}>Ediciones por año</p>
@@ -41,8 +42,8 @@ const tramo =
       const sinFecha = year === "desconocida";
       const esActual = e.id === actual;
       const oculto = [
-        numero ? `${numero.romano} edición` : undefined,
-        anioEstado?.estado === "deducido" ? "año deducido" : undefined,
+        numero ? `${numero.romano} edición${numero.deducido ? " (número deducido)" : ""}` : undefined,
+        anioEstado && anioEstado.estado !== "confirmado" ? anioEstadoTexto[anioEstado.estado] : undefined,
         estadoDocumental[status].toLowerCase(),
       ].filter(Boolean).join(", ");
       return (
@@ -65,6 +66,6 @@ const tramo =
     <span class="tz-estado tz-estado--documentada">Documentada</span>
     <span class="tz-estado tz-estado--parcial">Parcial</span>
     <span class="tz-estado tz-estado--pendiente">Pendiente</span>
-    {tramo && <span class="tz-riel-deducido">{tramo}: año deducido.</span>}
+    {leyenda.map((l) => <span class="tz-riel-deducido">{l.tramo}: {l.texto}.</span>)}
   </p>
 </nav>

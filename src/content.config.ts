@@ -35,12 +35,18 @@ const editions = defineCollection({
       .object({
         romano: z.string().regex(/^[IVXLC]+$/),
         entero: z.number().int().min(1),
+        /** true si ningún documento de la edición dice el número (p. ej. se cuenta
+         *  hacia atrás desde el «sexto año consecutivo» del folleto de 1997). */
+        deducido: z.boolean().default(false),
       })
       .optional(),
-    /** ¿El año lo dice un documento de la edición o se deduce? Siempre con fuente. */
+    /** ¿El año lo dice un documento de la edición, se deduce o solo se atribuye?
+     *  confirmado = lo escribe un documento de la edición (folleto, pin con año);
+     *  deducido = se cuenta desde otra fuente; atribuido = el objeto no lleva año y
+     *  se toma el que le da la colección de la que procede. Siempre con fuente. */
     anioEstado: z
       .object({
-        estado: z.enum(["confirmado", "deducido"]),
+        estado: z.enum(["confirmado", "deducido", "atribuido"]),
         sourceIds: z.array(z.string()).min(1),
         nota: z.string().optional(),
       })
@@ -107,14 +113,16 @@ const editions = defineCollection({
       })
       .optional(),
     /** Documentos de la edición (bloque 05), por apartado: papeles (folletos,
-     *  programas, carteles, inscripciones, permisos), prensa, fotos, recuerdos
-     *  (testimonios). Un documento con caras tiene su página
-     *  /ediciones/<año>/<slug>/ (imagen en public/ + transcripción literal, [sic]). */
+     *  programas, carteles, inscripciones, permisos), objetos (pines y otros
+     *  objetos de época), prensa, fotos, recuerdos (testimonios). Un documento con
+     *  caras tiene su página /ediciones/<año>/<slug>/ (imagen en public/ +
+     *  transcripción literal, [sic]). Un objeto lleva UNA cara: su foto, con la
+     *  inscripción en `texto` y el motivo en `nota`. */
     documentos: z
       .array(
         z.object({
           slug: z.string().regex(/^[a-z0-9-]+$/),
-          apartado: z.enum(["papeles", "prensa", "fotos", "recuerdos"]),
+          apartado: z.enum(["papeles", "objetos", "prensa", "fotos", "recuerdos"]),
           titulo: z.string(),
           descripcion: z.string().optional(),
           sourceId: z.string(),
