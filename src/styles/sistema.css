@@ -1424,6 +1424,8 @@
     list-style: none;
   }
   .tz-miniaturas > li { min-width: 0; }
+  /* Un objeto apaisado (pin) en miniatura puede quedar por debajo de 48 px de alto: el enlace no baja de --toque */
+  .tz-miniaturas .tz-documento-imagen { display: flex; align-items: center; min-height: var(--toque); }
   .tz-miniaturas .tz-documento-imagen:hover { outline: var(--f-medio) solid var(--tinta); }
 
   /* /ediciones/: todos los años, de nuevo a viejo, con portada o hueco */
