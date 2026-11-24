@@ -151,7 +151,7 @@ Campos clave: `date` (ISO 8601 o parcial: `"1994"`, `"1994-05"`), `precision`, `
 
 ### Crónicas de mesa: `modulos`, `seccionesModulo`, `mesas`, `campanas` (Rol fase 2, 2026-11-24)
 
-Sustituyen a la antigua `campaigns` (JSON vacío con `gm` y `player`). Markdown. Decisiones en `docs/rol/cronicas/` de la carpeta del proyecto (CONTEXTO.md y CONTEXTO-TARJETAS.md; se archivan en `proyecto/docs/` con `sync-repo.py`); versiones anotadas con fuentes en `proyecto/material/<módulo>/`.
+Sustituyen a la antigua `campaigns` (JSON vacío con `gm` y `player`). Markdown. Decisiones en `docs/rol/cronicas/` de la carpeta del proyecto de trabajo (CONTEXTO.md y CONTEXTO-TARJETAS.md). NO se archivan en `proyecto/docs/` (el repo es público y CONTEXTO.md nombra a quien dirigió): no lanzar `sync-repo.py` sin excluir esa carpeta. Versiones anotadas con fuentes en `proyecto/material/<módulo>/`.
 
 - **Privacidad (no saltarse nunca):** en `campanas` y `mesas` los jugadores salen SOLO con su personaje y quien dirige, como «DJ» (`direccion: "DJ"`). Los objetos son `.strict()` (un campo `jugador`, `gm`… rompe el build) y `buscaPersonas()` de `src/lib/privacidad.mjs` rechaza claves de persona y nombres reales en cualquier texto. La única persona real nombrada es la autoría del módulo base, en `modulos`. Lo vigila `tests/rol-sin-nombres.test.mjs`.
 - `modulos` (`src/content/modulos/<slug>.md`): ficha del módulo. `titulo`, `juego` (ref), `tipo`, `licencia` (`"cc0-1.0"`, literal), `autoria`, `dificultad`, `duracion`, `jugadores`, `ambito`, `conflicto` (Conflicto de Partida), `resumen`, `campana` (ref a la aventura de nuestra mesa). Cuerpo: «Cómo usar este módulo».
