@@ -2,29 +2,36 @@
 edicion: I
 numero: 1
 anio: 1992
-anio_estado: deducido
-estado: pendiente
+anio_estado: confirmado (De Impresión, mayo de 1992)
+estado: parcial
 ---
 
-# I Jornadas Talazbrágoles (1992)
+# I Jornada de Juegos de Rol (1992)
 
-Año **deducido**: el folleto de 1997 (VI Jornadas) dice «por sexto año consecutivo», así que la I fue en 1992 y las siguientes, una por año. Ninguna fuente de esta edición lo confirma todavía.
+Confirmada por la prensa local: la «I Jornada de Juegos de Rol» fue el **sábado 4 de abril de 1992** en el Centro de Servicios Sociales de Las Rozas.
 
 ## Lo que sabemos
 
 | Dato | Valor | Fuente |
 |---|---|---|
-| Fechas | pendiente | — |
-| Sede | pendiente | — |
-| Organización | pendiente | — |
-| Actividades | pendiente | — |
-| Patrocinadores | pendiente | — |
+| Fecha | sábado 4 de abril de 1992 (un solo día) | De Impresión, mayo 1992 |
+| Horario | de 10 a 12 y por la tarde hasta las 20 h (la hora de inicio de la tarde está cortada en la foto) | De Impresión, mayo 1992 |
+| Sede | Centro de Servicios Sociales, Las Rozas (C/ Comunidad de la Rioja s/n, según el artículo de diciembre) | De Impresión, mayo y diciembre 1992 |
+| Organización | promovida por el Departamento de Juventud; de ahí nace la Cofradía de los Supervivientes de Solaris-7 (CSSS) | De Impresión, mayo 1992 |
+| Mesas | siete grupos | De Impresión, mayo 1992 |
+| Juegos citados | La llamada de Cthulhu, El Señor de los Anillos, Dungeons & Dragons | De Impresión, mayo 1992 |
+| Antes y después | partidas todos los sábados (Casa de la Cultura; a final de año, Centro de Servicios Sociales, 16:30-21:00) | De Impresión, mayo y diciembre 1992 |
+| Nombre «Talazbrágoles» | no aparece en estos artículos | — |
 | Asistencia | pendiente | — |
 
 ## Documentos
 
-Todavía no hay ninguno. Lo que llegue (folletos, programas, carteles, fotos, recortes de prensa, recuerdos) va en una subcarpeta propia, como `../1997-vi-jornadas/folleto/`.
+| Documento | Apartado | Carpeta |
+|---|---|---|
+| «Gran éxito de las primeras jornadas de Juegos de Rol» (De Impresión, mayo 1992), con el dibujo que llegó como «el primer cartel» | prensa | `prensa-1992-05-de-impresion/` |
+| «Extrañas criaturas en Las Rozas» (De Impresión, diciembre 1992) | prensa | `prensa-1992-12-de-impresion/` |
 
 ## Pendiente
 
-- Cualquier documento o testimonio de esta edición.
+- El cartel de 1992 en papel (en el artículo sale reproducido pequeño).
+- Quién tuvo la iniciativa (nombre ilegible en la foto).
