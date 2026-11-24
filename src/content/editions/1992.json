@@ -37,10 +37,10 @@
     }
   ],
   "portada": {
-    "imagen": "/documentos/1992-prensa-mayo/pagina.jpg",
-    "ancho": 672,
+    "imagen": "/documentos/1992-prensa-mayo/articulo.jpg",
+    "ancho": 336,
     "alto": 1200,
-    "alt": "Recorte de De Impresión: titular «Gran éxito de las primeras jornadas de Juegos de Rol», texto a tres columnas y un dibujo de una criatura de fauces abiertas sobre la cartela «La Cofradía de los Supervivientes de Solaris 7».",
+    "alt": "Recorte de De Impresión, página 8: titular «Gran éxito de las primeras jornadas de Juegos de Rol», un dibujo de una criatura de fauces abiertas sobre la cartela «La Cofradía de los Supervivientes de Solaris 7» y el texto a dos columnas, firmado por Sonia Esqueta.",
     "documento": "de-impresion-mayo"
   },
   "sourceIds": [
@@ -59,11 +59,11 @@
       "sourceId": "de-impresion-1992-05",
       "caras": [
         {
-          "titulo": "La página",
-          "imagen": "/documentos/1992-prensa-mayo/pagina.jpg",
-          "ancho": 672,
+          "titulo": "El artículo",
+          "imagen": "/documentos/1992-prensa-mayo/articulo.jpg",
+          "ancho": 336,
           "alto": 1200,
-          "alt": "Recorte de De Impresión: titular «Gran éxito de las primeras jornadas de Juegos de Rol», texto a tres columnas y un dibujo de una criatura de fauces abiertas sobre la cartela «La Cofradía de los Supervivientes de Solaris 7».",
+          "alt": "Recorte de De Impresión, página 8: titular «Gran éxito de las primeras jornadas de Juegos de Rol», un dibujo de una criatura de fauces abiertas sobre la cartela «La Cofradía de los Supervivientes de Solaris 7» y el texto a dos columnas, firmado por Sonia Esqueta.",
           "texto": [
             "Gran éxito de las primeras jornadas de Juegos de Rol",
             "Todo comenzó por iniciativa de [ilegible], quien se interesó por saber si en Las Rozas se practicaba este juego. Con el, el Departamento de Juventud se encargó de promover este \"proyecto\" y difundirlo como I Jornada de Juegos de Rol convocada para el sábado 4 de abril. Sin embargo, debido a la excelente respuesta obtenida, los juegos vienen desarrollándose desde hace unos meses todos los sábados, ya que los interesados \"no querían esperar hasta abril\".",
@@ -75,7 +75,7 @@
             "(Podéis conseguir información en el Departamento de Juventud)",
             "SONIA ESQUETA"
           ],
-          "nota": "Lo que la curva del papel corta va [cortado]; lo que no se lee, [ilegible]. A la derecha, en la misma página, un artículo de fútbol sala sin relación, que no se copia."
+          "nota": "Lo que la curva del papel corta va [cortado]; lo que no se lee, [ilegible]. En la misma página, a la derecha, hay un artículo de fútbol sala sin relación, que no se reproduce."
         }
       ]
     },
