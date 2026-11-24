@@ -28,6 +28,7 @@ Edición confirmada por un documento original: el folleto de las jornadas.
 | Documento | Carpeta |
 |---|---|
 | Folleto (díptico, 4 caras): imágenes restauradas y transcripción | `folleto/` (`folleto/folleto-1997.md`) |
+| Pin de 1997 | `pin/` |
 
 ## Pendiente
 

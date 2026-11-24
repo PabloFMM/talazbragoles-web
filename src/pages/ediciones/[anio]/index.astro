@@ -18,7 +18,7 @@ import Datos from "../../../components/sistema/Datos.astro";
 import Pendiente from "../../../components/sistema/Pendiente.astro";
 import NotaFuente from "../../../components/sistema/NotaFuente.astro";
 import { getAllEditions, getAllTimeline, hrefDocumento } from "../../../lib/collections";
-import { partesFecha, tipoActividadGrupo, apartadoDocumento, APARTADOS } from "../../../lib/formato";
+import { partesFecha, tipoActividadGrupo, apartadoDocumento, APARTADOS, anioEstadoTexto } from "../../../lib/formato";
 
 export async function getStaticPaths() {
   const editions = await getCollection("editions");
@@ -43,10 +43,12 @@ const notaFuente = (id: string) => {
 const sinFecha = year === "desconocida";
 const anoTexto = sinFecha ? "Sin fecha" : String(year);
 const resumen = [
-  { etiqueta: "Edición", valor: numero ? `${numero.romano} (${numero.entero}.ª)` : undefined },
+  { etiqueta: "Edición", valor: numero ? `${numero.romano} (${numero.entero}.ª${numero.deducido ? ", número deducido" : ""})` : undefined },
   {
     etiqueta: "Año",
-    valor: sinFecha ? undefined : anioEstado?.estado === "deducido" ? `${year} (deducido)` : year,
+    valor: sinFecha
+      ? undefined
+      : anioEstado && anioEstado.estado !== "confirmado" ? `${year} (${anioEstado.estado})` : year,
   },
   { etiqueta: "Fechas", valor: fechas },
   { etiqueta: "Horario", valor: horario },
@@ -78,16 +80,22 @@ const grupos = (Object.keys(tipoActividadGrupo) as (keyof typeof tipoActividadGr
   .map((tipo) => ({ tipo, etiqueta: tipoActividadGrupo[tipo], lista: activities.filter((a) => a.type === tipo) }))
   .filter((g) => g.lista.length > 0);
 
-// 01: la portada (cartel o cara 1 del folleto) y el documento al que pertenece.
+// 01: la portada (cartel, cara 1 del folleto o, si no hay papeles, un objeto de
+// época como el pin del año) y el documento al que pertenece.
 const docPortada = portada?.documento ? documentos.find((d) => d.slug === portada.documento) : undefined;
 const hrefPortada =
   docPortada && docPortada.caras.length > 0 ? hrefDocumento(edition.id, docPortada.slug) : portada?.imagen;
+const portadaEsObjeto = docPortada?.apartado === "objetos";
+const verDocumento = (d: { apartado: string; caras: unknown[] }) =>
+  d.apartado === "objetos"
+    ? "Verlo grande, con su inscripción"
+    : `Ver ${d.caras.length === 1 ? "la cara" : `las ${d.caras.length} caras`} y su texto`;
 
 const indice = [
   { href: "#s-actividades", texto: "Qué se hizo" },
   { href: "#s-organizacion", texto: "Organización" },
   { href: "#s-lugar", texto: "Lugar" },
-  { href: "#s-documentos", texto: "Papeles, prensa y fotos" },
+  { href: "#s-documentos", texto: "Papeles, objetos, prensa y fotos" },
   { href: "#s-fuentes", texto: "Fuentes" },
   ...(cronologia.length > 0 ? [{ href: "#s-crono", texto: "En la cronología" }] : []),
 ];
@@ -115,7 +123,8 @@ const descripcion =
         >
           <p class="tz-recuento">
             <Estado estado={status} />{!verified && <> · sin verificar</>}
-            {anioEstado?.estado === "deducido" && <> · año deducido</>}
+            {anioEstado && anioEstado.estado !== "confirmado" && <> · {anioEstadoTexto[anioEstado.estado]}</>}
+            {numero?.deducido && <> · número deducido</>}
           </p>
         </Encabezado>
 
@@ -128,11 +137,13 @@ const descripcion =
                   <img src={portada.imagen} width={portada.ancho} height={portada.alto} alt={portada.alt} loading="eager" decoding="async" />
                 </a>
                 <figcaption class="tz-documento-nota">
-                  {docPortada ? <>Portada de «{docPortada.titulo}».</> : <>Portada de la edición.</>}
+                  {portadaEsObjeto && docPortada
+                    ? <>{docPortada.titulo}. Cartel o folleto de esta edición: <Pendiente /></>
+                    : docPortada ? <>Portada de «{docPortada.titulo}».</> : <>Portada de la edición.</>}
                 </figcaption>
                 {docPortada && docPortada.caras.length > 0 && (
                   <p class="tz-edicion-ver">
-                    <a class="tz-enlace-bloque" href={hrefPortada}><span>Ver {docPortada.caras.length === 1 ? "la cara" : `las ${docPortada.caras.length} caras`} y su texto</span><span aria-hidden="true">›</span></a>
+                    <a class="tz-enlace-bloque" href={hrefPortada}><span>{verDocumento(docPortada)}</span><span aria-hidden="true">›</span></a>
                   </p>
                 )}
               </figure>
@@ -147,7 +158,7 @@ const descripcion =
 
           {anioEstado && (
             <div class="tz-edicion-nota">
-              <p class="tz-rotulo">{anioEstado.estado === "deducido" ? "Año deducido" : "Año confirmado"}</p>
+              <p class="tz-rotulo">{anioEstado.estado === "deducido" ? "Año deducido" : anioEstado.estado === "atribuido" ? "Año atribuido" : "Año confirmado"}</p>
               {anioEstado.nota && <p>{anioEstado.nota}</p>}
               <p>
                 {anioEstado.sourceIds.map((id, i) => {
@@ -222,7 +233,7 @@ const descripcion =
         </section>
 
         <section class="tz-seccion" aria-labelledby="s-documentos">
-          <Titulo id="s-documentos" numero="05">Papeles, prensa y fotos</Titulo>
+          <Titulo id="s-documentos" numero="05">Papeles, objetos, prensa y fotos</Titulo>
           {APARTADOS.map((ap) => {
             const docs = documentos.filter((d) => d.apartado === ap);
             return (
@@ -241,7 +252,7 @@ const descripcion =
                                 : d.titulo}
                             </p>
                             <p class="tz-ref tz-item-meta">
-                              {d.caras.length > 0 && <>{d.caras.length === 1 ? "1 cara" : `${d.caras.length} caras`} con su texto · </>}
+                              {d.caras.length > 0 && <>{d.apartado === "objetos" ? "Foto con su inscripción" : d.caras.length === 1 ? "1 cara con su texto" : `${d.caras.length} caras con su texto`} · </>}
                               {nf ? <a class="tz-enlace" href={nf.href}>{nf.texto}</a> : <>Fuente: <Pendiente /></>}
                             </p>
                             {d.descripcion && <p class="tz-item-texto">{d.descripcion}</p>}
@@ -250,7 +261,7 @@ const descripcion =
                                 {d.caras.map((c, j) => (
                                   <li>
                                     <a class="tz-documento-imagen" href={`${hrefDocumento(edition.id, d.slug)}#cara-${j + 1}`}>
-                                      <img src={c.imagen} width={c.ancho} height={c.alto} alt={`${c.titulo}: verla grande, con su texto`} loading="lazy" decoding="async" />
+                                      <img src={c.imagen} width={c.ancho} height={c.alto} alt={d.apartado === "objetos" ? `${d.titulo}: verlo grande, con su inscripción` : `${c.titulo}: verla grande, con su texto`} loading="lazy" decoding="async" />
                                     </a>
                                   </li>
                                 ))}

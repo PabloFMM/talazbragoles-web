@@ -4,8 +4,8 @@
   "numero": { "romano": "VI", "entero": 6 },
   "anioEstado": {
     "estado": "confirmado",
-    "sourceIds": ["folleto-vi-jornadas-1997"],
-    "nota": "La portada del folleto dice «Talazbrágoles'97» y «VI Jornadas»."
+    "sourceIds": ["folleto-vi-jornadas-1997", "pin-1997"],
+    "nota": "La portada del folleto dice «Talazbrágoles'97» y «VI Jornadas»; el pin de ese año, «TALAZBRÁGOLES'97»."
   },
   "verified": true,
   "status": "parcial",
@@ -49,7 +49,7 @@
     { "type": "exposicion", "name": "Exposiciones de merchandising", "description": "Presentación (cara 2)." },
     { "type": "otro", "name": "Concursos de disfraces y de pintado de figuras", "description": "Presentación (cara 2)." }
   ],
-  "sourceIds": ["folleto-vi-jornadas-1997"],
+  "sourceIds": ["folleto-vi-jornadas-1997", "pin-1997"],
   "peopleIds": [],
   "documentos": [
     {
@@ -117,6 +117,26 @@
             "http:/ / www.interlink.es/ talazbrágoles"
           ],
           "nota": "El plano señala «TALAZBRAGOLES» en el edificio entre la calle Martín Iriarte, la calle San José Obrero y el camino del Garzo, junto a Correos; cerca, la estación de Renfe, la parroquia de San José y la parada del autobús. La dirección web se copia con los espacios con que sale impresa."
+        }
+      ]
+    },
+    {
+      "slug": "pin",
+      "apartado": "objetos",
+      "titulo": "Pin de 1997",
+      "descripcion": "Pin metálico conmemorativo: metal plateado en relieve con esmalte negro y silueta recortada. Ejemplar de una colección particular, fotografiado en 2026 y pasado a escala de grises (recorte, luz igualada y ruido quitado). No dice fechas, sede ni número de edición, ni quién lo diseñó; no se sabe si se regalaba a quienes asistían, a la organización o se vendía.",
+      "sourceId": "pin-1997",
+      "caras": [
+        {
+          "titulo": "El pin",
+          "imagen": "/documentos/pines/pin-1997.jpg",
+          "ancho": 742,
+          "alto": 800,
+          "alt": "Pin de 1997: jinete con lanza o estandarte sobre un caballo al galope, en silueta; abajo, en una cartela, «TALAZBRÁGOLES'97». Metal plateado y esmalte negro.",
+          "texto": [
+            "TALAZBRÁGOLES'97"
+          ],
+          "nota": "Motivo: jinete con lanza o estandarte sobre un caballo al galope, en silueta; la inscripción en una cartela abajo."
         }
       ]
     }

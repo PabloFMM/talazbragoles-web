@@ -1,0 +1,47 @@
+{
+  "year": 1998,
+  "title": "Talazbrágoles 1998",
+  "anioEstado": {
+    "estado": "confirmado",
+    "sourceIds": [
+      "pin-1998"
+    ],
+    "nota": "El pin de ese año dice «TALAZBRÁGOLES 98». Ninguna fuente dice qué número de edición fue."
+  },
+  "verified": false,
+  "status": "pendiente",
+  "portada": {
+    "imagen": "/documentos/pines/pin-1998.jpg",
+    "ancho": 729,
+    "alto": 800,
+    "alt": "Pin de 1998: arquero encapuchado y con capa tensando un arco, en silueta; abajo, en una cartela, «TALAZBRÁGOLES 98». Metal plateado y esmalte negro.",
+    "documento": "pin"
+  },
+  "sourceIds": [
+    "pin-1998"
+  ],
+  "peopleIds": [],
+  "activities": [],
+  "documentos": [
+    {
+      "slug": "pin",
+      "apartado": "objetos",
+      "titulo": "Pin de 1998",
+      "descripcion": "Pin metálico conmemorativo: metal plateado en relieve con esmalte negro y silueta recortada. Ejemplar de una colección particular, fotografiado en 2026 y pasado a escala de grises (recorte, luz igualada y ruido quitado). No dice fechas, sede ni número de edición, ni quién lo diseñó; no se sabe si se regalaba a quienes asistían, a la organización o se vendía.",
+      "sourceId": "pin-1998",
+      "caras": [
+        {
+          "titulo": "El pin",
+          "imagen": "/documentos/pines/pin-1998.jpg",
+          "ancho": 729,
+          "alto": 800,
+          "alt": "Pin de 1998: arquero encapuchado y con capa tensando un arco, en silueta; abajo, en una cartela, «TALAZBRÁGOLES 98». Metal plateado y esmalte negro.",
+          "texto": [
+            "TALAZBRÁGOLES 98"
+          ],
+          "nota": "Motivo: arquero encapuchado, con capa, tensando un arco, en silueta; la inscripción en una cartela abajo."
+        }
+      ]
+    }
+  ]
+}

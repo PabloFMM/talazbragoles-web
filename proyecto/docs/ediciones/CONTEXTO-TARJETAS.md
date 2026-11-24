@@ -70,3 +70,58 @@ Nada inventado (lo desconocido «pendiente»); cada dato con fuente; no nombrar 
 - **Cronología**: ahora de la más reciente a la más antigua (`getAllTimeline().reverse()` en la página; el helper sigue de vieja a nueva).
 - `/diseno/` §15 muestra el riel; `docs/diseno.md` §5 lo documenta.
 - Sigue pendiente (preguntas para PabloFM): ¿hubo ediciones después de 1997?, ¿quién organizaba cada año?, ¿hay fotos, prensa o más papeles de alguna edición?
+
+## Pines (2026-11-23, tarjeta «Ediciones 3»)
+
+Llegaron 8 fotos de pines conmemorativos (colección particular; el material es de las Jornadas y se publica igual que el folleto). Restaurados en `documentos-historicos/<edición>/pin/restaurado/pin-<año>.jpg` (originales al lado), ficha `pin-<año>.md` (inscripción, motivo, qué aporta, qué NO dice). Script: `documentos-historicos/herramientas/pines.py`.
+
+| Año | Inscripción | Consecuencia |
+|---|---|---|
+| 2003 | TALAZBRAGOLES'03 | edición nueva. La foto llegó nombrada «pin del 93», pero el pin dice '03 (comprobado ampliando): manda la inscripción. Nota visible: «año según la inscripción». |
+| 2002 | TALAZBRÁGOLES '02 | edición nueva |
+| 1999 | TALAZBRAGOLES (sin año) | edición nueva, año «según la colección» (sin otra fuente), `verified: false` |
+| 1998 | TALAZBRÁGOLES 98 | edición nueva |
+| 1997 | TALAZBRÁGOLES'97 | se añade el pin a 1997 (la portada sigue siendo el folleto) |
+| 1996 | 96 · TALAZBRÁGOLES | 1996 pasa a año confirmado (pin) |
+| 1995 | TALAZBRAGOLES'95 | 1995: año confirmado (pin); número IV sigue deducido |
+| 1994 | '94 · TALAZBRÁGOLES | 1994: año confirmado (pin); número III sigue deducido |
+
+Decisiones (reversibles, coordinador):
+- Ediciones después de 1997: número de edición «pendiente» (no sabemos si hubo 2000 y 2001). 2000 y 2001 NO se crean.
+- Nuevo apartado `objetos` en `documentos[]` (pines y similares), además de papeles, prensa, fotos, recuerdos.
+- Lo visual primero: en los años sin folleto, la imagen principal (`portada`) es el pin. En 1997 la portada sigue siendo el folleto y el pin va en «objetos».
+- Fuente nueva por pin (tipo `foto`… o el que admita el esquema): «Pin conmemorativo de Talazbrágoles <año>, ejemplar de una colección particular, fotografiado en 2026». No nombrar al dueño.
+- Imagen en el repo: reducida (≤ 800 px de lado mayor, JPEG ~80), con `alt` que describa el motivo y la inscripción, `width`/`height`. Ampliar la excepción de imágenes de la auditoría y de `docs/diseno.md` a «objetos de época».
+- `/ediciones/` y el riel: 2003, 2002, 1999, 1998, 1997 … 1992, sin fecha.
+
+## Hecho en Ediciones 3 (`t_3e85294d`, 2026-11-24)
+
+- **Esquema**: apartado `objetos` en `documentos[]` (orden: papeles, objetos, prensa, fotos, recuerdos; bloque 05 = «Papeles, objetos, prensa y fotos»). Un objeto es un documento de UNA cara (la foto, `texto` = inscripción literal, `nota` = motivo) y tiene su página `/ediciones/<año>/pin/` («El objeto y su inscripción»). `anioEstado.estado` admite `atribuido` (1999: el pin no lleva año). `numero.deducido` (bool): I-V deducidos («número deducido» en recuento, resumen, `/ediciones/` y texto oculto del riel). Etiquetas en `anioEstadoTexto` y `tramoAnios()` de `lib/formato.ts`; la leyenda del riel dice «1992-1993: año deducido.» y «1999: año atribuido.».
+- **Imágenes**: `public/documentos/pines/pin-<año>.jpg` (≤ 800 px, JPEG 80 progresivo, 80-134 KB) con `scratch/pines-reduce.py`. Datos generados con `scratch/pines-datos.py` (fuentes `pin-<año>` tipo `documento-de-epoca`, url = página del pin; ediciones nuevas; 1994-1996).
+- **Datos**: 2003, 2002, 1998 año confirmado; 1999 atribuido; los cuatro `pendiente`, `verified: false`, sin número. 1994-1996: año confirmado por el pin, número deducido; 1996 conserva fechas/asistencia de La Runa (que esa crónica sea la de 1996 sigue deducido). 1997: pin en objetos, portada = folleto. Portada = pin en los demás.
+- **Material de época** en el repo: `proyecto/documentos-historicos/<edición>/pin/pin-<año>.md` + README de las ediciones nuevas + `herramientas/pines.py` (sin `originales/` ni `restaurado/`).
+- **QA**: 9 páginas × 11 anchos × 100/200 % = 198 vistas, 0 fallos. Riel con 11 años + sin fecha: a 320 px 4 filas de botones; a 1024×700 cabe fijo con desplazamiento propio (la leyenda queda abajo).
+- Preguntas abiertas: ¿hubo ediciones en 2000 y 2001? ¿qué número tuvo cada edición desde 1998? ¿el pin de 1999 es de verdad de 1999? ¿quién organizaba cada año, fechas y sede?
+
+## Lote de documentos 1992-1995 (2026-11-23, tarjeta «Ediciones 4»)
+
+Llegaron 8 fotos más. Ya restauradas (`herramientas/hoja.py`) y transcritas en `documentos-historicos/` (leer cada `.md`: transcripción literal, qué aporta, qué NO dice):
+
+| Edición | Documento | Carpeta (en `documentos-historicos/`) | Apartado |
+|---|---|---|---|
+| 1992 (I) | «Gran éxito de las primeras jornadas de Juegos de Rol», De Impresión, mayo 1992, p. 8, firma Sonia Esqueta; con el dibujo que llegó como «el primer cartel» | `1992-i-jornadas/prensa-1992-05-de-impresion/` | prensa |
+| 1992 (I) | «Extrañas criaturas en Las Rozas», De Impresión, diciembre 1992 | `1992-i-jornadas/prensa-1992-12-de-impresion/` | prensa |
+| 1993 (II) | Cartel oficial Talazbrágoles'93 | `1993-ii-jornadas/cartel/` | papeles (cartel) |
+| 1995 (IV) | Folleto Talazbrágoles '95 (2 fotos: portada+horario, interior con clubes) | `1995-iv-jornadas/folleto/` | papeles |
+| 1995 (IV) | Distribución final de mesas (tabla transcrita, 33 filas) | `1995-iv-jornadas/mesas/` | papeles |
+| sin fecha | «Pruébalo»: folleto del Juego de Rol Transtemporal (JRT) de la Cofradía de Supervivientes de Solaris Siete | `sin-fechar/folleto-jrt-solaris-siete/` | papeles |
+
+Consecuencias en los datos (todo sale de esos documentos; las fichas `README.md` de cada edición ya están actualizadas: usarlas como fuente de verdad):
+- **1992 = I, confirmada**: «I Jornada de Juegos de Rol», sábado 4 de abril de 1992, Centro de Servicios Sociales (C/ Comunidad de la Rioja s/n, Las Rozas), siete grupos, Departamento de Juventud, nace la CSSS. El nombre «Talazbrágoles» NO sale en estos artículos: el título de la ficha no debe afirmar que se llamara así (p. ej. «I Jornada de Juegos de Rol (1992)»).
+- **1993 = II, confirmada** (cartel): 24-25 abril, Centro de Bienestar Social, 5 clubes organizadores, 9 colaboradores, 6 tiendas, tel./fax. Portada = cartel.
+- **1995 = IV, confirmada** (folleto): 22-23 abril, horario, mesa redonda «MAGIC: amigo o enemigo de los juegos de rol», entrega de premios, 6 clubes organizadores, 7 colaboradores, 3 tiendas, 32 mesas ocupadas y sus juegos. Portada = portada del folleto. Sede: «el Centro», nombre pendiente.
+- 1994 = III y 1996 = V quedan como número por serie (ya confirmados I, II, IV y VI).
+- Los nombres de pila de quienes dirigían mesas en 1995 salen en la lista: se publica la lista tal cual (documento de un acto público, solo nombres de pila; decisión reversible del coordinador). Nunca añadir apellidos ni datos de nadie que no estén en el documento.
+- Actividades 1995: construirlas desde la lista de mesas agrupadas por juego (no 32 entradas sueltas).
+- Imágenes: desde `restaurado/` de cada carpeta, reducidas (≤1200 px lado mayor) a `public/documentos/<año>-<slug>/`. Cada documento con su página `/ediciones/<año>/<slug>/` (imagen + texto literal del `.md`). La lista de mesas: tabla accesible (`tz-tabla`, se apila en móvil) además de la imagen.
+- Fuentes nuevas, una por documento (tipo `prensa` para De Impresión con fecha 1992-05 y 1992-12; `documento-oficial` u `otro` para cartel/folleto/lista).

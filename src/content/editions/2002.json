@@ -1,0 +1,47 @@
+{
+  "year": 2002,
+  "title": "Talazbrágoles 2002",
+  "anioEstado": {
+    "estado": "confirmado",
+    "sourceIds": [
+      "pin-2002"
+    ],
+    "nota": "El pin de ese año dice «TALAZBRÁGOLES '02». Ninguna fuente dice qué número de edición fue."
+  },
+  "verified": false,
+  "status": "pendiente",
+  "portada": {
+    "imagen": "/documentos/pines/pin-2002.jpg",
+    "ancho": 800,
+    "alto": 705,
+    "alt": "Pin de 2002: grifo con cabeza y alas de águila y cuerpo de león, con las alas desplegadas; abajo, en una cartela, «TALAZBRÁGOLES '02». Metal plateado y esmalte negro.",
+    "documento": "pin"
+  },
+  "sourceIds": [
+    "pin-2002"
+  ],
+  "peopleIds": [],
+  "activities": [],
+  "documentos": [
+    {
+      "slug": "pin",
+      "apartado": "objetos",
+      "titulo": "Pin de 2002",
+      "descripcion": "Pin metálico conmemorativo: metal plateado en relieve con esmalte negro y silueta recortada. Ejemplar de una colección particular, fotografiado en 2026 y pasado a escala de grises (recorte, luz igualada y ruido quitado). No dice fechas, sede ni número de edición, ni quién lo diseñó; no se sabe si se regalaba a quienes asistían, a la organización o se vendía.",
+      "sourceId": "pin-2002",
+      "caras": [
+        {
+          "titulo": "El pin",
+          "imagen": "/documentos/pines/pin-2002.jpg",
+          "ancho": 800,
+          "alto": 705,
+          "alt": "Pin de 2002: grifo con cabeza y alas de águila y cuerpo de león, con las alas desplegadas; abajo, en una cartela, «TALAZBRÁGOLES '02». Metal plateado y esmalte negro.",
+          "texto": [
+            "TALAZBRÁGOLES '02"
+          ],
+          "nota": "Motivo: grifo (cabeza y alas de águila, cuerpo de león) con las alas desplegadas; la inscripción en una cartela abajo."
+        }
+      ]
+    }
+  ]
+}

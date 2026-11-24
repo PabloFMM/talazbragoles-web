@@ -82,13 +82,30 @@ export const tipoActividadGrupo: Record<Campo<"editions", "activities">[number][
 
 /** Apartado de un documento de edición (bloque 05), en el orden en que se pintan. */
 export type ApartadoDocumento = Campo<"editions", "documentos">[number]["apartado"];
-export const APARTADOS: ApartadoDocumento[] = ["papeles", "prensa", "fotos", "recuerdos"];
+export const APARTADOS: ApartadoDocumento[] = ["papeles", "objetos", "prensa", "fotos", "recuerdos"];
 export const apartadoDocumento: Record<ApartadoDocumento, string> = {
   papeles: "Papeles",
+  objetos: "Objetos",
   prensa: "Prensa",
   fotos: "Fotos",
   recuerdos: "Recuerdos",
 };
+
+/** Cómo se sabe el año de una edición (anioEstado.estado), en minúscula para frases. */
+export type AnioEstado = NonNullable<Campo<"editions", "anioEstado">>["estado"];
+export const anioEstadoTexto: Record<AnioEstado, string> = {
+  confirmado: "año confirmado",
+  deducido: "año deducido",
+  atribuido: "año atribuido",
+};
+
+/** Años seguidos como tramo («1992-1993»); si hay huecos, separados por comas. */
+export function tramoAnios(anios: number[]): string {
+  const a = [...anios].sort((x, y) => x - y);
+  if (a.length === 0) return "";
+  const seguidos = a.every((v, i) => i === 0 || v === a[i - 1] + 1);
+  return seguidos && a.length > 1 ? `${a[0]}-${a[a.length - 1]}` : a.join(", ");
+}
 
 export const papelPersona: Record<Campo<"people", "roles">[number], string> = {
   organizador: "Organización",

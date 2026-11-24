@@ -26,7 +26,9 @@ Fuente: Rol de los 90, «La Runa: el primer (y único) periódico rolero» (2018
 
 ## Documentos
 
-Ninguno original todavía.
+| Documento | Apartado | Carpeta |
+|---|---|---|
+| Pin de 1996 (original: confirma el año) | objetos | `pin/` |
 
 ## Pendiente
 
