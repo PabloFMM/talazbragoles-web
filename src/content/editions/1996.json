@@ -1,59 +1,76 @@
 {
   "year": 1996,
-  "title": "Talazbrágoles — 5ª edición (13 y 14 de abril)",
+  "title": "Talazbrágoles `96 — V Jornadas (13 y 14 de abril)",
   "numero": {
     "romano": "V",
-    "entero": 5,
-    "deducido": true
+    "entero": 5
   },
   "anioEstado": {
     "estado": "confirmado",
     "sourceIds": [
+      "la-runa-1-1996",
       "pin-1996"
     ],
-    "nota": "El pin de ese año lleva «96» y el nombre de las jornadas. Que la 5ª edición de la crónica de La Runa (13 y 14 de abril) sea la de 1996 sigue siendo deducción: la crónica no escribe el año, pero los números de La Runa son de abril y mayo de 1996 y el folleto de 1997 habla del «sexto año consecutivo»."
+    "nota": "La portada de La Runa nº 1 (abril de 1996) anuncia «Talazbrágoles `96 · V Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas» para el 13 y 14 de abril; el pin de ese año lleva «96»."
   },
-  "verified": false,
+  "verified": true,
   "status": "parcial",
-  "fechas": "13 y 14 de abril (sábado y domingo en 1996)",
-  "asistencia": "Unas 700 personas, según la crónica de La Runa (vía Rol de los 90)",
+  "fechas": "Sábado 13 y domingo 14 de abril de 1996",
+  "asistencia": "Unas 700 personas, según la crónica de La Runa nº 2 (vía el blog Rol de los 90)",
   "venue": {
-    "city": "Las Rozas"
+    "city": "Las Rozas (Las Matas), Madrid",
+    "address": "Según el plano de La Runa, junto a Correos, entre la calle Martín Iriarte y el camino del Garzo: el mismo sitio que el Pabellón Multifuncional del folleto de 1997",
+    "comoLlegar": "Autobús 622 Madrid-Las Matas desde Moncloa · tren de Cercanías, línea C-8"
   },
   "portada": {
-    "imagen": "/documentos/pines/pin-1996.jpg",
-    "ancho": 531,
-    "alto": 800,
-    "alt": "Pin de 1996: figura con túnica larga y los brazos alzados hacia lo que parece una llama; arriba, «96», y en vertical a la izquierda, «TALAZBRÁGOLES». Metal plateado y esmalte negro.",
-    "documento": "pin"
+    "imagen": "/documentos/1996-la-runa-1/portada.jpg",
+    "ancho": 1200,
+    "alto": 915,
+    "alt": "Portada de La Runa nº 0001, abril de 1996: cabecera «La Runa», titular «Talazbrágoles `96» con el artículo a varias columnas, un plano de Las Matas con el edificio de las jornadas marcado y, a la derecha, el sumario del número.",
+    "documento": "la-runa"
   },
-  "description": "Según la crónica del periódico La Runa que reseña el blog Rol de los 90: jornadas gratuitas, 130 mesas, campeonatos de Magic y SATM, partida de Doom en red, charlas y mesas redondas; unas 700 personas. Fuente secundaria; que esta crónica sea la de 1996 es deducido (el pin confirma que hubo jornadas en 1996, pero no las fechas ni el número).",
+  "description": "La portada de La Runa nº 1 anuncia las V Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas, «Talazbrágoles `96», el 13 y 14 de abril en Las Matas, con más de 130 mesas, campeonatos de cartas puntuables para el Ranking nacional, mesas redondas, un concurso de pintado y especiales de Star Trek y Expediente X. Dice que las jornadas, de cinco años de historia, habían ganado dos veces el premio Excálibur al mejor acto nacional relacionado con el rol (años y quién lo daba: pendientes). La crónica del nº 2, que reseña el blog Rol de los 90, habla de unas 700 personas.",
   "sourceIds": [
+    "la-runa-1-1996",
     "rol-de-los-90-la-runa-2018",
-    "folleto-vi-jornadas-1997",
     "pin-1996"
   ],
   "peopleIds": [],
   "activities": [
     {
       "type": "partida-rol",
-      "name": "130 mesas para partidas de rol",
-      "description": "Según la crónica de La Runa, vía Rol de los 90."
+      "name": "Más de 130 mesas de rol, estrategia y juegos temáticos",
+      "description": "La Runa nº 1 (anuncio). La crónica, vía Rol de los 90, habla de 130 mesas."
     },
     {
       "type": "torneo",
-      "name": "Campeonatos de Magic y SATM",
-      "description": "Según la crónica de La Runa, vía Rol de los 90."
+      "name": "Campeonatos de Magic y de El Señor de los Anillos (cartas)",
+      "description": "La Runa nº 1: «ambos puntuables para el Ranking nacional». La crónica, vía Rol de los 90, los llama Magic y SATM."
+    },
+    {
+      "type": "charla",
+      "name": "Mesas redondas y charlas sobre el mundo lúdico español",
+      "description": "La Runa nº 1: con «parte de los profesionales del sector». No dice temas ni ponentes."
+    },
+    {
+      "type": "otro",
+      "name": "Concurso de pintado",
+      "description": "La Runa nº 1; el texto se corta («concurso de pintado de [cortado]»)."
+    },
+    {
+      "type": "otro",
+      "name": "Especiales de Star Trek y Expediente X",
+      "description": "La Runa nº 1: Star Trek «cortesía de Colectivo Borg» y Expediente X «cortesía del círculo de amigos de X-files»."
+    },
+    {
+      "type": "otro",
+      "name": "Página web de las jornadas",
+      "description": "La Runa nº 1: «se pondrá a disposición del público una página Web en Internet dedicada a la convención». Dirección: pendiente."
     },
     {
       "type": "otro",
       "name": "Partida de Doom en red",
       "description": "Según la crónica de La Runa, vía Rol de los 90."
-    },
-    {
-      "type": "charla",
-      "name": "Charlas y mesas redondas",
-      "description": "Según la crónica de La Runa, vía Rol de los 90. No dice temas ni ponentes."
     }
   ],
   "documentos": [
@@ -77,6 +94,46 @@
           "nota": "Motivo: figura con túnica larga y los brazos alzados hacia lo que parece una llama o antorcha; «96» arriba y «TALAZBRÁGOLES» en vertical a la izquierda."
         }
       ]
+    },
+    {
+      "slug": "la-runa",
+      "apartado": "prensa",
+      "titulo": "La Runa nº 1 (abril de 1996): «Talazbrágoles `96»",
+      "descripcion": "Portada del primer número de La Runa, «periódico mensual de juegos y cultura relacionada» de difusión gratuita, con el anuncio de las V Jornadas y un plano de Las Matas. Ejemplar en papel fotografiado y pasado a escala de grises; la foto corta la parte de abajo de la página.",
+      "sourceId": "la-runa-1-1996",
+      "caras": [
+        {
+          "titulo": "La portada",
+          "imagen": "/documentos/1996-la-runa-1/portada.jpg",
+          "ancho": 1200,
+          "alto": 915,
+          "alt": "Portada de La Runa nº 0001, abril de 1996: cabecera «La Runa», titular «Talazbrágoles `96» con el artículo a varias columnas, un plano de Las Matas con el edificio de las jornadas marcado y, a la derecha, el sumario del número.",
+          "texto": [
+            "LA RUNA",
+            "PERIÓDICO MENSUAL DE JUEGOS Y CULTURA RELACIONADA",
+            "Periódico de difusión gratuita. Prohibida su venta.",
+            "Abril/96 · Nº 0001",
+            "TALAZBRÁGOLES `96",
+            "V Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas.",
+            "Los días 13 y 14 de Abril de este año se celebrarán en Las Rozas de Madrid las Talazbrágoles, jornadas que nacen con la idea de convertirse en los primeros encuentros de rol a nivel nacional de la Comunidad de Madrid. Por otra parte serán los primeros encuentros lúdicos a nivel nacional orientados al sector de los juegos, sin ningún tipo de interés comercial o lucrativo, realizadas por los clubes y asociaciones de rol de Las Rozas de Madrid.",
+            "Un año más, y como viene siendo habitual desde hace cinco, los clubes de rol de Las Rozas de Madrid unen sus esfuerzos para sacar adelante las Talazbrágoles, unas jornadas orientadas a los juegos de rol, la estrategia, la simulación y los juegos de cartas. A lo largo de sus cinco años de historia, estas jornadas han sido galardonadas en dos ocasiones con el premio Excálibur al mejor acto nacional relacionado con el mundo del rol compitiendo con gigantes como las Gen Con o los Días de Joc.",
+            "Este año, los organizadores de las jornadas han decidido dar el salto definitivo, presentando un ambicioso proyecto de lo que pretende convertirse en las primeras [cortado]",
+            "El grueso de las actividades de las jornadas lo constituirán las más de 130 mesas dedicadas tanto a juegos de rol como a juegos de estrategia y temáticos. Por otra parte, los juegos de cartas ocuparán también un lugar especial dentro del recinto donde se celebrará el acto, teniéndose programados ya campeonatos de Magic, y el Señor de los Anillos (el juego de cartas), ambos puntuables para el Ranking nacional.",
+            "Además, se tienen programadas un[sic] serie de mesas redondas y charlas sobre el mundo lúdico español en la que participarán parte de los profesionales del sector.",
+            "Para los aficionados a la pintura, se organizará un concurso de pintado de [cortado]",
+            "[…] aprovechándose la ocasión para celebrar dos especiales, uno de Star Trek (cortesía de Colectivo Borg) y otro de Expediente X (cortesía del circulo de amigos de X-files).",
+            "Y por si esto no bastase, todas las persona[sic] que no puedan estar en Talazbrágoles en persona, podrán asistir a las mismas virtualmente ya que se pondrá a disposición del público una página Web en Internet dedicada a la convención.",
+            "A pesar de todo, las Talazbrágoles no serían unas jornadas para aficionados si no se permitiese la organización de actividades a personas ajenas al comité organizador, por lo tanto, cualquiera que desee organizar una partida, un campeonato, [cortado]"
+          ],
+          "nota": "El plano marca el edificio «Talazbrágoles» junto a Correos, entre la calle Martín Iriarte y el camino del Garzo. Pie del plano: «Se puede llegar en autobús desde Moncloa (622, MADRID-MATAS) y en tren de cercanías (Línea C-8, [cortado]». Sumario de la derecha: Gurps (p. 3), figuras de plomo (p. 4), Spiderman (p. 9), Conan [cortado]."
+        }
+      ]
     }
-  ]
+  ],
+  "organizer": "Los clubes y asociaciones de rol de Las Rozas, «sin ningún tipo de interés comercial o lucrativo»",
+  "organizacion": {
+    "equipo": [],
+    "patrocinadores": [],
+    "nota": "La Runa habla de los clubes de rol de Las Rozas, que «unen sus esfuerzos» desde hace cinco años, y de un comité organizador abierto a que cualquiera organice una partida o un campeonato; no nombra a ningún club ni persona. Según la crónica del nº 2 (vía Rol de los 90) estuvieron las editoriales Yggdrasil, M+D, Joc Internacional, Shirasagi, La Factoría, Cronópolis y Kerykion, entre otras."
+  }
 }

@@ -1,23 +1,112 @@
 {
   "year": 1992,
-  "title": "Talazbrágoles — I edición (año deducido)",
+  "title": "I Jornada de Juegos de Rol (4 de abril de 1992)",
   "numero": {
     "romano": "I",
-    "entero": 1,
-    "deducido": true
+    "entero": 1
   },
   "anioEstado": {
-    "estado": "deducido",
+    "estado": "confirmado",
     "sourceIds": [
-      "folleto-vi-jornadas-1997"
+      "de-impresion-1992-05"
     ],
-    "nota": "El folleto de 1997 presenta la VI edición como el «sexto año consecutivo»: contando hacia atrás, la I sería de 1992. Ninguna fuente de esta edición lo confirma todavía."
+    "nota": "De Impresión (mayo de 1992) cuenta que la «I Jornada de Juegos de Rol» fue el sábado 4 de abril. El artículo no usa el nombre «Talazbrágoles»; que fuera la primera de la serie lo apoyan el cartel de 1993, que anuncia las «IIª Jornadas», y el folleto de 1997, que habla del «sexto año consecutivo»."
   },
-  "verified": false,
-  "status": "pendiente",
+  "verified": true,
+  "status": "parcial",
+  "fechas": "Sábado 4 de abril de 1992 (un solo día)",
+  "horario": "De 10 a 12 y por la tarde hasta las 20 h (la hora a la que empezaba la tarde está cortada en el recorte)",
+  "venue": {
+    "name": "Centro de Servicios Sociales",
+    "city": "Las Rozas, Madrid",
+    "address": "C/ Comunidad de la Rioja s/n (dirección del artículo de diciembre de 1992)"
+  },
+  "organizer": "Departamento de Juventud (la promovió y difundió)",
+  "organizacion": {
+    "equipo": [],
+    "patrocinadores": [],
+    "asociacion": "Cofradía de los Supervivientes de Solaris-7 (CSSS), «recientemente formada» según el artículo",
+    "nota": "La jornada nació por iniciativa de una persona cuyo nombre no se lee en el recorte; el Departamento de Juventud la promovió. De ahí salió la Cofradía de los Supervivientes de Solaris-7, que en diciembre de 1992 seguía enseñando a jugar los sábados de 16:30 a 21:00 en el Centro de Servicios Sociales."
+  },
+  "description": "La prensa local cuenta que la I Jornada de Juegos de Rol fue el sábado 4 de abril de 1992 en el Centro de Servicios Sociales de Las Rozas, con siete grupos de juego. Desde meses antes se jugaba todos los sábados en la Casa de la Cultura, porque los interesados «no querían esperar hasta abril», y de ahí nació la Cofradía de los Supervivientes de Solaris-7. Ya se hablaba de organizar rol en vivo. Ni el artículo ni el de diciembre usan el nombre «Talazbrágoles».",
+  "activities": [
+    {
+      "type": "partida-rol",
+      "name": "Siete grupos de juego",
+      "description": "De Impresión, mayo de 1992: «la formaron siete grupos», con La llamada de Cthulhu (impreso «la llamada de Chult»), El Señor de los Anillos y Dungeons & Dragons, entre otros. Cada grupo con su máster."
+    }
+  ],
+  "portada": {
+    "imagen": "/documentos/1992-prensa-mayo/pagina.jpg",
+    "ancho": 672,
+    "alto": 1200,
+    "alt": "Recorte de De Impresión: titular «Gran éxito de las primeras jornadas de Juegos de Rol», texto a tres columnas y un dibujo de una criatura de fauces abiertas sobre la cartela «La Cofradía de los Supervivientes de Solaris 7».",
+    "documento": "de-impresion-mayo"
+  },
   "sourceIds": [
+    "de-impresion-1992-05",
+    "de-impresion-1992-12",
+    "cartel-1993",
     "folleto-vi-jornadas-1997"
   ],
   "peopleIds": [],
-  "activities": []
+  "documentos": [
+    {
+      "slug": "de-impresion-mayo",
+      "apartado": "prensa",
+      "titulo": "«Gran éxito de las primeras jornadas de Juegos de Rol» (De Impresión, mayo de 1992)",
+      "descripcion": "Artículo de la página 8 del periódico local De Impresión, firmado por Sonia Esqueta, con un dibujo de la Cofradía de los Supervivientes de Solaris 7 (el ejemplar se ha conservado como «el primer cartel» de las jornadas). Cuenta cómo fue la I Jornada de Juegos de Rol. Recorte en papel fotografiado y pasado a escala de grises; la curva del papel corta el margen izquierdo de una columna.",
+      "sourceId": "de-impresion-1992-05",
+      "caras": [
+        {
+          "titulo": "La página",
+          "imagen": "/documentos/1992-prensa-mayo/pagina.jpg",
+          "ancho": 672,
+          "alto": 1200,
+          "alt": "Recorte de De Impresión: titular «Gran éxito de las primeras jornadas de Juegos de Rol», texto a tres columnas y un dibujo de una criatura de fauces abiertas sobre la cartela «La Cofradía de los Supervivientes de Solaris 7».",
+          "texto": [
+            "Gran éxito de las primeras jornadas de Juegos de Rol",
+            "Todo comenzó por iniciativa de [ilegible], quien se interesó por saber si en Las Rozas se practicaba este juego. Con el, el Departamento de Juventud se encargó de promover este \"proyecto\" y difundirlo como I Jornada de Juegos de Rol convocada para el sábado 4 de abril. Sin embargo, debido a la excelente respuesta obtenida, los juegos vienen desarrollándose desde hace unos meses todos los sábados, ya que los interesados \"no querían esperar hasta abril\".",
+            "Hasta ahora se han reunido normalmente en la Casa de la Cultura, donde los jugadores (el número nunca es fijo) se reúnen en grupos que desarrollan diferentes historias, guiados por un Master, que es el que \"dirige\" el juego, planteando el argumento, definiendo personajes o situaciones, previendo las posibles soluciones o incluso el final. A veces, es él el propio creador.",
+            "La I Jornada de Juegos de Rol propiamente dicha tuvo lugar en [cortado]l Centro de Servicios Sociales el [cortado]ábado 4 de abril de 10 a 12 y de [cortado] a 20 horas, y la formaron siete grupos con historietas tan variadas como la llamada de Chult[sic], El Señor de los Anillos, Dungeons & Dragons etc. Cada una [cortado] diferente a las demás tanto en [cortado]mentos (lo mismo pueden [cortado]aballeros que buscar ser ar[cortado]s por el rey Arturo, que un [cortado]eo anual que se celebra cen[cortado] la Esfera Interior que son [cortado] los mundos que aglutinan [cortado]ema Solar...), como en lo[cortado]ón espacial (desde una [cortado]ria Isla de Oro a una co[cortado]pacial llamada Kertina) o [cortado] (década de los 30, año [cortado]025...) personajes (elfos, [cortado]aballeros medievales, [cortado] de sustancias extrañas en el futuro, etc.) incluso en el reglamento. Además, mientras que unos grupos disponen de tablero, fichas, armas o muñequitos, pasando por toda clase de dados cuya variedad en cuanto a forma o número de caras es casi inimaginable y realmente curiosa, otros cuentan exclusivamente con su propia imaginación y poco más.",
+            "Generalmente la aventura que desarrollan tiene un final al que llegan en esa misma partida, a diferencia de los personajes que, habiendo ganado experiencia (y con ello puntos), pueden participar en otras historias ambientadas en la misma época y escenarios similares.",
+            "Lo que está claro es que los juegos de Rol en Las Rozas están alcanzando un éxito insospechado debido, creemos, a esa sensación que produce eso tan fantástico que es jugar y dejar volar la imaginación, adoptar reacciones que jamás habríais imaginado o que en la vida real no sería posible y sobre todo desarrollar la capacidad creativa que todos llevamos dentro, niños y mayores, sin condiciones. Así que, ya sabéis: todo el que quiera pasar un rato inolvidable puede hacerlo acercándose a los juegos de Rol o directamente integrándose en la interesante Cofradía de los Supervivientes de Solaris-7 (CSSS), recientemente formada para poder realizar estas aventuras con frecuencia.",
+            "Además están considerando la posibilidad de desarrollar una de las variantes más espectaculares: Juegos de Rol ¡en vivo!! ¿imagináis...?",
+            "(Podéis conseguir información en el Departamento de Juventud)",
+            "SONIA ESQUETA"
+          ],
+          "nota": "Lo que la curva del papel corta va [cortado]; lo que no se lee, [ilegible]. A la derecha, en la misma página, un artículo de fútbol sala sin relación, que no se copia."
+        }
+      ]
+    },
+    {
+      "slug": "de-impresion-diciembre",
+      "apartado": "prensa",
+      "titulo": "«Extrañas criaturas en Las Rozas» (De Impresión, diciembre de 1992)",
+      "descripcion": "Artículo-ficción sin firma de De Impresión que invita a jugar con la Cofradía de Supervivientes de Solaris Siete los sábados por la tarde. No habla de unas jornadas concretas. Recorte en papel fotografiado y pasado a escala de grises.",
+      "sourceId": "de-impresion-1992-12",
+      "caras": [
+        {
+          "titulo": "El artículo",
+          "imagen": "/documentos/1992-prensa-diciembre/articulo.jpg",
+          "ancho": 596,
+          "alto": 476,
+          "alt": "Recorte de De Impresión: titular «Extrañas criaturas en Las Rozas» sobre un texto a dos columnas.",
+          "texto": [
+            "Extrañas criaturas en Las Rozas",
+            "Noticias de última hora.",
+            "Han quedado confirmadas la apariciones[sic] de extrañas criaturas en el municipio de Las Rozas. Las descripciones aportadas por diferentes testigos de estos sucesos coinciden en que suelen llevar libros, algunos de ellos de magia bajo el brazo, mapas y desconcertantes objetos similares a dados.",
+            "Las citadas apariciones se producen los sábados entre las 16:30 y 21:00 horas en el Centro de Servicios Sociales (C/ Comunidad de la Rioja s/n).",
+            "Entre las características que más chocan a los testigos se encuentran el hecho de que estos seres siempre evolucionan en grupos, y que durante sus fases de actividades luchan contra dragones, viajan a sistemas solares poblados de alienígenas, realizan delirantes y vertiginosas incursiones en ciudades postnucleares, resuelven casos paranormales, investigan asesinatos, abordan mercantes provenientes del Caribe que están cargados de oro, viajan a través del tiempo y se infiltran tras las líneas de las tropas de las megocorporaciones[sic] de comida rápida acantonadas en el Amazonas.",
+            "Todo esto, según los testigos, lo vieron en un estado de trance o sueño delirante.",
+            "Bueno, pues todo esto y mucho más es lo que puedes vivir participando en un Juego de Rol. La manera de lograrlo es sencillísima ya que Solaris Siete se compromete a enseñarte a jugar. Ahora bien la materia prima del juego no podemos proporcionártela ya que ésta es la imaginación y ésta debes tenerla tú.",
+            "Ahora podrás vivir las aventuras que siempre has soñado representando un personaje en ellas.",
+            "Si todavía no sabes de que va esto, te sugerimos que cualquier sábado te pases por la Concejalía de Bienestar Social, cuyas señales te hemos dado al principio de este artículo-ficción y allí podrás encontrar a la Cofradía de Supervivientes de Solaris siete para ponerte al tanto de todo.",
+            "Pedona[sic] que no te demos más pistas pero es que no disponemos de más tiempo, no podemos parar, el espacio es demasiado grande, los abismos del tiempo demasiado profundos y nosotros no nos movemos por ellos."
+          ],
+          "nota": "En la misma página hay otras noticias municipales (un concurso de fotografía, asesoría jurídica para jóvenes, un premio de literatura) que no se copian."
+        }
+      ]
+    }
+  ]
 }

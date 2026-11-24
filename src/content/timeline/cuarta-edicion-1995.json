@@ -1,0 +1,13 @@
+{
+  "date": "1995-04-22",
+  "precision": "day",
+  "title": "IV Jornadas, Talazbrágoles '95 (22 y 23 de abril, Las Rozas)",
+  "description": "Según el folleto y la lista de mesas de la edición: 32 mesas ocupadas por 13 clubes.",
+  "category": "edicion",
+  "sourceIds": [
+    "folleto-1995",
+    "mesas-1995"
+  ],
+  "verified": true,
+  "relatedEditionId": "1995"
+}

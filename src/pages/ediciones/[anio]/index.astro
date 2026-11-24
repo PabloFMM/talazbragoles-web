@@ -85,7 +85,8 @@ const grupos = (Object.keys(tipoActividadGrupo) as (keyof typeof tipoActividadGr
 const docPortada = portada?.documento ? documentos.find((d) => d.slug === portada.documento) : undefined;
 const hrefPortada =
   docPortada && docPortada.caras.length > 0 ? hrefDocumento(edition.id, docPortada.slug) : portada?.imagen;
-const portadaEsObjeto = docPortada?.apartado === "objetos";
+// Si la imagen principal es un objeto o un recorte de prensa, el cartel o folleto sigue faltando.
+const portadaEsObjeto = docPortada?.apartado === "objetos" || docPortada?.apartado === "prensa";
 const verDocumento = (d: { apartado: string; caras: unknown[] }) =>
   d.apartado === "objetos"
     ? "Verlo grande, con su inscripción"

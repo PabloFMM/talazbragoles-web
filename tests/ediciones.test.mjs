@@ -2,7 +2,7 @@
 // - una página por año (/ediciones/<año>/) más /ediciones/sin-fecha/, y una por documento con caras;
 // - /ediciones/ y la portada las listan de la MÁS RECIENTE a la MÁS ANTIGUA, «sin fecha» al final;
 // - las rutas viejas redirigen (301) a las nuevas en public/_redirects (Cloudflare Workers) y nada enlaza a ellas;
-// - los años deducidos lo dicen y citan su fuente; ninguna página nombra a quien dio los datos.
+// - los años y números confirmados citan su documento; los deducidos lo dicen; ninguna página nombra a quien dio los datos.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -43,36 +43,51 @@ test("ediciones por año: 1992-1999, 2002 y 2003 (2000 y 2001 no se crean sin fu
   assert.deepEqual(anios, [1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2002, 2003]);
 });
 
-test("la I y la II (1992-1993) siguen pendientes, con año y número deducidos y sin ningún dato", () => {
-  for (const { id, d } of ediciones.filter((e) => [1992, 1993].includes(e.d.year))) {
-    assert.equal(d.status, "pendiente", id);
-    assert.equal(d.verified, false, id);
-    assert.equal(d.anioEstado?.estado, "deducido", id);
-    assert.deepEqual(d.anioEstado?.sourceIds, ["folleto-vi-jornadas-1997"], id);
-    assert.equal(d.numero?.entero, d.year - 1991, `${id}: número de edición`);
-    assert.equal(d.numero?.deducido, true, `${id}: el número es deducido`);
-    for (const campo of ["fechas", "horario", "apoyo", "asistencia", "venue", "organizer", "organizacion", "portada", "description"])
-      assert.equal(d[campo], undefined, `${id}: «${campo}» sin fuente propia (debe quedar pendiente)`);
-    assert.equal((d.documentos ?? []).length, 0, `${id}: no hay documentos`);
-  }
-});
-
-test("1994-1996: año confirmado por su pin; el número (III, IV, V) sigue deducido", () => {
-  for (const { id, d } of ediciones.filter((e) => [1994, 1995, 1996].includes(e.d.year))) {
+test("1992 (I), 1993 (II), 1995 (IV), 1996 (V) y 1998 (VII): número y año confirmados por un documento original de la edición", () => {
+  const ESPERADO = {
+    1992: { romano: "I", fuente: ["de-impresion-1992-05"] },
+    1993: { romano: "II", fuente: ["cartel-1993"] },
+    1995: { romano: "IV", fuente: ["folleto-1995", "pin-1995"] },
+    1996: { romano: "V", fuente: ["la-runa-1-1996", "pin-1996"] },
+    1998: { romano: "VII", fuente: ["cartel-1998", "pin-1998"] },
+  };
+  for (const [anio, e] of Object.entries(ESPERADO)) {
+    const { id, d } = ediciones.find((x) => String(x.d.year) === anio);
+    assert.equal(d.status, "parcial", id);
+    assert.equal(d.verified, true, `${id}: el documento es original`);
     assert.equal(d.anioEstado?.estado, "confirmado", id);
-    assert.deepEqual(d.anioEstado?.sourceIds, [`pin-${id}`], id);
-    assert.equal(d.numero?.entero, d.year - 1991, `${id}: número de edición`);
-    assert.equal(d.numero?.deducido, true, `${id}: el número sigue deducido`);
-    assert.equal(d.verified, false, id);
-    // Sin el riel: su leyenda («1992-1993: año deducido») y textos ocultos salen en todas las páginas.
+    assert.deepEqual(d.anioEstado?.sourceIds, e.fuente, `${id}: fuente del año`);
+    assert.equal(d.numero?.romano, e.romano, `${id}: número`);
+    assert.notEqual(d.numero?.deducido, true, `${id}: el número ya no es deducido`);
+    assert.ok(d.portada?.documento, `${id}: lleva imagen principal`);
     const html = pagina(`/ediciones/${id}/`).replace(/<nav class="tz-riel"[\s\S]*?<\/nav>/, "");
-    assert.match(html, /número deducido/, `/ediciones/${id}/ no dice que el número es deducido`);
-    assert.doesNotMatch(html, /año deducido/i, `/ediciones/${id}/ ya no es año deducido`);
+    assert.doesNotMatch(html, /número deducido|año deducido/i, `/ediciones/${id}/ ya no es deducido`);
   }
+  // 1992: la prensa no usa «Talazbrágoles»: el título no lo afirma.
+  const i = ediciones.find((x) => x.d.year === 1992).d;
+  assert.doesNotMatch(i.title, /talazbr/i, "1992: el título no debe llamarla «Talazbrágoles»");
+  assert.equal(i.anioEstado.sourceIds[0], "de-impresion-1992-05");
+  assert.ok(i.documentos.every((x) => x.apartado === "prensa") && i.documentos.length === 2, "1992: dos recortes de prensa");
+  for (const { id, d } of ediciones.filter((x) => [1992, 1993, 1995].includes(x.d.year))) {
+    for (const campo of ["fechas", "venue", "organizer", "description"]) assert.ok(d[campo], `${id}: «${campo}» sale del documento`);
+  }
+  assert.equal(ediciones.find((x) => x.d.year === 1995).d.venue.name, undefined, "1995: el nombre del centro sigue pendiente");
 });
 
-test("1998, 1999, 2002 y 2003: pendientes, sin verificar, sin número; 1999 con año atribuido", () => {
-  for (const { id, d } of ediciones.filter((e) => [1998, 1999, 2002, 2003].includes(e.d.year))) {
+test("1994 (III): año confirmado por su pin; el número sigue deducido", () => {
+  const { id, d } = ediciones.find((e) => e.d.year === 1994);
+  assert.equal(d.anioEstado?.estado, "confirmado", id);
+  assert.deepEqual(d.anioEstado?.sourceIds, ["pin-1994"], id);
+  assert.equal(d.numero?.romano, "III");
+  assert.equal(d.numero?.deducido, true, "1994: el número sigue deducido");
+  assert.equal(d.verified, false, id);
+  const html = pagina("/ediciones/1994/").replace(/<nav class="tz-riel"[\s\S]*?<\/nav>/, "");
+  assert.match(html, /número deducido/);
+  assert.doesNotMatch(html, /año deducido/i);
+});
+
+test("1999, 2002 y 2003: pendientes, sin verificar, sin número; 1999 con año atribuido", () => {
+  for (const { id, d } of ediciones.filter((e) => [1999, 2002, 2003].includes(e.d.year))) {
     assert.equal(d.status, "pendiente", id);
     assert.equal(d.verified, false, id);
     assert.equal(d.numero, undefined, `${id}: número de edición sin fuente (pendiente)`);
@@ -121,8 +136,60 @@ test("cada pin: objeto con imagen ≤ 800 px, medidas reales, alt con la inscrip
     assert.ok(html.includes(`alt="${c.alt.replaceAll("'", "&#39;")}"`) || html.includes(`alt="${c.alt}"`), `/ediciones/${a}/pin/: falta el alt`);
     assert.ok(existsSync(join(DIST, "documentos", "pines", `pin-${a}.jpg`)), `${a}: la imagen no llega a dist/`);
     // Lo visual primero: sin folleto, la portada del año es el pin; 1997 sigue con el folleto.
-    assert.equal(d.portada?.documento, a === 1997 ? "folleto" : "pin", `${a}: portada`);
+    assert.equal(d.portada?.documento, { 1995: "folleto", 1996: "la-runa", 1997: "folleto", 1998: "cartel" }[a] ?? "pin", `${a}: portada`);
   }
+});
+
+test("documentos de 1992-1998 y sin fecha: página propia, imagen ≤ 1200 px con medidas y alt, y su fuente apunta a esa página", () => {
+  const DOCS = [
+    ["1992", "de-impresion-mayo"], ["1992", "de-impresion-diciembre"], ["1993", "cartel"],
+    ["1995", "folleto"], ["1995", "mesas"], ["1995", "fanzine"], ["1996", "la-runa"], ["1998", "cartel"],
+    ["sin-fecha", "folleto-jrt"], ["sin-fecha", "ultria-jrt"], ["sin-fecha", "cartel-csss"],
+    ["sin-fecha", "cartel-proyecto-genesis"], ["sin-fecha", "articulo-paul-mv"],
+  ];
+  for (const [anio, slug] of DOCS) {
+    const { d } = ediciones.find((e) => e.id === anio);
+    const doc = (d.documentos ?? []).find((x) => x.slug === slug);
+    assert.ok(doc, `${anio}: falta el documento ${slug}`);
+    assert.ok(d.sourceIds.includes(doc.sourceId), `${anio}/${slug}: su fuente no sale en «Fuentes»`);
+    const f = JSON.parse(readFileSync(join(RAIZ, "src", "content", "sources", `${doc.sourceId}.json`), "utf-8"));
+    assert.equal(f.url, `https://www.talazbragoles.com/ediciones/${anio}/${slug}/`, `${doc.sourceId}: url = página del documento`);
+    const html = pagina(`/ediciones/${anio}/${slug}/`);
+    assert.ok(doc.caras.length > 0, `${anio}/${slug}: sin caras`);
+    for (const c of doc.caras) {
+      const img = join(RAIZ, "public", ...c.imagen.split("/").filter(Boolean));
+      assert.ok(existsSync(img), `falta ${c.imagen}`);
+      const m = medidasJpeg(readFileSync(img));
+      assert.deepEqual([m.ancho, m.alto], [c.ancho, c.alto], `${c.imagen}: ancho/alto no casan`);
+      assert.ok(Math.max(m.ancho, m.alto) <= 1200, `${c.imagen}: más de 1200 px`);
+      assert.ok(c.alt.length >= 60, `${c.imagen}: alt corto`);
+      assert.ok(html.includes(`src="${c.imagen}"`) && html.includes(`width="${c.ancho}"`), `/ediciones/${anio}/${slug}/: falta la imagen`);
+      assert.ok(existsSync(join(DIST, ...c.imagen.split("/").filter(Boolean))), `${c.imagen} no llega a dist/`);
+      if (!doc.tabla) assert.ok(c.texto.length > 0, `${anio}/${slug}: «${c.titulo}» sin texto copiado`);
+    }
+  }
+  // Portadas: cartel en 1993 y 1998, folleto en 1995, La Runa en 1996, recorte de mayo en 1992.
+  const portadas = { 1992: "de-impresion-mayo", 1993: "cartel", 1995: "folleto", 1996: "la-runa", 1998: "cartel" };
+  for (const [a, slug] of Object.entries(portadas)) assert.equal(ediciones.find((e) => e.id === a).d.portada?.documento, slug, `${a}: portada`);
+});
+
+test("lista de mesas de 1995: tabla accesible con las 33 filas, cabeceras de columna y de fila", () => {
+  const { d } = ediciones.find((e) => e.id === "1995");
+  const t = d.documentos.find((x) => x.slug === "mesas").tabla;
+  assert.ok(t, "1995/mesas: falta la tabla transcrita");
+  assert.equal(t.filas.length, 33);
+  assert.deepEqual(t.filas.map((f) => f[0]), Array.from({ length: 33 }, (_, i) => String(i + 1)), "mesas 1-33 en orden");
+  const html = pagina("/ediciones/1995/mesas/");
+  const tabla = html.match(/<table class="tz-tabla"[\s\S]*?<\/table>/)?.[0];
+  assert.ok(tabla, "/ediciones/1995/mesas/: falta la tabla");
+  assert.match(tabla, /<caption[^>]*>[^<]+<\/caption>/, "la tabla necesita caption");
+  assert.equal([...tabla.matchAll(/<th scope="col"/g)].length, t.columnas.length, "cabeceras de columna");
+  assert.equal([...tabla.matchAll(/<th scope="row"/g)].length, 33, "una cabecera de fila por mesa");
+  assert.equal([...tabla.matchAll(/<td data-etiqueta=/g)].length, 33 * (t.columnas.length - 1), "cada celda con su etiqueta (se apila en móvil)");
+  assert.match(tabla, /Star Wars · David/);
+  assert.match(html, /tz-contenedor/, "la tabla va en un contenedor que la apila");
+  // Actividades de 1995 agrupadas por juego (no 32 entradas sueltas).
+  assert.ok(d.activities.length < 25 && d.activities.some((a) => /^AD&D: \d+ mesas$/.test(a.name)), "1995: actividades por juego");
 });
 
 test("hay una página por año, la de sin fecha y una por documento con caras", () => {

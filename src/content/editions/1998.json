@@ -1,28 +1,51 @@
 {
   "year": 1998,
-  "title": "Talazbrágoles 1998",
+  "title": "Talazbragoles'98 — VII Jornadas",
   "anioEstado": {
     "estado": "confirmado",
     "sourceIds": [
+      "cartel-1998",
       "pin-1998"
     ],
-    "nota": "El pin de ese año dice «TALAZBRÁGOLES 98». Ninguna fuente dice qué número de edición fue."
+    "nota": "La banda del cartel dice «TALAZBRAGOLES'98» y «VII Jornadas»; el pin de ese año, «TALAZBRÁGOLES 98»."
   },
-  "verified": false,
-  "status": "pendiente",
+  "verified": true,
+  "status": "parcial",
   "portada": {
-    "imagen": "/documentos/pines/pin-1998.jpg",
-    "ancho": 729,
-    "alto": 800,
-    "alt": "Pin de 1998: arquero encapuchado y con capa tensando un arco, en silueta; abajo, en una cartela, «TALAZBRÁGOLES 98». Metal plateado y esmalte negro.",
-    "documento": "pin"
+    "imagen": "/documentos/1998-cartel/cartel.jpg",
+    "ancho": 1200,
+    "alto": 567,
+    "alt": "Banda del cartel de 1998, en tinta granate sobre papel blanco: «TALAZBRAGOLES'98» en letra grande y, debajo, «VII Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas de Madrid».",
+    "documento": "cartel"
   },
   "sourceIds": [
+    "cartel-1998",
     "pin-1998"
   ],
   "peopleIds": [],
   "activities": [],
   "documentos": [
+    {
+      "slug": "cartel",
+      "apartado": "papeles",
+      "titulo": "Cartel de Talazbragoles'98 (banda del título)",
+      "descripcion": "Banda impresa en tinta granate sobre papel blanco con el título de la VII edición; quizá la parte de arriba de un cartel mayor. Fotografiada en color.",
+      "sourceId": "cartel-1998",
+      "caras": [
+        {
+          "titulo": "La banda",
+          "imagen": "/documentos/1998-cartel/cartel.jpg",
+          "ancho": 1200,
+          "alto": 567,
+          "alt": "Banda del cartel de 1998, en tinta granate sobre papel blanco: «TALAZBRAGOLES'98» en letra grande y, debajo, «VII Jornadas de juegos de rol, estrategia, simulación y cartas de Las Rozas de Madrid».",
+          "texto": [
+            "TALAZBRAGOLES'98",
+            "VII JORNADAS DE JUEGOS DE ROL, ESTRATEGIA , SIMULACION Y CARTAS DE LAS ROZAS DE MADRID"
+          ],
+          "nota": "Mayúsculas sin tilde como en el original."
+        }
+      ]
+    },
     {
       "slug": "pin",
       "apartado": "objetos",
@@ -43,5 +66,13 @@
         }
       ]
     }
-  ]
+  ],
+  "numero": {
+    "romano": "VII",
+    "entero": 7
+  },
+  "venue": {
+    "city": "Las Rozas de Madrid"
+  },
+  "description": "La banda del cartel confirma que la de 1998 fue la VII edición, «de juegos de rol, estrategia, simulación y cartas de Las Rozas de Madrid». Fechas, sede, organización y programa siguen pendientes."
 }

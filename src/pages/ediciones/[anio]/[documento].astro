@@ -63,6 +63,8 @@ const fuente = (await getCollection("sources")).find((s) => s.id === doc.sourceI
                 <blockquote class="tz-documento-literal" lang="es">
                   {c.texto.map((t) => <p>{t}</p>)}
                 </blockquote>
+              ) : doc.tabla ? (
+                <p class="tz-prosa">El texto está copiado, celda a celda, en <a class="tz-enlace" href="#s-tabla">«{doc.tabla.titulo}»</a>.</p>
               ) : <Pendiente mensaje={doc.apartado === "objetos" ? "Inscripción sin copiar." : "Texto de esta cara sin copiar."} />}
               {c.nota && <p class="tz-documento-nota">{c.nota}</p>}
             </div>
