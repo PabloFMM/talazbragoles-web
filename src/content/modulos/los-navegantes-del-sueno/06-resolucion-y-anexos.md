@@ -329,7 +329,7 @@ Detalle final propuesto: la brújula vuelve a aparecer, pero ahora tiene aguja y
 
 ### Anexo D. Índice de imágenes
 
-Las nueve imágenes las hizo el DJ con IA y se publican en CC0. No se retocan: si una trae un nombre en inglés o distinto del manual, el texto que la acompaña usa el nombre en castellano del manual.
+Las quince imágenes las hizo el autor del módulo con IA y se publican en CC0. No se retocan: si una trae un nombre en inglés o distinto del manual, el texto que la acompaña usa el nombre en castellano del manual.
 
 | Nº | Qué es | Dónde va | Nota |
 |---|---|---|---|
@@ -342,3 +342,9 @@ Las nueve imágenes las hizo el DJ con IA y se publican en CC0. No se retocan: s
 | 07 | Vórtice de los Sueños: encapuchados en círculo alrededor de un fuego, bajo un arco con una serpiente azul | Escenas adaptables (El Vórtice de los Sueños); escena del PJ Oniromante | — |
 | 08 | Corredor de la Memoria: calle empedrada con un arco-puente al fondo | Lugares de investigación (La Mesa del Orbis, El Rincón de las Ménades) | — |
 | 09 | Plaza de los Rumores: arco en ruinas con una serpiente azul sobre una calle inundada | Lugares de investigación (El Candil Roto, La Bodega de Azogue, El Jardín Sumergido); rumores | — |
+| 10 | Retrato de Aurelian Thalos antes de desaparecer | Fase de Investigación (fichas del LAP) | Muestra al Aurelian de antes; qué es hoy sigue abierto |
+| 11 | Retrato de Cassian Virel | Fase de Investigación (los antiguos miembros) | — |
+| 12 | Retrato de Helena Noctua | Fase de Investigación (los antiguos miembros) | — |
+| 13 | Retrato de Isolde Mareth | Fase de Investigación (los antiguos miembros) | — |
+| 14 | Retrato de Khalira Zemorath | Fase de Acción (la isla: la familia Thalos) | — |
+| 15 | Retrato de Lucien Thalos | Fase de Acción (la isla: la familia Thalos) | — |

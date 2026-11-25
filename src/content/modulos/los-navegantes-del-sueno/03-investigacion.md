@@ -57,6 +57,9 @@ En cuanto los PJ sepan de la existencia de un antiguo miembro, pueden consultar 
 
 La ficha no lo dice todo. Isolde, aunque figure como asesora de una Academia de Vitruvian, trabaja desde su casa, en Sycamore. Helena es la única de los tres que no figura en los registros públicos como posible exmiembro de la logia. A Cassian no se puede llegar.
 
+![Retrato de un hombre de piel verdosa y rasgos de reptil, de perfil, con la mirada hacia arriba; lleva un aparato de lentes y engranajes sobre la oreja, gafas en la frente, un abrigo raído y collares.](../../../assets/rol/navegantes/10-retrato-aurelian-thalos.jpg)
+*Aurelian Thalos, tal como era antes de desaparecer: oniromante, mestizo humanita-reptiliano. Ilustración del módulo, hecha con IA. CC0.*
+
 ## PNJ modulares
 
 Son arquetipos adaptables. Sirven tanto si los jugadores empiezan por un organismo oficial como si bucean en la Rumorología de la ciudad. El DJ los coloca en el lugar que convenga. Cada perfil indica entre paréntesis el distrito donde es más fácil encontrarlo.
@@ -304,6 +307,9 @@ Los PJ pueden intentar localizar a los tres antiguos miembros: Helena Noctua, Ca
 
 ### Helena Noctua
 
+![Retrato de una mujer pelirroja de perfil, con el pelo recogido, un implante circular de metal en la sien y el cuello, y una chaqueta oscura con piezas de latón; detrás, un gran círculo de arcos y torres.](../../../assets/rol/navegantes/12-retrato-helena-noctua.jpg)
+*Helena Noctua, analista externa de la logia; hoy, Jefa de Recursos en la Sociedad Histórica. Ilustración del módulo, hecha con IA. CC0.*
+
 **Dónde.** Distrito Vitruvian. Es Jefa de Recursos en la Sociedad Histórica. Por algún motivo ha esquivado toda sospecha: es la única de los tres que no figura en los registros públicos como posible exmiembro de la logia. Oficialmente, es especialista en clasificación de estructuras narrativas anómalas.
 
 Se la puede encontrar en las salas de archivo de octaedros de la Biblioteca Atlantis, sobre todo en los turnos de noche, o en una pequeña estancia lateral que llaman, informalmente, el Índice Ciego: una subsala donde se guardan los textos imposibles de clasificar. Su puesto es de la Sociedad Histórica, pero el trabajo la lleva a veces a dependencias de la Biblioteca Atlantis, y el Índice Ciego es una de ellas.
@@ -349,6 +355,9 @@ Se la puede encontrar en las salas de archivo de octaedros de la Biblioteca Atla
 
 ### Cassian Virel
 
+![Retrato de perfil de un hombre de piel azul, perilla y pelo blanco al viento, con unas gafas de latón de lente roja unidas a un auricular, y un abrigo rojizo con un emblema en el hombro; al fondo, torres industriales.](../../../assets/rol/navegantes/11-retrato-cassian-virel.jpg)
+*Cassian Virel, cyanita; hoy, en la seguridad de la Égida Liminal. Ilustración del módulo, hecha con IA. CC0.*
+
 **Dónde.** Trabaja en la Égida Liminal, una fortificación móvil que recorre la periferia de Numinia estudiando alteraciones y manteniéndolas bajo control.
 
 **El Órgano de Defensa.** La única vía de contacto con la Égida es el Órgano de Defensa, en el Distrito Solomon. El acceso no es inmediato y, desde luego, no es cómodo. El edificio no parece un edificio, sino una decisión institucional convertida en arquitectura: muros lisos sin ornamento, puertas de acero cerradas, silencio administrativo, no religioso. Todo responde a una lógica clara: lo que protege no se expone. Es una de las tensiones de Numinia: una ciudad que aspira a descentralizar el conocimiento y a la transparencia, pero donde ciertas estructuras operan en la opacidad para sostener ese equilibrio.
@@ -364,6 +373,9 @@ Si preguntan por su relación con la logia, reciben respuestas evasivas y negati
 Lo que se sepa de Cassian tendrá que llegar por otros caminos: Helena, Dorian Hoax, el fragmento III del archivo.
 
 ### Isolde Mareth
+
+![Retrato de una mujer muy pálida de pelo blanco, de perfil, con una diadema de metal, piezas de relojería en el cuello y el hombro, y una capa ocre; detrás, un arco que enmarca una ciudad de torres.](../../../assets/rol/navegantes/13-retrato-isolde-mareth.jpg)
+*Isolde Mareth, espectral, arquitecta de experiencias; hoy, asesora de la Academia del Umbral Anímico. Ilustración del módulo, hecha con IA. CC0.*
 
 **Dónde.** Es asesora independiente de la Academia del Umbral Anímico, en el Campus Escolástico de Vitruvian. Pero no acude a la sede: trabaja desde su casa, en el Distrito Sycamore. A veces tiene que presentarse en la Academia para manipular material tecnológico.
 
