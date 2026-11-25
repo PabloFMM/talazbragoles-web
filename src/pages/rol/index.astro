@@ -1,8 +1,8 @@
 ---
 /**
  * /rol/: portada de la sección Rol (fase 1, 2026-11-23). Lo que jugamos ahora:
- * portadas tipográficas de los juegos, accesos a Juegos / Sistemas / Licencias
- * y las crónicas de mesa (fase 2, Rol 7/8: módulos, campañas y mesas). Lo jugado en las
+ * dos puertas grandes, «Ludoteca» (juegos, sistemas, licencias, autoría, editoriales)
+ * y «Crónicas» (módulos, campañas y mesas), con imagen (2026-11-25); después, las portadas de lo jugado. Lo jugado en las
  * Jornadas históricas está en /sistemas/ (Archivo).
  * Accesos a Juegos (con filtros), Sistemas, Licencias, Autoría y Editoriales.
  */
@@ -13,10 +13,12 @@ import Estado from "../../components/sistema/Estado.astro";
 import Pendiente from "../../components/sistema/Pendiente.astro";
 import PortadaJuego from "../../components/sistema/PortadaJuego.astro";
 import CreditoPortada from "../../components/sistema/CreditoPortada.astro";
-import { getAllJuegos, getSistemasRol, getAllLicencias, resuelveJuego, getAllModulos, getAllCampanas, getAllMesas } from "../../lib/collections";
+import { getAllJuegos, getSistemasRol, getAllLicencias, getAllAutoria, getAllEditoriales, resuelveJuego, getAllModulos, getAllCampanas, getAllMesas } from "../../lib/collections";
 import { hrefCampana, hrefMesa, hrefModulo } from "../../lib/rol-rutas";
 import { estadoJuego } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
+import { Picture } from "astro:assets";
+import imagenCronicas from "../../assets/rol/navegantes/05-ouroboros-calle-de-los-misterios.jpg";
 
 const juegos = await getAllJuegos();
 const jugados = await Promise.all(juegos.filter((j) => j.data.jugado.nosotros).map(resuelveJuego));
@@ -25,6 +27,11 @@ const nLicencias = (await getAllLicencias()).length;
 const modulos = await getAllModulos();
 const campanas = await getAllCampanas();
 const mesas = await getAllMesas();
+const nAutoria = (await getAllAutoria()).length;
+const nEditoriales = (await getAllEditoriales()).length;
+// Ludoteca: tira de portadas oficiales (las de los juegos que hemos jugado, hasta 3), con el crédito debajo de cada una.
+const tira = jugados.filter((f) => f.juego.data.portada).slice(0, 3).map((f) => f.juego);
+const plural = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
 const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ?? s?.data.name;
 ---
 
@@ -40,8 +47,50 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
       entradilla="Lo que jugamos ahora: con qué reglas, quién lo escribió y qué licencia tiene. Cada dato, con su fuente."
     />
 
+    <div class="tz-puertas">
+      <section class="tz-puerta" aria-labelledby="s-ludoteca">
+        <div class="tz-puerta-imagen tz-puerta-imagen--tira">
+          {tira.map((j) => (
+            <figure class="tz-puerta-portada">
+              <Picture src={j.data.portada!.archivo} alt={`Portada de ${j.data.portada!.titulo ?? j.data.titulo} (${j.data.portada!.edicion})`} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[200, 400]} sizes="12rem" quality={45} class="tz-portada-img" loading="eager" decoding="async" />
+              <figcaption><CreditoPortada juego={j} /></figcaption>
+            </figure>
+          ))}
+        </div>
+        <p class="tz-puerta-rotulo">01</p>
+        <h2 id="s-ludoteca" class="tz-puerta-titulo">Ludoteca</h2>
+        <p class="tz-puerta-texto">Los juegos que jugamos, sus reglas y lo que permite su licencia. Cada dato, con su fuente.</p>
+        <ul class="tz-puerta-enlaces" role="list">
+          <li><a href="/rol/juegos"><span class="tz-puerta-nombre">Juegos</span><span class="tz-puerta-cifra">{juegos.length}</span><span aria-hidden="true">›</span></a></li>
+          <li><a href="/rol/sistemas"><span class="tz-puerta-nombre">Sistemas de reglas</span><span class="tz-puerta-cifra">{nSistemas}</span><span aria-hidden="true">›</span></a></li>
+          <li><a href="/rol/licencias"><span class="tz-puerta-nombre">Licencias</span><span class="tz-puerta-cifra">{nLicencias}</span><span aria-hidden="true">›</span></a></li>
+          <li><a href="/rol/autoria"><span class="tz-puerta-nombre">Autoría</span><span class="tz-puerta-cifra">{nAutoria}</span><span aria-hidden="true">›</span></a></li>
+          <li><a href="/rol/editoriales"><span class="tz-puerta-nombre">Editoriales</span><span class="tz-puerta-cifra">{nEditoriales}</span><span aria-hidden="true">›</span></a></li>
+        </ul>
+      </section>
+
+      <section class="tz-puerta" aria-labelledby="s-cronicas">
+        <figure class="tz-modulo-imagen tz-puerta-figura">
+        <div class="tz-puerta-imagen">
+          <Picture src={imagenCronicas} alt="Callejón de puestos con un rótulo de tienda con medallón; torres al fondo." formats={["avif", "webp"]} fallbackFormat="jpg" widths={[480, 800, 1200]} sizes="(min-width: 64rem) 36rem, calc(100vw - 2rem)" quality={55} class="tz-puerta-foto" loading="eager" decoding="async" />
+        </div>
+        <figcaption class="tz-puerta-credito">La Calle de los Misterios, en el Distrito Ouroboros, del módulo «Los Navegantes del Sueño». Ilustración hecha con IA por el autor del módulo; CC0.</figcaption>
+        </figure>
+        <p class="tz-puerta-rotulo">02</p>
+        <h2 id="s-cronicas" class="tz-puerta-titulo">Crónicas</h2>
+        <p class="tz-puerta-texto">Lo que pasa alrededor de nuestra mesa: las aventuras que jugamos, contadas, y los módulos que salen de ellas, abiertos para que los juegue cualquiera.</p>
+        <ul class="tz-puerta-enlaces" role="list">
+          {modulos.map((m) => <li><a href={hrefModulo(m.id)}><span class="tz-puerta-nombre">Módulo «{m.data.titulo}»<span class="tz-puerta-detalle">Para jugarlo en tu mesa · CC0</span></span><span aria-hidden="true">›</span></a></li>)}
+          {campanas.map((c) => <li><a href={hrefCampana(c.id)}><span class="tz-puerta-nombre">Campaña «{c.data.titulo}»<span class="tz-puerta-detalle">Cómo la jugamos · desvela el misterio</span></span><span aria-hidden="true">›</span></a></li>)}
+          {mesas.map((m) => <li><a href={hrefMesa(m.id)}><span class="tz-puerta-nombre">{m.data.nombre}<span class="tz-puerta-detalle">La mesa</span></span><span aria-hidden="true">›</span></a></li>)}
+          <li><a href="/rol/modulos"><span class="tz-puerta-nombre">Todos los módulos</span><span class="tz-puerta-cifra">{modulos.length}</span><span aria-hidden="true">›</span></a></li>
+          <li><a href="/rol/campanas"><span class="tz-puerta-nombre">Todas las campañas</span><span class="tz-puerta-cifra">{campanas.length}</span><span aria-hidden="true">›</span></a></li>
+        </ul>
+      </section>
+    </div>
+
     <section class="tz-seccion" aria-labelledby="s-jugado">
-      <Titulo id="s-jugado" numero="01">Lo que hemos jugado</Titulo>
+      <Titulo id="s-jugado" numero="03">Lo que hemos jugado</Titulo>
       {jugados.length > 0 ? (
         <>
           <ul class="tz-portadas">
@@ -67,57 +116,6 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
         <div class="tz-medida"><Pendiente mensaje="Todavía no hay ningún juego registrado." /></div>
       )}
       <p class="tz-ref tz-medida" style="margin:var(--e-4) 0 0">Portadas oficiales, sacadas de la web de cada editorial y reproducidas sin ánimo de lucro. Debajo de cada una, la edición que jugamos y de dónde sale la imagen. Si la editorial no publica la portada, va un hueco con el título.</p>
-    </section>
-
-    <section class="tz-seccion" aria-labelledby="s-accesos">
-      <Titulo id="s-accesos" numero="02">Por dónde seguir</Titulo>
-      <ul class="tz-resumen">
-        <li>
-          <h3>Juegos</h3>
-          <p>Catálogo de los {juegos.length} juegos: sistema, licencia del juego y del sistema, ediciones y descargas oficiales.</p>
-          <a class="tz-enlace-bloque" href="/rol/juegos"><span>Ver el catálogo</span><span aria-hidden="true">›</span></a>
-        </li>
-        <li>
-          <h3>Sistemas</h3>
-          <p>Los {nSistemas} motores de reglas de esos juegos y sus familias.</p>
-          <a class="tz-enlace-bloque" href="/rol/sistemas"><span>Ver los sistemas</span><span aria-hidden="true">›</span></a>
-        </li>
-        <li>
-          <h3>Licencias</h3>
-          <p>Qué permite cada una de las {nLicencias} licencias, en castellano llano: copiar, adaptar, vender.</p>
-          <a class="tz-enlace-bloque" href="/rol/licencias"><span>Ver las licencias</span><span aria-hidden="true">›</span></a>
-        </li>
-        <li>
-          <h3>Autoría y editoriales</h3>
-          <p>Quién escribió y quién publica cada juego, también en castellano.</p>
-          <a class="tz-enlace-bloque" href="/rol/autoria"><span>Ver la autoría</span><span aria-hidden="true">›</span></a>
-          <a class="tz-enlace-bloque" href="/rol/editoriales"><span>Ver las editoriales</span><span aria-hidden="true">›</span></a>
-        </li>
-      </ul>
-    </section>
-
-    <section class="tz-seccion" aria-labelledby="s-cronicas">
-      <Titulo id="s-cronicas" numero="03">Crónicas de mesa</Titulo>
-      <p class="tz-medida" style="margin:0 0 var(--e-6)">Lo que jugamos en nuestras mesas y lo que sale de ello: módulos abiertos para que otras mesas los jueguen y la crónica de cómo los jugamos nosotros.</p>
-      <ul class="tz-resumen">
-        <li>
-          <h3>Módulos</h3>
-          <p>{modulos.length === 1 ? `«${modulos[0].data.titulo}», módulo abierto (CC0) para jugar en cualquier mesa.` : `${modulos.length} módulos abiertos para jugar en cualquier mesa.`}</p>
-          {modulos.map((m) => <a class="tz-enlace-bloque" href={hrefModulo(m.id)}><span>Módulo «{m.data.titulo}»</span><span aria-hidden="true">›</span></a>)}
-          <a class="tz-enlace-bloque" href="/rol/modulos"><span>Todos los módulos</span><span aria-hidden="true">›</span></a>
-        </li>
-        <li>
-          <h3>Campañas</h3>
-          <p>Cómo las jugamos: reparto de personajes, jornada a jornada y lo que aportamos al juego. Desvelan el misterio.</p>
-          {campanas.map((c) => <a class="tz-enlace-bloque" href={hrefCampana(c.id)}><span>Campaña «{c.data.titulo}»</span><span aria-hidden="true">›</span></a>)}
-          <a class="tz-enlace-bloque" href="/rol/campanas"><span>Todas las campañas</span><span aria-hidden="true">›</span></a>
-        </li>
-        <li>
-          <h3>Mesas</h3>
-          <p>Los grupos con los que jugamos, sin nombres: los jugadores salen con su personaje.</p>
-          {mesas.map((m) => <a class="tz-enlace-bloque" href={hrefMesa(m.id)}><span>{m.data.nombre}</span><span aria-hidden="true">›</span></a>)}
-        </li>
-      </ul>
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-jornadas">
