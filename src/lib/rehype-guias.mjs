@@ -96,7 +96,9 @@ export function figurasModulo(arbol) {
     const [img, em] = el;
     img.properties = { ...img.properties, widths: ANCHOS_MODULO, sizes: SIZES_MODULO, loading: "lazy", decoding: "async" };
     n.tagName = "figure";
-    n.properties = { className: ["tz-modulo-imagen"] };
+    // Retratos de PNJ (archivo «NN-retrato-…»): figura estrecha, para que un vertical no ocupe toda la pantalla
+    const retrato = /\/\d\d-retrato-/.test(String(img.properties?.src ?? ""));
+    n.properties = { className: retrato ? ["tz-modulo-imagen", "tz-modulo-imagen--retrato"] : ["tz-modulo-imagen"] };
     n.children = [img, { type: "element", tagName: "figcaption", properties: {}, children: em.children }];
   });
 }

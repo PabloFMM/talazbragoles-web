@@ -1484,6 +1484,7 @@
     max-width: var(--medida);
   }
   .tz-prosa .tz-modulo-imagen { margin-block: var(--e-7); }
+  .tz-modulo-imagen--retrato { max-width: 20rem; }
   /* Portada del módulo: «Mapas y láminas» (Rol 9). Rejilla de 1 columna en móvil, 2 desde 48rem. */
   .tz-laminas { list-style: none; padding: 0; margin: var(--e-6) 0 0; display: grid; gap: var(--e-7) var(--e-6); grid-template-columns: minmax(0, 1fr); max-width: 60rem; }
   @media (min-width: 48rem) { .tz-laminas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

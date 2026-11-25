@@ -71,8 +71,9 @@ function capitulo(ruta, n) {
   // imagen + pie en cursiva en la línea siguiente → figura. Apaisadas a todo el ancho; verticales en la columna.
   h = h.replace(/<p><img src="([^"]+)" alt="([^"]*)">\n?(?:<em>([\s\S]*?)<\/em>)?<\/p>/g, (_, src, alt, pie) => {
     const abs = resolve(dirname(ruta), src);
-    const ancho = !/\/0[389]-/.test(src); // 03 cartel, 08 y 09 Ouroboros: verticales, van en la columna
-    return `<figure class="${ancho ? "ancha" : "columna"}"><img src="${pathToFileURL(abs)}" alt="${alt}">${pie ? `<figcaption>${pie}</figcaption>` : ""}</figure>`;
+    const retrato = /\/\d\d-retrato-/.test(src); // retratos de PNJ: pequeños, en la columna
+    const ancho = !retrato && !/\/0[389]-/.test(src); // 03 cartel, 08 y 09 Ouroboros: verticales, van en la columna
+    return `<figure class="${retrato ? "retrato" : ancho ? "ancha" : "columna"}"><img src="${pathToFileURL(abs)}" alt="${alt}">${pie ? `<figcaption>${pie}</figcaption>` : ""}</figure>`;
   });
   // tablas de 4 o más columnas: a todo el ancho de la página (en una columna no caben)
   h = h.replace(/<table>([\s\S]*?)<\/table>/g, (t, dentro) => ((dentro.match(/<th[ >]/g) || []).length >= 4 ? t.replace("<table>", '<table class="ancha">') : t));
@@ -186,6 +187,9 @@ figure.ancha{column-span:all;margin:3mm 0 5mm}
 figure img{display:block;width:100%;height:auto;border:1px solid var(--tinta)}
 figure.ancha img{max-height:150mm;object-fit:contain;background:#0b0a09}
 figure.columna img{max-height:120mm;object-fit:cover}
+figure.retrato{text-align:center}
+figure.retrato img{width:auto;max-width:100%;max-height:82mm;margin:0 auto}
+figure.retrato figcaption{text-align:left}
 figcaption{font:italic 8.6pt/1.35 "N Alegreya",serif;color:var(--tinta-2);margin-top:1.5mm}
 .pendiente{font-family:"N Alegreya Sans",sans-serif;font-style:italic;font-size:.88em;color:var(--oro)}
 /* créditos */

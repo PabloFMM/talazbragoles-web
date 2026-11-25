@@ -471,6 +471,12 @@ Helena Noctua, Cassian Virel e Isolde Mareth dejaron huella en la isla, cada uno
 
 **Quiénes son.** Lucien Thalos, senador, y Khalira Zemorath, comisaria, son los padres de Aurelian. Viven en una mansión de la zona residencial alta del Distrito Solomon. Son poderosos y discretos: en público, la desaparición de su hijo no existe. Qué saben y qué quieren queda abierto; el módulo no lo responde. Si la mesa aún no los conoce, el DJ puede presentarlos durante la Investigación (una visita a la mansión, una noticia sobre el senador, un acto público) o dejar que los descubran aquí.
 
+![Retrato de un hombre mayor de barba y pelo canosos, con gafas oscuras, levita negra bordada en oro, chaleco y pajarita; mira hacia arriba ante una vidriera de círculos verdes.](../../../assets/rol/navegantes/15-retrato-lucien-thalos.jpg)
+*Lucien Thalos, senador. Ilustración del módulo, hecha con IA. CC0.*
+
+![Retrato de una figura femenina de piel gris azulada y labios rojos, con grandes lentes redondas en lugar de ojos, un tocado puntiagudo de metal y una chaqueta rojiza de cuello alto con piezas mecánicas; al fondo, rascacielos entre nubes.](../../../assets/rol/navegantes/14-retrato-khalira-zemorath.jpg)
+*Khalira Zemorath, comisaria. Ilustración del módulo, hecha con IA. CC0.*
+
 - **El criado de librea.** Un criado biomecánico, con la librea de la casa Thalos, sigue en la playa con los preparativos de una celebración: pone la mesa, alisa el mantel, coloca los cubiertos de la familia. Si la mesa ha visto «La cena servida para cuatro», es él quien la sirvió. Preguntas: ¿qué celebración prepara? ¿Quién lo mandó a la isla, y cuándo? ¿Cuántos cubiertos pone?
 - **Un borrador de discurso.** Unas hojas con el membrete del Senado: un discurso de Lucien sobre regular el acceso al sueño colectivo. En el margen, con otra letra: «No antes de que vuelva». Debajo, tachado: «Si vuelve». Preguntas: ¿de quién es la letra del margen? ¿A quién conviene esa ley?
 - **Piezas de colección.** Algunos objetos de la isla (una lámpara, un retrato, una barrica) llevan una pequeña placa de inventario: «Colección Thalos-Zemorath. Comisariado: K. Z.». Preguntas: ¿es la isla, o parte de ella, una colección? ¿Qué pieza quería Khalira y todavía no tiene?
