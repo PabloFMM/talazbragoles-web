@@ -1,7 +1,7 @@
 ---
 /**
  * /rol/: portada de la sección Rol (fase 1, 2026-11-23). Lo que jugamos ahora:
- * dos puertas grandes, «Ludoteca» (juegos, sistemas, licencias, autoría, editoriales)
+ * dos puertas grandes con imagen propia (src/assets/rol/portada/, del grupo, sin pie), «Ludoteca» (juegos, sistemas, licencias, autoría, editoriales)
  * y «Crónicas» (módulos, campañas y mesas), con imagen (2026-11-25); después, las portadas de lo jugado. Lo jugado en las
  * Jornadas históricas está en /sistemas/ (Archivo).
  * Accesos a Juegos (con filtros), Sistemas, Licencias, Autoría y Editoriales.
@@ -18,7 +18,8 @@ import { hrefCampana, hrefMesa, hrefModulo } from "../../lib/rol-rutas";
 import { estadoJuego } from "../../lib/formato";
 import { numeroSeccion } from "../../lib/nav";
 import { Picture } from "astro:assets";
-import imagenCronicas from "../../assets/rol/navegantes/05-ouroboros-calle-de-los-misterios.jpg";
+import imagenLudoteca from "../../assets/rol/portada/ludoteca.jpg";
+import imagenCronicas from "../../assets/rol/portada/cronicas.jpg";
 
 const juegos = await getAllJuegos();
 const jugados = await Promise.all(juegos.filter((j) => j.data.jugado.nosotros).map(resuelveJuego));
@@ -29,8 +30,6 @@ const campanas = await getAllCampanas();
 const mesas = await getAllMesas();
 const nAutoria = (await getAllAutoria()).length;
 const nEditoriales = (await getAllEditoriales()).length;
-// Ludoteca: tira de portadas oficiales (las de los juegos que hemos jugado, hasta 3), con el crédito debajo de cada una.
-const tira = jugados.filter((f) => f.juego.data.portada).slice(0, 3).map((f) => f.juego);
 const plural = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
 const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ?? s?.data.name;
 ---
@@ -49,13 +48,8 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
 
     <div class="tz-puertas">
       <section class="tz-puerta" aria-labelledby="s-ludoteca">
-        <div class="tz-puerta-imagen tz-puerta-imagen--tira">
-          {tira.map((j) => (
-            <figure class="tz-puerta-portada">
-              <Picture src={j.data.portada!.archivo} alt={`Portada de ${j.data.portada!.titulo ?? j.data.titulo} (${j.data.portada!.edicion})`} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[200, 400]} sizes="12rem" quality={45} class="tz-portada-img" loading="eager" decoding="async" />
-              <figcaption><CreditoPortada juego={j} /></figcaption>
-            </figure>
-          ))}
+        <div class="tz-puerta-imagen">
+          <Picture src={imagenLudoteca} alt="Estantería de madera llena de libros de juegos de rol, con varias portadas de frente: La llamada de Cthulhu, Dungeons &amp; Dragons, Vampiro, La guerra de las galaxias, Paranoia, Rolemaster y RuneQuest." formats={["avif", "webp"]} fallbackFormat="jpg" widths={[480, 800, 1200]} sizes="(min-width: 64rem) 36rem, calc(100vw - 2rem)" quality={55} class="tz-puerta-foto" loading="eager" decoding="async" />
         </div>
         <p class="tz-puerta-rotulo">01</p>
         <h2 id="s-ludoteca" class="tz-puerta-titulo">Ludoteca</h2>
@@ -70,12 +64,9 @@ const corto = (s: (typeof jugados)[number]["sistema"]) => s?.data.nombreCorto ??
       </section>
 
       <section class="tz-puerta" aria-labelledby="s-cronicas">
-        <figure class="tz-modulo-imagen tz-puerta-figura">
         <div class="tz-puerta-imagen">
-          <Picture src={imagenCronicas} alt="Callejón de puestos con un rótulo de tienda con medallón; torres al fondo." formats={["avif", "webp"]} fallbackFormat="jpg" widths={[480, 800, 1200]} sizes="(min-width: 64rem) 36rem, calc(100vw - 2rem)" quality={55} class="tz-puerta-foto" loading="eager" decoding="async" />
+          <Picture src={imagenCronicas} alt="Mesa de madera preparada para una partida de rol: hojas de personaje, dados, una pantalla del director de juego, un manual abierto, cartas ilustradas, una miniatura y una bolsa de dados." formats={["avif", "webp"]} fallbackFormat="jpg" widths={[480, 800, 1200]} sizes="(min-width: 64rem) 36rem, calc(100vw - 2rem)" quality={55} class="tz-puerta-foto" loading="eager" decoding="async" />
         </div>
-        <figcaption class="tz-puerta-credito">La Calle de los Misterios, en el Distrito Ouroboros, del módulo «Los Navegantes del Sueño». Ilustración hecha con IA por el autor del módulo; CC0.</figcaption>
-        </figure>
         <p class="tz-puerta-rotulo">02</p>
         <h2 id="s-cronicas" class="tz-puerta-titulo">Crónicas</h2>
         <p class="tz-puerta-texto">Lo que pasa alrededor de nuestra mesa: las aventuras que jugamos, contadas, y los módulos que salen de ellas, abiertos para que los juegue cualquiera.</p>
