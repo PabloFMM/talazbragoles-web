@@ -7,6 +7,10 @@
  * La autoría del módulo es la ÚNICA persona real nombrada en las crónicas (decisión 52).
  */
 import { getEntry, render } from "astro:content";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { Image, getImage } from "astro:assets";
+import { laminasDeModulo } from "../../../../lib/laminas-modulos";
 import Layout from "../../../../layouts/Layout.astro";
 import Encabezado from "../../../../components/sistema/Encabezado.astro";
 import Titulo from "../../../../components/sistema/Titulo.astro";
@@ -32,6 +36,24 @@ const licencia = await getEntry("licencias", d.licencia);
 const campana = d.campana ? await getEntry(d.campana) : undefined;
 const mesa = campana ? await getEntry(campana.data.mesa) : undefined;
 const palabras = [modulo, ...secciones].reduce((n, s) => n + (s.body ?? "").split(/\s+/).filter(Boolean).length, 0);
+const laminas = await Promise.all(
+  laminasDeModulo(modulo.id).map(async (l) => ({
+    ...l,
+    grande: await getImage({ src: l.imagen, width: l.imagen.width, format: "webp", quality: 80 }),
+    nombreSeccion: secciones.find((s) => s.data.slug === l.seccion)?.data.titulo ?? l.seccion,
+  })),
+);
+// PDF maquetado (scripts/pdf-modulo.mjs; se genera en local y se versiona en public/descargas/)
+const rutaPdf = join(process.cwd(), "public/descargas", `${modulo.id}.pdf`);
+let pdf: { href: string; mb: string; paginas: number } | undefined;
+if (existsSync(rutaPdf)) {
+  const b = readFileSync(rutaPdf);
+  pdf = {
+    href: `/descargas/${modulo.id}.pdf`,
+    mb: (b.length / 1048576).toLocaleString("es-ES", { maximumFractionDigits: 1 }),
+    paginas: (b.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length,
+  };
+}
 const miles = (n: number) => (Math.round(n / 500) * 500).toLocaleString("es-ES");
 
 const datos: Dato[] = [
@@ -70,8 +92,31 @@ const datos: Dato[] = [
       )}
     </section>
 
+    {laminas.length > 0 && (
+      <section class="tz-seccion" aria-labelledby="s-laminas">
+        <Titulo id="s-laminas" numero="02">Mapas y láminas</Titulo>
+        <p class="tz-medida">Ilustraciones del módulo, hechas con IA por su autor. Licencia CC0: se pueden imprimir y usar en la mesa. Ábrelas a tamaño completo para leer los rótulos.</p>
+        <ul class="tz-laminas" role="list">
+          {laminas.map((l) => (
+            <li>
+              <figure class="tz-modulo-imagen">
+                <Image src={l.imagen} alt={l.alt} widths={[480, 800]} sizes="(min-width: 48rem) 22rem, calc(100vw - 2rem)" format="webp" quality={60} loading="lazy" />
+                <figcaption>
+                  <strong>{l.titulo}.</strong> {l.pie}
+                  <span class="tz-laminas-enlaces">
+                    <a href={l.grande.src}>Abrir a tamaño completo<span class="tz-sr"> «{l.titulo}»</span>{" "}({l.imagen.width} × {l.imagen.height} px)</a>
+                    <a href={hrefSeccionModulo(modulo.id, l.seccion)}>Se usa en «{l.nombreSeccion}»</a>
+                  </span>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
     <section class="tz-seccion" aria-labelledby="s-uso">
-      <Titulo id="s-uso" numero="02">Cómo usar este módulo</Titulo>
+      <Titulo id="s-uso" numero={laminas.length ? "03" : "02"}>Cómo usar este módulo</Titulo>
       <div class="tz-prosa"><Content /></div>
       {campana && (
         <p class="tz-medida" style="margin:var(--e-5) 0 0">
@@ -86,7 +131,7 @@ const datos: Dato[] = [
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-indice">
-      <Titulo id="s-indice" numero="03">Índice</Titulo>
+      <Titulo id="s-indice" numero={laminas.length ? "04" : "03"}>Índice</Titulo>
       <ol class="tz-lista-enlaces tz-lista-enlaces--una tz-medida">
         {secciones.map((s) => (
           <li>
@@ -101,9 +146,18 @@ const datos: Dato[] = [
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-descarga">
-      <Titulo id="s-descarga" numero="04">Descargar</Titulo>
+      <Titulo id="s-descarga" numero={laminas.length ? "05" : "04"}>Descargar</Titulo>
       <div class="tz-descarga tz-medida">
-        <a class="tz-boton tz-boton--tinta" href={hrefModuloMd(modulo.id)} download={`${modulo.id}.md`}>Descargar en Markdown <span class="tz-sr">el módulo «{d.titulo}»</span></a>
+        {pdf && (
+          <>
+            <a class="tz-boton tz-boton--tinta" href={pdf.href} download={`${modulo.id}.pdf`}>Descargar en PDF <span class="tz-sr">el módulo «{d.titulo}»</span></a>
+            <p class="tz-ref">
+              El libro maquetado para leer o imprimir: A4 a dos columnas, con portada, ficha, índice y todas las ilustraciones en su sitio
+              ({pdf.paginas} páginas, {pdf.mb} MB).
+            </p>
+          </>
+        )}
+        <a class="tz-boton" href={hrefModuloMd(modulo.id)} download={`${modulo.id}.md`}>Descargar en Markdown <span class="tz-sr">el módulo «{d.titulo}»</span></a>
         <p class="tz-ref">
           Todo el módulo en un solo archivo de texto (Markdown, unas {miles(palabras)} palabras), con las imágenes enlazadas.
           Licencia {licencia?.data.nombreCorto ?? d.licencia}: <a href={hrefLicencia(d.licencia)}>qué permite</a>.
