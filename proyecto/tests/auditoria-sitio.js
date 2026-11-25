@@ -77,6 +77,13 @@
       if (img.getBoundingClientRect().right > W + 1) add(`portada desborda: ${img.getAttribute('src')}`);
       continue;
     }
+    // Excepción (2026-11-25): imagen de una de las dos puertas de /rol/ (Ludoteca, Crónicas), sin pie.
+    if (img.matches('.tz-puerta-foto')) {
+      if (!img.alt || img.alt.length < 20) add(`imagen de puerta sin alt descriptivo: ${img.getAttribute('src')}`);
+      if (!img.getAttribute('width') || !img.getAttribute('height')) add(`imagen de puerta sin width/height: ${img.getAttribute('src')}`);
+      if (img.getBoundingClientRect().right > W + 1) add(`imagen de puerta desborda: ${img.getAttribute('src')}`);
+      continue;
+    }
     // Excepción (Rol 7/8, 2026-11-24): ilustración de un módulo de aventura (CC0), en su figura con pie.
     if (img.closest('figure.tz-modulo-imagen')) {
       if (!img.alt || img.alt.length < 20) add(`ilustración de módulo sin alt descriptivo: ${img.getAttribute('src')}`);

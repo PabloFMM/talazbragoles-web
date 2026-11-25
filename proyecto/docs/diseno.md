@@ -42,7 +42,7 @@ Decisión del grupo (2026-11-23, manda sobre el «hueco tipográfico» de la fas
 
 ## 2 quater. Portada de Rol: dos puertas con imagen (2026-11-25)
 
-`/rol/` abre con dos «puertas» (`.tz-puertas`, `sistema.css` §4.17 octies): **Ludoteca** (imagen = tira de hasta tres portadas oficiales de lo jugado, §2 bis, cada una con su crédito «Portada: <editorial>» debajo) y **Crónicas** (imagen = una ilustración de módulo, §2 ter, dentro de `figure.tz-modulo-imagen.tz-puerta-figura` con pie). Titular grande en Source Serif fino, entradilla y lista de enlaces anchos (≥ 56 px, filete medio) que se invierten al pasar el ratón. Una columna hasta 64rem; dos desde ahí.
+`/rol/` abre con dos «puertas» (`.tz-puertas`, `sistema.css` §4.17 octies): **Ludoteca** y **Crónicas**. Cada una lleva una imagen propia del grupo (`src/assets/rol/portada/ludoteca.jpg` y `cronicas.jpg`, recibidas el 2026-11-25), recortada a 16:10 y **sin pie ni rótulo** (decisión del grupo: el pie descompensaba los titulares); luego número, titular grande en Source Serif fino, entradilla y lista de enlaces anchos (≥ 56 px, filete medio) que se invierten al pasar el ratón. Una columna hasta 64rem; dos desde ahí. Cuarta excepción de imagen: la auditoría admite `img.tz-puerta-foto` con alt de ≥ 20 caracteres y `width`/`height`.
 
 ## 2 ter. Excepción de imagen: ilustraciones de los módulos de Rol (Rol 7/8, 2026-11-24, tarjeta `t_a152be1b`)
 
