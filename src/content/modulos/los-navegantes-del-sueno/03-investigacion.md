@@ -28,6 +28,7 @@ Libertad no es calma. En la investigación tienen que pasar cosas: un PNJ miente
 - Quince lugares, en cuatro entornos.
 - El archivo reconstruido de la logia, como documento que se entrega por fragmentos.
 - Cómo llegar a Helena Noctua, Cassian Virel e Isolde Mareth, y qué dice y qué calla cada uno.
+- La familia Thalos: los padres de Aurelian y su mansión de Solomon.
 - Cinco escenas adaptables a cualquier PJ.
 
 **Lo que está en otras secciones**
@@ -56,9 +57,6 @@ En cuanto los PJ sepan de la existencia de un antiguo miembro, pueden consultar 
 | **Situación actual** | Desaparecido | Jefa de Recursos en la Sociedad Histórica, Distrito Vitruvian | Seguridad en la Égida Liminal | Asesora de la Academia del Umbral Anímico, Distrito Vitruvian |
 
 La ficha no lo dice todo. Isolde, aunque figure como asesora de una Academia de Vitruvian, trabaja desde su casa, en Sycamore. Helena es la única de los tres que no figura en los registros públicos como posible exmiembro de la logia. A Cassian no se puede llegar.
-
-![Retrato de un hombre de piel verdosa y rasgos de reptil, de perfil, con la mirada hacia arriba; lleva un aparato de lentes y engranajes sobre la oreja, gafas en la frente, un abrigo raído y collares.](../../../assets/rol/navegantes/10-retrato-aurelian-thalos.jpg)
-*Aurelian Thalos, tal como era antes de desaparecer: oniromante, mestizo humanita-reptiliano. Ilustración del módulo, hecha con IA. CC0.*
 
 ## PNJ modulares
 
@@ -184,6 +182,7 @@ El Barrio Viejo es el sustrato más popular de Ouroboros: calles estrechas, plaz
 
 - **La Taberna Hiperbórea** y **la Casa de los Acertijos**, con el Foro de los Laberintos (Ouroboros): ver «Escenas adaptables».
 - **El Órgano de Defensa** (Solomon) y **la casa de Isolde Mareth** (Sycamore): ver «Los antiguos miembros».
+- **La mansión Thalos** (Solomon, zona residencial alta): ver «La familia Thalos».
 
 ## El archivo de la logia
 
@@ -409,6 +408,44 @@ Cualquier alusión al Desborde o a su trabajo en la logia la pone nerviosa, agre
 Isolde sigue trabajando en los sueños. Para quién y con qué medios, nadie lo sabe.
 
 **El sistema de seguridad.** Isolde ha instalado en su casa un clon holográfico que se carga y se activa poco después de detectar presencias extrañas. Antes se oye: «Sistema de seguridad cargado. Activando protocolo». Desde ese momento tarda treinta segundos en aparecer. Lleva una daga holográfica que hiere de verdad y se mueve y ataca a gran velocidad. Se desactiva hackeando el sistema de seguridad, instalado en el cuarto contiguo, o venciéndolo. El enfrentamiento y sus anclajes están en «Anclajes pregenerados para el DJ» (Enfrentamiento 4).
+
+## La familia Thalos
+
+Lucien Thalos, senador, y Khalira Zemorath, comisaria, son los padres de Aurelian. Viven en una mansión de la zona residencial alta del Distrito Solomon. Son poderosos y discretos: en público, la desaparición de su hijo no existe. Qué saben y qué quieren queda abierto; el módulo no lo responde.
+
+![Retrato de un hombre mayor de barba y pelo canosos, con gafas oscuras, levita negra bordada en oro, chaleco y pajarita; mira hacia arriba ante una vidriera de círculos verdes.](../../../assets/rol/navegantes/15-retrato-lucien-thalos.jpg)
+*Lucien Thalos, senador. Ilustración del módulo, hecha con IA. CC0.*
+
+![Retrato de una figura femenina de piel gris azulada y labios rojos, con grandes lentes redondas en lugar de ojos, un tocado puntiagudo de metal y una chaqueta rojiza de cuello alto con piezas mecánicas; al fondo, rascacielos entre nubes.](../../../assets/rol/navegantes/14-retrato-khalira-zemorath.jpg)
+*Khalira Zemorath, comisaria. Ilustración del módulo, hecha con IA. CC0.*
+
+**Cómo llegar a ellos.** No es fácil, ni tiene por qué serlo. Pregunta para la mesa: ¿qué os abre la puerta de la mansión Thalos? Una cita, un favor, un pretexto, un encargo. Si la mesa no los busca, el DJ puede hacer que aparezcan de otro modo (una noticia sobre el senador, un acto público) o dejar que los descubran en la isla, en la Fase de Acción.
+
+**La mansión.** Apartada del bullicio institucional, la mansión Thalos no ostenta poder: lo asume como algo inevitable. Arquitectura sobria, líneas limpias, materiales imposibles de fechar. Todo está perfectamente dispuesto, pero nada parece vivido.
+
+- Jardines geométricos que no invitan a pasear.
+- Fuentes silenciosas.
+- Superficies reflectantes ligeramente imperfectas.
+- Un cuadro en el que unas ranas se convierten en cubos y los cubos en faisanes, como en un grabado de Escher.
+- Al norte, dos sillones individuales de cuero blanquísimo, impolutos, conectados a dos enormes unidades de cálculo que siguen funcionando.
+- Y en el centro, como una provocación en pleno verano, la piscina. Allí reciben a los PJ.
+- Criados y vigilantes de seguridad, todos biomecánicos.
+
+**Lucien y Khalira.** Lucien, impecable, erguido, cada palabra medida como un voto. Khalira, elegante hasta la amenaza, con una mirada que evalúa más de lo que observa. No están preocupados: están gestionando una crisis estética. Niegan que haya pasado nada hace siete años.
+
+**La barrica.** Un criado lleva a la piscina una barrica de whisky. No es una barrica común: madera oscura, casi negra; grabados muy finos de espirales y de símbolos parecidos a la brújula sin aguja; un leve aroma que no es alcohol. Aurelian la trajo de la periferia. Este whisky no se bebe para embriagarse, sino para alterar la resonancia onírica. Quien lo prueba o lo manipula tiene una breve visión:
+
+> Bajo tus pies, el suelo se ondula, como si siempre hubiera sido líquido y hubiera estado fingiendo ser sólido por cortesía. Miras. No hay mármol. Hay una extensión inmensa de algo negro, vítreo, infinito: el Mar de Sílices. No hay horizonte. Solo una línea imperfecta donde la oscuridad es ligeramente distinta.
+>
+> Y entonces lo notas. Algo se mueve. Muy lejos. Tan lejos que no debería importar. Pero importa, porque se mueve a una velocidad vertiginosa. La superficie empieza a levantarse. No como una ola, no como agua: como si una forma gigantesca fuera emergiendo lentamente. Y aparece un ojo descomunal, que te observa como si acabara de recordarte. Algo te atraviesa la mente, no como un pensamiento, sino como una certeza: «Esto no vive en el mar. El mar vive sobre esto».
+
+Pistas que deja la visión: «No todos los sueños empiezan al dormir». «Hay algo más que sueña con lo que yo sueño».
+
+**Lo que sugiere la casa.** Todo en ella apunta a que los padres saben más de lo que dicen y llevan años siguiendo algo. Ellos lo negarán todo.
+
+**El cierre.** Cuando los PJ se marchan, Khalira dice, sin mirarlos: «Si lo encuentran, no nos traigan la verdad». Y Lucien añade: «Tráigannos, mejor, algo que podamos usar».
+
+Preguntas para la mesa: ¿qué saben los Thalos de la desaparición de su hijo? ¿Qué entienden por «algo que podamos usar»?
 
 ## Escenas adaptables
 
