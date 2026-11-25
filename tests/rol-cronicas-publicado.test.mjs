@@ -11,7 +11,7 @@ import { join, relative, sep } from "node:path";
 import { DIST, archivosHtml } from "./_comun.mjs";
 
 const MODULO = "los-navegantes-del-sueno";
-const SECCIONES = ["raiz", "presentacion-y-deliberacion", "investigacion", "suenos-piezas-anclajes", "reflexion-y-accion", "resolucion-y-anexos"];
+const SECCIONES = ["raiz", "presentacion-y-deliberacion", "investigacion", "suenos-piezas-anclajes", "reflexion-y-accion", "resolucion-y-anexos", "guia-del-dj"];
 const pagina = (ruta) => {
   const f = join(DIST, ...ruta.split("/").filter(Boolean), "index.html");
   assert.ok(existsSync(f), `falta la página ${ruta} en dist/ (¿se ha hecho el build?)`);
