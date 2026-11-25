@@ -1484,10 +1484,18 @@
     max-width: var(--medida);
   }
   .tz-prosa .tz-modulo-imagen { margin-block: var(--e-7); }
+  /* Portada del módulo: «Mapas y láminas» (Rol 9). Rejilla de 1 columna en móvil, 2 desde 48rem. */
+  .tz-laminas { list-style: none; padding: 0; margin: var(--e-6) 0 0; display: grid; gap: var(--e-7) var(--e-6); grid-template-columns: minmax(0, 1fr); max-width: 60rem; }
+  @media (min-width: 48rem) { .tz-laminas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-laminas .tz-modulo-imagen { margin: 0; }
+  .tz-laminas-enlaces { display: flex; flex-direction: column; margin-top: var(--e-2); }
+  .tz-laminas-enlaces a { display: inline-flex; align-items: center; min-height: 48px; font-size: var(--t-0); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .tz-laminas-enlaces a:hover { text-decoration-thickness: 2px; }
   /* «(pendiente: …)» largo dentro del texto: parte línea como el resto (el nowrap de §4.8 es para la palabra suelta) */
   .tz-prosa .tz-pendiente, .tz-ficha-texto .tz-pendiente, .tz-jornada-texto .tz-pendiente, .tz-modulo-imagen .tz-pendiente { white-space: normal; }
   /* Botón de descarga: con el texto al 200 % parte línea en vez de desbordar */
   .tz-descarga .tz-boton { max-width: 100%; text-align: center; }
+  .tz-descarga .tz-ref + .tz-boton { margin-top: var(--e-5); }
 
   /* Campaña: el primer ## del cuerpo («La verdad de nuestra mesa») ya lo pone el título de la sección. */
   .tz-sin-primer-titulo > h2:first-child { display: none; }
