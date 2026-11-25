@@ -5,7 +5,7 @@ slug: "reflexion-y-accion"
 titulo: "Fases de Reflexión y Acción"
 licencia: "cc0-1.0"
 autoria: "Christian Märtens, storyteller de Numen Games"
-resumen: "La elección antes de la Acción y tres escenarios de ejemplo: el descenso por niveles, la travesía de la Orphika y la isla que no se acerca."
+resumen: "La elección antes de la Acción y tres escenarios: el descenso por niveles, el faro del Mar de Sílices y la Orphika, y la isla de Lazarus, que cambia según el objetivo elegido."
 ---
 
 ## Fase de Reflexión
@@ -24,7 +24,7 @@ En esta aventura la elección es determinante. Antes de la Fase de Acción, los 
 
 Hacen falta al menos tres Piezas del Conflicto y algún indicio claro de hacia dónde dirigirse.
 
-Dos direcciones posibles, sin desarrollar: encontrar a Aurelian Thalos o descubrir qué había detrás de la logia. La mesa puede proponer otra (salvar a alguien, enfrentarse a alguien, escapar de algo).
+Algunas direcciones posibles: encontrar a Aurelian Thalos, descubrir quién hay detrás de la logia, seguir el rastro de los antiguos miembros (Helena, Cassian, Isolde) o, si la mesa los conoce, entender qué buscan los Thalos. La mesa puede proponer otra (salvar a alguien, enfrentarse a alguien, escapar de algo). La isla de Lazarus, núcleo de la Fase de Acción, se adapta a cualquiera de ellas (escenario C).
 
 El módulo no escribe ninguna de esas ramas. Da elementos suficientes para que cada mesa construya la suya; las respuestas las crean los jugadores y las dimensiona el DJ.
 
@@ -125,9 +125,11 @@ Antes de empezar, el DJ decide qué condiciones indican que la Acción ha termin
 
 ### Caja de herramientas onírica
 
-Lo que sigue no es una rama. Es material reutilizable para el caso de que la mesa decida entrar en el sueño, por ejemplo para buscar a Aurelian. Los tres escenarios son opcionales: se usan todos, alguno o ninguno, en el orden que pida la mesa. Ninguno contiene la verdad de fondo; lo que signifiquen lo deciden los jugadores.
+Lo que sigue no es una rama. Es material reutilizable para la Fase de Acción, sea cual sea el objetivo. Los escenarios A y B llevan hasta la isla; el C, la isla, es el núcleo de la Acción, y lo que los PJ encuentran en ella depende del objetivo que eligieron. Se usan todos, alguno o ninguno, en el orden que pida la mesa. Ninguno contiene la verdad de fondo; lo que signifiquen lo deciden los jugadores.
 
-En la campaña original se encadenaron así: descenso por niveles, travesía en la Orphika y la isla que no se acerca.
+Al faro del Mar de Sílices se puede llegar despierto o en sueños (escenario B). Si la mesa no ha entrado en el sueño durante la Investigación, la Acción puede empezar directamente en el faro.
+
+En la campaña original se encadenaron así: descenso por niveles, el faro y la Orphika, y la isla.
 
 **Entrar en el sueño.** El módulo no fija cómo. Pregunta para la mesa: ¿cómo entráis en el sueño colectivo y qué precio tiene hacerlo? La Pieza del Conflicto sobre los niveles del sueño sirve de base para la respuesta.
 
@@ -184,11 +186,85 @@ Esas estancias pertenecen a quienes llegaron hasta el Abismo y dejaron algo atr�
 
 **Enfrentamiento: el Guardián de Crisálida.** En la bodega espera la misma criatura que en la bodega del sueño de la *Eidolon*: el Guardián de Crisálida, encadenado a una gema sobre un pedestal y visible solo durante sus destellos. Su ficha es el enfrentamiento 2 de «Anclajes pregenerados». En esta vuelta, la bodega está más oscura, más densa, como si el espacio se tragara el sonido.
 
-**El disco de sincronización.** Al fondo de la bodega, sobre una barrica, brilla un objeto circular y metálico. Al girarlo ofrece una combinación cifrada: las coordenadas del faro que se alza en medio del Mar de Sílices, la tierra árida y rocosa del Desierto de Antracita. En el módulo base el faro es un lugar físico; en el sueño, el disco puede llevar también a su reflejo onírico, las puertas del nivel cinco.
+**El disco de sincronización.** Al fondo de la bodega, sobre una barrica, brilla un objeto circular y metálico. Al girarlo ofrece una combinación cifrada: las coordenadas del faro que se alza en medio del Mar de Sílices, la tierra árida y rocosa del Desierto de Antracita. Es la Pieza de Dirección del módulo. El faro es un lugar físico, pero también se llega a él en sueños: ver escenario B.
 
-**Nivel 5. El faro.** No hay texto de esta escena. El sueño del Oniromante ya mostró un faro solitario, inclinado, sobre un mar de piedra, bajo un cielo lleno de puertas. Helena recuerda que Aurelian, al final, se llamaba a sí mismo «el Guardián del Faro», y la carta de navegación onírica apunta a un concepto: faro. (pendiente: escena del faro y paso a la Orphika)
+**Nivel 5. El faro.** El descenso desemboca en el faro del Mar de Sílices, visto desde el sueño. Sigue en el escenario B.
 
-### Escenario B: la travesía de la Orphika
+### Escenario B: el faro del Mar de Sílices y la travesía de la Orphika
+
+**Dos maneras de llegar.** El disco de sincronización, la Pieza de Dirección, da las coordenadas del faro. Los PJ pueden llegar de dos maneras:
+
+- **Despiertos, de forma física.** Con las coordenadas, el viaje sale de Numinia hacia la periferia, hasta el Desierto de Antracita. El Mar de Sílices no es un mar: es una extensión de tierra oscura, árida y rocosa donde no crece nada. Pregunta para la mesa: ¿cómo llegáis hasta allí y qué os cuesta el viaje?
+- **En sueños.** Al final del descenso (escenario A), el nivel cinco se abre sobre el mismo paisaje.
+
+Lleguen como lleguen, el faro es el lugar donde la vigilia y el sueño se tocan: al subir a lo alto, los PJ conectan con el mundo del sueño.
+
+**El faro.** Es el faro que el Oniromante vio en su escena de la Fase de Presentación: solitario, inclinado unos grados, con una luz que titilaba y de pronto se apagó. El DJ puede repetir alguna imagen de aquella escena.
+
+> Al principio creéis que es un espejismo. En mitad de la llanura negra, donde la sílice cruje bajo los pies como cristal molido, se alza una torre. Está sola. Inclinada, como si llevara siglos resistiendo un viento que hoy no sopla. No hay camino que lleve hasta ella. Y, sin embargo, las pocas huellas que hay en el suelo van todas en la misma dirección.
+>
+> De cerca, la piedra del faro no es la del desierto. Es más clara, porosa, salada, como si la hubieran sacado del fondo de un mar. La puerta está abierta. Dentro, una escalera de caracol sube hacia la oscuridad.
+
+**La subida.** El DJ elige uno o dos de estos elementos interpretables:
+
+- Unas marcas a lápiz en la pared, con alturas y fechas, como las que se hacen a un niño que crece. La última está muy por encima de cualquier cabeza.
+- Una brújula sin aguja grabada en un peldaño, con los cuatro párpados cerrados.
+- Una placa de latón junto a una puerta: «Guardián del Faro». El nombre que seguía está raspado. Helena Noctua recuerda que, al final, Aurelian se llamaba a sí mismo así.
+- El rumor de un mar que no existe. A cada vuelta de la escalera se oye más cerca.
+
+Pregunta para la mesa: ¿qué encontráis a mitad de la subida que os hace dudar de seguir?
+
+**Arriba.** La escalera termina en la sala de la linterna.
+
+> La gran lente está apagada, cubierta de un polvo negro que brilla. Por los cristales se ve la llanura entera, inmóvil hasta el horizonte.
+>
+> Y entonces cambia. No de golpe: como cambia un sueño, sin que nadie pueda decir cuándo empezó. La sílice se oscurece. Se ondula. Lo que era roca empieza a respirar. Abajo, alrededor del faro, ya no hay tierra. Hay un mar de aguas negras, lentas, pesadas como el aceite, que golpean la base de la torre con un sonido que conocéis aunque nunca lo hayáis oído.
+>
+> Y junto al faro, donde hace un momento no había nada, flota un barco. Grande. Tres palos. Las velas recogidas. En la proa, una mujer esculpida con los ojos cerrados mira hacia la torre, como si esperara.
+
+Es la Orphika. Desde ese momento los PJ están en el sueño, hayan llegado como hayan llegado. Al pie del faro, donde antes había roca, ahora hay un embarcadero de madera.
+
+- Pregunta para cada jugador: ¿qué reconoce tu PJ en el sonido de esas aguas?
+- Si llegaron despiertos, pregunta para la mesa: ¿qué pasa con vuestros cuerpos mientras estáis en el sueño? ¿Siguen en el faro?
+
+**La nave no se mueve.** Los PJ pueden subir a bordo, recorrerla y tocar el timón. La Orphika no se mueve. Las velas no responden. No hay viento ni corriente, y el mar negro no lleva a ninguna parte porque no tiene dirección.
+
+**La guía de zarpe.** En el puesto de mando, junto al timón onírico, hay una guía. Es un documento para los jugadores:
+
+> **Orphika. Procedimiento de zarpe**
+>
+> Goleta oniromántica de tres palos. Amarre: faro del Mar de Sílices.
+>
+> 1. La Orphika no navega hacia lugares. Navega hacia una luz.
+> 2. Antes de soltar amarras, enciéndase el faro. La luz traza el rumbo; la nave lo sigue.
+> 3. Sin luz no hay rumbo. Sin rumbo, este mar no deja salir.
+> 4. La lámpara no se alimenta de aceite ni de corriente. Se alimenta de […] *(una mancha de agua ha borrado el resto de la línea)*
+> 5. Una vez trazado el rumbo, no se apague el faro hasta haber perdido de vista la torre.
+>
+> *Al margen, a mano:* «Esta vez, que la encienda otro.»
+
+Los PJ pueden no saber que hay que encender el faro. Solo lo descubren si encuentran la guía. Pregunta para la mesa: ¿de quién es la nota del margen y qué quiere decir «esta vez»?
+
+**Encender el faro.** El módulo no fija con qué se enciende: la línea borrada es un Espacio de Indeterminación de esta escena. Pregunta para la mesa: ¿con qué se enciende la luz del faro? Lo elegido se vuelve verdad, y tiene un precio. Algunas posibilidades:
+
+- Un recuerdo que alguien del grupo entrega a la lámpara y pierde para siempre.
+- El disco de sincronización, encajado en el mecanismo de la lente.
+- La canción «Sin aguja», cantada en lo alto de la torre (Anexo B).
+- Otra cosa que proponga la mesa.
+
+Encender el faro es un enfrentamiento (ver «Enfrentamientos de la isla»). El objetivo es encender la luz y trazar el rumbo. Anclajes posibles:
+
+- **La lente cubierta de sílice.** Por mucho que la limpien, el polvo negro vuelve. Intervenciones: cubrirla, mojarla con el agua negra, girarla hacia el lado limpio.
+- **La oscuridad que bebe la luz.** La primera chispa se apaga enseguida, como si algo la absorbiera. Intervenciones: proteger la llama, alimentarla con lo que la mesa haya elegido, encenderla entre todos a la vez.
+- **El mecanismo detenido.** Los engranajes que hacen girar la lámpara están quietos, inclinados como la torre. Intervenciones: enderezarlos, forzarlos, buscar la pieza que falta.
+
+**Fallo.** La luz no prende. Hay que probar con otro anclaje.
+
+**Fracaso.** Deja un estado en quien intervino (por defecto, Desanclado) y cambia la escena. La luz se enciende, pero traza un rumbo torcido: la Orphika llegará igualmente, pero pasando primero por el bosque invertido y con la Tormenta ya encima.
+
+**Éxito.**
+
+> El haz cae sobre el agua negra y no la ilumina: la dibuja. Sobre el mar aparece un camino de luz que se pierde en el horizonte. Las velas se hinchan sin que sople el viento. Los cabos se tensan solos. La Orphika se pone en marcha.
 
 **La nave.** La Orphika es una goleta oniromántica de tres palos. No navega sobre el agua, sino sobre el significado: su forma cambia según el sueño que la contenga, pero su estructura esencial permanece.
 
@@ -206,9 +282,7 @@ Es la nave gemela de la *Eidolon*, la de Aurelian. Su última referencia la sit�
 - **Sala de mapas y de los sueños:** lugar de reunión, interpretación y rituales onirománticos.
 - **Bajo cubierta:** camarotes, comedor de la tripulación, talleres, biblioteca, laboratorios, almacén de provisiones, sala de máquinas onirománticas. **Portillones** que solo se abren en sueños concretos y **entrepuente**: pasajes que cambian de lugar y solo aparecen en ciertos estados del sueño. **Cañones oníricos**, no siempre presentes.
 
-**Cómo llegan a ella.** (pendiente: no hay texto de la llegada a la Orphika; en la campaña original, la nave estaba varada en el rígido Mar de Sílices)
-
-**El Océano de Lúnacar.** La Orphika deja atrás el rígido Mar de Sílices para navegar en una masa líquida de reverberaciones cuánticas y datos binarios: el Océano de Lúnacar, el mar crepuscular que rodea Numinia y cuya superficie responde a las fluctuaciones del pensamiento colectivo. Pregunta para la mesa: ¿qué hacéis para que el mar de piedra se vuelva líquido?
+**El Océano de Lúnacar.** Siguiendo el haz del faro, la Orphika deja atrás las aguas negras del Mar de Sílices para navegar en una masa líquida de reverberaciones cuánticas y datos binarios: el Océano de Lúnacar, el mar crepuscular que rodea Numinia y cuya superficie responde a las fluctuaciones del pensamiento colectivo. Pregunta para la mesa: ¿qué veis cuando la torre desaparece a vuestra espalda?
 
 **El peligro del nivel cinco.** Al entrar en el océano, la nave entra en el nivel cinco del sueño. Allí los soñadores corren el riesgo de perder su individualidad y fundirse en una única conciencia colectiva. Tienen que defender su propia perspectiva mientras gobiernan la nave desde el camarote del capitán.
 
@@ -224,7 +298,7 @@ Mantener la Tormenta a raya es una línea de contención del manual: una Tirada 
 
 **Chen.** El oficial de cocina. Lleva generaciones haciendo este viaje. Impone una norma ineludible: comer sus platos, perfectamente equilibrados, para evitar el caos en la nave. Quien la rompe provoca una reacción violenta del sueño: el barco se ladea y la cocina se llena de vajilla voladora y ayudantes mudos.
 
-**Los datos encriptados.** A bordo hay datos encriptados e incompletos que sugieren la ubicación y el estado de Aurelian. Se van revelando en la isla (ver «Datos revelados»). Pregunta para la mesa: ¿qué guarda esos datos en la nave? (pendiente: soporte de los datos en el módulo base)
+**Los datos encriptados.** A bordo hay datos encriptados e incompletos que tienen que ver con el objetivo que eligió la mesa. Se van revelando en la isla (ver «Datos revelados»). Pregunta para la mesa: ¿qué guarda esos datos en la nave? (pendiente: soporte de los datos en el módulo base)
 
 **El bosque invertido.** La nave se topa con un bosque sumergido que crece al revés: raíces hacia el cielo, copas hacia el abismo. Para superarlo, junto con la tormenta, hay que pensar al revés. Pregunta para la mesa: ¿cómo lo atravesáis? Al otro lado hay un remanso de agua binaria de tonos verdosos donde la tormenta se ha disipado.
 
@@ -254,9 +328,21 @@ Se entrega por partes. La primera, en las minas (entradas hasta la 25); la segun
 
 > **Fragmento añadido posteriormente** (caligrafía inestable). «Si encuentran Orphika, no sigan nuestras rutas.» «Los mapas ya no distinguen entre navegación y contagio.» […]
 
-### Escenario C: la isla que no se acerca
+### Escenario C: la isla de Lazarus
 
-Una isla en mitad del océano del sueño. Se ve, pero no se acerca: no son los PJ quienes deben llegar a ella, sino ella quien debe aceptarlos. En los textos de la campaña se llama Lazarus.
+Una isla en mitad del océano del sueño. Se ve, pero no se acerca: no son los PJ quienes deben llegar a ella, sino ella quien debe aceptarlos. Se llama Lazarus y es el núcleo de la Fase de Acción.
+
+**Lo que hay en la isla depende del objetivo.** La isla no guarda una respuesta preparada: guarda lo que los PJ vienen a buscar. El objetivo que la mesa eligió en la Reflexión decide qué hilo pesa más; los demás aparecen de forma transversal, en un objeto, una voz o una sombra. Los elementos de cada hilo están en «Lo que guarda la isla», más abajo.
+
+| Objetivo de la mesa | Hilo principal | Lo que aparece de forma transversal |
+|---|---|---|
+| Encontrar a Aurelian Thalos | Los rastros de Aurelian | Algún elemento de los antiguos miembros o de la familia Thalos |
+| Descubrir quién hay detrás de la logia | La mano invisible | Los rastros de Aurelian, que siempre va un paso por delante |
+| Seguir el rastro de los antiguos miembros (Helena, Cassian, Isolde) | Los antiguos miembros | Aurelian, como testigo de lo que hicieron |
+| Entender qué buscan los Thalos | La familia Thalos | La mano invisible |
+| Otro objetivo que proponga la mesa | Lo que el DJ elija de los cuatro hilos | Lo que encaje |
+
+Elijan lo que elijan, Aurelian puede aparecer, pero de lado, nunca como premio: una taza aún caliente, una voz al otro lado de una puerta, unas huellas que se interrumpen. Ningún elemento de la isla cierra el misterio. Todos dan datos para que los jugadores formulen hipótesis y para que el DJ les haga preguntas.
 
 **Situación inicial.**
 
@@ -267,14 +353,14 @@ Una isla en mitad del océano del sueño. Se ve, pero no se acerca: no son los P
 Preguntas para la mesa:
 
 - ¿Qué edificación sobresale por encima de la vegetación? ¿Por qué es importante?
-- ¿Qué indica que la isla no está deshabitada? ¿Qué tiene que ver con Aurelian?
+- ¿Qué indica que la isla no está deshabitada? ¿Qué tiene que ver con lo que habéis venido a buscar?
 - ¿Qué hay en la playa que llama la atención de las gaviotas? ¿Por qué es peligroso?
 
 > Durante un instante creéis que el viaje ha terminado. Entonces pasan cinco minutos. Luego diez. Luego quizá una hora. La isla sigue exactamente igual de cerca. La nave avanza. Las velas obedecen. El timón responde. El agua se abre bajo la quilla. Pero la isla no se aproxima.
 >
 > Desde algún lugar bajo el mar llega un lamento. Profundo. Inmenso. Casi triste. El Leviatán no se ha ido. Solo estaba escuchando. Al mismo tiempo, un relámpago incendia el horizonte en el lado opuesto a la isla, y a los pocos segundos suena un trueno lejano. Tampoco la tormenta ha desaparecido.
 
-**Las presencias de la isla.** Aurelian no está solo en la isla. Los jugadores eligen quiénes son las presencias entre estas opciones; lo elegido se vuelve verdad.
+**Las presencias de la isla.** La isla no está vacía. Los jugadores eligen quiénes son las presencias entre estas opciones; lo elegido se vuelve verdad.
 
 1. **Los Custodios.** Fragmentos defensivos que solo protegen «la memoria central». Pueden aparecer como institutrices antiguas, enfermeras, bibliotecarios, muñecas mecánicas, sombras con llaves o niños sin boca.
 2. **Los Náufragos de Somnia.** Soñadores anteriores que llegaron a la isla y no pudieron irse. No están muertos. Peor: están estabilizados. Viven como habitantes absurdamente normales en una isla imposible: un pescador, una maestra, un farero, una mujer que cose velas. Todos repiten rutinas para no disolverse.
@@ -307,6 +393,8 @@ Preguntas para la mesa:
 | Aurelian | Está huyendo de alguien | Está esperando a alguien | No quiere que lo encuentren |
 | La llegada | Desembarcar despertará algo terrible | Desembarcar cerrará algo definitivamente | Desembarcar hará imposible regresar por el mismo camino |
 | Chen | Es un espía | Es un vórtice caótico del nivel cinco | Es una brecha del barco |
+| Los antiguos miembros | Uno de ellos sigue en la isla | Uno de ellos traicionó a los otros | Los tres hicieron lo mismo, cada uno a su manera |
+| La familia Thalos | Sabía dónde estaba Aurelian | Pagó para que no volviera | Quiere la isla, no al hijo |
 
 Si hacen falta más, el DJ las construye con el manual: un elemento que la mesa ya reconoce como importante y tres afirmaciones compatibles con la ficción, con consecuencias distintas y ninguna más cómoda que las otras.
 
@@ -316,7 +404,7 @@ Si hacen falta más, el DJ las construye con el manual: un elemento que la mesa 
 2. **¿Qué impide avanzar?** No hay derrumbes ni puertas, pero muy pocos han conseguido atravesarla. ¿Qué clase de obstáculo guarda este lugar? — La gruta recuerda a quienes la recorren y los obliga a enfrentarse a recuerdos que creían olvidados. — La gruta altera constantemente su arquitectura y solo permanece estable mientras alguien la interpreta bien. — La gruta está habitada por ecos de antiguos visitantes que intentan convencer a los PJ de abandonar. El DJ desarrolla ese obstáculo durante la exploración.
 3. **¿Qué protege la gruta?** No fue diseñada para impedir la entrada, sino la salida de algo. ¿Qué creéis que permanece encerrado bajo la isla? — Un recuerdo que podría reescribir la historia de Numinia. — Algo que Aurelian decidió encerrar cuando llegó a la isla. — Otra cosa que proponga la mesa. La elección no revela enseguida la verdad, pero condiciona las escenas posteriores.
 
-**Datos revelados.** Fragmentarios; los interpretan los jugadores. Se entrega uno por cada éxito del desembarco, en el orden que el DJ prefiera.
+**Datos revelados.** Fragmentarios; los interpretan los jugadores. Se entrega uno por cada éxito del desembarco, en el orden que el DJ prefiera. Valen para cualquier objetivo: el DJ los atribuye al hilo principal o los mezcla con los elementos de «Lo que guarda la isla».
 
 - *Textos recuperados.* «La campana seguía sonando, aunque nadie había tirado de la cuerda. Aurelian sonrió.» · «No volver al acantilado; las ventanas miran hacia abajo. Todavía respira…» · «El jardín… debajo… raíces de cristal…» · «No bajar solo la segunda escalera. La primera recuerda.» · «Ella volvió, pero nadie la vio entrar…» · «Todos los mapas, equivocados, excepto el suyo.» · «Las voces no vienen de abajo; vienen de detrás.»
 - *Audios recuperados.* Tres campanadas, una silla arrastrándose, una respiración. · Pasos sobre madera; una campana vibra una vez; una voz masculina muy baja: «…todavía espera». · Respiración acelerada de alguien que sube muchos escalones; la respiración desaparece, los pasos siguen. · Una niña tararea una nana, se detiene y pregunta: «¿Quién eres?»; la grabación termina antes de la respuesta. · Lluvia; no, agua; no, miles de páginas pasando a la vez; una puerta; estática. · Una sola voz: «…no la despiertes», «…todavía no», «…si recuerda…». · Campanas que no suenan, solo vibran, como si el tiempo se hubiera detenido antes del tañido. · Un lápiz que escribe muy deprisa durante casi un minuto. · El mar de fondo, un carraspeo, una taza contra una mesa, la silla que se mueve: alguien sigue allí.
@@ -324,7 +412,28 @@ Si hacen falta más, el DJ las construye con el manual: un elemento que la mesa 
 - *Vídeos recuperados.* Unas huellas en la playa que se llenan de agua desde dentro (4 s). · Una lámpara que se enciende, se apaga y se enciende en otra habitación (3 s). · Un hombre que escribe de espaldas; el vídeo termina antes de verle el rostro (6 s). · La cámara sube por una torre y, al llegar arriba, la escalera sigue descendiendo (5 s).
 - *Registro de proximidad.* «Presencia humana detectada. Corrección: presencias humanas detectadas. Corrección: número de presencias no concluyente.»
 
-**Los rastros de Aurelian.** Ya en la isla, Aurelian va dejando rastros de que estuvo allí unos momentos antes. Cada uno lleva una nota de su diario. Los jugadores las interpretan para su hipótesis final.
+### El mapa de la isla
+
+Mapa parcial: Torre / Campanario, Monumento Megalítico, Playa Principal, Bosque Nublado, Cala de los Acantilados y Entrada a la Gruta, con un recuadro de «Presencias en la isla».
+
+![Mapa ilustrado de una isla con una torre, una pirámide escalonada en el centro, una playa, un bosque, acantilados y la entrada de una gruta; a la derecha, un recuadro de presencias.](../../../assets/rol/navegantes/02-isla-lazarus-mapa.jpg)
+*Isla de Lazarus (mapa parcial). Aviso: el mapa recoge la isla tal como la construyó la mesa original. El edificio que sobresale, las presencias y lo que protege cada una son preguntas de este escenario; si la mesa aún no las ha respondido, el DJ enseña el mapa después o tapa lo que ya contesta. El recuadro de presencias incluye lecturas de la mesa original que no son hechos del módulo. La imagen no se retoca. Ilustración del módulo, hecha con IA. CC0.*
+
+### Lo que guarda la isla
+
+Cuatro hilos de elementos abiertos. Ninguno prueba nada por sí solo: cada uno sugiere y pregunta. Lo que los jugadores respondan se vuelve verdad en su aventura.
+
+**Cómo usarlos.**
+
+- Elige de tres a cinco elementos del hilo principal y uno o dos de otro hilo, como elementos transversales.
+- Colócalos en los lugares del mapa (el campanario, el Monumento Megalítico, la playa, el Bosque Nublado, la cala, la gruta) o ponlos en manos de las presencias que haya elegido la mesa.
+- Cuando los PJ encuentren un elemento, lanza una de sus preguntas. No confirmes ni desmientas las hipótesis: devuelve otra pregunta.
+- Anota lo que la mesa consolide. Es el material de la Resolución.
+- Un elemento que la mesa interprete bien puede convertirse en Pieza del Conflicto. En la Fase de Acción también se hallan Piezas, y cada una suma 1D6 a la reserva de la Tirada de Prisma.
+
+#### 1. Los rastros de Aurelian
+
+Ya en la isla, Aurelian va dejando rastros de que estuvo allí unos momentos antes. Cada uno lleva una nota de su diario. Los jugadores las interpretan para su hipótesis final. Si el objetivo es otro, el DJ usa uno o dos, sueltos.
 
 - **La taza de café.** Sobre un muro de piedra; el café aún humea y una gota acaba de resbalar por el borde. La hoja: «El Bosque Nublado no protege la isla. Protege lo que duerme bajo ella. Los retoños del Rey Leviatán no cazan por hambre. Cazan todo aquello que todavía recuerda demasiado bien la vigilia.»
 - **Un cuaderno abierto.** Una pluma aún balanceándose; la tinta no está seca. «Sigo buscando la cuerda. La campana existe. La oigo todas las noches. La cuerda no.»
@@ -334,10 +443,49 @@ Si hacen falta más, el DJ las construye con el manual: un elemento que la mesa 
 - **Un tablero de ajedrez.** La partida sigue colocada; las negras acaban de mover. «La Hechicera nunca miente. Solo responde a preguntas equivocadas.»
 - **El último.** No hay objeto. Solo huellas que llegan hasta una roca y se interrumpen, como si Aurelian hubiera dejado de existir allí mismo. Bajo una piedra: «Si estáis leyendo esto… entonces habéis llegado más lejos que yo la primera vez. No me busquéis donde desaparecen las huellas. Buscadme donde empieza el siguiente recuerdo.»
 
-**El mapa de la isla.** Mapa parcial: Torre / Campanario, Monumento Megalítico, Playa Principal, Bosque Nublado, Cala de los Acantilados y Entrada a la Gruta, con un recuadro de «Presencias en la isla».
+#### 2. Los antiguos miembros
 
-![Mapa ilustrado de una isla con una torre, una pirámide escalonada en el centro, una playa, un bosque, acantilados y la entrada de una gruta; a la derecha, un recuadro de presencias.](../../../assets/rol/navegantes/02-isla-lazarus-mapa.jpg)
-*Isla de Lazarus (mapa parcial). Aviso: el mapa recoge la isla tal como la construyó la mesa original. El edificio que sobresale, las presencias y lo que protege cada una son preguntas de este escenario; si la mesa aún no las ha respondido, el DJ enseña el mapa después o tapa lo que ya contesta. El recuadro de presencias incluye lecturas de la mesa original que no son hechos del módulo. La imagen no se retoca. Ilustración del módulo, hecha con IA. CC0.*
+Helena Noctua, Cassian Virel e Isolde Mareth dejaron huella en la isla, cada uno a su manera. Nada de lo que hay aquí demuestra qué hicieron ni hasta dónde llegó su implicación; todo permite preguntarlo. Lo que se sabe de ellos está en «Los antiguos miembros» y en el archivo de la logia (Fase de Investigación).
+
+**Helena Noctua**, la analista que, según dice, nunca entraba en los sueños.
+
+- **Una pared clasificada.** En una sala del campanario, alguien ha cubierto la pared de símbolos ordenados en columnas, con flechas y referencias cruzadas. Es la misma letra pulcra del fragmento de clasificación que Helena puede entregar en la Investigación, y parece la parte que le faltaba a ese esquema. Preguntas: si Helena nunca entró en los sueños, ¿cómo llegó su letra hasta aquí? ¿La trajo otro, la escribió ella o lo que entró fue otra cosa con su letra? ¿Qué falta ahora en la pared?
+- **Una grabación dictada.** En un magnetófono, una voz de mujer, tranquila, dicta: «Símbolo cuarenta y uno: la puerta cerrada desde dentro. Recurrencia: alta. Interpretación: pendiente. No dejar que él la abra todavía.» Preguntas: ¿quién es «él»? ¿Por qué no quería que la abriera?
+- **Un libro del Índice Ciego.** Un volumen con el sello de préstamo del Índice Ciego, la sala de textos inclasificables de la Biblioteca Atlantis. La última firma de la ficha de préstamo es de Helena, con una fecha posterior a la desaparición de Aurelian. El libro está en blanco salvo una página. Preguntas: ¿qué dice esa página? ¿Para quién sacó Helena el libro?
+
+**Cassian Virel**, que consumía sueños robados y vendía o usaba lo que encontraba en ellos.
+
+- **Etiquetas de tasación.** Por toda la isla hay objetos con una etiqueta atada con cordel: «Lote 14. Sueño de infancia, intacto». «Lote 22. Recuerdo de boda, con daños». «Lote 31. Pesadilla recurrente, alta demanda». Todas llevan las iniciales C. V. Preguntas: ¿quién compraba? ¿Qué lote falta y de quién era?
+- **Una negociación grabada.** Un audio: la voz de Cassian, cada vez más lejana, ofrece a alguien «el acceso». La otra voz nunca se oye: solo silencios que duran exactamente lo que dura una respuesta. Al final, Cassian dice: «Entonces, trato hecho. Pero él no puede saberlo». Preguntas: ¿con quién habla? ¿Qué es exactamente «el acceso»? ¿Quién es «él»?
+- **Una imagen de vigilancia.** Un vídeo de cámara de seguridad, con el emblema de la Égida Liminal en una esquina, filma la isla desde el mar. La fecha es reciente. Preguntas: ¿por qué vigila la Égida esta isla? ¿Lo sabe Cassian, o es él quien mira?
+- **Alguien que vendió.** Un habitante de la isla (uno de los Náufragos, si la mesa los eligió) no recuerda su nombre. Solo recuerda que vendió algo a un caballero muy amable que pagaba bien y hablaba poco. Preguntas: ¿qué vendió? ¿Se puede recuperar? ¿Qué le darían los PJ a cambio?
+
+**Isolde Mareth**, la arquitecta de experiencias que diseñaba los sueños.
+
+- **Los planos.** En un cajón hay planos de partes de la isla: el campanario, la gruta, una escalera. Están firmados con las iniciales I. M. y tienen una fecha anterior al Desborde. Los planos no coinciden del todo con la isla: en el papel, la gruta tiene salida al mar; en la isla, no. Preguntas: ¿existía la isla antes de que Isolde la dibujara? ¿Quién cambió lo que ella diseñó, y por qué?
+- **La maqueta.** Una maqueta perfecta y diminuta de la isla, bajo una campana de cristal. Falta una pieza, justo en el centro. Preguntas: ¿qué falta? ¿Quién se la llevó?
+- **El encargo.** Una nota manuscrita, de letra elegante y fría: «Requisitos del cliente: que no se pueda llegar a ella buscándola. Que sea ella quien elija. Que pueda guardar algo vivo sin que se despierte». La firma es ilegible; la palabra «cliente» está subrayada. Preguntas: ¿quién era el cliente? ¿Qué es ese «algo vivo»?
+- **La Aparejadora.** Una figura hecha de papel de calco, deshilachada por los bordes, recorre la isla midiendo y corrigiendo: levanta un escalón, borra una puerta, endereza una pared. Obedece las instrucciones de alguien que no está. Si le hablan, contesta con la voz de Isolde, pero no recuerda haberla tenido nunca. Preguntas: ¿es un resto de Isolde, una obra suya o su sustituta? ¿Qué instrucción está cumpliendo ahora?
+
+#### 3. La familia Thalos
+
+**Quiénes son.** Lucien Thalos, senador, y Khalira Zemorath, comisaria, son los padres de Aurelian. Viven en una mansión de la zona residencial alta del Distrito Solomon. Son poderosos y discretos: en público, la desaparición de su hijo no existe. Qué saben y qué quieren queda abierto; el módulo no lo responde. Si la mesa aún no los conoce, el DJ puede presentarlos durante la Investigación (una visita a la mansión, una noticia sobre el senador, un acto público) o dejar que los descubran aquí.
+
+- **El criado de librea.** Un criado biomecánico, con la librea de la casa Thalos, sigue en la playa con los preparativos de una celebración: pone la mesa, alisa el mantel, coloca los cubiertos de la familia. Si la mesa ha visto «La cena servida para cuatro», es él quien la sirvió. Preguntas: ¿qué celebración prepara? ¿Quién lo mandó a la isla, y cuándo? ¿Cuántos cubiertos pone?
+- **Un borrador de discurso.** Unas hojas con el membrete del Senado: un discurso de Lucien sobre regular el acceso al sueño colectivo. En el margen, con otra letra: «No antes de que vuelva». Debajo, tachado: «Si vuelve». Preguntas: ¿de quién es la letra del margen? ¿A quién conviene esa ley?
+- **Piezas de colección.** Algunos objetos de la isla (una lámpara, un retrato, una barrica) llevan una pequeña placa de inventario: «Colección Thalos-Zemorath. Comisariado: K. Z.». Preguntas: ¿es la isla, o parte de ella, una colección? ¿Qué pieza quería Khalira y todavía no tiene?
+- **Una llamada.** En una habitación vacía suena un teléfono antiguo. Si alguien contesta, una voz de mujer, educada y firme, pregunta: «¿Lo han encontrado ya?». Y antes de colgar: «Si lo encuentran, no nos traigan la verdad. Tráigannos algo que podamos usar». Preguntas: ¿qué cuenta como «algo que puedan usar»? ¿Cómo sabe ella que estáis aquí?
+- **Un dormitorio de niño.** Una habitación infantil, idéntica a una de las estancias del Abismo de Somnia: un caballito de madera, un libro abierto. En la pared hay mapas dibujados con lápices de colores de lugares que los PJ reconocen: el faro, la isla, el Café de los Escribas. Están firmados «A.», con letra de niño. Preguntas: ¿cuándo se dibujaron? ¿Cómo podía conocer ese niño esos lugares? ¿Lo sabían sus padres?
+
+#### 4. La mano invisible
+
+¿Quién hay detrás de la logia? Lo que se sabe está en los límites de los Espacios de Indeterminación: la logia vendía secretos a organismos, en casa de Isolde hay notas sobre una «entidad observadora externa» y una «solicitud de acceso a los repositorios», y las instituciones esquivan la pregunta. En la isla, esa mano deja huellas, nunca un rostro.
+
+- **La sala de las doce sillas.** Es la sala de reuniones del Abismo de Somnia: doce sillas, once ocupadas por figuras sin rostro. Aquí la duodécima ya no está vacía: hay un abrigo colgado en el respaldo y una taza aún caliente. Preguntas: ¿quién se sienta en la duodécima silla? ¿De qué se está hablando en esa reunión?
+- **La solicitud de acceso.** Un formulario oficial, «Solicitud de acceso a los repositorios», con el sello de un organismo que nadie reconoce: una brújula sin aguja, como la de la logia, pero con los cuatro párpados abiertos. Pone «Concedida». La firma está borrada con el mismo cuidado con el que una archivista borró los registros de la logia. Preguntas: ¿qué organismo usa ese sello? ¿Qué relación tiene con la brújula de los Navegantes?
+- **Los archivos reclamados.** En la gruta, cajas selladas con las referencias de la lista de archivos transferidos que hay en casa de Isolde. Cada caja lleva el mismo sello: «Reclamado». Preguntas: ¿quién los reclamó y con qué derecho? ¿Qué caja falta?
+- **El observador.** Una presencia que los PJ solo perciben de reojo: alguien toma notas. Si lo buscan, solo encuentran un cuaderno con descripciones exactas de lo que han hecho en la isla, escritas antes de que lo hicieran. Preguntas: ¿quién os observa, y desde cuándo? ¿Para quién escribe?
+- **La radio.** Una radio de onda corta crepita en el campanario. Entre interferencias se oye una voz que recita códigos: «Anomalía del Velo en el sector de Lúnacar. Activos en la isla. No intervenir. Repito: no intervenir». Preguntas: ¿quiénes son los «activos»? ¿Quién da la orden, y por qué no intervienen?
 
 ### Enfrentamientos de la isla
 
@@ -415,6 +563,13 @@ Se juegan con el sistema de enfrentamientos: el DJ describe sin enumerar anclaje
 
 ### Cuándo termina la Acción
 
-En la campaña original, la Acción terminaba al llegar al interior de la isla: por la playa principal, si la isla los aceptaba, o por la cala y la gruta. Cada mesa fija sus propias condiciones según el objetivo que eligió en la Reflexión.
+La Acción termina cuando el grupo llega al centro de la isla, el Monumento Megalítico, y se enfrenta a lo que guarda. Qué hay allí depende del objetivo y de lo que la mesa haya consolidado en la isla. El módulo no lo escribe; estas preguntas sirven de punto de partida:
+
+- **Encontrar a Aurelian.** ¿Qué queda de Aurelian, y quiere volver?
+- **Quién hay detrás de la logia.** ¿Quién ocupa la duodécima silla, y qué quiere de los PJ?
+- **Los antiguos miembros.** ¿Cuál de los tres está aquí, en persona o en lo que dejó?
+- **La familia Thalos.** ¿Qué guardaban los Thalos en la isla, y a quién pertenece ahora?
+
+En la campaña original, la Acción terminó al llegar al interior de la isla: por la playa principal, si la isla aceptaba a los PJ, o por la cala y la gruta. Cada mesa fija sus propias condiciones según el objetivo que eligió en la Reflexión.
 
 El paso a la Resolución debe resultar casi espontáneo para los jugadores, aunque el DJ siempre dice que se ha entrado en la nueva fase.
