@@ -18,7 +18,7 @@ Este módulo no trae escrito el desenlace. Lo que se resuelve aquí es lo que la
 
 La Resolución empieza cuando los PJ ya no intentan llegar al núcleo del Conflicto, sino que se enfrentan a sus consecuencias definitivas. El DJ marca el paso y dice que se ha entrado en la nueva fase, pero para los jugadores debe sentirse espontáneo: pasan de una fase a otra sin entender del todo cómo.
 
-Antes de la Fase de Acción, la mesa eligió entre encontrar a Aurelian Thalos o resolver el misterio de la logia. La Resolución cierra lo que se eligió, no lo otro. Las preguntas que queden fuera pueden seguir abiertas: en Numinia es frecuente que el cierre no resuelva todas las incógnitas.
+Antes de la Fase de Acción, la mesa eligió un objetivo: encontrar a Aurelian Thalos, descubrir quién hay detrás de la logia, seguir el rastro de los antiguos miembros, entender qué buscan los Thalos u otro. La Resolución cierra lo que se eligió, no lo demás. Las preguntas que queden fuera pueden seguir abiertas: en Numinia es frecuente que el cierre no resuelva todas las incógnitas.
 
 La fase es más corta que la Acción y aumenta la sensación de vértigo. No se abren aquí líneas nuevas de investigación ni conflictos secundarios. Todo tiende hacia la consecuencia.
 
@@ -35,7 +35,7 @@ La fase es más corta que la Acción y aumenta la sensación de vértigo. No se 
 
 | Operador | Qué pregunta | Dónde buscarlo en esta aventura |
 |---|---|---|
-| Epistémico | Qué puede llegar a conocerse; qué se revela y qué queda oculto | Lo que la mesa haya respondido sobre qué es hoy Aurelian o qué hay detrás de la logia (Espacios 5 y 6) |
+| Epistémico | Qué puede llegar a conocerse; qué se revela y qué queda oculto | Lo que la mesa haya consolidado sobre su objetivo: qué es hoy Aurelian, qué hay detrás de la logia (Espacios 5 y 6), qué hicieron los antiguos miembros o qué saben los Thalos |
 | Deóntico | Qué regla, obligación o prohibición entra en juego | Lo que alguien exige a los PJ, o lo que pasa si no cumplen |
 | Alético | Qué puede o no puede llegar a ocurrir, y en qué condiciones | La forma de volver: qué hace falta para salir del sueño, o para cerrar lo que la mesa haya abierto |
 | Axiológico | Qué valor adquiere lo que está sucediendo | Qué merece salvarse y qué cuesta salvarlo |
@@ -66,7 +66,7 @@ Los términos «luminoso» y «oscuro» no son del manual. Son un recurso de la 
 
 ### Ejemplo de forma: la rama «Encontrar a Aurelian»
 
-Lo que sigue muestra la forma de las cuatro Tiradas tal como se prepararon para la isla de Lazarus. Se ha quitado todo lo que salió de la mesa original: lo que revelaba Aurelian, quién hablaba en su nombre y qué estaba en juego. Donde iba eso, el DJ pone lo que haya consolidado la suya. Si la mesa eligió resolver el misterio de la logia, la forma vale igual con otro contenido.
+Lo que sigue muestra la forma de las cuatro Tiradas tal como se prepararon para la isla de Lazarus. Se ha quitado todo lo que salió de la mesa original: lo que revelaba Aurelian, quién hablaba en su nombre y qué estaba en juego. Donde iba eso, el DJ pone lo que haya consolidado la suya. Con otro objetivo, la forma vale igual: ver «Las cuatro preguntas según el objetivo».
 
 **Tirada epistémica: la revelación**
 
@@ -113,6 +113,40 @@ Rasgos que el DJ puede usar como anclajes:
 
 Sus anclajes fijos y variables están en el enfrentamiento «Retoño del Rey Leviatán», en «Enfrentamientos de la isla» de la Fase de Acción.
 
+### Las cuatro preguntas según el objetivo
+
+Cada objetivo plantea sus propias cuatro preguntas. Son puntos de partida: el DJ las reformula con lo que la mesa haya consolidado en la isla, sobre todo con los elementos de «Lo que guarda la isla» que hayan interpretado. La Tirada decide por qué camino sigue la historia, no qué es verdad.
+
+**Encontrar a Aurelian Thalos.**
+
+- Epistémica: ¿qué es hoy Aurelian?
+- Deóntica: ¿qué les pide a los PJ, o qué le deben ellos?
+- Alética: ¿puede volver, y a qué precio?
+- Axiológica: ¿merece la pena traerlo de vuelta?
+
+**Descubrir quién hay detrás de la logia.**
+
+- Epistémica: ¿cuánto se deja ver la mano invisible? ¿Quién ocupa la duodécima silla?
+- Deóntica: ¿qué exige a los PJ a cambio de dejarlos marchar con lo que saben?
+- Alética: ¿se puede romper su control sobre la isla, o solo esquivarlo?
+- Axiológica: ¿qué vale más, la verdad o la seguridad de quienes la conocen?
+
+**Seguir el rastro de los antiguos miembros.**
+
+- Epistémica: ¿qué hizo de verdad cada uno de los tres?
+- Deóntica: ¿a quién deben entregar lo que han descubierto: a la ciudad, a los propios implicados, a nadie?
+- Alética: ¿se puede deshacer lo que hicieron?
+- Axiológica: ¿merece alguno de los tres ser perdonado?
+
+**Entender qué buscan los Thalos.**
+
+- Epistémica: ¿qué sabían, y desde cuándo?
+- Deóntica: ¿cumplen los PJ el encargo de llevarles «algo que puedan usar»?
+- Alética: ¿pueden los Thalos recuperar lo que guardaban en la isla?
+- Axiológica: ¿qué valor tiene lo que guardaban, y para quién?
+
+La salida de la isla (la campana y el portal de la gruta, en la Tirada alética del ejemplo) y el último guardián (en la axiológica) sirven para cualquier objetivo.
+
 ### Escenas de apoyo
 
 **La Senda de la Hechicera del Sueño**
@@ -151,7 +185,7 @@ La niebla lo envuelve. Por un momento su propio nombre pierde significado. Enton
 
 Cuando termina la Resolución, algo ha cambiado. Queda en Numinia alguna huella de la aventura. El DJ ya no narra posibilidades intactas, como en la Presentación: narra las consecuencias de una historia que pertenece a todos.
 
-Si alguna aportación de la mesa merece quedarse en el mundo, sigue el protocolo de canon: aportación, aportación consolidada, aportación canonizada. El módulo base no presupone ninguna.
+Si alguna aportación de la mesa merece quedarse en el mundo, sigue el protocolo de canon: aportación, aportación consolidada y aportación inscrita en el Corpus Numiniense (ver el apéndice, «Aportaciones que trascienden la aventura»). El módulo base no presupone ninguna.
 
 Un epílogo alternativo, el despertar a los siete días y el entierro, está en el Anexo C.
 

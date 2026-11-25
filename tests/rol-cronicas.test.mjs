@@ -42,7 +42,7 @@ function nombresPJ() {
 
 /** Lo que es solo de nuestra mesa y no puede salir en el módulo base (modulo/_BRIEF.md). */
 const SOLO_MESA = [
-  "Elizabeth", "EID-5", "EID", "Lázarus", "punto de persistencia", "Lucien", "Khalira",
+  "Elizabeth", "EID-5", "EID", "Lázarus", "punto de persistencia", "Devan",
   "Bucle de Retención", "Nivel VI", "red neuronal", "Tratado de modelaje", "cereza",
   "Puertas Ciegas", "Hipótesis Fragmentaria", "Stellar Circle", "Energía",
 ];

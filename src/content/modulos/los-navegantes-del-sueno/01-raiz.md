@@ -70,7 +70,7 @@ Lo que es verdad al empezar. El DJ no lo negocia. Lo que significan estos hechos
 **Los antiguos miembros hoy**
 
 23. Helena Noctua, Cassian Virel e Isolde Mareth siguen en la ciudad. El PJ Oniromante los conoce, al menos de nombre.
-24. Helena Noctua (humanita, Neo-Atlantes) trabaja en el Distrito Vitruvian. Es la única de los tres que no figura en los registros públicos como posible exmiembro. Es Jefa de Recursos en la Sociedad Histórica..
+24. Helena Noctua (humanita, Neo-Atlantes) trabaja en el Distrito Vitruvian. Es la única de los tres que no figura en los registros públicos como posible exmiembro. Es Jefa de Recursos en la Sociedad Histórica.
 25. Cassian Virel (cyanita, Círculo Estelar) trabaja en seguridad en la Égida Liminal, una fortificación itinerante de la periferia. Solo se contacta con ella a través del Órgano de Defensa, en Solomon. A él no se puede acceder.
 26. Isolde Mareth (espectral, Neo-Atlantes) es asesora independiente de la Academia del Umbral Anímico. Trabaja desde su casa, en Sycamore. Niega cualquier vínculo con la logia.
 
