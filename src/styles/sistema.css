@@ -1471,6 +1471,39 @@
   .tz-ediciones .tz-registro-meta { margin-top: var(--e-2); gap: var(--e-1) var(--e-4); }
   .tz-ediciones .tz-estado { white-space: normal; }
 
+  /* --- 4.17 octies Portada de Rol: dos puertas, «Ludoteca» y «Crónicas» (2026-11-25) ---
+     Cada puerta: imagen (tira de portadas oficiales §2 bis / ilustración de módulo §2 ter), crédito,
+     titular grande y lista de enlaces anchos (≥ 56 px). Estado: se invierte (tinta sobre papel → papel sobre tinta). */
+  .tz-puertas { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-8) var(--e-7); margin: var(--e-7) 0 var(--e-9); }
+  @media (min-width: 64rem) { .tz-puertas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tz-puerta { display: flex; flex-direction: column; min-width: 0; }
+  .tz-puerta-imagen { aspect-ratio: 16 / 10; border: var(--f-fino) solid var(--tinta); overflow: hidden; background: var(--tinta); }
+  .tz-puerta-foto, .tz-puerta-imagen picture { display: block; width: 100%; height: 100%; }
+  .tz-puerta-imagen img.tz-puerta-foto, .tz-puerta-foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+  .tz-puerta-imagen--tira { display: flex; align-items: center; justify-content: center; gap: var(--e-5); padding: var(--e-5) var(--e-6); background: var(--papel); }
+  .tz-puerta-portada { flex: 1 1 0; min-width: 0; max-width: 12rem; margin: 0; }
+  .tz-puerta-portada picture { display: block; }
+  .tz-puerta-portada img { display: block; width: 100%; height: auto; }
+  .tz-puerta-portada .tz-portada-credito { margin: var(--e-2) 0 0; }
+  .tz-puerta .tz-puerta-figura { margin: 0; max-width: none; }
+  .tz-puerta .tz-puerta-figura .tz-puerta-imagen img { border: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+  .tz-puerta-credito { margin: var(--e-2) 0 0; font-size: var(--t-0); line-height: 1.5; color: var(--tinta-2); }
+  .tz-puerta-credito a { color: var(--tinta); text-decoration: underline; }
+  .tz-puerta-rotulo { margin: var(--e-6) 0 0; font-size: var(--t-0); color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .tz-puerta-titulo { margin: var(--e-1) 0 0; font-family: var(--letra-titular); font-weight: var(--p-fino); font-size: clamp(2.75rem, 1.6rem + 4vw, 4.5rem); line-height: 1; letter-spacing: -0.01em; }
+  .tz-puerta-texto { margin: var(--e-4) 0 var(--e-5); font-size: var(--t-2); line-height: 1.45; max-width: 34rem; }
+  .tz-puerta-enlaces { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-medio) solid var(--tinta); }
+  .tz-puerta-enlaces li { border-top: var(--f-medio) solid var(--tinta); }
+  .tz-puerta-enlaces a {
+    display: flex; align-items: center; gap: var(--e-4); min-height: 3.5rem; padding: var(--e-3) var(--e-3);
+    color: var(--tinta); text-decoration: none; font-size: var(--t-2); line-height: 1.3;
+  }
+  .tz-puerta-enlaces a:hover { background: var(--tinta); color: var(--papel); }
+  .tz-puerta-enlaces a:hover .tz-puerta-detalle, .tz-puerta-enlaces a:hover .tz-puerta-cifra { color: var(--papel); }
+  .tz-puerta-nombre { flex: 1; min-width: 0; font-family: var(--letra-titular); }
+  .tz-puerta-detalle { display: block; margin-top: var(--e-1); font-family: var(--letra-texto); font-size: var(--t-0); color: var(--tinta-2); }
+  .tz-puerta-cifra { font-size: var(--t-1); color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+
   /* --- 4.17 septies Crónicas de mesa: módulos, campañas y mesas (Rol 7/8, 2026-11-24) ---
      Ilustraciones del módulo: tercera excepción de imagen del sistema (proyecto/docs/diseno.md §2 ter).
      Solo dentro de .tz-modulo-imagen: figura con filete fino, sin redondeos ni sombras, y pie debajo. */

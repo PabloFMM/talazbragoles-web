@@ -40,6 +40,10 @@ Decisión del grupo (2026-11-23, manda sobre el «hueco tipográfico» de la fas
 - **Componentes**: `PortadaJuego` (imagen o hueco) y `CreditoPortada`; clases `tz-portada-figura`, `tz-portada-img`, `tz-portada-credito` (`sistema.css` §4.17 quinquies). Muestra en `/diseno/` §13.
 - **Auditoría**: `tests/auditoria-sitio.js` sigue marcando cualquier imagen visible salvo `.tz-portada-img` y los documentos y objetos de época (`.tz-documento-imagen`, con alt de ≥ 20 caracteres, `width` y `height` obligatorios); a la portada le exige alt «Portada de … (…)» y medidas. `tests/rol-publicado.test.mjs` y `tests/rol-referencias.test.mjs` comprueban alt, medidas, AVIF/WebP, crédito con enlace y fuente oficial.
 
+## 2 quater. Portada de Rol: dos puertas con imagen (2026-11-25)
+
+`/rol/` abre con dos «puertas» (`.tz-puertas`, `sistema.css` §4.17 octies): **Ludoteca** (imagen = tira de hasta tres portadas oficiales de lo jugado, §2 bis, cada una con su crédito «Portada: <editorial>» debajo) y **Crónicas** (imagen = una ilustración de módulo, §2 ter, dentro de `figure.tz-modulo-imagen.tz-puerta-figura` con pie). Titular grande en Source Serif fino, entradilla y lista de enlaces anchos (≥ 56 px, filete medio) que se invierten al pasar el ratón. Una columna hasta 64rem; dos desde ahí.
+
 ## 2 ter. Excepción de imagen: ilustraciones de los módulos de Rol (Rol 7/8, 2026-11-24, tarjeta `t_a152be1b`)
 
 Tercera excepción, con las portadas oficiales (§2 bis) y los documentos de época: las **ilustraciones de un módulo de aventura** (hoy, las 9 de «Los Navegantes del Sueño»). Son parte del módulo (mapas, planos, carteles que se enseñan a los jugadores), las hizo con IA quien lo escribió y se publican con el módulo en CC0.
