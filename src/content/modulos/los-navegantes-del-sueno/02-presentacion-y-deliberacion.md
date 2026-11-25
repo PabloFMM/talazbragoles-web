@@ -99,6 +99,9 @@ Las preguntas marcadas «(Privado)» las responde el jugador a solas con el DJ. 
 
 #### Lo que el PJ sabe
 
+![Retrato de un hombre de piel verdosa y rasgos de reptil, de perfil, con la mirada hacia arriba; lleva un aparato de lentes y engranajes sobre la oreja, gafas en la frente, un abrigo raído y collares.](../../../assets/rol/navegantes/10-retrato-aurelian-thalos.jpg)
+*Aurelian Thalos, el oniromante que aparece en el sueño: así lo recuerda el PJ Oniromante. Mestizo humanita-reptiliano. Ilustración del módulo, hecha con IA. CC0.*
+
 - Aurelian Thalos era un antiguo compañero oniromante. Muy osado. Entraba en sueños ajenos hasta capas muy profundas. Se llamaba a sí mismo «cartógrafo de los sueños».
 - Aurelian Thalos fundó una logia, los Navegantes del Sueño, que actuaba al límite de la ley traficando con información obtenida en los sueños.
 - La logia dejó de operar hace siete años.
