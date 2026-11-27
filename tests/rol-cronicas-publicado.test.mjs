@@ -72,12 +72,12 @@ test("la autoría real solo sale en las páginas del módulo", () => {
   }
 });
 
-test("la campaña: aviso de destripe, licencia CC BY, DJ, reparto, jornadas y fichas del Tesaurum Verba", () => {
+test("la campaña: aviso de destripe, licencia CC BY, DJ, reparto, sesiones y fichas del Tesaurum Verba", () => {
   const html = pagina(`/rol/campanas/${MODULO}/`);
   assert.match(html, /aria-label="Aviso de destripe"/);
   assert.match(html, /href="\/rol\/licencias\/cc-by-4\.0\/"/);
   assert.match(html, /<dt>Quién dirige<\/dt>\s*<dd>\s*DJ\s*<\/dd>/);
-  assert.equal((html.match(/class="tz-jornada"/g) || []).length, 15);
+  assert.equal((html.match(/class="tz-sesion"/g) || []).length, 14);
   assert.ok((html.match(/Registro del Tesaurum Verba/g) || []).length >= 5);
   assert.match(html, new RegExp(`href="/rol/modulos/${MODULO}/"`));
 });

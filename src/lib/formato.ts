@@ -50,11 +50,11 @@ export const estadoCampana: Record<Campo<"campanas", "estado">, string> = {
   pendiente: "Pendiente",
 };
 
-type Jornada = Campo<"campanas", "jornadas">[number];
+type Sesion = Campo<"campanas", "sesiones">[number];
 type Aportacion = Campo<"campanas", "aportaciones">[number];
 
-/** Estado del dato de una jornada de campaña. */
-export const estadoJornada: Record<Jornada["estado"], string> = {
+/** Estado del dato de una sesión de campaña. */
+export const estadoSesion: Record<Sesion["estado"], string> = {
   documentado: "Documentado",
   deducido: "Deducido",
   pendiente: "Pendiente",
