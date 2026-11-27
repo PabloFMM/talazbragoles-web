@@ -2,12 +2,14 @@
 /**
  * /rol/campanas/<slug>/: una campaña o aventura jugada por nuestra mesa (Rol 7/8, 2026-11-24).
  * Aviso de destripe, ficha (juego, mesa, módulo, fechas, jornadas, licencia CC BY 4.0),
- * reparto (SOLO personajes), cronología por jornadas, «La verdad de nuestra mesa»
+ * reparto (SOLO personajes, con retrato si lo hay), cronología por jornadas (con los PNJ y criaturas
+ * en la jornada en que aparecen por primera vez), «La verdad de nuestra mesa»
  * (cuerpo del .md) y «Lo que esta aventura aportó a Numinia», con una ficha
  * «Registro del Tesaurum Verba» por aportación (ancla: anclaAportacion()).
  * Privacidad: quien dirige sale como «DJ»; ningún nombre real (lo vigila el esquema).
  */
 import { getEntry, render } from "astro:content";
+import { Picture } from "astro:assets";
 import Layout from "../../../layouts/Layout.astro";
 import Encabezado from "../../../components/sistema/Encabezado.astro";
 import Titulo from "../../../components/sistema/Titulo.astro";
@@ -116,6 +118,9 @@ const datosAportacion = (a: (typeof d.aportaciones)[number]): Dato[] => [
           {d.reparto.map((r, i) => (
             <article class="tz-ficha">
               <div class="tz-ficha-cabeza"><span class="tz-num">{dosCifras(i + 1)}</span><span /></div>
+              {r.retrato && (
+                <Picture src={r.retrato.archivo} alt={r.retrato.alt} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[320, 480, 720]} sizes="(min-width: 64rem) 22rem, calc(100vw - 2rem)" quality={60} class="tz-retrato-pj" loading="lazy" decoding="async" />
+              )}
               <div class="tz-ficha-cuerpo">
                 <h3 class="tz-ficha-titulo">{r.personaje}</h3>
                 <Datos datos={[
@@ -151,6 +156,16 @@ const datosAportacion = (a: (typeof d.aportaciones)[number]): Dato[] => [
               <p class="tz-jornada-texto"><Pendiente />{j.quePaso ? <>: {j.quePaso.trim().replace(/^pendiente\s*/i, "").replace(/^\((.*)\)\.?/, "$1.")}</> : "."}</p>
             ) : (
               <p class="tz-jornada-texto">{j.quePaso}</p>
+            )}
+            {j.imagenes.length > 0 && (
+              <div class="tz-jornada-imagenes">
+                {j.imagenes.map((im) => (
+                  <figure class="tz-modulo-imagen tz-jornada-imagen">
+                    <Picture src={im.archivo} alt={im.alt} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[320, 480, 720]} sizes="(min-width: 48rem) 15rem, calc(100vw - 2rem)" quality={60} loading="lazy" decoding="async" />
+                    <figcaption>{im.pie}</figcaption>
+                  </figure>
+                ))}
+              </div>
             )}
           </li>
         ))}

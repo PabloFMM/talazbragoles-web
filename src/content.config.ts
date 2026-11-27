@@ -568,7 +568,7 @@ const aportacion = z.object({
 /** Campaña o aventura jugada por una mesa (`src/content/campanas/<slug>.md`). Cuerpo: «La verdad de nuestra mesa». */
 const campanas = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/campanas" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     titulo: z.string(),
     juego: reference("juegos"),
     mesa: reference("mesas"),
@@ -594,6 +594,8 @@ const campanas = defineCollection({
         concepto: z.string().optional(),
         escena: z.number().int().min(1).optional(), // escena de la Fase de Presentación
         nota: z.string().optional(),
+        /** Retrato del personaje (imagen aportada por el DJ), en `src/assets/rol/<campaña>-aventura/`. */
+        retrato: z.object({ archivo: image(), alt: z.string().min(20) }).strict().optional(),
       }).strict()
     ).default([]),
     jornadas: z.array(
@@ -604,6 +606,8 @@ const campanas = defineCollection({
         /** documentado = lo cuenta un resumen de la jornada; deducido = se infiere
          *  de otros textos (se dice de cuáles en `quePaso`); pendiente = sin texto aún. */
         estado: z.enum(["documentado", "deducido", "pendiente"]),
+        /** Imágenes de PNJ y criaturas en la jornada en que aparecen por primera vez (decisión 60). */
+        imagenes: z.array(z.object({ archivo: image(), alt: z.string().min(20), pie: z.string() }).strict()).default([]),
       }).strict()
     ).default([]),
     aportaciones: z.array(aportacion).default([]),

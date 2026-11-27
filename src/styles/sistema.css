@@ -1611,6 +1611,12 @@
   .tz-registro-tv .tz-ficha-cabeza .tz-rotulo { color: var(--tinta); }
 
   /* Cronología de una campaña: jornada a jornada */
+  /* Aventura (2026-11-27): retrato del PJ en su ficha del reparto e imágenes de PNJ y criaturas en la
+     jornada en que aparecen. Figuras de la misma familia que .tz-modulo-imagen (filete fino, pie debajo). */
+  .tz-retrato-pj, .tz-ficha picture { display: block; }
+  img.tz-retrato-pj, .tz-ficha picture img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%; border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-jornada-imagenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: var(--e-5) var(--e-4); margin-top: var(--e-5); max-width: 46rem; }
+  .tz-jornadas .tz-jornada-imagen { margin: 0; max-width: 20rem; }
   .tz-jornadas { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
   .tz-jornada { padding-block: var(--e-5); border-top: var(--f-fino) solid var(--filete); }
   .tz-jornada:first-child { border-top: var(--f-medio) solid var(--tinta); }
