@@ -581,6 +581,8 @@ const campanas = defineCollection({
     versionManual: z.string().optional(), // edición del juego con la que se jugó
     licencia: licenciaCampana,
     atribucion: z.string(), // «Talazbrágoles»
+    /** Quién hizo las ilustraciones (retratos y criaturas) y con qué licencia. */
+    ilustraciones: z.string().optional(),
     /** Quien dirige sale siempre como «DJ» (decisión 1). */
     direccion: z.literal("DJ"),
     /** Aviso de destripe: la aventura desvela el módulo base. */

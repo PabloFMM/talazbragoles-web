@@ -56,6 +56,7 @@ const datos: Dato[] = [
   { etiqueta: "Fechas", valor: fechas },
   { etiqueta: "Sesiones", valor: d.numeroSesiones ? `${d.numeroSesiones.aproximado ? "Unas " : ""}${d.numeroSesiones.n}` : undefined },
   { etiqueta: "Quién dirige", valor: d.direccion },
+  { etiqueta: "Ilustraciones", valor: d.ilustraciones },
   { etiqueta: "Licencia", enlaces: licencia ? [{ texto: licencia.data.nombre, href: hrefLicencia(licencia.id), detalle: `; atribución: ${d.atribucion}` }] : [] },
 ];
 
