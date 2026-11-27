@@ -70,7 +70,7 @@ jornadas:
   - n: 3
     titulo: "En busca de los sueños perdidos"
     estado: "documentado"
-    quePaso: "El grupo se separa para investigar. Lyrien sigue en el Vórtice de los Sueños, donde Ormund Kohler le reprocha sus negligencias y le insinúa que robó un libro de la Cámara de Palimpsestos; después se encuentra con Maldon Klyne. Kivrin va al Foro de los Laberintos y Uruk y Lisander, a la mansión de la familia Thalos, en Solomon. El resto de la jornada, pendiente (se completará con los audios)."
+    quePaso: "El grupo se separa para investigar. Lyrien sigue en el Vórtice de los Sueños, donde Ormund Kohler le reprocha sus negligencias y le insinúa que robó un libro de la Cámara de Palimpsestos; después se encuentra con Maldon Klyne. Kivrin va al Foro de los Laberintos; Kharos Galathas acaba dejándola sola en el callejón al que da la puerta de atrás de la taberna, donde una rejilla del suelo suelta un humo que se convierte en un Dragón de Voluta. Uruk y Lisander van a la mansión de la familia Thalos, en Solomon. El resto de la jornada, pendiente (se completará con los audios)."
     imagenes:
       - archivo: "../../assets/rol/navegantes-aventura/A09-pnj-elyra-senn.jpg"
         alt: "Retrato de una mujer de pelo azulado con un tocado puntiagudo de bronce, pendientes redondos y túnica marrón de cuello alto; al fondo, rascacielos dentro de un marco ornamental."
@@ -78,6 +78,9 @@ jornadas:
       - archivo: "../../assets/rol/navegantes-aventura/A11-pnj-kharos-galathas.jpg"
         alt: "Retrato de un reptiliano de piel clara con bombín y gafas de latón sobre el ala, abrigo naranja y fular turquesa con medallones; al fondo, torres ante un arco con letras."
         pie: "Kharos Galathas, diseñador de trampas del Foro de los Laberintos."
+      - archivo: "../../assets/rol/navegantes-aventura/A06-criatura-dragon-de-voluta.jpg"
+        alt: "Criatura de cuatro patas, de cuerpo negro y escamoso envuelto en volutas de humo blanco, con cuernos largos y ojos brillantes, agazapada en un callejón mojado con un rótulo de neón rosa."
+        pie: "Dragón de Voluta, en el callejón de la taberna."
       - archivo: "../../assets/rol/navegantes-aventura/A08-pnj-devan-thalos.jpg"
         alt: "Retrato de un muchacho de pelo rizado y orejas con aletas, con gafas de aviador en la frente, pañuelo azul y chaqueta marrón con correas; al fondo, torres dentro de un círculo ornamental."
         pie: "Devan Thalos, hermano menor de Aurelian, en la mansión de la familia."
