@@ -24,21 +24,33 @@ reparto:
     especie: "Espectral"
     concepto: "Oniromante atormentado por sus escarceos en el mundo del sueño, con negligencias a su espalda y un ansia de saber que no controla. Estudió en el Vórtice de los Sueños cuando Aurelian ya iba unos niveles por delante; el grupo de Aurelian lo invitaba a sus sueños y lo abandonaba dentro."
     escena: 1
+    retrato:
+      archivo: "../../assets/rol/navegantes-aventura/A02-pj-lyrien.jpg"
+      alt: "Retrato de perfil de una figura de piel muy pálida y labios oscuros, con gorro negro puntiagudo y auriculares mecánicos, abrigo negro de cuello alto y guantes; al fondo, una torre ante un arco ornamental."
   - personaje: "Uruk Zha'el"
     posicion: "Armonauta"
     especie: "Reptiliano"
     concepto: "Perdió a su pareja y a su hijo en el parto; el niño no llegó a nacer. Acudió a la logia para curar el duelo y sintió que buscaban algo en su cabeza."
     escena: 2
+    retrato:
+      archivo: "../../assets/rol/navegantes-aventura/A04-pj-uruk.jpg"
+      alt: "Retrato de un reptiliano de piel verde con una lente redonda sobre un ojo, levita granate con capa, chaleco con engranajes y guantes; al fondo, una ciudad de torres bajo nubes."
   - personaje: "Kivrin Basingame"
     posicion: "Maestra de Juego"
     especie: "Humanita"
     concepto: "Diseñó Nexum, el protocolo con el que la logia bajaba a lo más hondo del sueño. Lee las señales con juegos y con el tarot."
     escena: 3
+    retrato:
+      archivo: "../../assets/rol/navegantes-aventura/A01-pj-kivrin.jpg"
+      alt: "Retrato de una mujer de pelo recogido bajo un gorro puntiagudo con gafas de aviador, chaleco de cuero, mangas acolchadas y guantes; al fondo, una ciudad de torres entre nubes."
   - personaje: "Lisander Caldor"
     posicion: "Corredor del Velo"
     concepto: "Mediaba entre la familia de Aurelian y su hijo: le llevaba cada mes la asignación con la que la familia lo quería lejos de los focos, hasta que le ordenaron suspenderla."
     escena: 4
     nota: "Dejó la partida antes de que el grupo entrara en el sueño. Desde la jornada 9 juegan tres."
+    retrato:
+      archivo: "../../assets/rol/navegantes-aventura/A03-pj-lisander.jpg"
+      alt: "Retrato de un hombre maduro de pelo canoso y perilla que mira hacia arriba con un pincel en la mano, chorrera blanca, chaleco naranja y levita con piezas de latón; al fondo, engranajes y una luna."
 jornadas:
   - n: 1
     titulo: "Un ciclo de aventuras oníricas"
@@ -47,11 +59,28 @@ jornadas:
   - n: 2
     titulo: "La mesa de las revelaciones"
     estado: "documentado"
-    quePaso: "En el Café de los Escribas cada uno cuenta su relación con la logia: Lyrien estudió con Aurelian y fue abandonado en sus sueños; Uruk acudió a la logia tras perder a su familia; Kivrin diseñó Nexum; Lisander llevaba a Aurelian el dinero de su familia y creía que se había ido a la periferia, hasta saber por Lyrien que llevaba siete años desaparecido."
+    quePaso: "En el Café de los Escribas cada uno cuenta su relación con la logia: Lyrien estudió con Aurelian y fue abandonado en sus sueños; Uruk acudió a la logia tras perder a su familia; Kivrin diseñó Nexum; Lisander llevaba a Aurelian el dinero de su familia y creía que se había ido a la periferia, hasta saber por Lyrien que llevaba siete años desaparecido. Deciden separarse para investigar. Al final de la jornada, Lyrien llega al Vórtice de los Sueños: ve de lejos a su antiguo maestro, el oniromante Maldon Klyne, y le corta el paso Ormund Kohler, el archivista biomecánico de las misiones de los oniromantes, enfadado con él por su última misión."
+    imagenes:
+      - archivo: "../../assets/rol/navegantes-aventura/A12-pnj-maldon-klyne.jpg"
+        alt: "Retrato de un espectral calvo de piel gris pálida, con pendientes en espiral, collares de cuentas y túnica de dibujos naranjas y turquesa; detrás, un gran disco dorado y torres."
+        pie: "Maldon Klyne, oniromante y antiguo maestro de Lyrien."
+      - archivo: "../../assets/rol/navegantes-aventura/A13-pnj-ormund-kohler.jpg"
+        alt: "Retrato de un hombre corpulento con cicatrices, implantes metálicos en la cabeza y ojos verdes, con armadura de discos y engranajes y un brazo mecánico; al fondo, torres entre la niebla."
+        pie: "Ormund Kohler, el archivista de las misiones de los oniromantes."
   - n: 3
     titulo: "En busca de los sueños perdidos"
     estado: "documentado"
-    quePaso: "El grupo se separa para investigar. Lyrien va al Vórtice de los Sueños, donde Ormund Kohler le reprocha sus negligencias y le insinúa que robó un libro de la Cámara de Palimpsestos; después se encuentra con su antiguo maestro. El resto de la jornada, pendiente (se completará con los audios)."
+    quePaso: "El grupo se separa para investigar. Lyrien sigue en el Vórtice de los Sueños, donde Ormund Kohler le reprocha sus negligencias y le insinúa que robó un libro de la Cámara de Palimpsestos; después se encuentra con Maldon Klyne. Kivrin va al Foro de los Laberintos y Uruk y Lisander, a la mansión de la familia Thalos, en Solomon. El resto de la jornada, pendiente (se completará con los audios)."
+    imagenes:
+      - archivo: "../../assets/rol/navegantes-aventura/A09-pnj-elyra-senn.jpg"
+        alt: "Retrato de una mujer de pelo azulado con un tocado puntiagudo de bronce, pendientes redondos y túnica marrón de cuello alto; al fondo, rascacielos dentro de un marco ornamental."
+        pie: "Elyra Senn, Custodia de Umbrales del Foro de los Laberintos."
+      - archivo: "../../assets/rol/navegantes-aventura/A11-pnj-kharos-galathas.jpg"
+        alt: "Retrato de un reptiliano de piel clara con bombín y gafas de latón sobre el ala, abrigo naranja y fular turquesa con medallones; al fondo, torres ante un arco con letras."
+        pie: "Kharos Galathas, diseñador de trampas del Foro de los Laberintos."
+      - archivo: "../../assets/rol/navegantes-aventura/A08-pnj-devan-thalos.jpg"
+        alt: "Retrato de un muchacho de pelo rizado y orejas con aletas, con gafas de aviador en la frente, pañuelo azul y chaqueta marrón con correas; al fondo, torres dentro de un círculo ornamental."
+        pie: "Devan Thalos, hermano menor de Aurelian, en la mansión de la familia."
   - n: 4
     titulo: "Gruñidos en las sombras"
     estado: "pendiente"
@@ -71,7 +100,14 @@ jornadas:
     quePaso: "Pendiente (se completará con los audios)."
   - n: 9
     estado: "deducido"
-    quePaso: "Empieza con el resumen de lo jugado hasta entonces. Kivrin, Uruk y Lyrien han entrado en el sueño con un licor de bayas narcoléptico, en un ritual improvisado en una estación abandonada que fue laboratorio de la logia; Kivrin ha replicado Nexum de forma muy primitiva. Han bajado tres niveles: un barco abandonado, su bodega llena de barricas del whisky del Café y unas minas de whisky, donde encuentran la primera parte del diario de a bordo de Aurelian y oyen una conversación entre retratos que revela tratos entre Lucien Thalos, padre de Aurelian, e Isolde Mareth. Siguen bajando en una vagoneta. Qué jornada ocupó cada tramo, pendiente."
+    quePaso: "Empieza con el resumen de lo jugado hasta entonces. Kivrin, Uruk y Lyrien han entrado en el sueño con un licor de bayas narcoléptico, en un ritual improvisado en una estación abandonada que fue laboratorio de la logia; Kivrin ha replicado Nexum de forma muy primitiva. Han bajado tres niveles: un barco abandonado, su bodega llena de barricas del whisky del Café y unas minas de whisky, donde encuentran la primera parte del diario de a bordo de Aurelian y oyen una conversación entre retratos que revela tratos entre Lucien Thalos, padre de Aurelian, e Isolde Mareth. Siguen bajando en una vagoneta. Según el guion de la jornada, al bajar de un tren en el Abismo de Somnia recuperan sus formas del sueño (una de ellas, un Depredador del Eco), y en la bodega los espera un Guardián de Crisálida encadenado a una gema. Qué jornada ocupó cada tramo, pendiente."
+    imagenes:
+      - archivo: "../../assets/rol/navegantes-aventura/A05-criatura-depredador-del-eco.jpg"
+        alt: "Criatura parecida a un perro enorme y descarnado, de músculos rojos al descubierto y ojos en llamas, en un pasillo oscuro de piedra."
+        pie: "Depredador del Eco: una de las formas del sueño."
+      - archivo: "../../assets/rol/navegantes-aventura/A07-criatura-guardian-de-crisalida.jpg"
+        alt: "Criatura reptiliana de escamas cristalinas y blanquecinas, encadenada, agazapada sobre la piedra junto a una gema facetada."
+        pie: "Guardián de Crisálida, encadenado a la gema de la bodega."
   - n: 10
     estado: "deducido"
     quePaso: "Por lo que da por sabido la jornada 11: llegan a la Orphika, varada en el rígido Mar de Sílices, y encuentran en el camarote del capitán una carta de navegación onírica. El detalle, pendiente (se completará con los audios)."
