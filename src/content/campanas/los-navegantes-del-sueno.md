@@ -14,6 +14,7 @@ numeroSesiones:
 versionManual: "Manual v0.6.0 (la campaña sirvió para darle forma)"
 licencia: "cc-by-4.0"
 atribucion: "Talazbrágoles"
+ilustraciones: "Retratos y criaturas hechos por el DJ con IA (Midjourney); dominio público (CC0), como el módulo."
 direccion: "DJ"
 aviso: "Esta página cuenta cómo se resolvió el misterio en nuestra mesa y desvela el módulo base «Los Navegantes del Sueño». Si vas a jugarlo, mejor no sigas."
 resumen: "Cuatro ciudadanos de Numinia reciben en la misma noche señales imposibles que los citan en el Café de los Escribas. Juntos investigan la desaparición del oniromante Aurelian Thalos, fundador de una logia que traficaba con sueños, hasta entrar en el sueño colectivo y llegar a la isla de Lazarus, donde Aurelian les pide que uno de ellos ocupe su lugar. Lyrien acepta."
