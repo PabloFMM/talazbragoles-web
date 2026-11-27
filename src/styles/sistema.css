@@ -1519,7 +1519,7 @@
   .tz-laminas-enlaces a { display: inline-flex; align-items: center; min-height: 48px; font-size: var(--t-0); color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
   .tz-laminas-enlaces a:hover { text-decoration-thickness: 2px; }
   /* «(pendiente: …)» largo dentro del texto: parte línea como el resto (el nowrap de §4.8 es para la palabra suelta) */
-  .tz-prosa .tz-pendiente, .tz-ficha-texto .tz-pendiente, .tz-jornada-texto .tz-pendiente, .tz-modulo-imagen .tz-pendiente { white-space: normal; }
+  .tz-prosa .tz-pendiente, .tz-ficha-texto .tz-pendiente, .tz-sesion-texto .tz-pendiente, .tz-modulo-imagen .tz-pendiente { white-space: normal; }
   /* Botón de descarga: con el texto al 200 % parte línea en vez de desbordar */
   .tz-descarga .tz-boton { max-width: 100%; text-align: center; }
   .tz-descarga .tz-ref + .tz-boton { margin-top: var(--e-5); }
@@ -1615,12 +1615,12 @@
      jornada en que aparecen. Figuras de la misma familia que .tz-modulo-imagen (filete fino, pie debajo). */
   .tz-retrato-pj, .tz-ficha picture { display: block; }
   img.tz-retrato-pj, .tz-ficha picture img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%; border-bottom: var(--f-fino) solid var(--tinta); }
-  .tz-jornada-imagenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: var(--e-5) var(--e-4); margin-top: var(--e-5); max-width: 46rem; }
-  .tz-jornadas .tz-jornada-imagen { margin: 0; max-width: 20rem; }
-  .tz-jornadas { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
-  .tz-jornada { padding-block: var(--e-5); border-top: var(--f-fino) solid var(--filete); }
-  .tz-jornada:first-child { border-top: var(--f-medio) solid var(--tinta); }
-  .tz-jornada-titulo {
+  .tz-sesion-imagenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: var(--e-5) var(--e-4); margin-top: var(--e-5); max-width: 46rem; }
+  .tz-sesiones .tz-sesion-imagen { margin: 0; max-width: 20rem; }
+  .tz-sesiones { list-style: none; margin: 0; padding: 0; border-bottom: var(--f-fino) solid var(--tinta); }
+  .tz-sesion { padding-block: var(--e-5); border-top: var(--f-fino) solid var(--filete); }
+  .tz-sesion:first-child { border-top: var(--f-medio) solid var(--tinta); }
+  .tz-sesion-titulo {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -1631,10 +1631,10 @@
     font-weight: var(--p-normal);
     line-height: 1.25;
   }
-  .tz-jornada-titulo .tz-num { font-family: var(--letra-texto); font-size: var(--t-0); }
-  .tz-jornada-titulo > span:last-child { min-width: 0; }
-  .tz-jornada-estado { margin: var(--e-2) 0 0; }
-  .tz-jornada-texto { margin: var(--e-3) 0 0; font-size: var(--t-1); line-height: var(--il-texto); }
+  .tz-sesion-titulo .tz-num { font-family: var(--letra-texto); font-size: var(--t-0); }
+  .tz-sesion-titulo > span:last-child { min-width: 0; }
+  .tz-sesion-estado { margin: var(--e-2) 0 0; }
+  .tz-sesion-texto { margin: var(--e-3) 0 0; font-size: var(--t-1); line-height: var(--il-texto); }
 
   /* --- 4.18 Impresión ---
      Se imprime el contenido, no la navegación: fuera el enlace de salto, el índice

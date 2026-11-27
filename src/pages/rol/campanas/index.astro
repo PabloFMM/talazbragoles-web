@@ -15,14 +15,14 @@ const campanas = await Promise.all(
 );
 ---
 
-<Layout title="Campañas" description="Las campañas que han jugado nuestras mesas: reparto, jornadas y lo que la mesa aportó al juego.">
+<Layout title="Campañas" description="Las campañas que han jugado nuestras mesas: reparto, sesiones y lo que la mesa aportó al juego.">
   <div class="tz-pagina">
     <Encabezado
       migas={[{ texto: "Rol", href: "/rol" }, { texto: "Campañas" }]}
       numero={numeroSeccion("/rol")}
       seccion="Rol"
       titulo="Campañas"
-      entradilla="Lo que han jugado nuestras mesas: reparto de personajes, jornada a jornada y la verdad que construyó cada mesa. Desvelan los módulos en que se basan."
+      entradilla="Lo que han jugado nuestras mesas: reparto de personajes, sesión a sesión y la verdad que construyó cada mesa. Desvelan los módulos en que se basan."
     />
     <section class="tz-seccion" aria-labelledby="s-campanas">
       <Titulo id="s-campanas" numero="01">Campañas publicadas</Titulo>

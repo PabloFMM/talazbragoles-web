@@ -552,7 +552,7 @@ const aportacion = z.object({
    *  Numiniense, en una versión del manual); prevista = entrará, aún no está. */
   grado: z.enum(["aportacion", "consolidada", "inscrita", "prevista"]),
   personaje: z.string().optional(), // personaje del reparto que la propuso; vacío = pendiente
-  jornada: z.number().int().min(1).optional(), // vacío = pendiente
+  sesion: z.number().int().min(1).optional(), // sesión en que se propuso; vacío = pendiente
   minuto: z.string().optional(), // minuto del audio (cuando se enlacen los audios)
   comoSeConsolido: z.string(),
   /** Versión y capítulo del manual donde entró (obligatorio si está inscrita). */
@@ -577,7 +577,7 @@ const campanas = defineCollection({
     estado: z.enum(["en-curso", "en-pausa", "terminada", "pendiente"]),
     estadoNota: z.string().optional(), // p. ej. «deducido de las fechas»
     fechas: z.object({ inicio: z.string().optional(), fin: z.string().optional(), nota: z.string().optional() }).strict().optional(),
-    numeroJornadas: z.object({ n: z.number().int().min(1), aproximado: z.boolean().default(false) }).strict().optional(),
+    numeroSesiones: z.object({ n: z.number().int().min(1), aproximado: z.boolean().default(false) }).strict().optional(),
     versionManual: z.string().optional(), // edición del juego con la que se jugó
     licencia: licenciaCampana,
     atribucion: z.string(), // «Talazbrágoles»
@@ -598,23 +598,23 @@ const campanas = defineCollection({
         retrato: z.object({ archivo: image(), alt: z.string().min(20) }).strict().optional(),
       }).strict()
     ).default([]),
-    jornadas: z.array(
+    sesiones: z.array(
       z.object({
         n: z.number().int().min(1),
-        titulo: z.string().optional(), // título del episodio del podcast o del guion de la jornada, si lo hay
+        titulo: z.string().optional(), // título del episodio o del guion de la sesión, si lo hay
         quePaso: z.string().optional(), // vacío = «pendiente»
-        /** documentado = lo cuenta un resumen de la jornada; deducido = se infiere
+        /** documentado = lo cuenta un resumen de la sesión; deducido = se infiere
          *  de otros textos (se dice de cuáles en `quePaso`); pendiente = sin texto aún. */
         estado: z.enum(["documentado", "deducido", "pendiente"]),
-        /** Imágenes de PNJ y criaturas en la jornada en que aparecen por primera vez (decisión 60). */
+        /** Imágenes de PNJ y criaturas en la sesión en que aparecen por primera vez (decisión 60). */
         imagenes: z.array(z.object({ archivo: image(), alt: z.string().min(20), pie: z.string() }).strict()).default([]),
       }).strict()
     ).default([]),
     aportaciones: z.array(aportacion).default([]),
     draft: z.boolean().default(false),
   }).strict().superRefine(sinPersonas).superRefine((c, ctx) => {
-    const ns = c.jornadas.map((j) => j.n);
-    if (new Set(ns).size !== ns.length) ctx.addIssue({ code: "custom", path: ["jornadas"], message: "Dos jornadas con el mismo número" });
+    const ns = c.sesiones.map((j) => j.n);
+    if (new Set(ns).size !== ns.length) ctx.addIssue({ code: "custom", path: ["sesiones"], message: "Dos sesiones con el mismo número" });
     const pj = new Set(c.reparto.map((r) => r.personaje));
     c.aportaciones.forEach((a, i) => {
       if (a.personaje && !pj.has(a.personaje)) ctx.addIssue({ code: "custom", path: ["aportaciones", i, "personaje"], message: `«${a.personaje}» no está en el reparto` });

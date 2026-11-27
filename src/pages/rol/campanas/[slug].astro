@@ -1,9 +1,9 @@
 ---
 /**
  * /rol/campanas/<slug>/: una campaña o aventura jugada por nuestra mesa (Rol 7/8, 2026-11-24).
- * Aviso de destripe, ficha (juego, mesa, módulo, fechas, jornadas, licencia CC BY 4.0),
- * reparto (SOLO personajes, con retrato si lo hay), cronología por jornadas (con los PNJ y criaturas
- * en la jornada en que aparecen por primera vez), «La verdad de nuestra mesa»
+ * Aviso de destripe, ficha (juego, mesa, módulo, fechas, sesiones, licencia CC BY 4.0),
+ * reparto (SOLO personajes, con retrato si lo hay), cronología por sesiones (con los PNJ y criaturas
+ * en la sesión en que aparecen por primera vez), «La verdad de nuestra mesa»
  * (cuerpo del .md) y «Lo que esta aventura aportó a Numinia», con una ficha
  * «Registro del Tesaurum Verba» por aportación (ancla: anclaAportacion()).
  * Privacidad: quien dirige sale como «DJ»; ningún nombre real (lo vigila el esquema).
@@ -17,7 +17,7 @@ import Datos from "../../../components/sistema/Datos.astro";
 import Estado from "../../../components/sistema/Estado.astro";
 import Pendiente from "../../../components/sistema/Pendiente.astro";
 import { getAllCampanas } from "../../../lib/collections";
-import { dosCifras, estadoCampana, estadoJornada, gradoAportacion } from "../../../lib/formato";
+import { dosCifras, estadoCampana, estadoSesion, gradoAportacion } from "../../../lib/formato";
 import { numeroSeccion } from "../../../lib/nav";
 import { anclaAportacion, hrefJuego, hrefLicencia, hrefMesa, hrefModulo } from "../../../lib/rol-rutas";
 import type { Dato } from "../../../components/sistema/Datos.astro";
@@ -54,13 +54,13 @@ const datos: Dato[] = [
   { etiqueta: "Módulo base", enlaces: modulo ? [{ texto: modulo.data.titulo, href: hrefModulo(modulo.id) }] : [] },
   { etiqueta: "Estado", valor: d.estado === "pendiente" ? undefined : `${estadoCampana[d.estado]}${d.estadoNota ? `. ${d.estadoNota}` : ""}` },
   { etiqueta: "Fechas", valor: fechas },
-  { etiqueta: "Jornadas", valor: d.numeroJornadas ? `${d.numeroJornadas.aproximado ? "Unas " : ""}${d.numeroJornadas.n}` : undefined },
+  { etiqueta: "Sesiones", valor: d.numeroSesiones ? `${d.numeroSesiones.aproximado ? "Unas " : ""}${d.numeroSesiones.n}` : undefined },
   { etiqueta: "Quién dirige", valor: d.direccion },
   { etiqueta: "Licencia", enlaces: licencia ? [{ texto: licencia.data.nombre, href: hrefLicencia(licencia.id), detalle: `; atribución: ${d.atribucion}` }] : [] },
 ];
 
-// Estado de cada jornada con la forma del estado documental del sitio.
-const formaJornada: Record<(typeof d.jornadas)[number]["estado"], EstadoDocumental> = {
+// Estado de cada sesión con la forma del estado documental del sitio.
+const formaSesion: Record<(typeof d.sesiones)[number]["estado"], EstadoDocumental> = {
   documentado: "documentada",
   deducido: "parcial",
   pendiente: "pendiente",
@@ -71,7 +71,7 @@ const datosAportacion = (a: (typeof d.aportaciones)[number]): Dato[] => [
   { etiqueta: "Tipo", valor: a.tipo },
   { etiqueta: "Grado", valor: gradoAportacion[a.grado] },
   { etiqueta: "La propuso", valor: a.personaje },
-  { etiqueta: "Jornada", valor: a.jornada },
+  { etiqueta: "Sesión", valor: a.sesion },
   { etiqueta: "Minuto del audio", valor: a.minuto },
   { etiqueta: "En el manual", valor: a.manual ? `${a.manual.version}. ${a.manual.capitulo}` : undefined },
 ];
@@ -79,7 +79,7 @@ const datosAportacion = (a: (typeof d.aportaciones)[number]): Dato[] => [
 
 <Layout
   title={`${d.titulo} (campaña de ${juego?.data.titulo ?? "rol"})`}
-  description={`Cómo jugó ${mesa?.data.nombre.replace(/^El /, "el ") ?? "nuestra mesa"} «${d.titulo}»: reparto, jornadas, la verdad que construyó la mesa y lo que aportó al juego.`}
+  description={`Cómo jugó ${mesa?.data.nombre.replace(/^El /, "el ") ?? "nuestra mesa"} «${d.titulo}»: reparto, sesiones, la verdad que construyó la mesa y lo que aportó al juego.`}
 >
   <div class="tz-pagina">
     <Encabezado
@@ -140,27 +140,27 @@ const datosAportacion = (a: (typeof d.aportaciones)[number]): Dato[] => [
     </section>
 
     <section class="tz-seccion" aria-labelledby="s-cronologia">
-      <Titulo id="s-cronologia" numero="03">Jornada a jornada</Titulo>
+      <Titulo id="s-cronologia" numero="03">Sesión a sesión</Titulo>
       <p class="tz-medida" style="margin:0 0 var(--e-5)">
-        «Documentado»: lo cuenta el resumen de esa jornada. «Deducido»: se saca de otros textos. «Pendiente»: falta el resumen; se completará con los audios.
+        «Documentado»: lo cuenta el resumen de esa sesión. «Deducido»: se saca de otros textos. «Pendiente»: falta el resumen; se completará con los audios.
       </p>
-      <ol class="tz-jornadas tz-medida">
-        {d.jornadas.map((j) => (
-          <li class="tz-jornada">
-            <h3 class="tz-jornada-titulo">
-              <span class="tz-num">Jornada {j.n}</span>
+      <ol class="tz-sesiones tz-medida">
+        {d.sesiones.map((j) => (
+          <li class="tz-sesion">
+            <h3 class="tz-sesion-titulo">
+              <span class="tz-num">Sesión {j.n}</span>
               <span>{j.titulo ?? <Pendiente etiqueta="título pendiente" />}</span>
             </h3>
-            <p class="tz-jornada-estado"><Estado estado={formaJornada[j.estado]} texto={estadoJornada[j.estado]} /></p>
+            <p class="tz-sesion-estado"><Estado estado={formaSesion[j.estado]} texto={estadoSesion[j.estado]} /></p>
             {quePasoPendiente(j.quePaso) ? (
-              <p class="tz-jornada-texto"><Pendiente />{j.quePaso ? <>: {j.quePaso.trim().replace(/^pendiente\s*/i, "").replace(/^\((.*)\)\.?/, "$1.")}</> : "."}</p>
+              <p class="tz-sesion-texto"><Pendiente />{j.quePaso ? <>: {j.quePaso.trim().replace(/^pendiente\s*/i, "").replace(/^\((.*)\)\.?/, "$1.")}</> : "."}</p>
             ) : (
-              <p class="tz-jornada-texto">{j.quePaso}</p>
+              <p class="tz-sesion-texto">{j.quePaso}</p>
             )}
             {j.imagenes.length > 0 && (
-              <div class="tz-jornada-imagenes">
+              <div class="tz-sesion-imagenes">
                 {j.imagenes.map((im) => (
-                  <figure class="tz-modulo-imagen tz-jornada-imagen">
+                  <figure class="tz-modulo-imagen tz-sesion-imagen">
                     <Picture src={im.archivo} alt={im.alt} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[320, 480, 720]} sizes="(min-width: 48rem) 15rem, calc(100vw - 2rem)" quality={60} loading="lazy" decoding="async" />
                     <figcaption>{im.pie}</figcaption>
                   </figure>
