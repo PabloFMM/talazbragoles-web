@@ -44,6 +44,7 @@ reparto:
       alt: "Retrato de una mujer de pelo recogido bajo un gorro puntiagudo con gafas de aviador, chaleco de cuero, mangas acolchadas y guantes; al fondo, una ciudad de torres entre nubes."
   - personaje: "Lisander Caldor"
     posicion: "Corredor del Velo"
+    especie: "Humanita"
     concepto: "Mediaba entre la familia de Aurelian y su hijo: le llevaba cada mes la asignación con la que la familia lo quería lejos de los focos, hasta que le ordenaron suspenderla."
     escena: 4
     nota: "Entró en el sueño con el grupo en la sesión 7 y se perdió en él; desde la sesión 9 juegan tres. Al final se descubre que era un agente doble de Isolde Mareth."
