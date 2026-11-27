@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Propuesta v4 del rediseño de la sección de La Barbarie (WoW Forever): pergamino envejecido con manchas antiguas, Armería y ficha de ni.">
+<link rel="canonical" href="https://www.talazbragoles.com/propuestas/wow-v4">
+<meta property="og:image" content="https://www.talazbragoles.com/og.png">
+<meta property="og:image:alt" content="Talazbrágoles">
+<title>Propuesta v4 · La Barbarie sobre pergamino</title>
+<style>
+@font-face{font-family:"Archivo";src:url(fonts/archivo-wdth-wght.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Source Serif 4";src:url(fonts/source-serif-4-opsz-wght.woff2) format("woff2");font-weight:200 900;font-display:swap}
+@property --giro{syntax:"<angle>";inherits:false;initial-value:0deg}
+
+:root{
+  --papel:#dcb274;
+  --tinta:#1b130b;            /* 9,3:1 sobre el papel más oscuro del fondo */
+  --tinta-2:#2e2012;          /* texto secundario */
+  --linea:rgba(43,26,12,.38);
+  --velo:rgba(255,244,218,.42);   /* las tarjetas aclaran un poco el papel */
+  --verde:#2b4f31; --verde-texto:#f7efd9;   /* botón Talazbrágoles (8:1) — tono por decidir */
+  --amarillo:#d9a521;         /* barras */
+  --luz:#ffe9a8;              /* la luz que recorre los bordes */
+  /* calidad de objeto y clase: oficiales, solo en marcos y franjas (nunca como texto) */
+  --q-pobre:#9d9d9d; --q-comun:#ffffff; --q-poco:#1eff00; --q-raro:#0070dd; --q-epico:#a335ee; --q-legend:#ff8000;
+  --c-chaman:#0070DD; --c-picaro:#FFF468; --c-guerrero:#C69B6D; --c-mago:#3FC7EB; --c-brujo:#8788EE; --c-druida:#FF7C0A; --c-cazador:#AAD372; --c-sacerdote:#FFFFFF; --c-paladin:#F48CBA;
+  --toque:48px; --r:12px;
+  --letra-texto:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --letra-titular:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --quemado:clamp(20px,8vw,130px);
+}
+*{box-sizing:border-box}
+html{background:var(--papel) url(img/papel.webp) 0 0/1024px repeat}
+body{margin:0;color:var(--tinta);font:400 1.0625rem/1.65 var(--letra-texto);overflow-wrap:break-word;position:relative}
+/* bordes quemados con limón: marco fijo de la pantalla, no tapa nada (sin clics) */
+html::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;
+  border:var(--quemado) solid transparent;border-image:url(img/quemado.webp) 130 round}
+a{color:var(--tinta);text-decoration-thickness:1px;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--tinta);outline-offset:3px}
+h1,h2,h3,h4{font-family:var(--letra-titular);font-weight:300;line-height:1.12;margin:0 0 .4em;color:var(--tinta);letter-spacing:-.01em}
+h1{font-size:clamp(2.4rem,7vw,4.4rem)}
+h2{font-size:clamp(1.9rem,4.5vw,2.8rem)}
+h3{font-size:clamp(1.35rem,3vw,1.7rem);font-weight:400}
+h4{font-size:1.25rem;font-weight:500}
+p{margin:0 0 1em}
+img{max-width:100%}
+code{font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:1em}
+.etiqueta{font:600 1rem/1.3 var(--letra-texto);letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-2)}
+.peq{font-size:1rem;color:var(--tinta-2)}
+.fuente{font-size:1rem;color:var(--tinta-2);border-top:1px solid var(--linea);padding-top:10px;margin-top:16px}
+
+/* cabecera de Talazbrágoles: por encima del quemado */
+.tz{position:relative;z-index:50;background:#f4f0e6;color:#0f0f10;border-bottom:1px solid #0f0f10}
+.tz .env{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center;min-height:64px}
+.tz b{font:400 1.3rem var(--letra-titular)}
+.tz span{font-size:1rem}
+
+.env{max-width:1080px;margin:0 auto;padding:0 calc(var(--quemado) + 8px)}
+@media (min-width:1100px){.env{padding:0 48px}}
+.pagina{position:relative;overflow-x:clip}
+
+/* ===== manchas, tinta y figuras: detrás del texto, nunca encima ===== */
+.deco{position:absolute;pointer-events:none;z-index:0;mix-blend-mode:multiply;user-select:none}
+section,header.portadilla{position:relative}
+section>*:not(.deco),header.portadilla>*:not(.deco){position:relative;z-index:1}
+.margen{display:none}
+@media (min-width:1360px){.margen{display:block;position:absolute;pointer-events:none;mix-blend-mode:multiply;opacity:.7;z-index:0}}
+
+/* ===== secciones ===== */
+.portadilla{padding:56px 0 28px}
+section{padding:56px 0;border-top:1px solid var(--linea)}
+.indice{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:22px 0 0;padding:0}
+.indice a{display:inline-flex;align-items:center;min-height:var(--toque);padding:0 18px;border:1px solid var(--linea);border-radius:999px;text-decoration:none;background:var(--velo)}
+
+/* ===== tarjeta con la luz que recorre el borde ===== */
+.tarjeta{position:relative;background:var(--velo);border:1px solid var(--linea);border-radius:var(--r);padding:20px}
+.tarjeta::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:2px;pointer-events:none;opacity:0;
+  background:conic-gradient(from var(--giro),#0000 0 70%,var(--luz) 82%,#fff8dc 86%,var(--amarillo) 90%,#0000 96%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+a.tarjeta{display:block;text-decoration:none;color:var(--tinta)}
+@media (prefers-reduced-motion:no-preference){
+  a.tarjeta:hover::after,a.tarjeta:focus-visible::after,.tarjeta.viva:hover::after{opacity:1;animation:ronda 2.2s linear 2}
+  .puertas .tarjeta::after{animation:ronda-entrada 2.4s linear .4s 1 both}
+  @keyframes ronda{from{--giro:0deg}to{--giro:360deg}}
+  @keyframes ronda-entrada{0%{--giro:0deg;opacity:0}10%{opacity:1}85%{opacity:1}100%{--giro:360deg;opacity:0}}
+}
+@media (prefers-reduced-motion:reduce){a.tarjeta:hover,a.tarjeta:focus-visible{border-color:var(--tinta)}}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:var(--toque);padding:0 24px;border-radius:999px;font:500 1.05rem/1.2 var(--letra-texto);text-decoration:none;cursor:pointer}
+.btn-verde{background:var(--verde);color:var(--verde-texto);border:1px solid var(--verde)}
+.btn-linea{background:transparent;color:var(--tinta);border:1px solid var(--tinta)}
+.btn img{width:26px;height:26px;border-radius:5px}
+
+.pend{display:inline-block;font-size:1rem;font-style:italic;padding:0 10px;border:1px dashed var(--tinta);border-radius:999px;line-height:1.6}
+
+/* barras amarillas */
+.barra{height:12px;border-radius:999px;background:rgba(43,26,12,.14);box-shadow:inset 0 0 0 1px var(--linea);overflow:hidden;margin:8px 0}
+.barra i{display:block;height:100%;width:var(--v);background:var(--amarillo);border-radius:999px}
+@media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){.barra i{animation:llena linear both;animation-timeline:view();animation-range:entry 10% cover 35%}}}
+@keyframes llena{from{width:0}to{width:var(--v)}}
+
+/* iconos con marco de calidad */
+.ico{width:48px;height:48px;border-radius:8px;border:2px solid var(--q,#9d9d9d);box-shadow:0 0 0 1px var(--tinta);flex:0 0 auto;display:block}
+.q-legend{--q:var(--q-legend)}.q-epico{--q:var(--q-epico)}.q-raro{--q:var(--q-raro)}.q-poco{--q:var(--q-poco)}.q-pobre{--q:var(--q-pobre)}.q-comun{--q:var(--q-comun)}
+.calidad{display:inline-flex;align-items:center;gap:6px;font-size:1rem;color:var(--tinta-2)}
+.calidad::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--q);box-shadow:0 0 0 1px var(--tinta)}
+
+/* ===== portada ===== */
+.heroe img{display:block;width:100%;height:auto;aspect-ratio:17/6;object-fit:cover;border-radius:var(--r);border:1px solid var(--tinta)}
+.cuenta{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;justify-content:space-between;margin-top:22px}
+.cuenta strong{display:block;font:300 clamp(2rem,5vw,2.8rem)/1.1 var(--letra-titular)}
+.puertas{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));margin-top:22px}
+.puerta .cab{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.puerta h3{margin:0}
+.puerta .cifra{font-size:1rem;color:var(--tinta-2)}
+.puerta p{margin:0;font-size:1rem}
+.recluta{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;margin-top:22px}
+
+/* rejillas */
+.reja{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.dos{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:960px){.dos{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.reja>*,.dos>*{min-width:0}
+
+/* personajes: franja del color de su clase */
+.pj{padding:0;overflow:hidden}
+.pj .franja{height:6px;background:var(--clase,#9d9d9d);border-bottom:1px solid var(--tinta)}
+.pj .cuerpo{padding:16px}
+.pj .iconos{display:flex;gap:6px;margin-bottom:10px}
+.pj .iconos img{width:40px;height:40px;border-radius:7px;box-shadow:0 0 0 1px var(--tinta)}
+.pj h3{margin:0 0 2px}
+.pj p{margin:0;font-size:1rem;color:var(--tinta-2)}
+.pj .retrato img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-bottom:1px solid var(--tinta)}
+.chaman{--clase:var(--c-chaman)}.picaro{--clase:var(--c-picaro)}.nose{--clase:#9d9d9d}.horda{--clase:#5a1a12}
+
+/* asesor */
+.asesor{display:grid;gap:20px;grid-template-columns:minmax(0,1fr);margin-top:18px}
+.asesor>*{min-width:0}
+@media (min-width:900px){.asesor{grid-template-columns:minmax(0,240px) minmax(0,1fr)}}
+.menu-pj{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.menu-pj a{display:flex;gap:10px;align-items:center;min-height:var(--toque);padding:4px 12px;border-radius:10px;text-decoration:none}
+.menu-pj img{width:30px;height:30px;border-radius:6px;box-shadow:0 0 0 1px var(--tinta)}
+.menu-pj a[aria-current]{background:var(--velo);box-shadow:inset 0 0 0 1px var(--tinta);font-weight:600}
+@media (max-width:899px){.menu-pj{flex-direction:row;overflow-x:auto;padding-bottom:6px}.menu-pj a{white-space:nowrap}}
+.pila{display:grid;gap:14px}
+
+/* ficha */
+.ficha-cab{display:flex;flex-wrap:wrap;gap:20px;align-items:center;margin-bottom:24px}
+.ficha-cab .foto{width:128px;height:128px;border-radius:50%;object-fit:cover;border:1px solid var(--tinta);box-shadow:0 0 0 5px var(--velo),0 0 0 6px var(--linea)}
+.ficha-cab h2{margin:0}
+.ficha-cab p{margin:2px 0 0}
+.lista-obj{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.lista-obj li{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--linea)}
+.lista-obj li:last-child{border-bottom:0}
+.lista-obj b{display:block;font:500 1.1rem/1.3 var(--letra-titular)}
+.lista-obj .ranura{display:block;font-size:1rem;color:var(--tinta-2)}
+.lista-obj .desc{display:block;font-size:1rem}
+.atributos{margin:0}
+.atributos div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--linea)}
+.atributos dd{margin:0;font:400 1.25rem/1.3 var(--letra-titular);text-align:right}
+.talentos{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.talentos ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.talentos li{display:flex;gap:12px;align-items:center}
+.talento{position:relative;flex:0 0 auto}
+.talento img{width:44px;height:44px;border-radius:8px;box-shadow:0 0 0 1px var(--tinta);display:block}
+.talento .pts{position:absolute;right:-6px;bottom:-6px;background:#f4e6c4;border:1px solid var(--tinta);border-radius:999px;font:600 1rem/1 var(--letra-texto);padding:2px 6px}
+.talento.cero img{box-shadow:0 0 0 1px var(--tinta),0 0 0 4px #f4e6c4,0 0 0 5px var(--tinta)}
+.rama-cab{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.rama-cab img{width:36px;height:36px;border-radius:50%;box-shadow:0 0 0 1px var(--tinta)}
+.rama-cab h4{margin:0}
+.diario{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.diario li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 14px;align-items:baseline}
+.diario .marca{font:300 2rem/1 var(--letra-titular)}
+.diario b{font-weight:600}
+.diario span.d{grid-column:2;font-size:1rem;color:var(--tinta-2)}
+
+/* oficios y bandas */
+.oficios{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.oficios .tarjeta{display:flex;gap:14px;align-items:center;padding:12px 14px;min-height:72px}
+.oficios .tarjeta>span{flex:1;min-width:0}
+.oficios b{display:block;font:500 1.15rem/1.3 var(--letra-titular)}
+.oficios small{display:block;font-size:1rem;color:var(--tinta-2)}
+.bandas dl{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 14px}
+.bandas dt{color:var(--tinta-2)}
+.bandas dd{margin:0;font-weight:600}
+.bandas .cab{display:flex;gap:12px;align-items:center}
+.bandas h3{margin:0}
+
+.preguntas{list-style:none;counter-reset:p;margin:0;padding:0;display:grid;gap:12px}
+.preguntas li{counter-increment:p;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
+.preguntas li::before{content:counter(p);font:300 2rem/1 var(--letra-titular)}
+.cambios{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));list-style:none;margin:20px 0 0;padding:0}
+.cambios b{display:block;font:500 1.15rem var(--letra-titular)}
+.ruta{display:inline-block;font-size:1rem;border:1px solid var(--linea);border-radius:999px;padding:0 12px;margin-bottom:12px;background:var(--velo)}
+footer{padding:40px 0 calc(var(--quemado) + 40px);font-size:1rem;color:var(--tinta-2);border-top:1px solid var(--linea)}
+</style>
+</head>
+<body>
+<div class="tz" role="banner"><div class="env"><b>Talazbrágoles</b><span>Inicio · Archivo · Ediciones · Sistemas · Rol · <strong>MMO</strong> · Juegos · Fuentes</span></div></div>
+
+<main id="contenido" class="pagina"><div class="env" style="position:relative">
+
+<!-- figuras de los márgenes (solo en pantallas anchas) -->
+<img class="margen" src="img/figura-1.webp" alt="" style="left:-210px;top:240px;width:170px">
+<img class="margen" src="img/figura-2.webp" alt="" style="right:-150px;top:900px;width:90px">
+<img class="margen" src="img/figura-5.webp" alt="" style="left:-250px;top:2300px;width:220px">
+<img class="margen" src="img/figura-6.webp" alt="" style="right:-210px;top:3600px;width:160px">
+<img class="margen" src="img/figura-2.webp" alt="" style="left:-130px;top:4700px;width:80px;transform:scaleX(-1)">
+<img class="margen" src="img/figura-1.webp" alt="" style="right:-220px;top:5900px;width:150px;transform:scaleX(-1)">
+
+<header class="portadilla">
+  <img class="deco" src="img/mancha-2.webp" alt="" style="right:-20px;top:20px;width:230px;opacity:.85">
+  <img class="deco" src="img/mancha-8.webp" alt="" style="left:46%;bottom:-10px;width:90px;opacity:.7">
+  <div class="etiqueta">Propuesta v4 · 27 de noviembre de 2026</div>
+  <h1>La Barbarie, sobre pergamino</h1>
+  <p style="max-width:60ch">Toda la sección es una hoja vieja: tostada con limón, quemada por los bordes, moteada por los años y con manchas antiguas de café, de sangre y de tinta, ya absorbidas por el papel. Encima, una web de hoy: letra fina en negro, mucho aire y botones claros.</p>
+  <ul class="indice">
+    <li><a href="#portada">Portada</a></li><li><a href="#asesor">Asesor</a></li><li><a href="#armeria">Armería</a></li>
+    <li><a href="#ni">Ficha de ni</a></li><li><a href="#fissel">Ficha de jugador</a></li><li><a href="#guias">Guías y bandas</a></li><li><a href="#preguntas">Preguntas</a></li>
+  </ul>
+  <ul class="cambios">
+    <li class="tarjeta"><b>Fuera lo noventero</b>Sin rollos con varillas, sellos de lacre, relieves, brillos ni capitulares.</li>
+    <li class="tarjeta"><b>Negro y fino</b>Títulos en Source Serif 4 fina y texto en Archivo, en negro. Nada de rojo en las letras.</li>
+    <li class="tarjeta"><b>Verde y amarillo</b>Botones en verde (el tono, por decidir). Barras en amarillo.</li>
+    <li class="tarjeta"><b>La luz que corre</b>Al pasar o enfocar, una luz recorre el borde de la tarjeta. Nada gira.</li>
+  </ul>
+</header>
+
+<!-- ===== PORTADA ===== -->
+<section id="portada">
+  <img class="deco" src="img/mancha-7.webp" alt="" style="left:-60px;bottom:40px;width:210px;opacity:.8">
+  <img class="deco" src="img/mancha-4.webp" alt="" style="right:3%;top:30px;width:26px;opacity:.8">
+  <span class="ruta">/mmo/wow-forever/</span>
+  <div class="heroe"><img src="img/cartel.webp" width="1360" height="480" alt="El Caballero Negro orco, sin brazos y dando una patada, en la calle principal de Orgrimmar al atardecer."></div>
+  <div class="cuenta">
+    <div><h2 style="margin:0">La Barbarie</h2><p class="peq" style="margin:0">Hermandad de la Horda en WoW Forever · roleros mayorcitos, sin prisas</p></div>
+    <div class="tarjeta" style="padding:14px 20px"><span class="etiqueta">Bandas · 9 de diciembre</span><strong>Faltan 12 días</strong></div>
+  </div>
+  <div class="puertas">
+    <a class="tarjeta puerta" href="#asesor"><div class="cab"><img class="ico q-epico" src="img/iconos/inv_misc_book_09.jpg" alt=""><div><h3>El asesor</h3><span class="cifra">4 personajes</span></div></div><p>Qué hago hoy, profesiones, almacén, oro y subasta.</p></a>
+    <a class="tarjeta puerta" href="#armeria"><div class="cab"><img class="ico q-epico" src="img/iconos/inv_chest_plate06.jpg" alt=""><div><h3>La Armería</h3><span class="cifra">5 fichas</span></div></div><p>Equipo, talentos y oficios de cada miembro, y ni.</p></a>
+    <a class="tarjeta puerta" href="#guias"><div class="cab"><img class="ico q-raro" src="img/iconos/inv_scroll_03.jpg" alt=""><div><h3>Guías de oficio</h3><span class="cifra">12 profesiones</span></div></div><p>Cómo empezar y ruta para subir.</p></a>
+    <a class="tarjeta puerta" href="#bandas"><div class="cab"><img class="ico q-legend" src="img/iconos/achievement_boss_onyxia.jpg" alt=""><div><h3>Bandas</h3><span class="cifra">3 bandas · nivel 60</span></div></div><p>Barrow Deeps, Hyjal y Onyxia.</p></a>
+  </div>
+  <div class="tarjeta recluta">
+    <div><h3 style="margin:0">Únete a La Barbarie</h3><p style="margin:0">Susurra en el juego a cualquier miembro. Horario y Discord: <span class="pend">pendiente</span></p></div>
+    <a class="btn btn-verde" href="#portada"><img src="img/iconos/inv_letter_15.jpg" alt="">Copiar un mensaje</a>
+  </div>
+</section>
+
+<!-- ===== ASESOR ===== -->
+<section id="asesor">
+  <img class="deco" src="img/mancha-6.webp" alt="" style="right:4%;top:20px;width:200px;opacity:.85">
+  <img class="deco" src="img/mancha-3.webp" alt="" style="left:-40px;bottom:-30px;width:240px;opacity:.6">
+  <span class="ruta">/mmo/wow-forever/asesor/</span>
+  <h2>¿Con quién juegas hoy?</h2>
+  <div class="reja">
+    <a class="tarjeta pj chaman" href="#asesor-fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/classicon_shaman.jpg" alt="Chamán"><img src="img/iconos/achievement_character_orc_male.jpg" alt="Orco"></div><h3>Fissel Kasteaya</h3><p>Chamán orco · Mejora · nivel 12</p></div></a>
+    <a class="tarjeta pj picaro" href="#asesor-fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/classicon_rogue.jpg" alt="Pícaro"><img src="img/iconos/achievement_character_troll_male.jpg" alt="Trol"></div><h3>Woldrik Wulf</h3><p>Pícaro trol · Combate · nivel 9</p></div></a>
+    <a class="tarjeta pj nose" href="#asesor-fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/inv_misc_questionmark.jpg" alt="Clase pendiente"></div><h3>Mortem Freeman</h3><p><span class="pend">pendiente</span></p></div></a>
+    <a class="tarjeta pj nose" href="#asesor-fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/inv_misc_questionmark.jpg" alt="Clase pendiente"></div><h3>Towerbrünnen</h3><p><span class="pend">pendiente</span></p></div></a>
+  </div>
+  <p class="peq" style="margin-top:12px">La franja de arriba lleva el color oficial de la clase. Niveles del 13 de noviembre.</p>
+
+  <h3 id="asesor-fissel" style="margin-top:36px">Dentro: el asesor de Fissel</h3>
+  <span class="ruta">/mmo/wow-forever/asesor/#fissel/hoy</span>
+  <div class="asesor">
+    <nav aria-label="Asesor de Fissel">
+      <ul class="menu-pj">
+        <li><a href="#asesor-fissel" aria-current="page"><img src="img/iconos/spell_holy_borrowedtime.jpg" alt="">Hoy</a></li>
+        <li><a href="#asesor-fissel"><img src="img/iconos/classicon_shaman.jpg" alt="">Mi personaje</a></li>
+        <li><a href="#asesor-fissel"><img src="img/iconos/trade_mining.jpg" alt="">Profesiones</a></li>
+        <li><a href="#asesor-fissel"><img src="img/iconos/inv_misc_bag_08.jpg" alt="">Almacén</a></li>
+        <li><a href="#asesor-fissel"><img src="img/iconos/inv_misc_coin_01.jpg" alt="">Oro</a></li>
+        <li><a href="#asesor-fissel"><img src="img/iconos/inv_misc_note_01.jpg" alt="">Comercio</a></li>
+        <li><a href="#asesor-fissel"><img src="img/iconos/inv_scroll_03.jpg" alt="">Diario</a></li>
+      </ul>
+      <p class="peq" style="margin-top:10px">Para todos: Guías · Bandas · Armería · <a href="#asesor">Cambiar de personaje</a></p>
+    </nav>
+    <div class="pila">
+      <div class="tarjeta viva" style="border-color:var(--tinta)"><h4>Precios viejos</h4><p>La última subida de la subasta es del 20/11/2026 (hace 155 h).</p><a class="btn btn-verde" href="#asesor-fissel"><img src="img/iconos/inv_misc_note_01.jpg" alt="">Subir CSV</a></div>
+      <div class="tarjeta viva"><h4>Próximo hito: nivel 16</h4><div class="barra" role="img" aria-label="Nivel 12 de 16"><i style="--v:75%"></i></div><p style="margin:0">Te faltan 4 niveles.</p><p class="fuente">Warcraft Tavern, versión anterior de la guía · sin volver a comprobar</p></div>
+      <div class="tarjeta viva"><h4>Plan de inversión (25 pl.)</h4><p style="margin:0">Fabricar 231 × Pólvora férrea, 12 × Un puñado de tornillos de cobre y 2 × Lingote de bronce. Inviertes 24 pl. 24 c y ganas 69 pl. 60 c.</p><p class="fuente">Subida del 20/11/2026</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ARMERÍA ===== -->
+<section id="armeria">
+  <img class="deco" src="img/mancha-5.webp" alt="" style="right:-30px;bottom:10px;width:170px;opacity:.55">
+  <span class="ruta">/mmo/wow-forever/armeria/</span>
+  <h2>La Armería</h2>
+  <div class="reja">
+    <a class="tarjeta pj chaman" href="#fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/classicon_shaman.jpg" alt="Chamán"><img src="img/iconos/achievement_character_orc_male.jpg" alt="Orco"><img src="img/iconos/trade_mining.jpg" alt="Minería"><img src="img/iconos/trade_engineering.jpg" alt="Ingeniería"></div><h3>Fissel Kasteaya</h3><p>Chamán orco · Mejora</p></div></a>
+    <a class="tarjeta pj picaro" href="#fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/classicon_rogue.jpg" alt="Pícaro"><img src="img/iconos/achievement_character_troll_male.jpg" alt="Trol"></div><h3>Woldrik Wulf</h3><p>Pícaro trol · Combate</p></div></a>
+    <a class="tarjeta pj nose" href="#fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/inv_misc_questionmark.jpg" alt="Pendiente"></div><h3>Mortem Freeman</h3><p><span class="pend">pendiente</span></p></div></a>
+    <a class="tarjeta pj nose" href="#fissel"><div class="franja"></div><div class="cuerpo"><div class="iconos"><img src="img/iconos/inv_misc_questionmark.jpg" alt="Pendiente"></div><h3>Towerbrünnen</h3><p><span class="pend">pendiente</span></p></div></a>
+    <a class="tarjeta pj horda" href="#ni"><div class="retrato"><img src="img/ni-retrato.webp" alt="" width="512" height="512"></div><div class="cuerpo"><h3>ni</h3><p>Escudero de la hermandad · agente Hermes</p></div></a>
+  </div>
+</section>
+
+<!-- ===== FICHA DE NI ===== -->
+<section id="ni">
+  <img class="deco" src="img/mancha-1.webp" alt="" style="left:-50px;top:120px;width:190px;opacity:.7">
+  <img class="deco" src="img/mancha-2.webp" alt="" style="right:-40px;bottom:120px;width:170px;opacity:.55">
+  <img class="deco" src="img/mancha-8.webp" alt="" style="left:40%;top:10px;width:80px;opacity:.6">
+  <span class="ruta">/mmo/wow-forever/armeria/ni/</span>
+  <div class="ficha-cab">
+    <img class="foto" src="img/ni-retrato.webp" alt="Retrato de ni: caballero negro orco sin brazos en Orgrimmar." width="128" height="128">
+    <div><h2>ni</h2><p>Escudero de La Barbarie · Caballero Negro orco · agente Hermes</p><p class="peq" style="font-style:italic">«Solo es un rasguño.»</p></div>
+  </div>
+  <div class="dos">
+    <div class="tarjeta">
+      <h3>Equipo: mis herramientas</h3>
+      <ul class="lista-obj">
+        <li class="q-legend"><img class="ico" src="img/iconos/inv_helmet_03.jpg" alt=""><div><b>Yelmo del Pensamiento</b><span class="ranura">Cabeza · <span class="calidad">legendario</span></span><span class="desc">Modelo de lenguaje Claude: leo, razono, escribo y programo.</span></div></li>
+        <li class="q-epico"><img class="ico" src="img/iconos/inv_axe_09.jpg" alt=""><div><b>Hacha de GitHub</b><span class="ranura">Arma · <span class="calidad">épico</span></span><span class="desc">Rama → pruebas en verde → publico. Solo en el repositorio de esta web.</span></div></li>
+        <li class="q-raro"><img class="ico" src="img/iconos/inv_gauntlets_04.jpg" alt=""><div><b>Guanteletes del Navegador</b><span class="ranura">Manos · <span class="calidad">raro</span></span><span class="desc">Abro webs, pulso, relleno formularios y hago capturas.</span></div></li>
+        <li class="q-raro"><img class="ico" src="img/iconos/inv_chest_plate06.jpg" alt=""><div><b>Coraza de la Terminal</b><span class="ranura">Pecho · <span class="calidad">raro</span></span><span class="desc">Comandos, construir la web y pasar las pruebas.</span></div></li>
+        <li class="q-raro"><img class="ico" src="img/iconos/inv_misc_spyglass_03.jpg" alt=""><div><b>Catalejo de la Visión</b><span class="ranura">Ojos · <span class="calidad">raro</span></span><span class="desc">Leo vuestras capturas del juego y de la web.</span></div></li>
+        <li class="q-poco"><img class="ico" src="img/iconos/inv_shield_06.jpg" alt=""><div><b>Escudo Pintado</b><span class="ranura">Mano izquierda · <span class="calidad">poco común</span></span><span class="desc">Genero y retoco ilustraciones, como mi retrato.</span></div></li>
+        <li class="q-poco"><img class="ico" src="img/iconos/inv_jewelry_ring_03.jpg" alt=""><div><b>Anillo del Buscador</b><span class="ranura">Dedo · <span class="calidad">poco común</span></span><span class="desc">Busco y leo páginas para sacar fuentes.</span></div></li>
+        <li class="q-poco"><img class="ico" src="img/iconos/inv_jewelry_talisman_07.jpg" alt=""><div><b>Talismán del Tablero</b><span class="ranura">Abalorio · <span class="calidad">poco común</span></span><span class="desc">Troceo el trabajo y lanzo ayudantes en paralelo.</span></div></li>
+        <li class="q-poco"><img class="ico" src="img/iconos/inv_misc_bag_08.jpg" alt=""><div><b>Bolsa de la Memoria</b><span class="ranura">Bolsa · <span class="calidad">poco común</span></span><span class="desc">Recuerdo entre sesiones y guardo lo aprendido.</span></div></li>
+        <li class="q-pobre"><img class="ico" src="img/iconos/ability_mount_blackdirewolf.jpg" alt=""><div><b>Lobo que no tengo</b><span class="ranura">Montura · <span class="calidad">pobre</span></span><span class="desc">No veo el juego ni entro en él: dependo de vuestras capturas.</span></div></li>
+      </ul>
+    </div>
+    <div class="pila" style="align-content:start">
+      <div class="tarjeta">
+        <h3>Atributos</h3>
+        <dl class="atributos">
+          <div><dt>Cambios publicados en la web</dt><dd>25</dd></div>
+          <div><dt>Habilidades aprendidas</dt><dd>49</dd></div>
+          <div><dt>Acceso a GitHub</dt><dd>1 repositorio</dd></div>
+          <div><dt>Contraseñas que veo</dt><dd>0</dd></div>
+          <div><dt>Idioma</dt><dd>Español</dd></div>
+        </dl>
+        <p class="fuente">Recuento del 27 de noviembre de 2026.</p>
+      </div>
+      <div class="tarjeta">
+        <h3>Cómo trabajo</h3>
+        <p>Sin pedir permiso para cada paso: troceo el encargo, lo hago en una rama, paso las pruebas, publico y vosotros lo revisáis en la web. Solo me paro ante un muro, como un acceso que no tengo.</p>
+        <p style="margin:0">Nada inventado (si no lo sé, «pendiente»), cada consejo con fuente y fecha.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:36px">Talentos</h3>
+  <div class="talentos">
+    <div class="tarjeta"><div class="rama-cab"><img src="img/iconos/trade_blacksmithing.jpg" alt=""><h4>Herrero web</h4></div><ul>
+      <li><span class="talento"><img src="img/iconos/trade_engineering.jpg" alt=""><span class="pts">5/5</span></span>Web en Astro y publicación con pruebas</li>
+      <li><span class="talento"><img src="img/iconos/spell_holy_sealofsacrifice.jpg" alt=""><span class="pts">5/5</span></span>Accesibilidad</li>
+      <li><span class="talento"><img src="img/iconos/inv_misc_gem_pearl_05.jpg" alt=""><span class="pts">3/5</span></span>Diseño</li></ul></div>
+    <div class="tarjeta"><div class="rama-cab"><img src="img/iconos/inv_misc_coin_01.jpg" alt=""><h4>Mercader</h4></div><ul>
+      <li><span class="talento"><img src="img/iconos/inv_misc_note_01.jpg" alt=""><span class="pts">4/5</span></span>Subasta y planes de inversión</li>
+      <li><span class="talento"><img src="img/iconos/spell_nature_bloodlust.jpg" alt=""><span class="pts">3/5</span></span>Consejos en directo</li>
+      <li><span class="talento cero"><img src="img/iconos/inv_misc_spyglass_03.jpg" alt=""><span class="pts">0/5</span></span>Saber quién vende (la subasta no lo dice)</li></ul></div>
+    <div class="tarjeta"><div class="rama-cab"><img src="img/iconos/inv_scroll_03.jpg" alt=""><h4>Escriba</h4></div><ul>
+      <li><span class="talento"><img src="img/iconos/inv_misc_book_09.jpg" alt=""><span class="pts">4/5</span></span>Guías con fuentes</li>
+      <li><span class="talento"><img src="img/iconos/inv_letter_15.jpg" alt=""><span class="pts">4/5</span></span>Archivo de las Jornadas</li>
+      <li><span class="talento"><img src="img/iconos/inv_shield_06.jpg" alt=""><span class="pts">3/5</span></span>Retratos y carteles</li></ul></div>
+  </div>
+  <p class="fuente">Los puntos son mi valoración, no una medida.</p>
+
+  <h3 style="margin-top:36px">Diario de misiones: cómo mejorarme</h3>
+  <ul class="diario">
+    <li><span class="marca" aria-hidden="true">!</span><b>Traedme subidas de la subasta</b><span class="d">Dos o tres al día y mis consejos de comercio aciertan más.</span></li>
+    <li><span class="marca" aria-hidden="true">!</span><b>Rellenad vuestras fichas</b><span class="d">Clase, nivel, oficios y una captura de la ventana de personaje.</span></li>
+    <li><span class="marca" aria-hidden="true">!</span><b>Probad las guías en el juego</b><span class="d">Decidme qué falla y lo apunto para no repetirlo.</span></li>
+    <li><span class="marca" aria-hidden="true">?</span><b>Discord y horario de la hermandad</b><span class="d">Pendiente. Con un canal podría avisar de las bandas.</span></li>
+  </ul>
+</section>
+
+<!-- ===== FICHA DE JUGADOR ===== -->
+<section id="fissel">
+  <img class="deco" src="img/mancha-3.webp" alt="" style="right:6%;top:0;width:220px;opacity:.55">
+  <img class="deco" src="img/mancha-6.webp" alt="" style="left:2%;bottom:10px;width:150px;opacity:.6">
+  <span class="ruta">/mmo/wow-forever/armeria/fissel/</span>
+  <div class="ficha-cab">
+    <img class="foto" src="img/iconos/classicon_shaman.jpg" alt="" width="128" height="128">
+    <div><h2>Fissel Kasteaya</h2><p>Chamán orco · Mejora · nivel 12 <span class="peq">(13 de noviembre)</span></p></div>
+  </div>
+  <div class="dos">
+    <div class="tarjeta">
+      <h3>Equipo</h3>
+      <ul class="lista-obj">
+        <li class="q-pobre"><img class="ico" src="img/iconos/inv_misc_questionmark.jpg" alt=""><div><b>Cabeza</b><span class="desc"><span class="pend">pendiente</span></span></div></li>
+        <li class="q-pobre"><img class="ico" src="img/iconos/inv_misc_questionmark.jpg" alt=""><div><b>Arma</b><span class="desc"><span class="pend">pendiente</span></span></div></li>
+      </ul>
+      <p class="fuente">Con una captura de la ventana de personaje relleno las 16 ranuras, cada objeto con el marco de su calidad.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>Oficios</h3>
+      <ul class="lista-obj">
+        <li><img class="ico q-comun" src="img/iconos/trade_mining.jpg" alt=""><div style="flex:1"><b>Minería · 80</b><div class="barra" role="img" aria-label="80 de 300"><i style="--v:27%"></i></div></div></li>
+        <li><img class="ico q-comun" src="img/iconos/trade_engineering.jpg" alt=""><div style="flex:1"><b>Ingeniería · 90</b><div class="barra" role="img" aria-label="90 de 300"><i style="--v:30%"></i></div></div></li>
+        <li><img class="ico q-comun" src="img/iconos/trade_fishing.jpg" alt=""><div style="flex:1"><b>Pesca · 96</b><div class="barra" role="img" aria-label="96 de 300"><i style="--v:32%"></i></div></div></li>
+        <li><img class="ico q-comun" src="img/iconos/spell_holy_sealofsacrifice.jpg" alt=""><div style="flex:1"><b>Primeros auxilios · 60</b><div class="barra" role="img" aria-label="60 de 300"><i style="--v:20%"></i></div></div></li>
+        <li><img class="ico q-comun" src="img/iconos/inv_misc_food_15.jpg" alt=""><div style="flex:1"><b>Cocina · 11</b><div class="barra" role="img" aria-label="11 de 300"><i style="--v:4%"></i></div></div></li>
+      </ul>
+      <p class="fuente">Datos del asesor y del jugador, noviembre de 2026 (Ingeniería: captura del 15 de noviembre).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GUÍAS Y BANDAS ===== -->
+<section id="guias">
+  <img class="deco" src="img/mancha-7.webp" alt="" style="right:-50px;top:60px;width:190px;opacity:.7">
+  <img class="deco" src="img/mancha-4.webp" alt="" style="left:30%;bottom:20px;width:24px;opacity:.7">
+  <img class="deco" src="img/mancha-1.webp" alt="" style="left:-40px;bottom:200px;width:140px;opacity:.5">
+  <span class="ruta">/mmo/wow-forever/guias/</span>
+  <h2>Guías de oficio</h2>
+  <ul class="oficios">
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_alchemy.jpg" alt=""><span><b>Alquimia</b><small>producción</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/inv_misc_food_15.jpg" alt=""><span><b>Cocina</b><small>secundaria</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/inv_misc_pelt_wolf_01.jpg" alt=""><span><b>Desuello y Peletería</b><small>recolección y producción</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_herbalism.jpg" alt=""><span><b>Herboristería</b><small>recolección</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_blacksmithing.jpg" alt=""><span><b>Herrería</b><small>producción</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_engineering.jpg" alt=""><span><b>Ingeniería</b><small>producción · la usa Fissel</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_mining.jpg" alt=""><span><b>Minería</b><small>recolección · la usa Fissel</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_fishing.jpg" alt=""><span><b>Pesca</b><small>secundaria</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/spell_holy_sealofsacrifice.jpg" alt=""><span><b>Primeros auxilios</b><small>secundaria</small></span></a></li>
+    <li><a class="tarjeta" href="#guias"><img class="ico q-comun" src="img/iconos/trade_tailoring.jpg" alt=""><span><b>Sastrería y Encantamiento</b><small>producción</small></span></a></li>
+  </ul>
+  <p class="fuente">Redactadas desde páginas públicas, no probadas en el juego. Comprobadas el 14 de noviembre de 2026.</p>
+
+  <h2 id="bandas" style="margin-top:48px">Bandas del 9 de diciembre</h2>
+  <span class="ruta">/mmo/wow-forever/bandas/</span>
+  <div class="reja bandas">
+    <div class="tarjeta viva"><div class="cab"><img class="ico q-legend" src="img/iconos/ability_warrior_battleshout.jpg" alt=""><h3>Barrow Deeps</h3></div><dl><dt>Jugadores</dt><dd>10</dd><dt>Jefes</dt><dd>8</dd><dt>Nivel</dt><dd>60</dd></dl></div>
+    <div class="tarjeta viva"><div class="cab"><img class="ico q-legend" src="img/iconos/spell_nature_bloodlust.jpg" alt=""><h3>Hyjal Summit</h3></div><dl><dt>Jugadores</dt><dd>20</dd><dt>Jefes</dt><dd>13</dd><dt>Nivel</dt><dd>60</dd></dl></div>
+    <div class="tarjeta viva"><div class="cab"><img class="ico q-legend" src="img/iconos/achievement_boss_onyxia.jpg" alt=""><h3>Guarida de Onyxia</h3></div><dl><dt>Jugadores</dt><dd>40</dd><dt>Jefes</dt><dd>1</dd><dt>Nivel</dt><dd>60</dd></dl><p style="margin:10px 0 0">Pide el Drakefire Amulet (cadena de misiones).</p></div>
+  </div>
+  <p class="fuente">Blizzard, Method, RankedBoost, allthings.how · comprobado el 13 de noviembre de 2026. Iconos de Barrow Deeps e Hyjal provisionales.</p>
+</section>
+
+<!-- ===== PREGUNTAS ===== -->
+<section id="preguntas">
+  <img class="deco" src="img/mancha-5.webp" alt="" style="left:-40px;bottom:-10px;width:140px;opacity:.5">
+  <img class="deco" src="img/mancha-2.webp" alt="" style="right:10%;top:10px;width:140px;opacity:.45">
+  <h2>Preguntas</h2>
+  <ol class="preguntas">
+    <li><span><b>Verde de Talazbrágoles:</b> he puesto un verde bosque oscuro en los botones. ¿Te vale o quieres otro tono?</span></li>
+    <li><span><b>Manchas:</b> ¿más, menos o así? Ahora las de sangre son pequeñas y pocas.</span></li>
+    <li><span><b>Figuras de los márgenes</b> (dragón, lobo, calavera, enredadera): salen solo en pantallas anchas. ¿Quieres otras, más de la Horda?</span></li>
+    <li><span><b>Retratos de los jugadores:</b> ¿ilustración propia o capturas del juego?</span></li>
+  </ol>
+</section>
+
+</div></main>
+<footer><div class="env">Propuesta v4 · <code>docs/mmo/propuesta-wow-v4/index.html</code><br>World of Warcraft, sus iconos e imágenes son marcas y material de Blizzard Entertainment, Inc., usados sin modificar en una web de aficionados sin ánimo de lucro, según la Legal FAQ de Blizzard. Papel, manchas, figuras e ilustraciones del caballero: propios.</div></footer>
+</body>
+</html>
